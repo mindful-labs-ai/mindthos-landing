@@ -1,0 +1,48 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+**/.DS_Store
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OMC state (root + nested)
+.omc/
+**/.omc/
+
+# Claude Code local state
+.claude/settings.local.json
+**/.claude/settings.local.json
+.claude/scheduled_tasks.lock
+**/.claude/scheduled_tasks.lock
+
+# Embedded sub-projects (have their own remote)
+andotherlife-web/
+
+# Internal design / planning workspace (not part of public landing)
+mindthos-landing-design/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
