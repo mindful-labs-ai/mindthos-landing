@@ -600,14 +600,14 @@ export function HifiLanding() {
   <div className="promo-top-inner">
     <p className="promo-top-msg">
       <span className="promo-tag">NEW</span>
-      <span>신규 가입 상담사님께 첫 1개월 무료 제공 · <a href="#signup-placeholder" data-promo-cta>무료로 시작하기 →</a></span>
+      <span>신규 가입 상담사님께 첫 1개월 무료 제공 · <a href="https://app.mindthos.com" data-promo-cta>무료로 시작하기 →</a></span>
     </p>
     <button type="button" className="promo-close" data-promo-close aria-label="프로모션 배너 닫기">✕</button>
   </div>
 </div>
   <header className="gnb">
     <div className="container gnb-inner">
-      <a className="gnb-logo" href="#" aria-label="마음토스 홈">
+      <a className="gnb-logo" href="/" aria-label="마음토스 홈">
         <span className="gnb-logo-mark" aria-hidden="true">
           <svg viewBox="0 0 34 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 24 V13 C 4 8.5, 8.5 7, 11.5 10.5 V24" stroke="#44ce4b" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
@@ -619,15 +619,15 @@ export function HifiLanding() {
         <span className="gnb-logo-word">마음토스</span>
       </a>
       <nav className="gnb-nav">
-        <a>서비스 소개</a>
-        <a>사용 가이드</a>
-        <a>블로그</a>
-        <a>교육 프로그램</a>
-        <a>문의</a>
+        <a href="/about-service">서비스 소개</a>
+        <a href="/guide">사용 가이드</a>
+        <a href="/blog">블로그</a>
+        <a href="/education">교육 프로그램</a>
+        <a href="/contact">문의</a>
       </nav>
       <div className="gnb-right">
-        <a className="btn sm ghost">로그인</a>
-        <a className="btn sm primary">무료로 시작하기</a>
+        <a className="btn sm ghost" href="https://app.mindthos.com">로그인</a>
+        <a className="btn sm primary" href="https://app.mindthos.com">무료로 시작하기</a>
       </div>
     </div>
   </header>
@@ -661,8 +661,8 @@ export function HifiLanding() {
       <h1 className="hero-h1">상담사를 위한<br/><span className="hero-h1-accent">안전한 AI 에이전트,</span><br/>마음토스</h1>
       <p className="hero-sub">상담이 끝난 뒤에도 남는 기록과 해석의 부담.<br/>마음토스가 안전하게 정리하고, 다음 회기까지 이어줍니다.</p>
       <div className="hero-ctas">
-        <a className="btn primary lg">무료로 시작하기</a>
-        <a className="btn lg ghost on-dark">기록은 어떻게 보호되나요? →</a>
+        <a className="btn primary lg" href="https://app.mindthos.com">무료로 시작하기</a>
+        <a className="btn lg ghost on-dark" href="/blog">기록은 어떻게 보호되나요? →</a>
       </div>
     </div>
   </div>
@@ -722,7 +722,7 @@ export function HifiLanding() {
         </div>
 
         <div className="trust-team-cta">
-          <a href="/security">기록은 어떻게 보호되나요? <span aria-hidden="true">→</span></a>
+          <a href="/blog">기록은 어떻게 보호되나요? <span aria-hidden="true">→</span></a>
         </div>
       </aside>
 
@@ -1797,7 +1797,7 @@ export function HifiLanding() {
           </div>
 
           <div className="sm-finish-cta-row">
-            <a className="step-cta-primary step-cta-primary-anchor" href="#signup-placeholder" data-cta="signup">
+            <a className="step-cta-primary step-cta-primary-anchor" href="https://app.mindthos.com" data-cta="signup">
               <span className="step-cta-primary-label">내 상담도 이렇게 시작하기</span>
               <span className="step-cta-primary-arrow" aria-hidden="true">→</span>
             </a>
@@ -3036,7 +3036,7 @@ export function HifiLanding() {
           <li>상담노트</li>
           <li>AI 슈퍼비전</li>
         </ul>
-        <a className="btn ghost">체험해보기</a>
+        <a className="btn ghost" href="https://app.mindthos.com">체험해보기</a>
       </div>
 
       
@@ -3075,7 +3075,7 @@ export function HifiLanding() {
           <li>모든 사례개념화 노트 사용 가능</li>
           <li>모든 이론 AI 슈퍼비전 사용 가능</li>
         </ul>
-        <a className="btn primary">체험해보기</a>
+        <a className="btn primary" href="https://app.mindthos.com">체험해보기</a>
       </div>
 
       
@@ -3113,7 +3113,7 @@ export function HifiLanding() {
           <li>최신 기능 우선 사용</li>
           <li>대용량 데이터 우선 처리</li>
         </ul>
-        <a className="btn ghost">체험해보기</a>
+        <a className="btn ghost" href="https://app.mindthos.com">체험해보기</a>
       </div>
 
       
@@ -3155,7 +3155,7 @@ export function HifiLanding() {
           <li>관리자 도구 / 팀 관리</li>
           <li>도입 지원 · 보안 협의</li>
         </ul>
-        <a className="btn ghost">기관 도입 상담</a>
+        <a className="btn ghost" href="/contact?type=institution-inquiry">기관 도입 상담</a>
       </div>
     </div>
 
@@ -3278,7 +3278,7 @@ export function HifiLanding() {
     
     <div className="faq-foot">
       <p className="faq-foot-text">원하는 답을 찾지 못했다면,<br/>도입 상담에서 상황에 맞게 안내해드릴게요.</p>
-      <a className="faq-foot-cta" href="#contact">기관 도입 상담하기</a>
+      <a className="faq-foot-cta" href="/contact?type=institution-inquiry">기관 도입 상담하기</a>
     </div>
 
     
@@ -3297,8 +3297,8 @@ export function HifiLanding() {
     <div className="final-cta-inner">
       <h2 className="final-cta-h2">상담 기록 정리,<br/>이제 더 가볍게</h2>
       <div className="final-cta-btns">
-        <a className="btn lg primary">무료로 시작하기 <span className="arr" aria-hidden="true">→</span></a>
-        <a className="final-cta-link" href="#contact">기관 도입 상담</a>
+        <a className="btn lg primary" href="https://app.mindthos.com">무료로 시작하기 <span className="arr" aria-hidden="true">→</span></a>
+        <a className="final-cta-link" href="/contact?type=institution-inquiry">기관 도입 상담</a>
       </div>
     </div>
   </div>
@@ -3310,7 +3310,7 @@ export function HifiLanding() {
     <div className="container">
       <div className="footer-top">
         <div className="footer-brand">
-          <a className="gnb-logo" href="#" aria-label="마음토스 홈">
+          <a className="gnb-logo" href="/" aria-label="마음토스 홈">
         <span className="gnb-logo-mark" aria-hidden="true">
           <svg viewBox="0 0 34 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 24 V13 C 4 8.5, 8.5 7, 11.5 10.5 V24" stroke="#44ce4b" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
@@ -3362,7 +3362,7 @@ export function HifiLanding() {
     <span className="promo-tag">NEW</span>
     <span className="promo-bottom-text">신규 가입 시 첫 1개월 무료</span>
   </div>
-  <a className="btn primary" href="#signup-placeholder" data-promo-cta>무료로 시작하기</a>
+  <a className="btn primary" href="https://app.mindthos.com" data-promo-cta>무료로 시작하기</a>
   <button type="button" className="promo-close" data-promo-close aria-label="프로모션 배너 닫기">✕</button>
 </div>
 
