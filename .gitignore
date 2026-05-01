@@ -46,3 +46,4 @@ mindthos-landing-design/
 .idea/
 *.swp
 *.swo
+.vercel

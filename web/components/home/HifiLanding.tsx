@@ -19,11 +19,11 @@ const CASE_DATA: Record<string, CaseEntry> = {
   '02': {
     name: '부부 갈등 — 대화 단절·양육 갈등',
     rows: [
-      { label: '상담 주제', type: 'text', value: '대화 단절과 양육 방식 차이로 반복되는 부부 갈등. 최근 6개월 사이 갈등 빈도가 주 2-3회로 증가하며 비난–방어–회피의 상호작용이 고착되는 양상.' },
-      { label: '당회기 상담 목표', type: 'text', value: '갈등 상황에서 반복되는 상호작용 패턴(비난–방어–회피)을 함께 확인하고, 각자의 정서 반응을 분리해 살펴봅니다.' },
-      { label: '상담 내용 요약', type: 'text', value: '아내(비난) → 남편(방어·침묵) → 아내(추격) → 남편(회피·이탈)의 4단계가 양육 장면에서 자동으로 작동하는 흐름을 함께 재구성. 표면 갈등 아래 "존중받지 못한다"는 공통 기저감이 양쪽 모두에서 확인…' },
-      { label: '주요 개입 방향', type: 'text', value: '갈등 직전 첫 감정과 표현된 행동 사이의 거리를 좁히는 작업. "비난 없이 요청하기" 연습으로 양육 가치관 차이를 협의의 출발점으로 재구성합니다.' },
-      { label: '다음 회기 계획', type: 'text', value: '갈등 시작 시 각자의 첫 감정과 상대에게 정말 전달하고 싶었던 마음을 정리해보고, 한 박자 멈추는 신호를 부부가 함께 정해 시도하도록 안내합니다.' },
+      { label: '상담 주제', type: 'text', value: '반복되는 대화 단절과 양육 방식 차이로 인한 부부 갈등' },
+      { label: '당회기 상담 목표', type: 'text', value: '갈등 상황에서 반복되는 상호작용 패턴을 확인하고, 각자의 정서 반응을 분리해 살펴봅니다.' },
+      { label: '상담 내용 요약', type: 'text', value: '최근 6개월 사이 양육 문제를 둘러싼 갈등 빈도가 증가했으며, 대화가 비난-방어-회피의 흐름으로 고착되는 양상이 관찰됩니다.' },
+      { label: '상담자가 검토할 포인트', type: 'text', value: '갈등의 표면 주제보다 반복되는 의사소통 방식과 정서적 거리감을 다음 회기에서 함께 확인할 필요가 있습니다.' },
+      { label: '다음 회기 계획', type: 'text', value: '최근 갈등 장면 하나를 구체적으로 재구성하고, 각자의 감정·욕구·방어 반응을 구분해 탐색합니다.' },
     ],
   },
   '03': {
@@ -96,6 +96,20 @@ export function HifiLanding() {
       };
       bindClose(top);
       bindClose(bottom);
+    }
+
+    /* === GNB scroll-state — 스크롤 시 살짝 더 투명 + blur 강화 === */
+    {
+      const gnb = document.querySelector<HTMLElement>('.gnb');
+      if (gnb) {
+        const onScroll = (): void => {
+          if (window.scrollY > 4) gnb.dataset.scrolled = 'true';
+          else delete gnb.dataset.scrolled;
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        cleanups.push(() => window.removeEventListener('scroll', onScroll));
+      }
     }
 
     /* === §02 encmini typing === */
@@ -268,6 +282,39 @@ export function HifiLanding() {
           startTimer();
         }
         cleanups.push(clearTimer);
+      }
+    }
+
+    /* === §05 sample-section scroll-in fades === */
+    {
+      const section = document.querySelector<HTMLElement>('.sample-section');
+      const expCard = document.getElementById('sample-step-card');
+      if (section && 'IntersectionObserver' in window) {
+        const ioIntro = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              section.classList.add('is-in-view');
+              ioIntro.unobserve(section);
+            }
+          });
+        }, { threshold: 0.08, rootMargin: '0px 0px -10% 0px' });
+        ioIntro.observe(section);
+        cleanups.push(() => ioIntro.disconnect());
+
+        if (expCard) {
+          const ioExp = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+              if (e.isIntersecting) {
+                section.classList.add('exp-in-view');
+                ioExp.unobserve(expCard);
+              }
+            });
+          }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+          ioExp.observe(expCard);
+          cleanups.push(() => ioExp.disconnect());
+        }
+      } else if (section) {
+        section.classList.add('is-in-view', 'exp-in-view');
       }
     }
 
@@ -580,6 +627,7 @@ export function HifiLanding() {
       </nav>
       <div className="gnb-right">
         <a className="btn sm ghost">로그인</a>
+        <a className="btn sm primary">무료로 시작하기</a>
       </div>
     </div>
   </header>
@@ -606,21 +654,6 @@ export function HifiLanding() {
   <div className="hero-bottom-fade" aria-hidden="true"></div>
 
   
-  <div className="container hero-top">
-    <div className="hero-nav">
-      <a className="logo" href="#" aria-label="마음토스 홈"><img src="/logo-mindthos.svg" alt="마음토스" onError={(e) => { const t = e.currentTarget; const span = document.createElement('span'); span.textContent = '마음토스'; span.style.cssText = 'font-family:var(--font-heading);font-weight:800;font-size:20px;letter-spacing:-0.01em;color:inherit'; t.replaceWith(span); }} /></a>
-      <div className="hero-nav-right">
-        <a className="btn sm ghost on-dark">로그인</a>
-        <a className="btn sm primary">무료로 시작하기</a>
-      </div>
-    </div>
-    
-    <div className="wf-marker">
-      <span className="num">01</span>
-      <span className="name">Hero</span>
-      <span className="purpose">풀스크린 상담 장면 + dark overlay + 좌측 카피 (사수 v5)</span>
-    </div>
-  </div>
 
   
   <div className="container hero-content-wrap">
@@ -652,7 +685,6 @@ export function HifiLanding() {
     <div className="trust-body">
       
       <aside className="trust-team">
-        <p className="trust-team-eyebrow">상담 기록 보호 기준</p>
         <h3 className="trust-team-title">전문가가 함께 설계한<br/>상담 기록 보호 원칙</h3>
 
         <div className="expanel" aria-label="상담 기록 보호를 함께 설계하는 전문가 패널">
@@ -836,7 +868,7 @@ export function HifiLanding() {
               </svg>
             </div>
             <div className="trust-protect-content">
-              <h3 className="trust-protect-label">이름과 연락처는 먼저 가려집니다</h3>
+              <h3 className="trust-protect-label">공유 전에는 민감한 정보가 먼저 가려져요</h3>
               <p className="trust-protect-desc">내담자를 특정할 수 있는 정보는 기본적으로 가려지고, 필요할 때만 확인할 수 있습니다.</p>
             </div>
           </div>
@@ -870,71 +902,22 @@ export function HifiLanding() {
 </section>
 <section className="wf-section tone-light">
   <div className="container">
-    <div className="wf-marker">
-      <span className="num">03</span>
-      <span className="name">문제 공감 · 흩어진 단서 시각화</span>
-      <span className="purpose">5 단서 + 중앙 통합 영역 + 대표 quote 1개 — 기능 카탈로그 ❌, 공감 한 장면</span>
-    </div>
-
     <div className="pain-head pain-head--lean">
-      <h2 className="t-h2">기록은 남았지만,<br/>해석은 여전히 흩어져 있습니다</h2>
+      <h2 className="t-h2">기록은 남았지만,<br/>해석은 여전히 흩어져 있어요</h2>
     </div>
 
     <div className="pain-scenes">
 
       
       <article className="pain-scene">
-        <div className="pain-scene-stage pain-stage-converge paingfx-canvas paingfx-01" aria-label="흩어진 자료가 한 사람의 케이스로 모이는 모습">
-          <svg className="paingfx-01-lines" viewBox="0 0 600 360" preserveAspectRatio="none" aria-hidden="true">
-            <line className="paingfx-line paingfx-line-1" x1="120" y1="80"  x2="237" y2="145"/>
-            <line className="paingfx-line paingfx-line-2" x1="480" y1="80"  x2="363" y2="145"/>
-            <line className="paingfx-line paingfx-line-3" x1="120" y1="280" x2="237" y2="215"/>
-            <line className="paingfx-line paingfx-line-4" x1="480" y1="280" x2="363" y2="215"/>
-          </svg>
-          <span className="paingfx-01-sat paingfx-01-sat-tl" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 17 L9 13 L13 16 L19 8"/>
-              <line x1="6" y1="20" x2="8" y2="20"/>
-              <line x1="11" y1="20" x2="14" y2="20"/>
-              <line x1="17" y1="20" x2="20" y2="20"/>
-            </svg>
-          </span>
-          <span className="paingfx-01-sat paingfx-01-sat-tr" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 7 H19 a2 2 0 0 1 2 2 v6 a2 2 0 0 1-2 2 H10 L6 20 V17 H5 a2 2 0 0 1-2-2 V9 a2 2 0 0 1 2-2 z"/>
-              <line x1="8" y1="11" x2="15" y2="11"/>
-              <line x1="8" y1="14" x2="13" y2="14"/>
-            </svg>
-          </span>
-          <span className="paingfx-01-sat paingfx-01-sat-bl" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="13" r="7"/>
-              <path d="M12 9 V13 L15 14.5"/>
-              <path d="M5.5 13 a6.5 6.5 0 0 1 1.6-4.2"/>
-              <path d="M5.6 8 L5.2 10.6 L7.6 10.4"/>
-            </svg>
-          </span>
-          <span className="paingfx-01-sat paingfx-01-sat-br" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M6 4 H15 L19 8 V19 a1 1 0 0 1-1 1 H6 a1 1 0 0 1-1-1 V5 a1 1 0 0 1 1-1 z"/>
-              <path d="M15 4 V8 H19"/>
-              <line x1="8" y1="12" x2="16" y2="12"/>
-              <line x1="8" y1="15" x2="14" y2="15"/>
-            </svg>
-          </span>
-          <span className="paingfx-01-core" aria-label="내담자">
-            <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="16" cy="12" r="4.5"/>
-              <path d="M7 26 c0-5 4-8 9-8 s9 3 9 8"/>
-            </svg>
-          </span>
+        <div className="pain-scene-stage pain-stage-converge paingfx-canvas paingfx-01" aria-label="흩어진 자료가 한 사람의 사례로 연결되는 모습">
+          <img className="paingfx-01-img" src="/scene-01-converge.png" alt="" aria-hidden="true"/>
         </div>
         <div className="pain-scene-text" data-skip-legacy>
-          <span className="pain-scene-num">SCENE 01</span>
           <h3 className="pain-scene-title">흩어진 자료를 한 사람의 이야기로 묶어야 할 때</h3>
           <blockquote className="pain-quote">
             <p>"검사 결과랑 면담 기록이 따로 놀 때,<br/>그걸 한 사람의 이야기로 묶는 게 제일 막막해요."</p>
-            <cite>마음토스 사용자 인터뷰</cite>
+            <cite>상담 현장 인터뷰</cite>
           </blockquote>
         </div>
       </article>
@@ -942,21 +925,13 @@ export function HifiLanding() {
       
       <article className="pain-scene reverse">
         <div className="pain-scene-stage pain-stage-fanout paingfx-canvas paingfx-02" aria-label="상담 후 작성할 문서가 산더미처럼 쌓이는 모습">
-          <ul className="paingfx-02-stack" role="list" aria-hidden="true">
-            <li className="paingfx-02-doc" data-doc="1"><span className="paingfx-02-num">DOC 01</span><span className="paingfx-02-name">상담노트</span></li>
-            <li className="paingfx-02-doc" data-doc="2"><span className="paingfx-02-num">DOC 02</span><span className="paingfx-02-name">사례개념화</span></li>
-            <li className="paingfx-02-doc" data-doc="3"><span className="paingfx-02-num">DOC 03</span><span className="paingfx-02-name">슈퍼비전</span></li>
-            <li className="paingfx-02-doc" data-doc="4"><span className="paingfx-02-num">DOC 04</span><span className="paingfx-02-name">심리검사</span></li>
-            <li className="paingfx-02-doc" data-doc="5"><span className="paingfx-02-num">DOC 05</span><span className="paingfx-02-name">개입계획</span></li>
-            <li className="paingfx-02-doc" data-doc="6"><span className="paingfx-02-num">DOC 06</span><span className="paingfx-02-name">심리보고서</span></li>
-          </ul>
+          <img className="paingfx-02-img" src="/scene-02-stack.png" alt="" aria-hidden="true"/>
         </div>
         <div className="pain-scene-text">
-          <span className="pain-scene-num">SCENE 02</span>
-          <h3 className="pain-scene-title">상담은 끝났는데,<br/>작성할 문서는 아직 산더미처럼 쌓여있다</h3>
+          <h3 className="pain-scene-title">같은 내용을<br/>또 써야 할 때</h3>
           <blockquote className="pain-quote">
             <p>"같은 회기를 양식마다 다시 정리하느라,<br/>퇴근 시간이 자꾸 늦어집니다."</p>
-            <cite>마음토스 사용자 인터뷰</cite>
+            <cite>기관 상담사 인터뷰</cite>
           </blockquote>
         </div>
       </article>
@@ -964,31 +939,13 @@ export function HifiLanding() {
       
       <article className="pain-scene">
         <div className="pain-scene-stage pain-stage-bridge paingfx-canvas paingfx-03" aria-label="기록은 남아 있지만 다음 회기로 이어갈 실마리가 꼬이는 모습">
-          <span className="paingfx-03-doc" aria-hidden="true">
-            <span className="paingfx-03-doc-line"></span>
-            <span className="paingfx-03-doc-line"></span>
-            <span className="paingfx-03-doc-line"></span>
-            <span className="paingfx-03-doc-line"></span>
-          </span>
-          <svg className="paingfx-03-flow" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true">
-            <path className="paingfx-03-line" d="M 90 100 L 215 100 Q 222 91, 230 100 Q 238 109, 246 100 Q 254 91, 262 100 Q 270 109, 278 100"/>
-            <path className="paingfx-03-scribble" d="M 278 100 c 26 -34 62 -20 52 16 c -4 26 -46 14 -32 -18 c 10 -24 60 -2 38 32 c -14 26 -62 4 -28 -26 c 26 -22 70 4 36 38 c -18 22 -64 -10 -28 -34 c 24 -22 72 12 30 42 c -22 20 -58 -8 -8 -24 c 32 -10 70 18 22 32 c -28 8 -52 -10 -2 -16"/>
-            <path className="paingfx-03-dotted" d="M 440 100 L 470 100"/>
-          </svg>
-          <span className="paingfx-03-x" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
-              <circle cx="12" cy="12" r="9"/>
-              <line x1="8.5" y1="8.5" x2="15.5" y2="15.5"/>
-              <line x1="15.5" y1="8.5" x2="8.5" y2="15.5"/>
-            </svg>
-          </span>
+          <img className="paingfx-03-img" src="/scene-03-tangle.png" alt="" aria-hidden="true"/>
         </div>
         <div className="pain-scene-text">
-          <span className="pain-scene-num">SCENE 03</span>
           <h3 className="pain-scene-title">다음 회기에서 어디부터 이어갈지 막막할 때</h3>
           <blockquote className="pain-quote">
             <p>"기록은 남았는데,<br/>다음 회기에서 어디부터 이어가야 할지 다시 찾아봐요."</p>
-            <cite>마음토스 사용자 인터뷰</cite>
+            <cite>실제 상담사 인터뷰</cite>
           </blockquote>
         </div>
       </article>
@@ -1114,9 +1071,9 @@ export function HifiLanding() {
         <div className="feat-acc-body">
           <div className="feat-copy">
             <span className="feat-cat">축어록</span>
-            <h3 className="feat-msg">상담 녹음을 화자별 기록으로 정리합니다</h3>
-            <div className="feat-when">회기 내용을 다시 듣고 받아쓰는 시간이 부담될 때</div>
-            <p className="feat-desc">상담 녹음을 바탕으로 상담자와 내담자의 발화를 구분해 정리합니다.<br/>필요한 장면을 다시 확인하고, 이후 상담노트 작성의 기초 자료로 활용할 수 있습니다.</p>
+            <h3 className="feat-msg">녹음을 상담 기록으로 바꿔드려요</h3>
+            <div className="feat-when">다시 들으며 받아쓰는 시간이 부담될 때</div>
+            <p className="feat-desc">상담사와 내담자의 말을 구분해 정리하고, 이후 상담노트의 기초 자료로 활용할 수 있어요.</p>
             <div className="feat-pain-row">
               <span className="feat-pain-lbl">연결되는 어려움</span>
               <div className="feat-pain-tags">
@@ -1129,7 +1086,7 @@ export function HifiLanding() {
             <div className="mt2">
               <div className="mt2-head">
                 <div className="mt2-title-row">
-                  <h4 className="mt2-title">가상내담자_이영숙_2회기.mp3</h4>
+                  <h4 className="mt2-title">홍길동_2회기_상담녹음.mp3</h4>
                   <svg className="mt2-edit" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     <path d="M2 11.5 V12.5 H3 L11 4.5 L10 3.5 Z"/>
                     <path d="M9 4.5 L10 5.5"/>
@@ -1167,7 +1124,7 @@ export function HifiLanding() {
                         <span className="mt2-trx-who">상담사</span>
                         <span className="mt2-trx-idx">1</span>
                       </div>
-                      <p className="mt2-trx-text">어서 오세요, 영숙님. 한 주 동안 잘 지내셨나요? 날씨가 제법 쌀쌀해졌는데, 오시는 길 괜찮으셨어요?</p>
+                      <p className="mt2-trx-text">어서 오세요, 홍길동님. 한 주 동안 잘 지내셨나요? 날씨가 제법 쌀쌀해졌는데, 오시는 길 괜찮으셨어요?</p>
                     </div>
                   </div>
                   <div className="mt2-trx-row">
@@ -1232,20 +1189,20 @@ export function HifiLanding() {
         <div className="feat-acc-body">
           <div className="feat-copy">
             <span className="feat-cat">상담노트</span>
-            <h3 className="feat-msg">20가지 이상의 상담노트 템플릿을<br/>상담 목적에 맞게 바로 변환합니다</h3>
-            <div className="feat-when">같은 회기 기록을 양식마다 다시 쓰고 있을 때</div>
-            <p className="feat-desc">회기 내용과 상담사 메모를 바탕으로 상담노트 초안을 생성합니다.<br/>SOAP, DAP, BIRP 같은 표준 양식부터 CBT, 대상관계, 가족상담, 접수면접, 기관 제출용 양식까지 상담 목적에 맞춰 바로 변환할 수 있습니다.</p>
+            <h3 className="feat-msg">필요한 양식에 맞게 바로 정리해요</h3>
+            <div className="feat-when">같은 기록을 양식마다 다시 쓰고 있을 때</div>
+            <p className="feat-desc">회기 기록과 메모를 바탕으로 SOAP, DAP, 가족센터, 기관 제출용 기록까지 목적에 맞게 바꿔볼 수 있어요.</p>
             <div className="feat-pain-row">
               <span className="feat-pain-lbl">연결되는 어려움</span>
               <div className="feat-pain-tags">
-                <span className="pain-tag">같은 기록을 여러 양식으로 바꿔야 할 때</span>
+                <span className="pain-tag">양식마다 다시 쓰기 번거로울 때</span>
               </div>
             </div>
           </div>
           <div className="feat-mock" aria-hidden="true">
             <div className="pf-titlebar">
               <span className="pf-dots"><span></span><span></span><span></span></span>
-              <span className="pf-app">Mindthos AI · 상담노트</span>
+              <span className="pf-app">마음토스 · 상담노트</span>
               <span className="pf-status"><span className="pulse"></span>한 회기 → 여러 양식 자동 변환</span>
             </div>
             
@@ -1272,28 +1229,42 @@ export function HifiLanding() {
               </div>
 
               <svg className="note-fanout-svg" viewBox="0 0 100 220" preserveAspectRatio="none" aria-hidden="true">
-                <path className="is-active" d="M0 110 C 50 110, 50 28, 100 28"/>
-                <path d="M0 110 C 50 110, 50 82, 100 82"/>
-                <path d="M0 110 C 50 110, 50 138, 100 138"/>
-                <path d="M0 110 C 50 110, 50 192, 100 192"/>
+                <line className="note-fanout-trunk" x1="0" y1="92" x2="30" y2="92"/>
+                <path d="M 30 92 C 60 92, 80 80, 100 80"/>
+                <path d="M 30 92 C 60 92, 80 137, 100 137"/>
+                <path d="M 30 92 C 60 92, 80 196, 100 196"/>
+                <path className="is-active" d="M 30 92 C 60 92, 80 24, 100 24"/>
+                <circle className="note-fanout-junction" cx="30" cy="92" r="3.5"/>
               </svg>
 
               <ul className="note-results">
                 <li className="note-doc is-active">
-                  <span className="note-doc-tag">선택</span>
-                  <span className="note-doc-name">가족센터 상담 노트</span>
+                  <span className="note-doc-tag is-selected">선택</span>
+                  <div className="note-doc-text">
+                    <span className="note-doc-name">가족센터 상담 노트</span>
+                    <span className="note-doc-purpose">기관 양식 · 가족 단위 회기</span>
+                  </div>
                 </li>
                 <li className="note-doc">
                   <span className="note-doc-tag">노트</span>
-                  <span className="note-doc-name">마음토스 상담노트</span>
+                  <div className="note-doc-text">
+                    <span className="note-doc-name">마음토스 상담노트</span>
+                    <span className="note-doc-purpose">기본 회기 기록</span>
+                  </div>
                 </li>
                 <li className="note-doc">
                   <span className="note-doc-tag">개념화</span>
-                  <span className="note-doc-name">인간중심 사례개념화 노트</span>
+                  <div className="note-doc-text">
+                    <span className="note-doc-name">인간중심 사례개념화 노트</span>
+                    <span className="note-doc-purpose">이론 기반 해석 초안</span>
+                  </div>
                 </li>
                 <li className="note-doc">
                   <span className="note-doc-tag">기관</span>
-                  <span className="note-doc-name">기관 제출용 기록</span>
+                  <div className="note-doc-text">
+                    <span className="note-doc-name">기관 제출용 기록</span>
+                    <span className="note-doc-purpose">심사 · 보고 양식</span>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -1303,8 +1274,9 @@ export function HifiLanding() {
               <div className="note-preview-tabs">
                 <span className="note-preview-tab">입력된 텍스트</span>
                 <span className="note-preview-tab is-active">가족센터 상담 노트</span>
+                <span className="note-preview-tab">마음토스 상담노트</span>
                 <span className="note-preview-tab">인간중심 사례개념화 노트</span>
-                <span className="note-preview-tab">Wee 센터 상담노트</span>
+                <span className="note-preview-tab">기관 제출용 기록</span>
                 <span className="note-preview-tab is-add">+</span>
               </div>
               <div className="note-preview-doc">
@@ -1314,15 +1286,23 @@ export function HifiLanding() {
                 </div>
                 <div className="note-preview-section">
                   <span className="note-preview-section-h">당회기 상담 목표</span>
-                  <p className="note-preview-section-body">부모화 양상 통찰과 가족 관계에서의 자기 경계 재정립</p>
+                  <p className="note-preview-section-body">부모화 양상 통찰, 가족 관계에서의 자기 경계 재정립</p>
                 </div>
                 <div className="note-preview-section">
-                  <span className="note-preview-section-h">상담 내용 요약</span>
-                  <p className="note-preview-section-body">자기 대화 연습으로 자기 가치 분리 변화 확인, 가계도 분석으로 가족 체계 역할 탐색.</p>
+                  <span className="note-preview-section-h">주요 호소 내용</span>
+                  <p className="note-preview-section-body">내담자는 가족 내에서 반복적으로 중재자 역할을 맡아왔으며, 부모 갈등 상황에서 정서적 책임감을 과도하게 느끼고 있음.</p>
+                </div>
+                <div className="note-preview-section is-highlight">
+                  <span className="note-preview-section-h">가족관계 / 가족체계 관찰</span>
+                  <p className="note-preview-section-body">원가족 내 부모-자녀 경계가 모호하고, 내담자가 부모의 정서적 부담을 대신 떠안는 패턴이 관찰됨. <span className="note-preview-mark">가계도 분석 결과, 어머니와의 밀착 및 아버지와의 거리감</span>이 상담 주제로 연결됨.</p>
+                </div>
+                <div className="note-preview-section">
+                  <span className="note-preview-section-h">상담 개입 요약</span>
+                  <p className="note-preview-section-body">자기 대화 연습을 통해 내담자가 가족의 감정과 자신의 감정을 분리해 인식하도록 도왔고, 가족 내 역할을 재정의하는 방향으로 개입함.</p>
                 </div>
                 <div className="note-preview-section">
                   <span className="note-preview-section-h">다음 회기 계획</span>
-                  <p className="note-preview-section-body">심리적 거리 유지 연습 지속, 자기 대화 과제 이행 점검.</p>
+                  <p className="note-preview-section-body">심리적 거리 유지 연습 지속, 자기 대화 과제 이행 점검, 가족 내 경계 설정 상황 구체화</p>
                 </div>
               </div>
             </div>
@@ -1340,20 +1320,20 @@ export function HifiLanding() {
         <div className="feat-acc-body">
           <div className="feat-copy">
             <span className="feat-cat">사례개념화</span>
-            <h3 className="feat-msg">흩어진 단서를 하나의 상담 가설로 정리합니다</h3>
-            <div className="feat-when">내담자의 반복 패턴은 보이지만 어떻게 개념화할지 막막할 때</div>
-            <p className="feat-desc">회기 기록 속 반복되는 정서, 관계 패턴, 사고 흐름을 바탕으로<br/>상담사가 검토할 수 있는 사례개념화 초안을 제안합니다.<br/>최종 판단은 상담사가 직접 검토하는 구조입니다.</p>
+            <h3 className="feat-msg">흩어진 단서를 상담 흐름으로 묶어줘요</h3>
+            <div className="feat-when">반복 패턴은 보이는데 정리가 막막할 때</div>
+            <p className="feat-desc">반복되는 감정, 관계, 사고 흐름을 정리해 상담자가 검토할 수 있는 가설 초안을 제안해요.</p>
             <div className="feat-pain-row">
               <span className="feat-pain-lbl">연결되는 어려움</span>
               <div className="feat-pain-tags">
-                <span className="pain-tag">통합 해석이 막힐 때</span>
+                <span className="pain-tag">사례를 어떻게 개념화할지 막막할 때</span>
               </div>
             </div>
           </div>
           <div className="feat-mock" aria-hidden="true">
             <div className="pf-titlebar">
               <span className="pf-dots"><span></span><span></span><span></span></span>
-              <span className="pf-app">Mindthos AI · 사례개념화</span>
+              <span className="pf-app">마음토스 · 사례개념화</span>
               <span className="pf-status"><span className="pulse"></span>상담자 검토용</span>
             </div>
             
@@ -1423,13 +1403,13 @@ export function HifiLanding() {
         <div className="feat-acc-body">
           <div className="feat-copy">
             <span className="feat-cat">가계도</span>
-            <h3 className="feat-msg">가족 관계 단서를 구조로 정리합니다</h3>
-            <div className="feat-when">가족 관계와 세대 간 패턴을 한눈에 보고 싶을 때</div>
-            <p className="feat-desc">상담 기록 속 가족 구성원, 관계 단서, 반복되는 갈등 패턴을 바탕으로<br/>가계도 정리와 해석 초안을 도와줍니다.<br/>가족상담이나 관계 패턴을 다루는 회기에서 활용할 수 있습니다.</p>
+            <h3 className="feat-msg">가족 관계를 한눈에 정리해요</h3>
+            <div className="feat-when">가족 구성과 관계 패턴을 빠르게 보고 싶을 때</div>
+            <p className="feat-desc">가족 구성원, 관계 단서, 갈등 흐름을 바탕으로 가계도 정리와 해석 초안을 도와줘요.</p>
             <div className="feat-pain-row">
               <span className="feat-pain-lbl">연결되는 어려움</span>
               <div className="feat-pain-tags">
-                <span className="pain-tag">관계 패턴이 복잡할 때</span>
+                <span className="pain-tag">가족 관계가 복잡하게 얽혀 있을 때</span>
               </div>
             </div>
           </div>
@@ -1466,72 +1446,80 @@ export function HifiLanding() {
 
             <div className="pf-geno2-canvas">
               <svg className="pf-geno2-svg" viewBox="0 0 720 380" preserveAspectRatio="xMidYMid meet">
-                
-                <line x1="135" y1="80" x2="220" y2="80" stroke="#a8b2bd" strokeWidth="1.3"/>
-                <line x1="500" y1="78" x2="600" y2="78" stroke="#a8b2bd" strokeWidth="1.3"/>
-                <line x1="500" y1="82" x2="600" y2="82" stroke="#a8b2bd" strokeWidth="1.3"/>
+                <line x1="40" y1="92" x2="700" y2="92" stroke="#eef2f6" strokeWidth="1" strokeDasharray="2 6"/>
+                <line x1="40" y1="218" x2="700" y2="218" stroke="#eef2f6" strokeWidth="1" strokeDasharray="2 6"/>
+                <line x1="40" y1="320" x2="700" y2="320" stroke="#eef2f6" strokeWidth="1" strokeDasharray="2 6"/>
 
-                
-                <path d="M 175 95 V 138 H 240 V 175" stroke="#a8b2bd" strokeWidth="1.3" fill="none"/>
-                <path d="M 550 95 V 138 H 480 V 175" stroke="#a8b2bd" strokeWidth="1.3" fill="none"/>
+                <rect x="140" y="76" width="30" height="30" rx="2" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.4"/>
+                <text x="155" y="124" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">김재호</text>
+                <text x="155" y="137" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">전직 공무원</text>
 
-                
-                <path d="M 270 190 L 285 184 L 300 196 L 315 184 L 330 196 L 345 184 L 360 196 L 375 184 L 390 196 L 405 184 L 420 196 L 435 184 L 450 196 L 465 184 L 480 190" stroke="#475569" strokeWidth="1.4" fill="none"/>
+                <circle cx="220" cy="91" r="15" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.4"/>
+                <text x="220" y="124" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">박순자</text>
+                <text x="220" y="137" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">시장 상인</text>
 
-                
-                <path d="M 360 205 V 250 H 280 V 280" stroke="#a8b2bd" strokeWidth="1.3" fill="none"/>
-                <path d="M 360 205 V 250 H 440 V 280" stroke="#a8b2bd" strokeWidth="1.3" fill="none"/>
+                <line x1="170" y1="91" x2="205" y2="91" stroke="#cbd5e1" strokeWidth="1.4"/>
+                <path d="M 187 91 V 156 H 285 V 185" stroke="#cbd5e1" strokeWidth="1.4" fill="none"/>
 
-                
-                <text x="175" y="58" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">1930-</text>
-                <text x="550" y="58" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">1935-</text>
-                <text x="240" y="170" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">1964</text>
-                <text x="480" y="170" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">1967</text>
-                <text x="280" y="275" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">1989</text>
-                <text x="440" y="275" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">1993</text>
+                <rect x="490" y="76" width="30" height="30" rx="2" fill="#ffffff" stroke="#475569" strokeWidth="1.5"/>
+                <path d="M 490 91 H 520 V 106 H 490 Z" fill="#475569"/>
+                <line x1="490" y1="76" x2="520" y2="106" stroke="#475569" strokeWidth="1.3"/>
+                <line x1="520" y1="76" x2="490" y2="106" stroke="#475569" strokeWidth="1.3"/>
+                <text x="505" y="124" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">이정수</text>
+                <text x="505" y="137" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">전직 공무원</text>
 
-                
-                <rect x="120" y="65" width="30" height="30" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5"/>
-                <text x="135" y="123" textAnchor="middle" fontSize="10.5" fill="#0f172a" fontWeight="600" fontFamily="Pretendard, sans-serif">시아버지</text>
-                <circle cx="220" cy="80" r="15" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5"/>
-                <text x="220" y="123" textAnchor="middle" fontSize="10.5" fill="#0f172a" fontWeight="600" fontFamily="Pretendard, sans-serif">시어머니</text>
+                <circle cx="570" cy="91" r="16" fill="#ffffff" stroke="#475569" strokeWidth="1.5"/>
+                <path d="M 570 75 A 16 16 0 0 0 570 107 Z" fill="#475569"/>
+                <text x="570" y="124" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">최영숙</text>
+                <text x="570" y="137" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">전직 교사</text>
 
-                
-                <rect x="535" y="65" width="30" height="30" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5"/>
-                <text x="550" y="123" textAnchor="middle" fontSize="10.5" fill="#0f172a" fontWeight="600" fontFamily="Pretendard, sans-serif">친정아버지</text>
-                <circle cx="600" cy="80" r="15" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5"/>
-                <text x="600" y="123" textAnchor="middle" fontSize="10.5" fill="#0f172a" fontWeight="600" fontFamily="Pretendard, sans-serif">친정어머니</text>
+                <line x1="520" y1="91" x2="554" y2="91" stroke="#cbd5e1" strokeWidth="1.4"/>
+                <path d="M 537 91 V 156 H 470 V 194" stroke="#cbd5e1" strokeWidth="1.4" fill="none"/>
 
-                
-                <rect x="225" y="175" width="30" height="30" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5"/>
-                <text x="240" y="195" textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">61</text>
-                <text x="240" y="225" textAnchor="middle" fontSize="11.5" fill="#0f172a" fontWeight="600" fontFamily="Pretendard, sans-serif">박진호</text>
+                <text x="240" y="180" fontSize="9.5" fill="#94a3b8" fontFamily="Pretendard, sans-serif">1964–</text>
+                <rect x="260" y="185" width="50" height="50" rx="3" fill="#ffffff" stroke="#475569" strokeWidth="1.7"/>
+                <text x="285" y="216" textAnchor="middle" fontSize="14" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">61</text>
+                <text x="285" y="256" textAnchor="middle" fontSize="11.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">김도현</text>
+                <text x="285" y="270" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">대기업 은퇴자</text>
 
-                
-                <circle cx="480" cy="190" r="18" fill="#dcfce7" stroke="#16a34a" strokeWidth="2"/>
-                <text x="480" y="195" textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="800" fontFamily="Pretendard, sans-serif">58</text>
-                <text x="480" y="226" textAnchor="middle" fontSize="11.5" fill="#16a34a" fontWeight="700" fontFamily="Pretendard, sans-serif">이영숙</text>
+                <text x="500" y="180" fontSize="9.5" fill="#168A35" fontFamily="Pretendard, sans-serif">1967–</text>
+                <circle cx="470" cy="218" r="26" fill="#E9FBEF" stroke="#168A35" strokeWidth="2.2"/>
+                <text x="470" y="223" textAnchor="middle" fontSize="14" fill="#0f172a" fontWeight="800" fontFamily="Pretendard, sans-serif">58</text>
+                <text x="470" y="256" textAnchor="middle" fontSize="11.5" fill="#168A35" fontWeight="700" fontFamily="Pretendard, sans-serif">이서연</text>
+                <text x="470" y="270" textAnchor="middle" fontSize="9" fill="#168A35" opacity="0.85" fontFamily="Pretendard, sans-serif">전직 국어교사</text>
 
-                
-                <rect x="266" y="280" width="28" height="28" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5"/>
-                <text x="280" y="299" textAnchor="middle" fontSize="10.5" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">36</text>
-                <text x="280" y="328" textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="600" fontFamily="Pretendard, sans-serif">민수</text>
+                <path d="M 310 218 L 318 211 L 326 225 L 334 211 L 342 225 L 350 211 L 358 225 L 366 211 L 374 225 L 382 211 L 390 225 L 398 211 L 406 225 L 414 211 L 422 225 L 430 211 L 438 225 L 444 218" stroke="#168A35" strokeWidth="1.9" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
 
-                <circle cx="440" cy="294" r="14" fill="#ffffff" stroke="#1e293b" strokeWidth="1.5"/>
-                <text x="440" y="298" textAnchor="middle" fontSize="10.5" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">32</text>
-                <text x="440" y="328" textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="600" fontFamily="Pretendard, sans-serif">지혜</text>
+                <line x1="310" y1="240" x2="444" y2="240" stroke="#cbd5e1" strokeWidth="1.4"/>
+
+                <path d="M 377 240 V 280 H 245 V 304" stroke="#cbd5e1" strokeWidth="1.4" fill="none"/>
+                <path d="M 377 280 H 470 V 304" stroke="#cbd5e1" strokeWidth="1.4" fill="none"/>
+
+                <rect x="229" y="304" width="32" height="32" rx="2" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.4"/>
+                <text x="245" y="324" textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">36</text>
+                <text x="245" y="354" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">김민재</text>
+
+                <circle cx="306" cy="320" r="12" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.3"/>
+                <text x="306" y="354" textAnchor="middle" fontSize="9.5" fill="#94a3b8" fontFamily="Pretendard, sans-serif">배우자</text>
+
+                <line x1="261" y1="320" x2="294" y2="320" stroke="#cbd5e1" strokeWidth="1.3"/>
+
+                <circle cx="470" cy="320" r="14" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.4"/>
+                <text x="470" y="324" textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">32</text>
+                <text x="470" y="354" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">김유진</text>
+
+                <rect x="513" y="308" width="24" height="24" rx="2" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.3"/>
+                <text x="525" y="354" textAnchor="middle" fontSize="9.5" fill="#94a3b8" fontFamily="Pretendard, sans-serif">배우자</text>
+
+                <line x1="484" y1="320" x2="513" y2="320" stroke="#cbd5e1" strokeWidth="1.3"/>
               </svg>
 
               
               <div className="pf-geno2-toolbar">
                 <span className="pf-geno2-tool is-active" title="select"><svg viewBox="0 0 14 14" fill="currentColor"><path d="M3 1 L11 7.5 L6.5 8.5 L4.5 12 z"/></svg></span>
                 <span className="pf-geno2-tool" title="move"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/><polyline points="5 4 7 2 9 4"/><polyline points="5 10 7 12 9 10"/><polyline points="4 5 2 7 4 9"/><polyline points="10 5 12 7 10 9"/></svg></span>
-                <span className="pf-geno2-tool" title="frame"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="2 2"><rect x="2" y="2" width="10" height="10"/></svg></span>
-                <span className="pf-geno2-tool" title="rect"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><rect x="2.5" y="2.5" width="9" height="9"/></svg></span>
-                <span className="pf-geno2-tool" title="line"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M2 11 L4 7 L6 10 L8 5 L10 8 L12 4"/></svg></span>
                 <span className="pf-geno2-tool" title="text"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M3 3 H11"/><path d="M7 3 V12"/></svg></span>
                 <span className="pf-geno2-tool" title="tag"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M2 2 H7 L12 7 L7 12 L2 7 z"/><circle cx="4.5" cy="4.5" r="1"/></svg></span>
-                <span className="pf-geno2-tool danger" title="delete"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 4 H11"/><path d="M5 4 V2.5 H9 V4"/><path d="M3.5 4 L4 12 H10 L10.5 4"/></svg></span>
               </div>
 
               
@@ -1543,7 +1531,7 @@ export function HifiLanding() {
               
               <span className="pf-geno2-insight">
                 <span className="pf-geno2-insight-dot" aria-hidden="true"></span>
-                핵심 관계축 · 박진호 ↔ 이영숙 (갈등)
+                핵심 관계축 · 김도현 ↔ 이서연 (갈등)
               </span>
             </div>
           </div>
@@ -1560,9 +1548,9 @@ export function HifiLanding() {
         <div className="feat-acc-body">
           <div className="feat-copy">
             <span className="feat-cat"><span className="feat-cat-new">NEW</span>심리검사 해석</span>
-            <h3 className="feat-msg">검사 결과와 면담 기록을 함께 읽습니다</h3>
-            <div className="feat-when">MMPI, SCT, HTP 같은 검사 자료를 회기 맥락과 함께 해석해야 할 때</div>
-            <p className="feat-desc">검사 결과를 따로 떼어 읽지 않고,<br/>회기 맥락 안에서 검사 단서와 면담 기록을 함께 살펴볼 수 있도록 준비 중입니다.<br/>임상 판단을 대신하지 않고, 상담자가 검토할 수 있는 단서를 정리하는 보조 역할을 목표로 합니다.</p>
+            <h3 className="feat-msg">검사 결과와 면담 기록을 함께 읽어요</h3>
+            <div className="feat-when">검사 자료를 회기 맥락과 함께 해석해야 할 때</div>
+            <p className="feat-desc">검사 결과와 면담 기록을 함께 살펴보고, 상담자가 검토할 단서와 확인 질문을 정리해요.</p>
             <div className="feat-pain-row">
               <span className="feat-pain-lbl">연결되는 어려움</span>
               <div className="feat-pain-tags">
@@ -1573,7 +1561,7 @@ export function HifiLanding() {
           <div className="feat-mock" aria-hidden="true">
             <div className="pf-titlebar">
               <span className="pf-dots"><span></span><span></span><span></span></span>
-              <span className="pf-app">Mindthos AI · 심리검사 해석</span>
+              <span className="pf-app">마음토스 · 심리검사 해석</span>
               <span className="pf-status"><span className="pulse"></span>준비 중</span>
             </div>
             
@@ -1627,14 +1615,12 @@ export function HifiLanding() {
 </section>
 <section className="wf-section sample-section">
   <div className="container">
-    <div className="wf-marker">
-      <span className="num">05</span>
-      <span className="name">샘플 상담노트 체험</span>
-      <span className="purpose">로그인 없이, 4-state 흐름을 랜딩 안에서 체감 (핵심 전환 포인트)</span>
-    </div>
-
     <div className="sample-head">
-      <h2 className="t-h2">실제 자료를 올리기 전,<br/>마음토스의 결과를 먼저 확인해보세요</h2>
+      <h2 className="t-h2">시작하기 전,<br/>결과부터 확인해보세요</h2>
+      <p className="sample-head-sub">샘플 회기를 선택하고, 마음토스가 정리한 상담노트 초안을 확인해보세요.</p>
+      <span className="sample-head-scroll" aria-hidden="true">
+        <span className="sample-head-scroll-line"></span>
+      </span>
     </div>
     
     <div className="step-card" id="sample-step-card" data-collapsed="false">
@@ -1865,50 +1851,50 @@ export function HifiLanding() {
               <rect width="320" height="220" fill="url(#p1pile-bg)"/>
 
               
-              <g transform="translate(8 188)" stroke="#16a34a" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.62">
+              <g transform="translate(8 188)" stroke="#168A35" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.62">
                 <path d="M0 12 L 6 0 L 12 12 z"/>
                 <line x1="6" y1="4" x2="6" y2="8"/>
-                <circle cx="6" cy="10.5" r="0.5" fill="#16a34a" stroke="none"/>
+                <circle cx="6" cy="10.5" r="0.5" fill="#168A35" stroke="none"/>
               </g>
 
               
               <g transform="translate(220 12)">
-                <rect width="36" height="20" rx="3" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.2"/>
-                <line x1="0" y1="6" x2="36" y2="6" stroke="#1f3329" strokeWidth="1.2"/>
-                <text x="18" y="16" textAnchor="middle" fontFamily="Pretendard, sans-serif" fontSize="9" fontWeight="700" fill="#1f3329">MON</text>
+                <rect width="36" height="20" rx="3" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.2"/>
+                <line x1="0" y1="6" x2="36" y2="6" stroke="#1F2937" strokeWidth="1.2"/>
+                <text x="18" y="16" textAnchor="middle" fontFamily="Pretendard, sans-serif" fontSize="9" fontWeight="700" fill="#1F2937">MON</text>
               </g>
 
               
               <g transform="translate(232 50)">
                 
-                <circle cx="36" cy="36" r="34" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.6"/>
+                <circle cx="36" cy="36" r="34" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.6"/>
                 <circle cx="36" cy="36" r="34" fill="none" stroke="#bfe7c4" strokeWidth="2" opacity="0.65"/>
                 
-                <circle cx="36" cy="6"  r="1.4" fill="#1f3329"/>
-                <circle cx="66" cy="36" r="1.4" fill="#1f3329"/>
-                <circle cx="36" cy="66" r="1.4" fill="#1f3329"/>
-                <circle cx="6"  cy="36" r="1.4" fill="#1f3329"/>
+                <circle cx="36" cy="6"  r="1.4" fill="#1F2937"/>
+                <circle cx="66" cy="36" r="1.4" fill="#1F2937"/>
+                <circle cx="36" cy="66" r="1.4" fill="#1F2937"/>
+                <circle cx="6"  cy="36" r="1.4" fill="#1F2937"/>
                 
-                <circle cx="50.5" cy="9.5"  r="0.9" fill="#1f3329" opacity="0.55"/>
-                <circle cx="61.5" cy="20.5" r="0.9" fill="#1f3329" opacity="0.55"/>
-                <circle cx="61.5" cy="51.5" r="0.9" fill="#1f3329" opacity="0.55"/>
-                <circle cx="50.5" cy="62.5" r="0.9" fill="#1f3329" opacity="0.55"/>
-                <circle cx="21.5" cy="62.5" r="0.9" fill="#1f3329" opacity="0.55"/>
-                <circle cx="10.5" cy="51.5" r="0.9" fill="#1f3329" opacity="0.55"/>
-                <circle cx="10.5" cy="20.5" r="0.9" fill="#1f3329" opacity="0.55"/>
-                <circle cx="21.5" cy="9.5"  r="0.9" fill="#1f3329" opacity="0.55"/>
+                <circle cx="50.5" cy="9.5"  r="0.9" fill="#1F2937" opacity="0.55"/>
+                <circle cx="61.5" cy="20.5" r="0.9" fill="#1F2937" opacity="0.55"/>
+                <circle cx="61.5" cy="51.5" r="0.9" fill="#1F2937" opacity="0.55"/>
+                <circle cx="50.5" cy="62.5" r="0.9" fill="#1F2937" opacity="0.55"/>
+                <circle cx="21.5" cy="62.5" r="0.9" fill="#1F2937" opacity="0.55"/>
+                <circle cx="10.5" cy="51.5" r="0.9" fill="#1F2937" opacity="0.55"/>
+                <circle cx="10.5" cy="20.5" r="0.9" fill="#1F2937" opacity="0.55"/>
+                <circle cx="21.5" cy="9.5"  r="0.9" fill="#1F2937" opacity="0.55"/>
                 
-                <line x1="36" y1="36" x2="22" y2="20" stroke="#1f3329" strokeWidth="2.6" strokeLinecap="round"/>
+                <line x1="36" y1="36" x2="22" y2="20" stroke="#1F2937" strokeWidth="2.6" strokeLinecap="round"/>
                 
-                <line x1="36" y1="36" x2="36" y2="12" stroke="#16a34a" strokeWidth="2" strokeLinecap="round"/>
+                <line x1="36" y1="36" x2="36" y2="12" stroke="#168A35" strokeWidth="2" strokeLinecap="round"/>
                 
-                <circle cx="36" cy="36" r="2.6" fill="#1f3329"/>
+                <circle cx="36" cy="36" r="2.6" fill="#1F2937"/>
                 
-                <text x="36" y="86" textAnchor="middle" fontFamily="Pretendard, sans-serif" fontSize="10" fontWeight="700" fill="#1f3329">10:00 PM</text>
+                <text x="36" y="86" textAnchor="middle" fontFamily="Pretendard, sans-serif" fontSize="10" fontWeight="700" fill="#1F2937">10:00 PM</text>
               </g>
 
               
-              <g stroke="#22c55e" strokeWidth="1.4" strokeLinecap="round" opacity="0.42">
+              <g stroke="#32D74B" strokeWidth="1.4" strokeLinecap="round" opacity="0.42">
                 <line x1="208" y1="76" x2="222" y2="76"/>
                 <line x1="212" y1="86" x2="222" y2="86"/>
               </g>
@@ -1916,63 +1902,63 @@ export function HifiLanding() {
               
               
               <g transform="translate(28 50) rotate(-4)">
-                <rect width="124" height="52" rx="6" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3" strokeLinejoin="round"/>
-                <circle cx="14" cy="14" r="6" fill="none" stroke="#1f3329" strokeWidth="1.2"/>
-                <circle cx="14" cy="13" r="1.8" fill="none" stroke="#1f3329" strokeWidth="1.2"/>
-                <path d="M9 19 Q 14 16 19 19" fill="none" stroke="#1f3329" strokeWidth="1.2" strokeLinecap="round"/>
-                <line x1="26" y1="12" x2="80" y2="12" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                <rect width="124" height="52" rx="6" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3" strokeLinejoin="round"/>
+                <circle cx="14" cy="14" r="6" fill="none" stroke="#1F2937" strokeWidth="1.2"/>
+                <circle cx="14" cy="13" r="1.8" fill="none" stroke="#1F2937" strokeWidth="1.2"/>
+                <path d="M9 19 Q 14 16 19 19" fill="none" stroke="#1F2937" strokeWidth="1.2" strokeLinecap="round"/>
+                <line x1="26" y1="12" x2="80" y2="12" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                 <line x1="26" y1="18" x2="64" y2="18" stroke="#94a3b8" strokeWidth="1"/>
-                <circle cx="14" cy="34" r="1.5" fill="#22c55e"/>
-                <line x1="20" y1="34" x2="96" y2="34" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <circle cx="14" cy="42" r="1.5" fill="#22c55e"/>
-                <line x1="20" y1="42" x2="86" y2="42" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <circle cx="14" cy="34" r="1.5" fill="#32D74B"/>
+                <line x1="20" y1="34" x2="96" y2="34" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <circle cx="14" cy="42" r="1.5" fill="#32D74B"/>
+                <line x1="20" y1="42" x2="86" y2="42" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
               </g>
 
               
               <g transform="translate(72 76) rotate(3)">
-                <rect width="120" height="46" rx="6" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <path d="M8 18 Q 12 10 16 18 Q 20 26 24 18 Q 28 10 32 18" fill="none" stroke="#1f3329" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                <line x1="42" y1="14" x2="92" y2="14" stroke="#1f3329" strokeWidth="1.1" opacity="0.55"/>
-                <circle cx="14" cy="34" r="1.5" fill="#22c55e"/>
-                <line x1="20" y1="34" x2="98" y2="34" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <rect width="120" height="46" rx="6" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <path d="M8 18 Q 12 10 16 18 Q 20 26 24 18 Q 28 10 32 18" fill="none" stroke="#1F2937" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                <line x1="42" y1="14" x2="92" y2="14" stroke="#1F2937" strokeWidth="1.1" opacity="0.55"/>
+                <circle cx="14" cy="34" r="1.5" fill="#32D74B"/>
+                <line x1="20" y1="34" x2="98" y2="34" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
               </g>
 
               
               <g transform="translate(20 102) rotate(-2)">
-                <rect width="124" height="50" rx="6" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="12" cy="14" r="1.6" fill="#22c55e"/>
-                <line x1="20" y1="14" x2="86" y2="14" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
-                <circle cx="12" cy="22" r="1.6" fill="#22c55e"/>
-                <line x1="20" y1="22" x2="76" y2="22" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <circle cx="12" cy="30" r="1.6" fill="#22c55e"/>
-                <line x1="20" y1="30" x2="84" y2="30" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <circle cx="12" cy="38" r="1.6" fill="#22c55e"/>
-                <line x1="20" y1="38" x2="68" y2="38" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <rect width="124" height="50" rx="6" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="12" cy="14" r="1.6" fill="#32D74B"/>
+                <line x1="20" y1="14" x2="86" y2="14" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
+                <circle cx="12" cy="22" r="1.6" fill="#32D74B"/>
+                <line x1="20" y1="22" x2="76" y2="22" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <circle cx="12" cy="30" r="1.6" fill="#32D74B"/>
+                <line x1="20" y1="30" x2="84" y2="30" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <circle cx="12" cy="38" r="1.6" fill="#32D74B"/>
+                <line x1="20" y1="38" x2="68" y2="38" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
               </g>
 
               
               <g transform="translate(8 142) rotate(-8)">
-                <rect width="42" height="38" fill="#bfe7c4" stroke="#1f3329" strokeWidth="1.2"/>
-                <line x1="6" y1="10" x2="34" y2="10" stroke="#1f3329" strokeWidth="1" opacity="0.6"/>
-                <line x1="6" y1="18" x2="30" y2="18" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <line x1="6" y1="26" x2="34" y2="26" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <rect width="42" height="38" fill="#bfe7c4" stroke="#1F2937" strokeWidth="1.2"/>
+                <line x1="6" y1="10" x2="34" y2="10" stroke="#1F2937" strokeWidth="1" opacity="0.6"/>
+                <line x1="6" y1="18" x2="30" y2="18" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <line x1="6" y1="26" x2="34" y2="26" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
               </g>
 
               
               <g transform="translate(168 100) rotate(6)">
-                <rect width="50" height="42" rx="4" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.2"/>
-                <line x1="6" y1="10" x2="40" y2="10" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
-                <line x1="6" y1="18" x2="38" y2="18" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <line x1="6" y1="26" x2="42" y2="26" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <line x1="6" y1="34" x2="34" y2="34" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <rect width="50" height="42" rx="4" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.2"/>
+                <line x1="6" y1="10" x2="40" y2="10" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
+                <line x1="6" y1="18" x2="38" y2="18" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <line x1="6" y1="26" x2="42" y2="26" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <line x1="6" y1="34" x2="34" y2="34" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
               </g>
 
               
               <g transform="translate(40 152) rotate(1)">
-                <rect width="158" height="40" rx="9" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.4"/>
-                <circle cx="16" cy="20" r="9" fill="#bfe7c4" stroke="#1f3329" strokeWidth="1.3"/>
-                <polygon points="13,16 13,24 22,20" fill="#1f3329"/>
-                <g stroke="#1f3329" strokeWidth="1.3" strokeLinecap="round">
+                <rect width="158" height="40" rx="9" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.4"/>
+                <circle cx="16" cy="20" r="9" fill="#bfe7c4" stroke="#1F2937" strokeWidth="1.3"/>
+                <polygon points="13,16 13,24 22,20" fill="#1F2937"/>
+                <g stroke="#1F2937" strokeWidth="1.3" strokeLinecap="round">
                   <line x1="34" y1="16" x2="34" y2="24"/>
                   <line x1="38" y1="13" x2="38" y2="27"/>
                   <line x1="42" y1="11" x2="42" y2="29"/>
@@ -2003,36 +1989,36 @@ export function HifiLanding() {
                   <line x1="142" y1="17" x2="142" y2="23"/>
                   <line x1="146" y1="18" x2="146" y2="22"/>
                 </g>
-                <text x="135" y="14" textAnchor="end" fontFamily="Pretendard, sans-serif" fontSize="8" fill="#1f3329" opacity="0.55">42:18</text>
+                <text x="135" y="14" textAnchor="end" fontFamily="Pretendard, sans-serif" fontSize="8" fill="#1F2937" opacity="0.55">42:18</text>
               </g>
 
               
-              <circle cx="200" cy="48" r="17" fill="#16a34a"/>
+              <circle cx="200" cy="48" r="17" fill="#168A35"/>
               <text x="200" y="55" textAnchor="middle" fontFamily="Pretendard, sans-serif" fontSize="18" fontWeight="800" fill="#fff">6</text>
               
-              <text x="200" y="78" textAnchor="middle" fontFamily="Pretendard, sans-serif" fontSize="9" fontWeight="600" fill="#16a34a" opacity="0.85">남은 노트</text>
+              <text x="200" y="78" textAnchor="middle" fontFamily="Pretendard, sans-serif" fontSize="9" fontWeight="600" fill="#168A35" opacity="0.85">남은 노트</text>
 
               
-              <line x1="0" y1="198" x2="320" y2="198" stroke="#1f3329" strokeWidth="1.2" opacity="0.30"/>
+              <line x1="0" y1="198" x2="320" y2="198" stroke="#1F2937" strokeWidth="1.2" opacity="0.30"/>
 
               
               <g transform="translate(208 122)">
                 
-                <path d="M0 76 L 6 36 Q 30 24 64 32 Q 78 38 78 76 Z" fill="url(#p1pile-skin)" stroke="#1f3329" strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M0 76 L 6 36 Q 30 24 64 32 Q 78 38 78 76 Z" fill="url(#p1pile-skin)" stroke="#1F2937" strokeWidth="1.5" strokeLinejoin="round"/>
                 
-                <path d="M2 76 L 10 56 Q 36 48 84 52 L 92 76 Z" fill="url(#p1pile-skin)" stroke="#1f3329" strokeWidth="1.4" strokeLinejoin="round"/>
+                <path d="M2 76 L 10 56 Q 36 48 84 52 L 92 76 Z" fill="url(#p1pile-skin)" stroke="#1F2937" strokeWidth="1.4" strokeLinejoin="round"/>
                 
-                <ellipse cx="46" cy="46" rx="20" ry="14" fill="url(#p1pile-skin)" stroke="#1f3329" strokeWidth="1.5"/>
+                <ellipse cx="46" cy="46" rx="20" ry="14" fill="url(#p1pile-skin)" stroke="#1F2937" strokeWidth="1.5"/>
                 
-                <path d="M28 42 Q 32 26 46 26 Q 62 26 64 42 Q 60 36 50 36 Q 36 38 30 42 Z" fill="#1f3329"/>
+                <path d="M28 42 Q 32 26 46 26 Q 62 26 64 42 Q 60 36 50 36 Q 36 38 30 42 Z" fill="#1F2937"/>
                 
-                <path d="M28 42 Q 26 50 30 56 L 34 56 L 34 46 Z" fill="#1f3329" opacity="0.55"/>
+                <path d="M28 42 Q 26 50 30 56 L 34 56 L 34 46 Z" fill="#1F2937" opacity="0.55"/>
                 
-                <line x1="38" y1="50" x2="44" y2="50" stroke="#1f3329" strokeWidth="1.3" strokeLinecap="round" opacity="0.7"/>
+                <line x1="38" y1="50" x2="44" y2="50" stroke="#1F2937" strokeWidth="1.3" strokeLinecap="round" opacity="0.7"/>
               </g>
 
               
-              <g stroke="#22c55e" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.55">
+              <g stroke="#32D74B" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.55">
                 <path d="M286 142 L 296 142 L 286 152 L 296 152"/>
                 <path d="M276 156 L 282 156 L 276 162 L 282 162"/>
               </g>
@@ -2077,9 +2063,9 @@ export function HifiLanding() {
 
               
               <g transform="translate(18 56)">
-                <path d="M0 0 H58 L68 10 V108 H0 z" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.4" strokeLinejoin="round"/>
-                <path d="M58 0 V10 H68" fill="none" stroke="#1f3329" strokeWidth="1.4"/>
-                <circle cx="10" cy="14" r="2.4" fill="#16a34a"/>
+                <path d="M0 0 H58 L68 10 V108 H0 z" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.4" strokeLinejoin="round"/>
+                <path d="M58 0 V10 H68" fill="none" stroke="#1F2937" strokeWidth="1.4"/>
+                <circle cx="10" cy="14" r="2.4" fill="#168A35"/>
                 <line x1="16" y1="14" x2="58" y2="14" stroke="#94a3b8" strokeWidth="1"/>
                 <line x1="6" y1="26" x2="60" y2="26" stroke="#94a3b8" strokeWidth="1"/>
                 <line x1="6" y1="34" x2="56" y2="34" stroke="#94a3b8" strokeWidth="1"/>
@@ -2093,13 +2079,13 @@ export function HifiLanding() {
               </g>
 
               
-              <circle cx="98" cy="80" r="3" fill="#22c55e"/>
-              <circle cx="92" cy="108" r="3.4" fill="#22c55e"/>
-              <circle cx="98" cy="138" r="3" fill="#22c55e"/>
-              <circle cx="116" cy="68" r="2.4" fill="#22c55e" opacity="0.75"/>
+              <circle cx="98" cy="80" r="3" fill="#32D74B"/>
+              <circle cx="92" cy="108" r="3.4" fill="#32D74B"/>
+              <circle cx="98" cy="138" r="3" fill="#32D74B"/>
+              <circle cx="116" cy="68" r="2.4" fill="#32D74B" opacity="0.75"/>
 
               
-              <g stroke="#22c55e" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.85">
+              <g stroke="#32D74B" strokeWidth="1.6" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.85">
                 <path d="M 100 80 c 28 -8 46 12 26 30 c -22 20 48 30 68 -8"/>
                 <path d="M 95 108 c 22 -22 60 -2 48 28 c -10 30 70 -8 64 -28"/>
                 <path d="M 100 138 c 28 2 38 -22 68 -10 c 30 12 56 -22 50 -42"/>
@@ -2107,44 +2093,44 @@ export function HifiLanding() {
               </g>
 
               
-              <text x="146" y="56" fontFamily="Pretendard, sans-serif" fontSize="16" fontWeight="700" fill="#22c55e" opacity="0.85">?</text>
-              <text x="170" y="44" fontFamily="Pretendard, sans-serif" fontSize="22" fontWeight="700" fill="#16a34a" opacity="0.95">?</text>
-              <circle cx="194" cy="58" r="1.4" fill="#22c55e" opacity="0.6"/>
-              <circle cx="200" cy="64" r="1.2" fill="#22c55e" opacity="0.5"/>
+              <text x="146" y="56" fontFamily="Pretendard, sans-serif" fontSize="16" fontWeight="700" fill="#32D74B" opacity="0.85">?</text>
+              <text x="170" y="44" fontFamily="Pretendard, sans-serif" fontSize="22" fontWeight="700" fill="#168A35" opacity="0.95">?</text>
+              <circle cx="194" cy="58" r="1.4" fill="#32D74B" opacity="0.6"/>
+              <circle cx="200" cy="64" r="1.2" fill="#32D74B" opacity="0.5"/>
 
               
-              <line x1="208" y1="110" x2="232" y2="110" stroke="#22c55e" strokeWidth="1.7" strokeLinecap="round"/>
-              <polygon points="234,110 226,106 226,114" fill="#22c55e"/>
+              <line x1="208" y1="110" x2="232" y2="110" stroke="#32D74B" strokeWidth="1.7" strokeLinecap="round"/>
+              <polygon points="234,110 226,106 226,114" fill="#32D74B"/>
 
               
-              <line x1="86" y1="108" x2="92" y2="108" stroke="#22c55e" strokeWidth="1.6" strokeLinecap="round" opacity="0.65"/>
+              <line x1="86" y1="108" x2="92" y2="108" stroke="#32D74B" strokeWidth="1.6" strokeLinecap="round" opacity="0.65"/>
 
               
               <g transform="translate(238 26)">
-                <rect x="0" y="0" width="68" height="168" rx="6" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.5" strokeLinejoin="round"/>
-                <rect x="0" y="0" width="4" height="168" rx="2" fill="#16a34a"/>
-                <text x="12" y="20" fontFamily="Pretendard, sans-serif" fontSize="9" fontWeight="700" fill="#1f3329">Hypothesis</text>
+                <rect x="0" y="0" width="68" height="168" rx="6" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.5" strokeLinejoin="round"/>
+                <rect x="0" y="0" width="4" height="168" rx="2" fill="#168A35"/>
+                <text x="12" y="20" fontFamily="Pretendard, sans-serif" fontSize="9" fontWeight="700" fill="#1F2937">Hypothesis</text>
                 <line x1="12" y1="26" x2="60" y2="26" stroke="#94a3b8" strokeWidth="0.8" opacity="0.5"/>
                 
                 <g opacity="0.88">
-                  <circle cx="14" cy="42" r="1.7" fill="#16a34a"/>
-                  <line x1="20" y1="42" x2="58" y2="42" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="14" cy="42" r="1.7" fill="#168A35"/>
+                  <line x1="20" y1="42" x2="58" y2="42" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="20" y1="48" x2="48" y2="48" stroke="#94a3b8" strokeWidth="1"/>
 
-                  <circle cx="14" cy="66" r="1.7" fill="#16a34a"/>
-                  <line x1="20" y1="66" x2="60" y2="66" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="14" cy="66" r="1.7" fill="#168A35"/>
+                  <line x1="20" y1="66" x2="60" y2="66" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="20" y1="72" x2="50" y2="72" stroke="#94a3b8" strokeWidth="1"/>
 
-                  <circle cx="14" cy="90" r="1.7" fill="#16a34a"/>
-                  <line x1="20" y1="90" x2="58" y2="90" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="14" cy="90" r="1.7" fill="#168A35"/>
+                  <line x1="20" y1="90" x2="58" y2="90" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="20" y1="96" x2="44" y2="96" stroke="#94a3b8" strokeWidth="1"/>
 
-                  <circle cx="14" cy="114" r="1.7" fill="#16a34a"/>
-                  <line x1="20" y1="114" x2="60" y2="114" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="14" cy="114" r="1.7" fill="#168A35"/>
+                  <line x1="20" y1="114" x2="60" y2="114" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="20" y1="120" x2="46" y2="120" stroke="#94a3b8" strokeWidth="1"/>
 
-                  <circle cx="14" cy="138" r="1.7" fill="#16a34a"/>
-                  <line x1="20" y1="138" x2="58" y2="138" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="14" cy="138" r="1.7" fill="#168A35"/>
+                  <line x1="20" y1="138" x2="58" y2="138" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="20" y1="144" x2="42" y2="144" stroke="#94a3b8" strokeWidth="1"/>
                 </g>
               </g>
@@ -2184,16 +2170,16 @@ export function HifiLanding() {
               <circle cx="252" cy="124" r="60" fill="none" stroke="rgba(22,163,74,0.12)" strokeWidth="0.9" strokeDasharray="3 4"/>
 
               
-              <g transform="translate(20 16)" stroke="#16a34a" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.55">
+              <g transform="translate(20 16)" stroke="#168A35" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.55">
                 <path d="M2 6 c4 -6 12 -2 8 4 c -3 6 -10 0 -6 -6 c 4 -4 12 2 8 6"/>
               </g>
 
               
               
               <g transform="translate(20 38) rotate(-8)">
-                <rect width="68" height="50" rx="3" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <text x="6" y="16" fontFamily="Pretendard, sans-serif" fontSize="13" fontWeight="700" fill="#16a34a">?</text>
-                <line x1="18" y1="14" x2="58" y2="14" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                <rect width="68" height="50" rx="3" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <text x="6" y="16" fontFamily="Pretendard, sans-serif" fontSize="13" fontWeight="700" fill="#168A35">?</text>
+                <line x1="18" y1="14" x2="58" y2="14" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                 <line x1="6" y1="24" x2="60" y2="24" stroke="#94a3b8" strokeWidth="0.9"/>
                 <line x1="6" y1="32" x2="52" y2="32" stroke="#94a3b8" strokeWidth="0.9"/>
                 <line x1="6" y1="40" x2="56" y2="40" stroke="#94a3b8" strokeWidth="0.9"/>
@@ -2201,143 +2187,143 @@ export function HifiLanding() {
 
               
               <g transform="translate(102 30) rotate(5)">
-                <rect width="56" height="48" fill="#bfe7c4" stroke="#1f3329" strokeWidth="1.2"/>
-                <line x1="6" y1="12" x2="46" y2="12" stroke="#1f3329" strokeWidth="1" opacity="0.6"/>
-                <line x1="6" y1="20" x2="40" y2="20" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <line x1="6" y1="28" x2="48" y2="28" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <line x1="6" y1="36" x2="36" y2="36" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <rect width="56" height="48" fill="#bfe7c4" stroke="#1F2937" strokeWidth="1.2"/>
+                <line x1="6" y1="12" x2="46" y2="12" stroke="#1F2937" strokeWidth="1" opacity="0.6"/>
+                <line x1="6" y1="20" x2="40" y2="20" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <line x1="6" y1="28" x2="48" y2="28" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <line x1="6" y1="36" x2="36" y2="36" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
               </g>
 
               
               <g transform="translate(36 102) rotate(-3)">
-                <rect width="80" height="62" rx="3" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <line x1="6" y1="12" x2="64" y2="12" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                <rect width="80" height="62" rx="3" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <line x1="6" y1="12" x2="64" y2="12" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                 <line x1="6" y1="22" x2="70" y2="22" stroke="#94a3b8" strokeWidth="0.9"/>
                 <line x1="6" y1="30" x2="58" y2="30" stroke="#94a3b8" strokeWidth="0.9"/>
                 <line x1="6" y1="38" x2="68" y2="38" stroke="#94a3b8" strokeWidth="0.9"/>
                 <line x1="6" y1="46" x2="48" y2="46" stroke="#94a3b8" strokeWidth="0.9"/>
-                <circle cx="9" cy="54" r="1.5" fill="#22c55e"/>
-                <line x1="14" y1="54" x2="56" y2="54" stroke="#1f3329" strokeWidth="0.9" opacity="0.55"/>
+                <circle cx="9" cy="54" r="1.5" fill="#32D74B"/>
+                <line x1="14" y1="54" x2="56" y2="54" stroke="#1F2937" strokeWidth="0.9" opacity="0.55"/>
               </g>
 
               
               <g transform="translate(116 122) rotate(7)">
-                <rect width="62" height="48" rx="3" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <line x1="6" y1="12" x2="50" y2="12" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                <rect width="62" height="48" rx="3" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <line x1="6" y1="12" x2="50" y2="12" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                 <line x1="6" y1="22" x2="54" y2="22" stroke="#94a3b8" strokeWidth="0.9"/>
                 <line x1="6" y1="30" x2="46" y2="30" stroke="#94a3b8" strokeWidth="0.9"/>
-                <text x="48" y="42" fontFamily="Pretendard, sans-serif" fontSize="14" fontWeight="700" fill="#16a34a">?</text>
+                <text x="48" y="42" fontFamily="Pretendard, sans-serif" fontSize="14" fontWeight="700" fill="#168A35">?</text>
               </g>
 
               
-              <text x="166" y="84" fontFamily="Pretendard, sans-serif" fontSize="22" fontWeight="800" fill="#16a34a" opacity="0.85">?</text>
-              <circle cx="184" cy="92" r="2.2" fill="#22c55e" opacity="0.65"/>
-              <circle cx="190" cy="98" r="1.4" fill="#22c55e" opacity="0.45"/>
+              <text x="166" y="84" fontFamily="Pretendard, sans-serif" fontSize="22" fontWeight="800" fill="#168A35" opacity="0.85">?</text>
+              <circle cx="184" cy="92" r="2.2" fill="#32D74B" opacity="0.65"/>
+              <circle cx="190" cy="98" r="1.4" fill="#32D74B" opacity="0.45"/>
 
               
-              <g fill="none" stroke="#1f3329" strokeWidth="1.4" strokeLinecap="round" strokeDasharray="3 3" opacity="0.55">
+              <g fill="none" stroke="#1F2937" strokeWidth="1.4" strokeLinecap="round" strokeDasharray="3 3" opacity="0.55">
                 <path d="M 92 64 C 130 70, 170 86, 200 100"/>
                 <path d="M 138 88 C 162 100, 184 112, 200 118"/>
                 <path d="M 110 158 C 144 156, 174 144, 200 134"/>
                 <path d="M 168 156 C 182 152, 194 150, 200 148"/>
               </g>
               
-              <line x1="190" y1="124" x2="206" y2="124" stroke="#16a34a" strokeWidth="1.7" strokeLinecap="round"/>
-              <polygon points="208,124 200,120 200,128" fill="#16a34a"/>
+              <line x1="190" y1="124" x2="206" y2="124" stroke="#168A35" strokeWidth="1.7" strokeLinecap="round"/>
+              <polygon points="208,124 200,120 200,128" fill="#168A35"/>
 
               
               <g transform="translate(214 24)">
-                <rect width="92" height="200" rx="8" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.6" strokeLinejoin="round"/>
-                <rect width="4" height="200" rx="2" fill="#16a34a"/>
-                <text x="14" y="22" fontFamily="Pretendard, sans-serif" fontSize="11" fontWeight="700" fill="#1f3329">Supervision</text>
-                <line x1="14" y1="30" x2="84" y2="30" stroke="#1f3329" strokeWidth="0.8" opacity="0.5"/>
+                <rect width="92" height="200" rx="8" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.6" strokeLinejoin="round"/>
+                <rect width="4" height="200" rx="2" fill="#168A35"/>
+                <text x="14" y="22" fontFamily="Pretendard, sans-serif" fontSize="11" fontWeight="700" fill="#1F2937">Supervision</text>
+                <line x1="14" y1="30" x2="84" y2="30" stroke="#1F2937" strokeWidth="0.8" opacity="0.5"/>
 
                 
                 <g opacity="0.92">
-                  <circle cx="16" cy="48" r="2" fill="#16a34a"/>
-                  <line x1="22" y1="48" x2="84" y2="48" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="16" cy="48" r="2" fill="#168A35"/>
+                  <line x1="22" y1="48" x2="84" y2="48" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="22" y1="54" x2="68" y2="54" stroke="#94a3b8" strokeWidth="1"/>
 
-                  <circle cx="16" cy="76" r="2" fill="#16a34a"/>
-                  <line x1="22" y1="76" x2="84" y2="76" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="16" cy="76" r="2" fill="#168A35"/>
+                  <line x1="22" y1="76" x2="84" y2="76" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="22" y1="82" x2="74" y2="82" stroke="#94a3b8" strokeWidth="1"/>
 
-                  <circle cx="16" cy="104" r="2" fill="#16a34a"/>
-                  <line x1="22" y1="104" x2="84" y2="104" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="16" cy="104" r="2" fill="#168A35"/>
+                  <line x1="22" y1="104" x2="84" y2="104" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="22" y1="110" x2="62" y2="110" stroke="#94a3b8" strokeWidth="1"/>
 
-                  <circle cx="16" cy="132" r="2" fill="#16a34a"/>
-                  <line x1="22" y1="132" x2="84" y2="132" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="16" cy="132" r="2" fill="#168A35"/>
+                  <line x1="22" y1="132" x2="84" y2="132" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="22" y1="138" x2="70" y2="138" stroke="#94a3b8" strokeWidth="1"/>
 
-                  <circle cx="16" cy="160" r="2" fill="#16a34a"/>
-                  <line x1="22" y1="160" x2="84" y2="160" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                  <circle cx="16" cy="160" r="2" fill="#168A35"/>
+                  <line x1="22" y1="160" x2="84" y2="160" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                   <line x1="22" y1="166" x2="58" y2="166" stroke="#94a3b8" strokeWidth="1"/>
                 </g>
 
                 
-                <circle cx="76" cy="14" r="6" fill="#16a34a"/>
+                <circle cx="76" cy="14" r="6" fill="#168A35"/>
                 <path d="M73 14 L75 16 L79 12" fill="none" stroke="#fff" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
               </g>
 
               
               <g transform="translate(8 168)">
                 
-                <path d="M0 56 L 6 26 Q 22 18 38 22 L 44 56 Z" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M0 56 L 6 26 Q 22 18 38 22 L 44 56 Z" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.5" strokeLinejoin="round"/>
                 
-                <ellipse cx="22" cy="10" rx="14" ry="14" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.5"/>
+                <ellipse cx="22" cy="10" rx="14" ry="14" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.5"/>
                 
-                <ellipse cx="9" cy="6" rx="5" ry="5" fill="#1f3329"/>
+                <ellipse cx="9" cy="6" rx="5" ry="5" fill="#1F2937"/>
                 
-                <path d="M10 6 Q 14 -4 26 -2 Q 36 0 36 12 Q 34 6 28 6 Q 18 6 12 10 Z" fill="#1f3329"/>
+                <path d="M10 6 Q 14 -4 26 -2 Q 36 0 36 12 Q 34 6 28 6 Q 18 6 12 10 Z" fill="#1F2937"/>
                 
-                <path d="M30 14 Q 33 14 35 13" fill="none" stroke="#1f3329" strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/>
+                <path d="M30 14 Q 33 14 35 13" fill="none" stroke="#1F2937" strokeWidth="1.2" strokeLinecap="round" opacity="0.7"/>
                 
-                <path d="M16 32 Q 18 22 24 18 Q 30 14 32 18" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.5" strokeLinejoin="round"/>
+                <path d="M16 32 Q 18 22 24 18 Q 30 14 32 18" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.5" strokeLinejoin="round"/>
                 
-                <ellipse cx="32" cy="18" rx="5" ry="4" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.3"/>
+                <ellipse cx="32" cy="18" rx="5" ry="4" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.3"/>
               </g>
 
               
-              <line x1="0" y1="222" x2="320" y2="222" stroke="#1f3329" strokeWidth="1.2" opacity="0.30"/>
+              <line x1="0" y1="222" x2="320" y2="222" stroke="#1F2937" strokeWidth="1.2" opacity="0.30"/>
 
               
-              <g transform="translate(192 224)" stroke="#16a34a" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.55">
+              <g transform="translate(192 224)" stroke="#168A35" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.55">
                 <path d="M0 12 L 6 0 L 12 12 z"/>
                 <line x1="6" y1="4" x2="6" y2="8"/>
-                <circle cx="6" cy="10.5" r="0.5" fill="#16a34a" stroke="none"/>
+                <circle cx="6" cy="10.5" r="0.5" fill="#168A35" stroke="none"/>
               </g>
 
               
               <g style={{"display":"none"}}>
                 
-                <path d="M126 206 L 132 160 Q 168 150 200 160 L 206 206 Z" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.6" strokeLinejoin="round"/>
+                <path d="M126 206 L 132 160 Q 168 150 200 160 L 206 206 Z" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.6" strokeLinejoin="round"/>
                 
-                <path d="M157 158 Q 168 164 178 158" fill="none" stroke="#1f3329" strokeWidth="1.2" opacity="0.5"/>
+                <path d="M157 158 Q 168 164 178 158" fill="none" stroke="#1F2937" strokeWidth="1.2" opacity="0.5"/>
                 
-                <path d="M200 162 Q 222 174 226 200 L 232 206 L 200 206 z" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.6" strokeLinejoin="round"/>
+                <path d="M200 162 Q 222 174 226 200 L 232 206 L 200 206 z" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.6" strokeLinejoin="round"/>
                 
-                <ellipse cx="172" cy="120" rx="22" ry="24" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.6"/>
+                <ellipse cx="172" cy="120" rx="22" ry="24" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.6"/>
                 
-                <path d="M150 116 Q 154 96 172 94 Q 192 94 194 116 Q 192 110 184 108 Q 168 106 158 112 Z" fill="#1f3329"/>
+                <path d="M150 116 Q 154 96 172 94 Q 192 94 194 116 Q 192 110 184 108 Q 168 106 158 112 Z" fill="#1F2937"/>
                 
-                <path d="M150 116 Q 148 132 152 144 L 156 144 L 156 124 Z" fill="#1f3329" opacity="0.55"/>
+                <path d="M150 116 Q 148 132 152 144 L 156 144 L 156 124 Z" fill="#1F2937" opacity="0.55"/>
                 
-                <path d="M168 134 Q 172 136 176 134" fill="none" stroke="#1f3329" strokeWidth="1.3" strokeLinecap="round" opacity="0.7"/>
+                <path d="M168 134 Q 172 136 176 134" fill="none" stroke="#1F2937" strokeWidth="1.3" strokeLinecap="round" opacity="0.7"/>
                 
-                <path d="M132 168 Q 122 144 134 122 Q 146 108 158 116" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.6" strokeLinejoin="round"/>
+                <path d="M132 168 Q 122 144 134 122 Q 146 108 158 116" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.6" strokeLinejoin="round"/>
                 
-                <ellipse cx="158" cy="118" rx="6.5" ry="5" fill="url(#p3sup-skin)" stroke="#1f3329" strokeWidth="1.4"/>
+                <ellipse cx="158" cy="118" rx="6.5" ry="5" fill="url(#p3sup-skin)" stroke="#1F2937" strokeWidth="1.4"/>
               </g>
 
               
-              <g stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" opacity="0.55">
+              <g stroke="#32D74B" strokeWidth="1.5" strokeLinecap="round" opacity="0.55">
                 <line x1="248" y1="142" x2="282" y2="142"/>
                 <line x1="256" y1="152" x2="272" y2="152"/>
                 <line x1="248" y1="162" x2="284" y2="162"/>
               </g>
               
-              <g stroke="#22c55e" strokeWidth="1.5" strokeLinecap="round" opacity="0.40">
+              <g stroke="#32D74B" strokeWidth="1.5" strokeLinecap="round" opacity="0.40">
                 <line x1="14" y1="180" x2="34" y2="180"/>
                 <line x1="20" y1="190" x2="32" y2="190"/>
               </g>
@@ -2371,31 +2357,31 @@ export function HifiLanding() {
               
               <g>
                 
-                <rect x="14" y="60" width="110" height="100" rx="8" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.4" strokeLinejoin="round"/>
+                <rect x="14" y="60" width="110" height="100" rx="8" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.4" strokeLinejoin="round"/>
                 
-                <rect x="98" y="52" width="20" height="22" rx="3" fill="#bfe7c4" stroke="#1f3329" strokeWidth="1.1"/>
-                <line x1="108" y1="58" x2="108" y2="69" stroke="#1f3329" strokeWidth="1.2" strokeLinecap="round"/>
+                <rect x="98" y="52" width="20" height="22" rx="3" fill="#bfe7c4" stroke="#1F2937" strokeWidth="1.1"/>
+                <line x1="108" y1="58" x2="108" y2="69" stroke="#1F2937" strokeWidth="1.2" strokeLinecap="round"/>
                 
-                <circle cx="32" cy="78" r="8.5" fill="none" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="32" cy="76" r="2.6" fill="none" stroke="#1f3329" strokeWidth="1.3"/>
-                <path d="M26 84 Q 32 80 38 84" fill="none" stroke="#1f3329" strokeWidth="1.3" strokeLinecap="round"/>
+                <circle cx="32" cy="78" r="8.5" fill="none" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="32" cy="76" r="2.6" fill="none" stroke="#1F2937" strokeWidth="1.3"/>
+                <path d="M26 84 Q 32 80 38 84" fill="none" stroke="#1F2937" strokeWidth="1.3" strokeLinecap="round"/>
                 
                 <line x1="48" y1="74" x2="112" y2="74" stroke="#94a3b8" strokeWidth="1"/>
                 <line x1="48" y1="80" x2="104" y2="80" stroke="#94a3b8" strokeWidth="1"/>
                 
-                <circle cx="26" cy="108" r="1.8" fill="#22c55e"/>
-                <line x1="32" y1="108" x2="112" y2="108" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
-                <circle cx="26" cy="124" r="1.8" fill="#22c55e"/>
-                <line x1="32" y1="124" x2="106" y2="124" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
-                <circle cx="26" cy="140" r="1.8" fill="#22c55e"/>
-                <line x1="32" y1="140" x2="98" y2="140" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                <circle cx="26" cy="108" r="1.8" fill="#32D74B"/>
+                <line x1="32" y1="108" x2="112" y2="108" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
+                <circle cx="26" cy="124" r="1.8" fill="#32D74B"/>
+                <line x1="32" y1="124" x2="106" y2="124" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
+                <circle cx="26" cy="140" r="1.8" fill="#32D74B"/>
+                <line x1="32" y1="140" x2="98" y2="140" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
               </g>
 
               
-              <circle cx="124" cy="110" r="3.4" fill="#22c55e"/>
+              <circle cx="124" cy="110" r="3.4" fill="#32D74B"/>
 
               
-              <g stroke="#22c55e" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.85">
+              <g stroke="#32D74B" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.85">
                 
                 <path d="M 124 110 C 152 102, 156 50, 170 38"/>
                 
@@ -2407,77 +2393,77 @@ export function HifiLanding() {
               </g>
 
               
-              <circle cx="170" cy="38" r="3" fill="#22c55e"/>
-              <circle cx="178" cy="80" r="3" fill="#22c55e"/>
-              <circle cx="170" cy="126" r="3" fill="#22c55e"/>
-              <circle cx="178" cy="174" r="3" fill="#22c55e"/>
+              <circle cx="170" cy="38" r="3" fill="#32D74B"/>
+              <circle cx="178" cy="80" r="3" fill="#32D74B"/>
+              <circle cx="170" cy="126" r="3" fill="#32D74B"/>
+              <circle cx="178" cy="174" r="3" fill="#32D74B"/>
 
               
-              <polygon points="178,38 172,35 172,41" fill="#22c55e"/>
-              <polygon points="186,80 180,77 180,83" fill="#22c55e"/>
-              <polygon points="178,126 172,123 172,129" fill="#22c55e"/>
-              <polygon points="186,174 180,171 180,177" fill="#22c55e"/>
+              <polygon points="178,38 172,35 172,41" fill="#32D74B"/>
+              <polygon points="186,80 180,77 180,83" fill="#32D74B"/>
+              <polygon points="178,126 172,123 172,129" fill="#32D74B"/>
+              <polygon points="186,174 180,171 180,177" fill="#32D74B"/>
 
               
               
               <g transform="translate(180 14)">
-                <rect x="0" y="0" width="124" height="48" rx="6" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3" strokeLinejoin="round"/>
-                <circle cx="14" cy="14" r="6" fill="none" stroke="#1f3329" strokeWidth="1.2"/>
-                <circle cx="14" cy="13" r="1.8" fill="none" stroke="#1f3329" strokeWidth="1.2"/>
-                <path d="M9 19 Q 14 16 19 19" fill="none" stroke="#1f3329" strokeWidth="1.2" strokeLinecap="round"/>
-                <line x1="26" y1="12" x2="78" y2="12" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                <rect x="0" y="0" width="124" height="48" rx="6" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3" strokeLinejoin="round"/>
+                <circle cx="14" cy="14" r="6" fill="none" stroke="#1F2937" strokeWidth="1.2"/>
+                <circle cx="14" cy="13" r="1.8" fill="none" stroke="#1F2937" strokeWidth="1.2"/>
+                <path d="M9 19 Q 14 16 19 19" fill="none" stroke="#1F2937" strokeWidth="1.2" strokeLinecap="round"/>
+                <line x1="26" y1="12" x2="78" y2="12" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
                 <line x1="26" y1="18" x2="62" y2="18" stroke="#94a3b8" strokeWidth="1"/>
-                <circle cx="14" cy="32" r="1.5" fill="#22c55e"/>
-                <line x1="20" y1="32" x2="92" y2="32" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <circle cx="14" cy="40" r="1.5" fill="#22c55e"/>
-                <line x1="20" y1="40" x2="84" y2="40" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <circle cx="14" cy="32" r="1.5" fill="#32D74B"/>
+                <line x1="20" y1="32" x2="92" y2="32" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <circle cx="14" cy="40" r="1.5" fill="#32D74B"/>
+                <line x1="20" y1="40" x2="84" y2="40" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
               </g>
 
               
               <g transform="translate(188 56)">
-                <rect x="0" y="0" width="124" height="48" rx="6" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3" strokeLinejoin="round"/>
+                <rect x="0" y="0" width="124" height="48" rx="6" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3" strokeLinejoin="round"/>
                 
-                <rect x="8" y="8" width="14" height="14" rx="1" fill="none" stroke="#1f3329" strokeWidth="1.1"/>
-                <line x1="8" y1="13" x2="22" y2="13" stroke="#1f3329" strokeWidth="0.9"/>
-                <line x1="8" y1="18" x2="22" y2="18" stroke="#1f3329" strokeWidth="0.9"/>
-                <line x1="13" y1="8" x2="13" y2="22" stroke="#1f3329" strokeWidth="0.9"/>
-                <line x1="17" y1="8" x2="17" y2="22" stroke="#1f3329" strokeWidth="0.9"/>
+                <rect x="8" y="8" width="14" height="14" rx="1" fill="none" stroke="#1F2937" strokeWidth="1.1"/>
+                <line x1="8" y1="13" x2="22" y2="13" stroke="#1F2937" strokeWidth="0.9"/>
+                <line x1="8" y1="18" x2="22" y2="18" stroke="#1F2937" strokeWidth="0.9"/>
+                <line x1="13" y1="8" x2="13" y2="22" stroke="#1F2937" strokeWidth="0.9"/>
+                <line x1="17" y1="8" x2="17" y2="22" stroke="#1F2937" strokeWidth="0.9"/>
                 
-                <line x1="32" y1="14" x2="84" y2="14" stroke="#1f3329" strokeWidth="1.1" opacity="0.55"/>
+                <line x1="32" y1="14" x2="84" y2="14" stroke="#1F2937" strokeWidth="1.1" opacity="0.55"/>
                 
-                <rect x="8" y="28" width="34" height="14" fill="none" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
-                <rect x="42" y="28" width="34" height="14" fill="none" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
-                <rect x="76" y="28" width="40" height="14" fill="none" stroke="#1f3329" strokeWidth="1" opacity="0.55"/>
+                <rect x="8" y="28" width="34" height="14" fill="none" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
+                <rect x="42" y="28" width="34" height="14" fill="none" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
+                <rect x="76" y="28" width="40" height="14" fill="none" stroke="#1F2937" strokeWidth="1" opacity="0.55"/>
               </g>
 
               
               <g transform="translate(180 102)">
-                <rect x="0" y="0" width="124" height="48" rx="6" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3" strokeLinejoin="round"/>
+                <rect x="0" y="0" width="124" height="48" rx="6" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3" strokeLinejoin="round"/>
                 
-                <path d="M8 18 Q 12 10 16 18 Q 20 26 24 18" fill="none" stroke="#1f3329" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                <line x1="34" y1="14" x2="86" y2="14" stroke="#1f3329" strokeWidth="1.1" opacity="0.55"/>
-                <circle cx="14" cy="34" r="1.5" fill="#22c55e"/>
-                <line x1="20" y1="34" x2="96" y2="34" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
-                <circle cx="14" cy="42" r="1.5" fill="#22c55e"/>
-                <line x1="20" y1="42" x2="80" y2="42" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <path d="M8 18 Q 12 10 16 18 Q 20 26 24 18" fill="none" stroke="#1F2937" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                <line x1="34" y1="14" x2="86" y2="14" stroke="#1F2937" strokeWidth="1.1" opacity="0.55"/>
+                <circle cx="14" cy="34" r="1.5" fill="#32D74B"/>
+                <line x1="20" y1="34" x2="96" y2="34" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
+                <circle cx="14" cy="42" r="1.5" fill="#32D74B"/>
+                <line x1="20" y1="42" x2="80" y2="42" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
               </g>
 
               
               <g transform="translate(188 150)">
-                <rect x="0" y="0" width="124" height="48" rx="6" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3" strokeLinejoin="round"/>
+                <rect x="0" y="0" width="124" height="48" rx="6" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3" strokeLinejoin="round"/>
                 
-                <path d="M6 6 H16 L22 12 V24 H6 z" fill="none" stroke="#1f3329" strokeWidth="1.2" strokeLinejoin="round"/>
-                <path d="M16 6 V12 H22" fill="none" stroke="#1f3329" strokeWidth="1.2"/>
-                <line x1="32" y1="14" x2="98" y2="14" stroke="#1f3329" strokeWidth="1.1" opacity="0.55"/>
-                <line x1="8" y1="32" x2="108" y2="32" stroke="#1f3329" strokeWidth="1" opacity="0.5"/>
+                <path d="M6 6 H16 L22 12 V24 H6 z" fill="none" stroke="#1F2937" strokeWidth="1.2" strokeLinejoin="round"/>
+                <path d="M16 6 V12 H22" fill="none" stroke="#1F2937" strokeWidth="1.2"/>
+                <line x1="32" y1="14" x2="98" y2="14" stroke="#1F2937" strokeWidth="1.1" opacity="0.55"/>
+                <line x1="8" y1="32" x2="108" y2="32" stroke="#1F2937" strokeWidth="1" opacity="0.5"/>
                 <line x1="8" y1="40" x2="92" y2="40" stroke="#94a3b8" strokeWidth="1"/>
               </g>
 
               
-              <g stroke="#22c55e" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5">
+              <g stroke="#32D74B" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5">
                 <path d="M14 196 c4 -6 12 -2 8 4 c -3 6 -10 0 -6 -6 c 4 -4 12 2 8 6"/>
               </g>
-              <g stroke="#22c55e" strokeWidth="1.3" strokeLinecap="round" opacity="0.6">
+              <g stroke="#32D74B" strokeWidth="1.3" strokeLinecap="round" opacity="0.6">
                 <line x1="296" y1="14" x2="304" y2="14"/>
                 <line x1="300" y1="10" x2="300" y2="18"/>
               </g>
@@ -2518,7 +2504,7 @@ export function HifiLanding() {
 
               
               
-              <g fill="none" stroke="#1f3329" strokeWidth="1.2" strokeLinecap="round">
+              <g fill="none" stroke="#1F2937" strokeWidth="1.2" strokeLinecap="round">
                 <line x1="80" y1="34" x2="118" y2="34"/>
                 <line x1="226" y1="34" x2="264" y2="34"/>
                 <line x1="99" y1="34" x2="99" y2="60"/>
@@ -2539,7 +2525,7 @@ export function HifiLanding() {
               </g>
 
               
-              <g fill="none" stroke="#1f3329" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3 3" opacity="0.55">
+              <g fill="none" stroke="#1F2937" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="3 3" opacity="0.55">
                 
                 <path d="M 28 116 C 50 100, 64 92, 74 92"/>
                 
@@ -2550,104 +2536,104 @@ export function HifiLanding() {
               </g>
 
               
-              <path d="M 124 92 L 130 98 L 124 104 L 130 110 L 124 116 L 130 122 L 124 128 L 146 138" fill="none" stroke="#16a34a" strokeWidth="1.4" strokeLinecap="round" opacity="0.85"/>
+              <path d="M 124 92 L 130 98 L 124 104 L 130 110 L 124 116 L 130 122 L 124 128 L 146 138" fill="none" stroke="#168A35" strokeWidth="1.4" strokeLinecap="round" opacity="0.85"/>
 
               
               
               
               <g transform="translate(69 23)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
               <g transform="translate(107 23)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
               
               <g transform="translate(215 23)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
               <g transform="translate(253 23)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
 
               
               <g transform="translate(63 81)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
               <g transform="translate(113 81)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
               
               <g transform="translate(209 81)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
               <g transform="translate(259 81)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
 
               
               <g transform="translate(17 105)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
               
               <g transform="translate(275 163)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
 
               
               <g transform="translate(146 124)">
-                <circle cx="14" cy="14" r="15" fill="#bfe7c4" stroke="#1f3329" strokeWidth="1.7"/>
-                <circle cx="14" cy="11" r="3.2" fill="none" stroke="#1f3329" strokeWidth="1.2"/>
-                <path d="M7 22 Q 14 18 21 22" fill="none" stroke="#1f3329" strokeWidth="1.2" strokeLinecap="round"/>
+                <circle cx="14" cy="14" r="15" fill="#bfe7c4" stroke="#1F2937" strokeWidth="1.7"/>
+                <circle cx="14" cy="11" r="3.2" fill="none" stroke="#1F2937" strokeWidth="1.2"/>
+                <path d="M7 22 Q 14 18 21 22" fill="none" stroke="#1F2937" strokeWidth="1.2" strokeLinecap="round"/>
               </g>
 
               
               <g transform="translate(208 127)">
-                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="11" cy="11" r="11" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="11" cy="9" r="2.4" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 17 Q 11 13 17 17" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
 
               
               <g transform="translate(132 178)">
-                <circle cx="10" cy="10" r="10" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="10" cy="8" r="2.2" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 15 Q 10 12 15 15" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="10" cy="10" r="10" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="10" cy="8" r="2.2" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 15 Q 10 12 15 15" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
               <g transform="translate(168 178)">
-                <circle cx="10" cy="10" r="10" fill="#fbf9f1" stroke="#1f3329" strokeWidth="1.3"/>
-                <circle cx="10" cy="8" r="2.2" fill="none" stroke="#1f3329" strokeWidth="1"/>
-                <path d="M5 15 Q 10 12 15 15" fill="none" stroke="#1f3329" strokeWidth="1" strokeLinecap="round"/>
+                <circle cx="10" cy="10" r="10" fill="#fbf9f1" stroke="#1F2937" strokeWidth="1.3"/>
+                <circle cx="10" cy="8" r="2.2" fill="none" stroke="#1F2937" strokeWidth="1"/>
+                <path d="M5 15 Q 10 12 15 15" fill="none" stroke="#1F2937" strokeWidth="1" strokeLinecap="round"/>
               </g>
 
               
               
-              <g transform="translate(16 188)" stroke="#16a34a" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.72">
+              <g transform="translate(16 188)" stroke="#168A35" strokeWidth="1.2" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.72">
                 <path d="M0 12 L 6 0 L 12 12 z"/>
                 <line x1="6" y1="4" x2="6" y2="8"/>
-                <circle cx="6" cy="10.5" r="0.5" fill="#16a34a" stroke="none"/>
+                <circle cx="6" cy="10.5" r="0.5" fill="#168A35" stroke="none"/>
               </g>
               
-              <g transform="translate(290 18)" stroke="#16a34a" strokeWidth="1.1" fill="none" strokeLinecap="round" opacity="0.55">
+              <g transform="translate(290 18)" stroke="#168A35" strokeWidth="1.1" fill="none" strokeLinecap="round" opacity="0.55">
                 <path d="M2 6 c4 -6 12 -2 8 4 c -3 6 -10 0 -6 -6 c 4 -4 12 2 8 6"/>
               </g>
             </svg>
@@ -2697,8 +2683,26 @@ export function HifiLanding() {
       
       <section className="vs-side vs-side-generic" aria-label="범용 AI 비교 항목">
         <header className="vs-side-head">
-          <span className="vs-side-tag">GENERIC AI</span>
-          <span className="vs-side-name">범용 AI</span>
+          <div className="vs-side-title">
+            <span className="vs-side-name">범용 AI</span>
+            <span className="vs-side-tag-icons" aria-hidden="true">
+              <svg viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="1" width="14" height="14" rx="3" fill="currentColor" opacity="0.18"/>
+                <path d="M8 3 L9 7 L13 8 L9 9 L8 13 L7 9 L3 8 L7 7 Z" fill="currentColor" opacity="0.7"/>
+              </svg>
+              <svg viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="1" width="14" height="14" rx="3" fill="currentColor" opacity="0.18"/>
+                <path d="M3 5 H13 a1 1 0 0 1 1 1 v4 a1 1 0 0 1-1 1 H7 L5 13 V11 H3 a1 1 0 0 1-1-1 V6 a1 1 0 0 1 1-1 z" fill="currentColor" opacity="0.7"/>
+              </svg>
+              <svg viewBox="0 0 16 16" fill="none">
+                <rect x="1" y="1" width="14" height="14" rx="3" fill="currentColor" opacity="0.18"/>
+                <ellipse cx="8" cy="8" rx="5" ry="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.7"/>
+                <ellipse cx="8" cy="8" rx="5" ry="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.7" transform="rotate(60 8 8)"/>
+                <ellipse cx="8" cy="8" rx="5" ry="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.7" transform="rotate(-60 8 8)"/>
+                <circle cx="8" cy="8" r="1.2" fill="currentColor" opacity="0.85"/>
+              </svg>
+            </span>
+          </div>
           <p className="vs-side-sub">대화창 안에서 즉시 답을 만드는 일반 AI</p>
         </header>
         <ol className="vs-rows">
@@ -2728,8 +2732,17 @@ export function HifiLanding() {
       
       <section className="vs-side vs-side-mindthos" aria-label="마음토스 비교 항목">
         <header className="vs-side-head">
-          <span className="vs-side-tag is-brand">MINDTHOS</span>
-          <span className="vs-side-name">마음토스</span>
+          <div className="vs-side-title">
+            <span className="vs-side-name">마음토스</span>
+            <span className="vs-side-tag-logo" aria-hidden="true">
+              <svg viewBox="0 0 34 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 24 V13 C 4 8.5, 8.5 7, 11.5 10.5 V24" stroke="#32D74B" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                <path d="M11.5 13 C 11.5 8.5, 16 7, 19 10.5 V24" stroke="#32D74B" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                <path d="M19 13 C 19 8.5, 23.5 7, 26.5 10.5 V24" stroke="#32D74B" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+                <circle cx="5.6" cy="9.4" r="1.5" fill="#32D74B"/>
+              </svg>
+            </span>
+          </div>
           <p className="vs-side-sub">상담사를 위한 전문 AI agent</p>
         </header>
         <ol className="vs-rows">
