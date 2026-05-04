@@ -1,19 +1,23 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+/* §사수 v62 (2026-05-04): SUIT Variable + Paperlogy 폰트는 app/layout.tsx의 <link>로 로드 — Tailwind v4 컴파일 결과에서 @import url() 위치가 깨지는 문제 회피 */
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Font */
+  /* Font — 랜딩 hifi.css와 동일한 패밀리 체인 */
   --font-sans:
-    var(--font-pretendard), 'Pretendard Variable', Pretendard, -apple-system,
-    BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto,
-    'Noto Sans KR', sans-serif;
+    'SUIT Variable', 'SUIT', var(--font-pretendard), 'Pretendard Variable',
+    Pretendard, -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
+    'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
   --font-mono:
-    var(--font-plex-mono), ui-monospace, 'SF Mono', Menlo, Consolas,
-    'D2Coding', monospace;
-  --font-heading: var(--font-sans);
+    var(--font-plex-mono), 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo,
+    Consolas, 'D2Coding', monospace;
+  --font-heading:
+    'Paperlogy', 'SUIT Variable', 'SUIT', var(--font-pretendard),
+    'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
 
   /* shadcn semantic mappings — 마음토스 토큰으로 채움 */
   --color-background: var(--background);

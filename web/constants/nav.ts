@@ -11,14 +11,31 @@
 export interface NavItem {
   href: string;
   label: string;
+  /** true → 외부 링크. <a target="_blank" rel="noopener noreferrer"> 로 렌더링. */
+  external?: boolean;
 }
 
+/**
+ * 사용 가이드는 외부 Notion 문서로 운영 (사내 자료 → 노션 한 곳에서 관리).
+ * 단일 진실 원본: 본 상수.
+ */
+export const NOTION_GUIDE_URL =
+  'https://rare-puppy-06f.notion.site/v2-2cfdd162832d801bae95f67269c062c7';
+
+/**
+ * 문의 채널은 카카오톡 오픈채팅으로 운영.
+ * 내부 임의 contact 페이지는 제거됨 (2026-05-04). 모든 "문의" 진입점은 본 URL 사용.
+ * 단일 진실 원본: 본 상수.
+ */
+export const KAKAO_INQUIRY_URL = 'https://open.kakao.com/me/Mindthos';
+
 export const PRIMARY_NAV: NavItem[] = [
-  { href: '/about-service', label: '서비스 소개' },
-  { href: '/guide', label: '사용 가이드' },
+  /* "서비스 소개"는 별도 페이지 없이 랜딩(`/`)으로 연결 (2026-05-04). 임의 /about-service 페이지 제거됨 */
+  { href: '/', label: '서비스 소개' },
+  { href: NOTION_GUIDE_URL, label: '사용 가이드', external: true },
   { href: '/blog', label: '블로그' },
   { href: '/education', label: '교육 프로그램' },
-  { href: '/contact', label: '문의' },
+  { href: KAKAO_INQUIRY_URL, label: '문의', external: true },
 ];
 
 export const FOOTER_NAV = {
@@ -26,12 +43,20 @@ export const FOOTER_NAV = {
   service: PRIMARY_NAV,
   /** Footer ③ 회사 컬럼 — 회사 정보 / 채널 */
   company: [
-    { href: '/about-service#company', label: '회사 소개' },
-    { href: '/contact', label: '문의 채널' },
+    { href: '/', label: '회사 소개' },
+    { href: KAKAO_INQUIRY_URL, label: '문의 채널', external: true },
   ] as NavItem[],
-  /** Footer ④ 약관 컬럼 */
+  /** Footer ④ 약관 컬럼 — 실제 앱 약관 페이지로 외부 링크 (2026-05-04). 내부 /terms /privacy 라우트 제거됨 */
   legal: [
-    { href: '/terms', label: '서비스 이용약관' },
-    { href: '/privacy', label: '개인정보처리방침' },
+    {
+      href: 'https://app.mindthos.com/terms?type=service',
+      label: '서비스 이용약관',
+      external: true,
+    },
+    {
+      href: 'https://app.mindthos.com/terms?type=privacy',
+      label: '개인정보처리방침',
+      external: true,
+    },
   ] as NavItem[],
 } as const;

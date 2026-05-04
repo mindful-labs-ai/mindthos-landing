@@ -43,7 +43,19 @@ const nextConfig: NextConfig = {
    * 출시 전이라 외부 색인은 없지만, 와이어 / 디자인 / 내부 문서에 남은 링크가 자연스럽게 흘러가도록 합니다.
    */
   async redirects() {
+    /* 사용 가이드는 외부 Notion 문서로 운영 — /guide 또는 /resources/guides 진입 시
+       모두 Notion 으로 직행. 단일 진실 원본: web/constants/nav.ts NOTION_GUIDE_URL */
+    const NOTION_GUIDE_URL =
+      'https://rare-puppy-06f.notion.site/v2-2cfdd162832d801bae95f67269c062c7';
+    /* 문의 채널은 카카오톡 오픈채팅으로 운영 (내부 contact 페이지 제거).
+       단일 진실 원본: web/constants/nav.ts KAKAO_INQUIRY_URL */
+    const KAKAO_INQUIRY_URL = 'https://open.kakao.com/me/Mindthos';
     return [
+      { source: '/guide', destination: NOTION_GUIDE_URL, permanent: false, basePath: false },
+      // 문의 — 내부 contact 페이지 제거됨, 카카오톡 오픈채팅으로 직행
+      { source: '/contact', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
+      { source: '/contact/:path*', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
+      { source: '/inquiry', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
       // 제품 — /about-service 의 핵심 기능 섹션으로
       {
         source: '/product',
@@ -55,11 +67,12 @@ const nextConfig: NextConfig = {
         destination: '/about-service#features',
         permanent: false,
       },
-      // 기관용 — /contact 기관 도입 폼으로
+      // 기관용 — 카카오톡 오픈채팅으로 직행 (내부 contact 폼 제거)
       {
         source: '/for-institutions',
-        destination: '/contact?type=institution-inquiry',
+        destination: KAKAO_INQUIRY_URL,
         permanent: false,
+        basePath: false,
       },
       // 보안 — /about-service 보안 섹션
       {
@@ -100,8 +113,9 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/resources/guides',
-        destination: '/guide',
+        destination: NOTION_GUIDE_URL,
         permanent: false,
+        basePath: false,
       },
       {
         source: '/resources/case-studies',

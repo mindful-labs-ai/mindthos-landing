@@ -12,13 +12,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: now, changeFrequency: 'weekly', priority: 1.0 },
-    { url: `${SITE_URL}/about-service`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
-    { url: `${SITE_URL}/guide`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    /* "서비스 소개"는 별도 페이지 없이 랜딩으로 연결 — /about-service 제거됨 (2026-05-04) */
+    /* /guide 는 외부 Notion 문서로 대체 (constants/nav.ts NOTION_GUIDE_URL) — sitemap 제외 */
     { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
     { url: `${SITE_URL}/education`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_URL}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
-    { url: `${SITE_URL}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${SITE_URL}/security`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    /* 서비스 이용약관 / 개인정보처리방침은 app.mindthos.com/terms 외부 라우트 — sitemap 제외 */
   ];
 
   let postPages: MetadataRoute.Sitemap = [];

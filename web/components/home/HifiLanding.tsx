@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect } from 'react';
 
 type Row = { label: string; type: string; value?: string };
@@ -608,22 +609,14 @@ export function HifiLanding() {
   <header className="gnb">
     <div className="container gnb-inner">
       <a className="gnb-logo" href="/" aria-label="마음토스 홈">
-        <span className="gnb-logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 34 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 24 V13 C 4 8.5, 8.5 7, 11.5 10.5 V24" stroke="#44ce4b" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            <path d="M11.5 13 C 11.5 8.5, 16 7, 19 10.5 V24" stroke="#44ce4b" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            <path d="M19 13 C 19 8.5, 23.5 7, 26.5 10.5 V24" stroke="#44ce4b" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            <circle cx="5.6" cy="9.4" r="1.5" fill="#44ce4b"/>
-          </svg>
-        </span>
-        <span className="gnb-logo-word">마음토스</span>
+        <img src="/logo-mindthos.webp" alt="마음토스" width={420} height={108} />
       </a>
       <nav className="gnb-nav">
-        <a href="/about-service">서비스 소개</a>
-        <a href="/guide">사용 가이드</a>
-        <a href="/blog">블로그</a>
-        <a href="/education">교육 프로그램</a>
-        <a href="/contact">문의</a>
+        <Link href="/">서비스 소개</Link>
+        <a href="https://rare-puppy-06f.notion.site/v2-2cfdd162832d801bae95f67269c062c7" target="_blank" rel="noopener noreferrer">사용 가이드</a>
+        <Link href="/blog">블로그</Link>
+        <Link href="/education">교육 프로그램</Link>
+        <a href="https://open.kakao.com/me/Mindthos" target="_blank" rel="noopener noreferrer">문의</a>
       </nav>
       <div className="gnb-right">
         <a className="btn sm ghost" href="https://app.mindthos.com">로그인</a>
@@ -658,11 +651,11 @@ export function HifiLanding() {
   
   <div className="container hero-content-wrap">
     <div className="hero-content">
-      <h1 className="hero-h1">상담사를 위한<br/><span className="hero-h1-accent">안전한 AI 에이전트,</span><br/>마음토스</h1>
+      <h1 className="hero-h1">상담사를 위한<br/><span className="hero-h1-accent"><svg className="hero-h1-accent-icon" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9.9987 18.3346C9.9987 18.3346 16.6654 15.0013 16.6654 10.0013V4.16797L9.9987 1.66797L3.33203 4.16797V10.0013C3.33203 15.0013 9.9987 18.3346 9.9987 18.3346Z" stroke="#44CE4B" strokeWidth="1.57" strokeLinecap="round" strokeLinejoin="round"/><circle cx="10" cy="8" r="2" fill="#44CE4B"/><path d="M10 8V13" stroke="#44CE4B" strokeWidth="1.5"/></svg>안전한 AI 에이전트,</span><br/>마음토스</h1>
       <p className="hero-sub">상담이 끝난 뒤에도 남는 기록과 해석의 부담.<br/>마음토스가 안전하게 정리하고, 다음 회기까지 이어줍니다.</p>
       <div className="hero-ctas">
         <a className="btn primary lg" href="https://app.mindthos.com">무료로 시작하기</a>
-        <a className="btn lg ghost on-dark" href="/blog">기록은 어떻게 보호되나요? →</a>
+        <a className="btn lg ghost on-dark" href="/security">기록은 어떻게 보호되나요? →</a>
       </div>
     </div>
   </div>
@@ -722,7 +715,7 @@ export function HifiLanding() {
         </div>
 
         <div className="trust-team-cta">
-          <a href="/blog">기록은 어떻게 보호되나요? <span aria-hidden="true">→</span></a>
+          <Link href="/security">기록은 어떻게 보호되나요? <span aria-hidden="true">→</span></Link>
         </div>
       </aside>
 
@@ -1157,6 +1150,26 @@ export function HifiLanding() {
                       <p className="mt2-trx-text">첫날 다녀오고 나서는 뭔가 속이 후련한 것 같기도 하고, 한편으로는 내가 별소리를 다 했나 싶어서 부끄럽기도 하고, 마음이 좀 복잡했어요. 잠은 여전히 잘 안 와요. <span className="mt2-cue">불안</span> <span className="mt2-cue">자기비난</span></p>
                     </div>
                   </div>
+                  <div className="mt2-trx-row">
+                    <span className="mt2-avatar is-c">상</span>
+                    <div>
+                      <div className="mt2-trx-meta">
+                        <span className="mt2-trx-who">상담사</span>
+                        <span className="mt2-trx-idx">3</span>
+                      </div>
+                      <p className="mt2-trx-text">속이 후련한 마음과 부끄러운 마음이 같이 올라오신 거네요. 잠이 잘 안 오는 건 첫 회기 이후로 계속 그러신 거예요?</p>
+                    </div>
+                  </div>
+                  <div className="mt2-trx-row">
+                    <span className="mt2-avatar is-a">A</span>
+                    <div>
+                      <div className="mt2-trx-meta">
+                        <span className="mt2-trx-who">내담자 A</span>
+                        <span className="mt2-trx-idx">3</span>
+                      </div>
+                      <p className="mt2-trx-text">네, 자려고 누우면 그날 했던 말들이 자꾸 떠올라서… 그냥 휴대폰만 보다가 새벽이 돼요. 그러다 보니 다음 회기 가는 것도 좀 미루고 싶고 그렇더라고요. <span className="mt2-cue">수면 어려움</span> <span className="mt2-cue">회피</span></p>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className="mt2-player">
@@ -1304,6 +1317,22 @@ export function HifiLanding() {
                   <span className="note-preview-section-h">다음 회기 계획</span>
                   <p className="note-preview-section-body">심리적 거리 유지 연습 지속, 자기 대화 과제 이행 점검, 가족 내 경계 설정 상황 구체화</p>
                 </div>
+                <div className="note-preview-section">
+                  <span className="note-preview-section-h">내담자 정서 및 반응</span>
+                  <p className="note-preview-section-body">부모와의 거리감에 대해 말할 때 억울함과 죄책감이 함께 나타났으며, 가족 내 역할 부담을 스스로 책임지려는 경향이 관찰됨.</p>
+                </div>
+                <div className="note-preview-section">
+                  <span className="note-preview-section-h">가족 내 반복 패턴</span>
+                  <p className="note-preview-section-body">갈등 상황에서 직접적인 표현보다 회피와 침묵이 반복되며, 이후 정서적 부담이 내담자에게 집중되는 흐름이 확인됨.</p>
+                </div>
+                <div className="note-preview-section">
+                  <span className="note-preview-section-h">상담자 관찰 메모</span>
+                  <p className="note-preview-section-body">내담자가 자신의 욕구를 말할 때 목소리가 작아지고 시선을 피하는 반응이 나타나, 자기표현을 안전하게 연습할 필요가 있음.</p>
+                </div>
+                <div className="note-preview-section">
+                  <span className="note-preview-section-h">기관 기록용 요약</span>
+                  <p className="note-preview-section-body">원가족 관계에서의 정서적 부담과 경계 설정 어려움이 주요 상담 주제로 확인되며, 가족 내 의사소통 방식 조정이 필요함.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -1339,20 +1368,12 @@ export function HifiLanding() {
             
             <div className="pf-body cnc-result-only">
               <div className="pf-cell result mock-psy-result cnc-result-card">
-                <div className="mock-psy-result-head">
-                  <div className="cnc-doc-title-group">
-                    <span className="cnc-doc-title">홍길동_4회기 사례개념화</span>
-                    <span className="cnc-doc-subtitle">상담사 검토용 초안</span>
-                  </div>
-                  <span className="mock-psy-result-status">초안 · 검토 필요</span>
-                </div>
-
                 <ul className="cnc-theory-tabs">
                   <li className="cnc-theory-tab is-active">인간중심</li>
-                  <li className="cnc-theory-tab">가족체계</li>
                   <li className="cnc-theory-tab">CBT</li>
                   <li className="cnc-theory-tab">대상관계</li>
                   <li className="cnc-theory-tab">정신역동</li>
+                  <li className="cnc-theory-tab">보웬</li>
                 </ul>
 
                 <div className="cnc-doc-fade">
@@ -1385,6 +1406,18 @@ export function HifiLanding() {
                   <div className="cnc-doc-section">
                     <span className="cnc-doc-section-h">임상 근거 · 회기 발언</span>
                     <p className="cnc-doc-section-body">3회기 — "억울해도 된다는 말이요. 그 말을 계속 되뇌었어요." 자기 수용의 첫 신호로 해석…</p>
+                  </div>
+                  <div className="cnc-doc-section">
+                    <span className="cnc-doc-section-h">주요 정서 단서</span>
+                    <p className="cnc-doc-section-body">억울함, 위축감, 자기비난이 반복적으로 나타나며, 관계 안에서 자신의 욕구를 표현하기 어려워하는 흐름이 관찰됨.</p>
+                  </div>
+                  <div className="cnc-doc-section">
+                    <span className="cnc-doc-section-h">상담 개입 초점</span>
+                    <p className="cnc-doc-section-body">내담자가 자신의 감정과 욕구를 안전하게 인식하고 표현할 수 있도록 공감적 반영과 자기수용 작업을 우선 제안.</p>
+                  </div>
+                  <div className="cnc-doc-section">
+                    <span className="cnc-doc-section-h">다음 회기 질문</span>
+                    <p className="cnc-doc-section-body">억울하다는 말이 반복될 때, 내담자가 가장 지키고 싶었던 욕구가 무엇인지 탐색해볼 필요가 있음.</p>
                   </div>
                 </div>
               </div>
@@ -1445,74 +1478,7 @@ export function HifiLanding() {
             </div>
 
             <div className="pf-geno2-canvas">
-              <svg className="pf-geno2-svg" viewBox="0 0 720 380" preserveAspectRatio="xMidYMid meet">
-                <line x1="40" y1="92" x2="700" y2="92" stroke="#eef2f6" strokeWidth="1" strokeDasharray="2 6"/>
-                <line x1="40" y1="218" x2="700" y2="218" stroke="#eef2f6" strokeWidth="1" strokeDasharray="2 6"/>
-                <line x1="40" y1="320" x2="700" y2="320" stroke="#eef2f6" strokeWidth="1" strokeDasharray="2 6"/>
-
-                <rect x="140" y="76" width="30" height="30" rx="2" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.4"/>
-                <text x="155" y="124" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">김재호</text>
-                <text x="155" y="137" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">전직 공무원</text>
-
-                <circle cx="220" cy="91" r="15" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.4"/>
-                <text x="220" y="124" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">박순자</text>
-                <text x="220" y="137" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">시장 상인</text>
-
-                <line x1="170" y1="91" x2="205" y2="91" stroke="#cbd5e1" strokeWidth="1.4"/>
-                <path d="M 187 91 V 156 H 285 V 185" stroke="#cbd5e1" strokeWidth="1.4" fill="none"/>
-
-                <rect x="490" y="76" width="30" height="30" rx="2" fill="#ffffff" stroke="#475569" strokeWidth="1.5"/>
-                <path d="M 490 91 H 520 V 106 H 490 Z" fill="#475569"/>
-                <line x1="490" y1="76" x2="520" y2="106" stroke="#475569" strokeWidth="1.3"/>
-                <line x1="520" y1="76" x2="490" y2="106" stroke="#475569" strokeWidth="1.3"/>
-                <text x="505" y="124" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">이정수</text>
-                <text x="505" y="137" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">전직 공무원</text>
-
-                <circle cx="570" cy="91" r="16" fill="#ffffff" stroke="#475569" strokeWidth="1.5"/>
-                <path d="M 570 75 A 16 16 0 0 0 570 107 Z" fill="#475569"/>
-                <text x="570" y="124" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">최영숙</text>
-                <text x="570" y="137" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">전직 교사</text>
-
-                <line x1="520" y1="91" x2="554" y2="91" stroke="#cbd5e1" strokeWidth="1.4"/>
-                <path d="M 537 91 V 156 H 470 V 194" stroke="#cbd5e1" strokeWidth="1.4" fill="none"/>
-
-                <text x="240" y="180" fontSize="9.5" fill="#94a3b8" fontFamily="Pretendard, sans-serif">1964–</text>
-                <rect x="260" y="185" width="50" height="50" rx="3" fill="#ffffff" stroke="#475569" strokeWidth="1.7"/>
-                <text x="285" y="216" textAnchor="middle" fontSize="14" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">61</text>
-                <text x="285" y="256" textAnchor="middle" fontSize="11.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">김도현</text>
-                <text x="285" y="270" textAnchor="middle" fontSize="9" fill="#94a3b8" fontFamily="Pretendard, sans-serif">대기업 은퇴자</text>
-
-                <text x="500" y="180" fontSize="9.5" fill="#168A35" fontFamily="Pretendard, sans-serif">1967–</text>
-                <circle cx="470" cy="218" r="26" fill="#E9FBEF" stroke="#168A35" strokeWidth="2.2"/>
-                <text x="470" y="223" textAnchor="middle" fontSize="14" fill="#0f172a" fontWeight="800" fontFamily="Pretendard, sans-serif">58</text>
-                <text x="470" y="256" textAnchor="middle" fontSize="11.5" fill="#168A35" fontWeight="700" fontFamily="Pretendard, sans-serif">이서연</text>
-                <text x="470" y="270" textAnchor="middle" fontSize="9" fill="#168A35" opacity="0.85" fontFamily="Pretendard, sans-serif">전직 국어교사</text>
-
-                <path d="M 310 218 L 318 211 L 326 225 L 334 211 L 342 225 L 350 211 L 358 225 L 366 211 L 374 225 L 382 211 L 390 225 L 398 211 L 406 225 L 414 211 L 422 225 L 430 211 L 438 225 L 444 218" stroke="#168A35" strokeWidth="1.9" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
-
-                <line x1="310" y1="240" x2="444" y2="240" stroke="#cbd5e1" strokeWidth="1.4"/>
-
-                <path d="M 377 240 V 280 H 245 V 304" stroke="#cbd5e1" strokeWidth="1.4" fill="none"/>
-                <path d="M 377 280 H 470 V 304" stroke="#cbd5e1" strokeWidth="1.4" fill="none"/>
-
-                <rect x="229" y="304" width="32" height="32" rx="2" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.4"/>
-                <text x="245" y="324" textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">36</text>
-                <text x="245" y="354" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">김민재</text>
-
-                <circle cx="306" cy="320" r="12" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.3"/>
-                <text x="306" y="354" textAnchor="middle" fontSize="9.5" fill="#94a3b8" fontFamily="Pretendard, sans-serif">배우자</text>
-
-                <line x1="261" y1="320" x2="294" y2="320" stroke="#cbd5e1" strokeWidth="1.3"/>
-
-                <circle cx="470" cy="320" r="14" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.4"/>
-                <text x="470" y="324" textAnchor="middle" fontSize="11" fill="#0f172a" fontWeight="700" fontFamily="Pretendard, sans-serif">32</text>
-                <text x="470" y="354" textAnchor="middle" fontSize="10.5" fill="#1e293b" fontWeight="600" fontFamily="Pretendard, sans-serif">김유진</text>
-
-                <rect x="513" y="308" width="24" height="24" rx="2" fill="#ffffff" stroke="#94a3b8" strokeWidth="1.3"/>
-                <text x="525" y="354" textAnchor="middle" fontSize="9.5" fill="#94a3b8" fontFamily="Pretendard, sans-serif">배우자</text>
-
-                <line x1="484" y1="320" x2="513" y2="320" stroke="#cbd5e1" strokeWidth="1.3"/>
-              </svg>
+              <img className="pf-geno2-image" src="/genogram-honggildong.png" alt="가계도 분석 보고서 — 홍길동 가족" />
 
               
               <div className="pf-geno2-toolbar">
@@ -1531,7 +1497,7 @@ export function HifiLanding() {
               
               <span className="pf-geno2-insight">
                 <span className="pf-geno2-insight-dot" aria-hidden="true"></span>
-                핵심 관계축 · 김도현 ↔ 이서연 (갈등)
+                핵심 관계축 · 박진호 ↔ 이영숙 (갈등)
               </span>
             </div>
           </div>
@@ -1622,7 +1588,7 @@ export function HifiLanding() {
         <span className="sample-head-scroll-line"></span>
       </span>
     </div>
-    
+
     <div className="step-card" id="sample-step-card" data-collapsed="false">
       
       <div className="step-progress">
@@ -1828,6 +1794,9 @@ export function HifiLanding() {
 
     
     <div className="persona-rail-wrap">
+
+      <button type="button" className="persona-nav persona-nav-prev persona-nav-side" data-persona-prev aria-label="이전 상황">←</button>
+      <button type="button" className="persona-nav persona-nav-next persona-nav-side" data-persona-next aria-label="다음 상황">→</button>
 
       <div className="persona-rail" data-persona-rail aria-label="상담사 사용 상황 카드 rail">
 
@@ -2150,7 +2119,7 @@ export function HifiLanding() {
         <article className="persona-card" data-slot="0">
           <div className="persona-card-art" aria-hidden="true">
             
-            <svg viewBox="0 0 320 244" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <svg viewBox="0 24 320 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
               <defs>
                 <linearGradient id="p3sup-bg" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#eef6f0"/>
@@ -2651,7 +2620,6 @@ export function HifiLanding() {
       </div>
 
       <div className="persona-rail-foot">
-        <button type="button" className="persona-nav persona-nav-prev" data-persona-prev aria-label="이전 상황">←</button>
         <div className="persona-rail-counter" role="group" aria-label="현재 상황 위치">
           <ul className="persona-rail-dots" data-persona-dots>
             <li className="persona-rail-dot"></li>
@@ -2662,7 +2630,6 @@ export function HifiLanding() {
           </ul>
           <span className="persona-rail-counter-text" data-persona-counter aria-live="polite"><strong>1</strong>/5</span>
         </div>
-        <button type="button" className="persona-nav persona-nav-next" data-persona-next aria-label="다음 상황">→</button>
       </div>
     </div>
   </div>
@@ -2685,22 +2652,9 @@ export function HifiLanding() {
         <header className="vs-side-head">
           <div className="vs-side-title">
             <span className="vs-side-name">범용 AI</span>
-            <span className="vs-side-tag-icons" aria-hidden="true">
-              <svg viewBox="0 0 16 16" fill="none">
-                <rect x="1" y="1" width="14" height="14" rx="3" fill="currentColor" opacity="0.18"/>
-                <path d="M8 3 L9 7 L13 8 L9 9 L8 13 L7 9 L3 8 L7 7 Z" fill="currentColor" opacity="0.7"/>
-              </svg>
-              <svg viewBox="0 0 16 16" fill="none">
-                <rect x="1" y="1" width="14" height="14" rx="3" fill="currentColor" opacity="0.18"/>
-                <path d="M3 5 H13 a1 1 0 0 1 1 1 v4 a1 1 0 0 1-1 1 H7 L5 13 V11 H3 a1 1 0 0 1-1-1 V6 a1 1 0 0 1 1-1 z" fill="currentColor" opacity="0.7"/>
-              </svg>
-              <svg viewBox="0 0 16 16" fill="none">
-                <rect x="1" y="1" width="14" height="14" rx="3" fill="currentColor" opacity="0.18"/>
-                <ellipse cx="8" cy="8" rx="5" ry="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.7"/>
-                <ellipse cx="8" cy="8" rx="5" ry="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.7" transform="rotate(60 8 8)"/>
-                <ellipse cx="8" cy="8" rx="5" ry="2" fill="none" stroke="currentColor" strokeWidth="1" opacity="0.7" transform="rotate(-60 8 8)"/>
-                <circle cx="8" cy="8" r="1.2" fill="currentColor" opacity="0.85"/>
-              </svg>
+            <span className="vs-side-tag-brands" aria-hidden="true">
+              <img src="/logo-gemini.png" alt="" className="vs-brand-img vs-brand-gemini" />
+              <img src="/logo-gpt.png" alt="" className="vs-brand-img vs-brand-gpt" />
             </span>
           </div>
           <p className="vs-side-sub">대화창 안에서 즉시 답을 만드는 일반 AI</p>
@@ -2731,17 +2685,12 @@ export function HifiLanding() {
 
       
       <section className="vs-side vs-side-mindthos" aria-label="마음토스 비교 항목">
+        <span className="vs-side-watermark" aria-hidden="true">
+          <img src="/logo-mindthos-webclip.png" alt="" />
+        </span>
         <header className="vs-side-head">
           <div className="vs-side-title">
-            <span className="vs-side-name">마음토스</span>
-            <span className="vs-side-tag-logo" aria-hidden="true">
-              <svg viewBox="0 0 34 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4 24 V13 C 4 8.5, 8.5 7, 11.5 10.5 V24" stroke="#32D74B" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                <path d="M11.5 13 C 11.5 8.5, 16 7, 19 10.5 V24" stroke="#32D74B" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                <path d="M19 13 C 19 8.5, 23.5 7, 26.5 10.5 V24" stroke="#32D74B" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-                <circle cx="5.6" cy="9.4" r="1.5" fill="#32D74B"/>
-              </svg>
-            </span>
+            <img className="vs-side-logo-img" src="/logo-mindthos.webp" alt="마음토스" width={420} height={108} />
           </div>
           <p className="vs-side-sub">상담사를 위한 전문 AI agent</p>
         </header>
@@ -2791,23 +2740,23 @@ export function HifiLanding() {
     <div className="metrics-strip" aria-label="마음토스 정량 지표">
       <div className="metrics-grid">
         <div className="metric-card">
-          <div className="metric-val">000<span className="unit">+</span></div>
+          <div className="metric-val">1,400<span className="unit">+</span></div>
           <div className="metric-label">함께 쓰는 상담사</div>
         </div>
 
         <div className="metric-card">
-          <div className="metric-val">00,000<span className="unit">+</span></div>
+          <div className="metric-val">10,000<span className="unit">+</span></div>
           <div className="metric-label">정리된 상담 기록</div>
         </div>
 
         <div className="metric-card">
-          <div className="metric-val"><span className="prefix">월</span>00<span className="unit">시간</span></div>
-          <div className="metric-label">줄어든 기록 시간</div>
+          <div className="metric-val">12<span className="unit">시간+</span></div>
+          <div className="metric-label">월 단위 기록 시간 절감</div>
         </div>
 
         <div className="metric-card">
-          <div className="metric-val">00<span className="unit">%</span></div>
-          <div className="metric-label">지속 사용률</div>
+          <div className="metric-val">약 90<span className="unit">%</span></div>
+          <div className="metric-label">다시 쓰는 상담사 비율</div>
         </div>
       </div>
     </div>
@@ -2832,7 +2781,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">기록 부담이 한결 가벼워졌어요</h3>
           <blockquote className="tm-text">회기 직후 떠오른 흐름을 빠르게 정리해두면, 퇴근 후 다시 기억을 붙잡고 쓰는 일이 줄어듭니다. 메모에 신경 쓰는 부담이 줄어드니 회기 자체에 더 머무를 수 있게 됐어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=47" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-01.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>김OO 상담사</b><span>13년차 상담사</span></div>
           </div>
         </article>
@@ -2842,7 +2791,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">슈퍼비전 전에 정리가 쉬워졌어요</h3>
           <blockquote className="tm-text">무엇을 가져가야 할지 막막할 때, 회기 핵심과 질문거리가 먼저 정리되어 도움이 됩니다. 교수님이나 슈퍼바이저에게 가져갈 자료를 준비하는 부담이 줄었어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=32" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-05.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>이OO 수련생</b><span>상담 수련생</span></div>
           </div>
         </article>
@@ -2852,7 +2801,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">기관 기록의 일관성이 잡혔어요</h3>
           <blockquote className="tm-text">센터마다 양식이 달라도 같은 회기 내용을 한 흐름으로 정리할 수 있어 좋았습니다. 같은 기록을 양식마다 다시 쓰는 시간이 줄어, 행정 부담이 눈에 띄게 가벼워졌어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=12" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-06.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>박OO 센터장</b><span>상담센터 운영자</span></div>
           </div>
         </article>
@@ -2862,7 +2811,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">기록 정리에 쓰던 시간이 줄었어요</h3>
           <blockquote className="tm-text">상담 직후 짧은 시간 안에 초안이 정리되니, 퇴근 후 다시 기억을 붙잡고 쓰는 일이 줄었습니다. 이전보다 내담자와 나눈 흐름을 놓치지 않고 확인할 수 있었어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=49" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-04.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>정OO 상담사</b><span>청소년 상담사</span></div>
           </div>
         </article>
@@ -2872,7 +2821,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">메모 부담이 덜해졌어요</h3>
           <blockquote className="tm-text">이전에는 상담 중에도 ‘이걸 나중에 어떻게 적지’라는 생각이 많았습니다. 지금은 회기 중에는 내담자에게 더 집중하고, 끝난 뒤 초안을 보며 필요한 부분만 다듬게 됐어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=44" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-03.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>윤OO 상담사</b><span>대학상담센터 상담사</span></div>
           </div>
         </article>
@@ -2882,7 +2831,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">막힐 때 다시 정리할 길이 생겼어요</h3>
           <blockquote className="tm-text">사례개념화가 막힐 때 다른 관점에서 정리된 초안을 보면 놓쳤던 단서가 보입니다. 그대로 쓰기보다, 제 판단을 다시 점검하는 기준점으로 활용하고 있어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=23" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-02.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>한OO 수련생</b><span>상담심리 대학원생</span></div>
           </div>
         </article>
@@ -2892,7 +2841,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">양식이 달라도 한 흐름으로 정리돼요</h3>
           <blockquote className="tm-text">기관 양식에 맞춰 같은 내용을 반복해서 다시 쓰는 시간이 줄었습니다. 상담 흐름은 유지하면서 필요한 형식에 맞춰 정리할 수 있어 행정 부담이 덜해졌어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=15" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-01.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>최OO 상담사</b><span>사설 상담센터 상담사</span></div>
           </div>
         </article>
@@ -2902,7 +2851,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">보고서 다듬는 시간이 짧아졌어요</h3>
           <blockquote className="tm-text">제가 자주 쓰는 어투로 초안이 정리되니, 처음부터 다시 쓰지 않고 필요한 부분만 손보게 됐습니다. 행정 보고서까지 정리하는 흐름이 한결 자연스러워졌어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=56" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-04.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>서OO 실무자</b><span>정신건강복지센터 실무자</span></div>
           </div>
         </article>
@@ -2913,7 +2862,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">기록 부담이 한결 가벼워졌어요</h3>
           <blockquote className="tm-text">회기 직후 떠오른 흐름을 빠르게 정리해두면, 퇴근 후 다시 기억을 붙잡고 쓰는 일이 줄어듭니다. 메모에 신경 쓰는 부담이 줄어드니 회기 자체에 더 머무를 수 있게 됐어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=47" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-01.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>김OO 상담사</b><span>13년차 상담사</span></div>
           </div>
         </article>
@@ -2922,7 +2871,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">슈퍼비전 전에 정리가 쉬워졌어요</h3>
           <blockquote className="tm-text">무엇을 가져가야 할지 막막할 때, 회기 핵심과 질문거리가 먼저 정리되어 도움이 됩니다. 교수님이나 슈퍼바이저에게 가져갈 자료를 준비하는 부담이 줄었어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=32" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-05.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>이OO 수련생</b><span>상담 수련생</span></div>
           </div>
         </article>
@@ -2931,7 +2880,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">기관 기록의 일관성이 잡혔어요</h3>
           <blockquote className="tm-text">센터마다 양식이 달라도 같은 회기 내용을 한 흐름으로 정리할 수 있어 좋았습니다. 같은 기록을 양식마다 다시 쓰는 시간이 줄어, 행정 부담이 눈에 띄게 가벼워졌어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=12" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-06.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>박OO 센터장</b><span>상담센터 운영자</span></div>
           </div>
         </article>
@@ -2940,7 +2889,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">기록 정리에 쓰던 시간이 줄었어요</h3>
           <blockquote className="tm-text">상담 직후 짧은 시간 안에 초안이 정리되니, 퇴근 후 다시 기억을 붙잡고 쓰는 일이 줄었습니다. 이전보다 내담자와 나눈 흐름을 놓치지 않고 확인할 수 있었어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=49" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-04.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>정OO 상담사</b><span>청소년 상담사</span></div>
           </div>
         </article>
@@ -2949,7 +2898,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">메모 부담이 덜해졌어요</h3>
           <blockquote className="tm-text">이전에는 상담 중에도 ‘이걸 나중에 어떻게 적지’라는 생각이 많았습니다. 지금은 회기 중에는 내담자에게 더 집중하고, 끝난 뒤 초안을 보며 필요한 부분만 다듬게 됐어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=44" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-03.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>윤OO 상담사</b><span>대학상담센터 상담사</span></div>
           </div>
         </article>
@@ -2958,7 +2907,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">막힐 때 다시 정리할 길이 생겼어요</h3>
           <blockquote className="tm-text">사례개념화가 막힐 때 다른 관점에서 정리된 초안을 보면 놓쳤던 단서가 보입니다. 그대로 쓰기보다, 제 판단을 다시 점검하는 기준점으로 활용하고 있어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=23" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-02.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>한OO 수련생</b><span>상담심리 대학원생</span></div>
           </div>
         </article>
@@ -2967,7 +2916,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">양식이 달라도 한 흐름으로 정리돼요</h3>
           <blockquote className="tm-text">기관 양식에 맞춰 같은 내용을 반복해서 다시 쓰는 시간이 줄었습니다. 상담 흐름은 유지하면서 필요한 형식에 맞춰 정리할 수 있어 행정 부담이 덜해졌어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=15" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-01.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>최OO 상담사</b><span>사설 상담센터 상담사</span></div>
           </div>
         </article>
@@ -2976,7 +2925,7 @@ export function HifiLanding() {
           <h3 className="tm-card-title">보고서 다듬는 시간이 짧아졌어요</h3>
           <blockquote className="tm-text">제가 자주 쓰는 어투로 초안이 정리되니, 처음부터 다시 쓰지 않고 필요한 부분만 손보게 됐습니다. 행정 보고서까지 정리하는 흐름이 한결 자연스러워졌어요.</blockquote>
           <div className="tm-author">
-            <span className="tm-avatar"><img src="https://i.pravatar.cc/120?img=56" alt="" loading="lazy"/></span>
+            <span className="tm-avatar"><img src="/testimonial-04.jpg" alt="" loading="lazy"/></span>
             <div className="tm-who"><b>서OO 실무자</b><span>정신건강복지센터 실무자</span></div>
           </div>
         </article>
@@ -3310,50 +3259,63 @@ export function HifiLanding() {
     <div className="container">
       <div className="footer-top">
         <div className="footer-brand">
-          <a className="gnb-logo" href="/" aria-label="마음토스 홈">
-        <span className="gnb-logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 34 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M4 24 V13 C 4 8.5, 8.5 7, 11.5 10.5 V24" stroke="#44ce4b" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            <path d="M11.5 13 C 11.5 8.5, 16 7, 19 10.5 V24" stroke="#44ce4b" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            <path d="M19 13 C 19 8.5, 23.5 7, 26.5 10.5 V24" stroke="#44ce4b" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
-            <circle cx="5.6" cy="9.4" r="1.5" fill="#44ce4b"/>
-          </svg>
-        </span>
-        <span className="gnb-logo-word">마음토스</span>
-      </a>
-          <p>상담사를 위한 AI 파트너.<br/>축어록·상담노트·사례개념화까지 상담 기록을 더 안전하고 쉽게 정리합니다.</p>
-          <div className="t-tag">학습 미사용 · 안전한 기록</div>
+          <a className="footer-logo" href="/" aria-label="마음토스 홈">
+            <img src="/logo-mindthos.webp" alt="마음토스" width={420} height={108} />
+          </a>
+          <div className="footer-info">
+            <div className="footer-info-block">
+              <h5>SNS</h5>
+              <div className="footer-info-row">
+                <a href="https://www.instagram.com/mindthos.official" target="_blank" rel="noopener noreferrer">Instagram</a>
+                <span className="footer-info-sep" aria-hidden="true">|</span>
+                <a href="https://www.threads.net/@mindthos.official" target="_blank" rel="noopener noreferrer">Threads</a>
+              </div>
+            </div>
+            <div className="footer-info-block">
+              <h5>이메일</h5>
+              <div className="footer-info-row">
+                <a href="mailto:business@mindfullabs.ai">business@mindfullabs.ai</a>
+              </div>
+            </div>
+            <div className="footer-info-block">
+              <h5>주소</h5>
+              <p className="footer-info-text">서울특별시 성동구 뚝섬로13길 38,<br/>4층 (성수동)</p>
+            </div>
+          </div>
         </div>
-        <div className="footer-col">
-          <h5>마음토스</h5>
-          <ul>
-            <li><a>서비스 소개</a></li>
-            <li><a>사용 가이드</a></li>
-            <li><a>블로그</a></li>
-            <li><a>교육 프로그램</a></li>
-            <li><a>문의</a></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h5>회사</h5>
-          <ul>
-            <li><a>회사 소개</a></li>
-            <li><a>이메일</a></li>
-            <li><a>주소</a></li>
-            <li><a>SNS</a></li>
-          </ul>
-        </div>
-        <div className="footer-col">
-          <h5>약관</h5>
-          <ul>
-            <li><a>서비스 이용약관</a></li>
-            <li><a>개인정보처리방침</a></li>
-          </ul>
+        <div className="footer-links">
+          <div className="footer-col">
+            <h5>회사 소개</h5>
+            <ul>
+              <li><a href="https://www.mindfullabs.ai" target="_blank" rel="noopener noreferrer">마인드풀랩스</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h5>마음토스</h5>
+            <ul>
+              <li><a href="/">서비스 소개</a></li>
+              <li><a href="https://rare-puppy-06f.notion.site/v2-2cfdd162832d801bae95f67269c062c7" target="_blank" rel="noopener noreferrer">사용 가이드</a></li>
+              <li><a href="https://open.kakao.com/me/Mindthos" target="_blank" rel="noopener noreferrer">문의</a></li>
+              <li><a href="/resources/blog">블로그</a></li>
+              <li><a href="https://rare-puppy-06f.notion.site/v2-2cfdd162832d801bae95f67269c062c7" target="_blank" rel="noopener noreferrer">워크숍 자료 다운로드</a></li>
+            </ul>
+          </div>
+          <div className="footer-col">
+            <h5>약관</h5>
+            <ul>
+              <li><a href="https://app.mindthos.com/terms?type=service" target="_blank" rel="noopener noreferrer">서비스 이용약관</a></li>
+              <li><a href="https://app.mindthos.com/terms?type=privacy" target="_blank" rel="noopener noreferrer">개인정보처리방침</a></li>
+            </ul>
+          </div>
         </div>
       </div>
       <div className="footer-bottom">
-        <div>Copyright © Mindful Labs Inc. All Rights Reserved.</div>
-        <div className="legal-info">사업자등록번호 [placeholder] · 통신판매신고번호 [placeholder] · 대표 [placeholder] · 주소 [placeholder]</div>
+        <div className="copyright">Copyright © Mindful Labs Inc. | All Rights Reserved</div>
+        <div className="legal-info">
+          사업자등록번호 786-88-03152 | 통신판매신고번호 제2025-서울마포-0943호 |<br/>
+          마인드풀랩스 주식회사(Mindful Labs Inc.) | 대표: 강호남<br/>
+          서울특별시 성동구 뚝섬로13길 38, 4층 (성수동)
+        </div>
       </div>
     </div>
   </footer>

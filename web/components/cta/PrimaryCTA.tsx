@@ -9,15 +9,15 @@ interface PrimaryCTAProps {
 }
 
 const VARIANT_CLASS: Record<NonNullable<PrimaryCTAProps['variant']>, string> = {
-  fill: 'bg-[var(--brand-primary)] text-[var(--text-primary)] hover:bg-[var(--brand-primary-soft)]',
+  fill: 'bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-dark)]',
   outline:
-    'border-[1.5px] border-[var(--brand-primary-dark)] bg-transparent text-[var(--text-primary)] hover:bg-[var(--brand-primary-pale)]',
+    'border-[1.5px] border-[var(--brand-primary-dark)] bg-transparent text-[var(--brand-primary-dark)] hover:bg-[var(--brand-primary-pale)]',
   'on-dark':
-    'bg-[var(--brand-primary-soft)] text-[var(--text-primary)] hover:bg-[var(--brand-primary)]',
+    'bg-[var(--brand-primary)] text-white hover:bg-[var(--brand-primary-soft)]',
 };
 
 export function PrimaryCTA({
-  href = '/contact?type=free-trial',
+  href = 'https://app.mindthos.com',
   children = '무료로 시작하기',
   variant = 'fill',
   className,
@@ -26,7 +26,7 @@ export function PrimaryCTA({
     <Link
       href={href}
       className={cn(
-        'inline-flex items-center justify-center rounded-lg px-6 py-3 text-[length:var(--t-cta)] font-semibold transition-colors',
+        'inline-flex h-11 items-center justify-center rounded-lg px-5 text-[14px] font-semibold transition-colors',
         VARIANT_CLASS[variant],
         className
       )}
