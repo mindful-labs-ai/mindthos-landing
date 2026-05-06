@@ -1,4 +1,3 @@
-import './hifi.css';
 import { HifiLanding } from '@/components/home/HifiLanding';
 import { generatePageMetadata } from '@/lib/seo/metadata';
 import { SITE_CONFIG } from '@/constants/site';

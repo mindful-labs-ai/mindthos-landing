@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { createStaticClient } from '@/lib/supabase/static';
 import type { Post } from '@/types/blog';
+import { formatDateKo } from '@/lib/utils';
 
 interface RelatedPostsProps {
   currentPost: Post;
@@ -17,16 +18,6 @@ type RelatedPost = {
   published_at: string | null;
   category: { name: string; slug: string } | { name: string; slug: string }[] | null;
 };
-
-function formatDate(dateStr: string | null): string {
-  if (!dateStr) return '';
-  return new Date(dateStr).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'Asia/Seoul',
-  });
-}
 
 export async function RelatedPosts({ currentPost, limit = 3 }: RelatedPostsProps) {
   const supabase = createStaticClient();
@@ -44,7 +35,7 @@ export async function RelatedPosts({ currentPost, limit = 3 }: RelatedPostsProps
       .limit(limit);
 
     if (data && data.length > 0) {
-      posts = data as unknown as RelatedPost[];
+      posts = data as RelatedPost[];
     }
   }
 
@@ -60,7 +51,7 @@ export async function RelatedPosts({ currentPost, limit = 3 }: RelatedPostsProps
       .limit(limit);
 
     if (data && data.length > 0) {
-      posts = data as unknown as RelatedPost[];
+      posts = data as RelatedPost[];
     }
   }
 
@@ -109,7 +100,7 @@ export async function RelatedPosts({ currentPost, limit = 3 }: RelatedPostsProps
                     dateTime={post.published_at}
                     className="text-xs text-[var(--text-muted)]"
                   >
-                    {formatDate(post.published_at)}
+                    {formatDateKo(post.published_at)}
                   </time>
                 )}
               </div>

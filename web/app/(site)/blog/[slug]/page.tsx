@@ -25,6 +25,7 @@ import { InlineCTA } from '@/components/blog/InlineCTA';
 import { BottomCTA } from '@/components/blog/BottomCTA';
 import { SITE_CONFIG } from '@/constants/site';
 import type { Reference } from '@/types/blog';
+import { formatDateKo } from '@/lib/utils';
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -70,16 +71,6 @@ export async function generateMetadata({
     updated_at: post.updated_at,
     author: post.author ? { name: post.author.name } : null,
     keywords: post.keywords,
-  });
-}
-
-function formatDate(dateStr: string | null | undefined): string {
-  if (!dateStr) return '';
-  return new Date(dateStr).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'Asia/Seoul',
   });
 }
 
@@ -131,7 +122,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <>
       <SchemaMarkup schema={[articleSchema, breadcrumbSchema]} />
 
-      <article className="mx-auto max-w-[var(--container-max)] px-[var(--gutter)] py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
+      <article className="mx-auto max-w-[var(--container-wide)] px-[var(--gutter-wide)] py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
         <Link
           href="/blog"
           className="inline-flex items-center gap-1.5 text-[length:var(--t-small)] text-[var(--text-muted)] transition-colors hover:text-[var(--brand-primary-dark)]"
@@ -163,7 +154,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             ) : null}
             {post.author?.name ? <span aria-hidden>·</span> : null}
             <time dateTime={post.published_at ?? undefined}>
-              {formatDate(post.published_at)}
+              {formatDateKo(post.published_at)}
             </time>
             <span aria-hidden>·</span>
             <span>약 {readingTime}분</span>

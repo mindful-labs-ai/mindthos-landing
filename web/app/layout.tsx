@@ -3,6 +3,7 @@ import { IBM_Plex_Mono } from 'next/font/google';
 import localFont from 'next/font/local';
 import Script from 'next/script';
 import './globals.css';
+import './hifi.css';
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import {
   generateOrganizationSchema,

@@ -151,6 +151,10 @@
   --sp-9: 120px;
 
   /* === Container === */
+  /* `--container-wide` / `--gutter-wide` 는 hifi.css 의 `.container` (1280/40) 와
+     동일 — 홈/블로그 등 GNB 너비 기준 페이지에서 사용. */
+  --container-wide: 1280px;
+  --gutter-wide: 40px;
   --container-max: 1120px;
   --container-narrow: 760px;
   --container-prose: 640px;

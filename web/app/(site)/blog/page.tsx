@@ -87,7 +87,7 @@ export default async function BlogIndexPage({
   return (
     <>
       <SchemaMarkup schema={buildBlogSchema(SITE_CONFIG.url)} />
-      <section className="mx-auto max-w-[var(--container-max)] px-[var(--gutter)] py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
+      <section className="mx-auto max-w-[var(--container-wide)] px-[var(--gutter-wide)] py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
         <p className="eyebrow">블로그</p>
         <h1 className="mt-3">
           {searchQuery

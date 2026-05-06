@@ -63,55 +63,37 @@ export function HifiLanding() {
   useEffect(() => {
     const cleanups: Array<() => void> = [];
 
-    /* === Promo bar dismiss === */
+    /* Promo top 은 components/layout/PromoBanner.tsx 가 자체 dismiss + has-promo-top toggle 처리.
+       하단 모바일 sticky CTA(.promo-bottom) 는 home 전용으로 본 컴포넌트에 그대로 둠. */
     {
       const KEY = 'mt-promo-1month-dismissed';
       const html = document.documentElement;
-      const top = document.querySelector<HTMLElement>('[data-promo-top]');
       const bottom = document.querySelector<HTMLElement>('[data-promo-bottom]');
       const isDismissed = (): boolean => {
         try { return sessionStorage.getItem(KEY) === '1'; } catch { return false; }
       };
-      const markDismissed = (): void => {
-        try { sessionStorage.setItem(KEY, '1'); } catch {}
-      };
-      const applyState = (dismissed: boolean): void => {
+      const applyBottomState = (dismissed: boolean): void => {
         if (dismissed) {
-          if (top) top.style.display = 'none';
           if (bottom) bottom.style.display = 'none';
-          html.classList.remove('has-promo-top');
           html.classList.remove('has-promo-bottom');
         } else {
-          html.classList.add('has-promo-top');
           html.classList.add('has-promo-bottom');
         }
       };
-      applyState(isDismissed());
-      const bindClose = (scope: HTMLElement | null): void => {
-        if (!scope) return;
-        scope.querySelectorAll<HTMLElement>('[data-promo-close]').forEach(btn => {
-          const handler = () => { markDismissed(); applyState(true); };
+      applyBottomState(isDismissed());
+      if (bottom) {
+        bottom.querySelectorAll<HTMLElement>('[data-promo-close]').forEach(btn => {
+          const handler = () => {
+            try { sessionStorage.setItem(KEY, '1'); } catch {}
+            applyBottomState(true);
+          };
           btn.addEventListener('click', handler);
           cleanups.push(() => btn.removeEventListener('click', handler));
         });
-      };
-      bindClose(top);
-      bindClose(bottom);
-    }
-
-    /* === GNB scroll-state — 스크롤 시 살짝 더 투명 + blur 강화 === */
-    {
-      const gnb = document.querySelector<HTMLElement>('.gnb');
-      if (gnb) {
-        const onScroll = (): void => {
-          if (window.scrollY > 4) gnb.dataset.scrolled = 'true';
-          else delete gnb.dataset.scrolled;
-        };
-        onScroll();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        cleanups.push(() => window.removeEventListener('scroll', onScroll));
       }
     }
+
+    /* GNB scroll-state는 components/layout/Header.tsx 가 자체 useEffect로 처리. */
 
     /* === §02 encmini typing === */
     {
@@ -597,33 +579,7 @@ export function HifiLanding() {
 
   return (
     <>
-<div className="promo-top" data-promo-top role="region" aria-label="신규 가입 프로모션">
-  <div className="promo-top-inner">
-    <p className="promo-top-msg">
-      <span className="promo-tag">NEW</span>
-      <span>신규 가입 상담사님께 첫 1개월 무료 제공 · <a href="https://app.mindthos.com" data-promo-cta>무료로 시작하기 →</a></span>
-    </p>
-    <button type="button" className="promo-close" data-promo-close aria-label="프로모션 배너 닫기">✕</button>
-  </div>
-</div>
-  <header className="gnb">
-    <div className="container gnb-inner">
-      <a className="gnb-logo" href="/" aria-label="마음토스 홈">
-        <img src="/logo-mindthos.webp" alt="마음토스" width={420} height={108} />
-      </a>
-      <nav className="gnb-nav">
-        <Link href="/">서비스 소개</Link>
-        <a href="https://rare-puppy-06f.notion.site/v2-2cfdd162832d801bae95f67269c062c7" target="_blank" rel="noopener noreferrer">사용 가이드</a>
-        <Link href="/blog">블로그</Link>
-        <Link href="/education">교육 프로그램</Link>
-        <a href="https://open.kakao.com/me/Mindthos" target="_blank" rel="noopener noreferrer">문의</a>
-      </nav>
-      <div className="gnb-right">
-        <a className="btn sm ghost" href="https://app.mindthos.com">로그인</a>
-        <a className="btn sm primary" href="https://app.mindthos.com">무료로 시작하기</a>
-      </div>
-    </div>
-  </header>
+  {/* GNB + 상단 promo 배너는 app/(site)/layout.tsx 가 <Header /> + <PromoBanner /> 로 통일 렌더. */}
 <section className="hero" aria-label="마음토스 — 상담사를 위한 안전한 AI agent">
 
   

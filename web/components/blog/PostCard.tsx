@@ -1,19 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Post } from '@/types/blog';
+import { formatDateKo } from '@/lib/utils';
 
 interface PostCardProps {
   post: Post;
-}
-
-function formatDate(dateStr: string | null): string {
-  if (!dateStr) return '';
-  return new Date(dateStr).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    timeZone: 'Asia/Seoul',
-  });
 }
 
 export function PostCard({ post }: PostCardProps) {
@@ -63,7 +54,7 @@ export function PostCard({ post }: PostCardProps) {
             <span className="font-medium text-[var(--text-secondary)]">{post.author.name}</span>
           )}
           {post.author?.name && <span aria-hidden="true">·</span>}
-          <time dateTime={post.published_at ?? undefined}>{formatDate(post.published_at)}</time>
+          <time dateTime={post.published_at ?? undefined}>{formatDateKo(post.published_at)}</time>
           <span aria-hidden="true">·</span>
           <span>약 {readingTime}분</span>
         </div>
