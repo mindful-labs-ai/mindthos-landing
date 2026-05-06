@@ -1,5 +1,33 @@
 import type { NextConfig } from 'next';
 
+/**
+ * Content Security Policy — report-only 모드.
+ * 본 사이트는 다음 외부 origin 을 의도적으로 사용:
+ *  - Google Fonts (IBM Plex Mono via next/font/google) → fonts.gstatic.com / fonts.googleapis.com
+ *  - GA4 (선택) → www.google-analytics.com / www.googletagmanager.com
+ *  - Meta Pixel (선택) → connect.facebook.net / *.facebook.com
+ *  - Supabase Storage 이미지 → *.supabase.co
+ *  - cdn.prod.website-files.com (랜딩에 일부 외부 이미지)
+ *  - app.mindthos.com (외부 redirect 대상이지만 frame 은 아님)
+ *  - vercel insights (선택) → vitals.vercel-insights.com
+ * inline script 가 (GA/Pixel/JSON-LD) 존재하므로 unsafe-inline 허용.
+ * Report-only 로 시작 — 1주 모니터링 후 enforce 로 전환.
+ */
+const cspReportOnly = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com data:",
+  "img-src 'self' data: blob: https://*.supabase.co https://cdn.prod.website-files.com https://www.google-analytics.com https://*.facebook.com",
+  "media-src 'self'",
+  "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.facebook.com https://vitals.vercel-insights.com",
+  "frame-src 'self'",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self' https://app.mindthos.com",
+  "object-src 'none'",
+].join('; ');
+
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'X-Frame-Options', value: 'DENY' },
@@ -13,6 +41,7 @@ const securityHeaders = [
     value: 'camera=(), microphone=(), geolocation=()',
   },
   { key: 'X-Permitted-Cross-Domain-Policies', value: 'none' },
+  { key: 'Content-Security-Policy-Report-Only', value: cspReportOnly },
 ];
 
 const nextConfig: NextConfig = {

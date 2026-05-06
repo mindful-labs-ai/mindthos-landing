@@ -584,7 +584,7 @@ export function HifiLanding() {
 
   
   <div className="hero-bg" aria-hidden="true">
-    <video className="hero-bg-video" autoPlay muted loop playsInline preload="auto"
+    <video className="hero-bg-video" autoPlay muted loop playsInline preload="metadata"
            aria-hidden="true"
            onError={(e) => { (e.currentTarget as HTMLElement).style.display = 'none'; }}>
       <source src="/hero-bg.mp4" type="video/mp4"/>
