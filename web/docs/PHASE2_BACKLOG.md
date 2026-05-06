@@ -184,7 +184,7 @@ vercel deploy --prod
 - ~~`perf/education-lcp`~~ ✅ 2026-05-06 완료 — /education hero priority + fetchPriority="high" (현 브랜치)
 - ~~`chore/inline-style-cleanup`~~ ✅ 2026-05-06 완료 — Header.tsx 모바일 toggle/panel inline → hifi/chrome.css 클래스 (현 브랜치)
 - ~~`chore/theme-utility-migration`~~ ✅ 2026-05-06 완료 — Typography 37건 + Container/gutter 10건 → `text-small`/`text-h3`/`max-w-narrow`/`max-w-container-wide`/`px-gutter`/`px-gutter-wide` 등 utility. `--max-width-container-wide`/`--spacing-gutter`/`--spacing-gutter-wide` alias 토큰 추가. (현 브랜치)
-- `feat/hifi-token-canonical` — hifi 잔여 토큰 reconcile (deferred §2, 디자인 결정 필요)
+- ~~`feat/hifi-token-canonical`~~ ✅ 2026-05-06 완료 — Option A (globals canonical) 선택. hifi/tokens.css 5건 (`--bg-deep`/`--alert`/`--text-primary`/`--radius`/`--gutter`) 제거 (현 브랜치)
 - `chore/csp-enforce` — CSP report-only → enforce (deferred §3, production 배포 후)
 
 자세한 spec: `docs/refactor-deferred.md`

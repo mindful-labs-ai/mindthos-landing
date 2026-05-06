@@ -49,9 +49,20 @@
 
 ---
 
-## 2. hifi.css 잔여 토큰 reconcile — `feat/hifi-token-canonical`
+## 2. hifi.css 잔여 토큰 reconcile — `feat/hifi-token-canonical` ✅ 완료 (2026-05-06, Option A)
 
-### 문제
+> **결정**: Option A — globals canonical (CLAUDE.md mandate). hifi/tokens.css 의 5개 충돌 정의를 제거하여 globals.css 값이 cascade로 자동 적용되도록 함.
+>
+> **변경**:
+> - `--bg-deep`: `#1A3025` (cool green-black) 제거 → globals `#181819` (warm 거의 검정) 적용. 영향: `.wf-section.dark` (FinalCTA bottom).
+> - `--alert`: `#dc2626` (red) 제거 → globals `#e7906d` (terracotta) 적용. 영향: features.css cnc-doc dashed underline / accent.
+> - `--text-primary`: `var(--ink)` (slate-900) 제거 → globals `#1f1f1f` (warm dark) 적용. 영향: chrome.css 모바일 메뉴 링크.
+> - `--radius`: `6px` 제거 → globals `0.75rem` (12px) 적용. 영향: 5개 spot (`.btn`, `.gnb-logo`, sample 카드 등). hifi 의 `--radius-xs/lg/xl/2xl` 단계는 유지.
+> - `--gutter`: `40px` 제거 → globals `clamp(16px, 4vw, 32px)` 적용. 영향: `.container` 좌우 패딩 (모바일 친화 ↑).
+>
+> 검증: build 12 routes ✓, typecheck 0 errors, eslint 0 errors / 0 warnings, blog 목록 + 상세 + education 시각 sanity check (Chrome headless).
+
+### 문제 (당시)
 `hifi/tokens.css` :root 가 globals.css canonical 토큰과 중복 정의:
 
 | 토큰 | hifi.css | globals.css | 시각 영향 |
@@ -210,5 +221,5 @@
 | ~~7. inline style cleanup~~ ✅ | 일관성 ↑ | — | — | **2026-05-06 완료** |
 | ~~6. @theme 사용 통일~~ ✅ | 가독성 ↑ | — | — | **2026-05-06 완료** |
 | 3. CSP enforce | 보안 ↑ | 외부 스크립트 차단 위험 | 모니터링 1주 | production 배포 후 |
-| 2. hifi 토큰 reconcile | 일관성 ↑ | 시각 회귀 ↑↑ | 사용자 결정 후 | 보류 |
+| ~~2. hifi 토큰 reconcile~~ ✅ | 일관성 ↑ | — | — | **2026-05-06 Option A 선택 후 완료** |
 | 8. CSP nonce | 보안 ↑↑ | 통합 위험 ↑ | 1일 | 보류 (CSP enforce 후) |

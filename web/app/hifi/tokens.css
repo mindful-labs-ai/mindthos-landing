@@ -44,7 +44,6 @@
     --bg:              #ffffff;   /* base */
     --bg-2:            #f6f8f7;   /* cool offwhite alt */
     --bg-3:            #f1f5f9;   /* slate-100 elevated */
-    --bg-deep:         #1A3025;   /* cool deep green-black */
     --ph:              #e2e8f0;   /* slate-200 placeholder */
     --white:           #ffffff;
 
@@ -55,8 +54,8 @@
     --line-warm:       var(--line-1, #e1dbd6);
     --line-strong:     #cbd5e1;   /* slate-300 */
 
-    /* === Status === */
-    --alert:           #dc2626;   /* cool red (warm 테라코타 제거) */
+    /* === Status ===
+       --alert 는 globals.css canonical (#e7906d terracotta) 사용 — refactor-deferred §2 reconcile (2026-05-06). */
     --success:         var(--brand);
 
     /* === Section role tokens (사수 v12 · 2026-04-29 · section rhythm)
@@ -75,16 +74,17 @@
     --green-soft:        var(--brand-soft);
     --green-mint:        #6ee7b7;            /* 다크 배경 위 mint accent */
     --green-glow:        rgba(50, 215, 75, 0.32);
-    --text-primary:      var(--ink);
+    /* --text-primary 는 globals.css canonical (#1f1f1f warm) — refactor-deferred §2 reconcile (2026-05-06). */
     --text-on-dark:      #ffffff;
     --text-on-dark-muted: rgba(255, 255, 255, 0.64);
     --text-on-dark-dim:   rgba(255, 255, 255, 0.42);
     --border-cool:       var(--line);
     --border-on-dark:    rgba(255, 255, 255, 0.10);
 
-    /* === Radius === */
+    /* === Radius ===
+       --radius 는 globals.css canonical (0.75rem = 12px) — refactor-deferred §2 reconcile (2026-05-06).
+       hifi 의 --radius-xs/lg/xl/2xl 는 hifi 내부 단계 유지. */
     --radius-xs:       4px;
-    --radius:          6px;
     --radius-lg:       8px;
     --radius-xl:       12px;
     --radius-2xl:      20px;
@@ -108,9 +108,9 @@
     --font-base: var(--font-body);
     --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-    /* === Layout === */
+    /* === Layout ===
+       --gutter 는 globals.css canonical (clamp(16px, 4vw, 32px) — 모바일 친화) — refactor-deferred §2 reconcile (2026-05-06). */
     --container:       1280px;
-    --gutter:          40px;
 
     /* === Motion === */
     --ease:            cubic-bezier(0.4, 0.2, 0.2, 1);
