@@ -59,7 +59,7 @@ export async function RelatedPosts({ currentPost, limit = 3 }: RelatedPostsProps
 
   return (
     <section className="mt-12 border-t border-[var(--line-1)] pt-8">
-      <h2 className="mb-6 text-[length:var(--t-h3)] font-semibold text-[var(--text-heading-strong)]">
+      <h2 className="mb-6 text-h3 font-semibold text-[var(--text-heading-strong)]">
         관련 글
       </h2>
       <div className="grid gap-6 md:grid-cols-3">
@@ -89,7 +89,7 @@ export async function RelatedPosts({ currentPost, limit = 3 }: RelatedPostsProps
                     {category.name}
                   </span>
                 )}
-                <h3 className="mb-2 text-[length:var(--t-small)] font-semibold leading-snug text-[var(--text-heading-strong)] group-hover:text-[var(--brand-primary-dark)] transition-colors">
+                <h3 className="mb-2 text-small font-semibold leading-snug text-[var(--text-heading-strong)] group-hover:text-[var(--brand-primary-dark)] transition-colors">
                   <Link href={href}>{post.title}</Link>
                 </h3>
                 {post.excerpt && (

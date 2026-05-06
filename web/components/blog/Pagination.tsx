@@ -34,7 +34,7 @@ export function Pagination({ currentPage, totalPages, basePath, searchParams = {
   const pages = getPages();
 
   const btnBase =
-    'flex items-center justify-center w-9 h-9 rounded-full text-[length:var(--t-small)] font-medium transition-colors';
+    'flex items-center justify-center w-9 h-9 rounded-full text-small font-medium transition-colors';
   const btnActive = `${btnBase} bg-[var(--brand-primary)] text-[var(--text-primary)]`;
   const btnInactive = `${btnBase} border border-[var(--line-1)] text-[var(--text-muted)] hover:bg-[var(--bg-warm)]`;
   const btnDisabled = `${btnBase} border border-[var(--line-2)] text-[var(--line-1)] cursor-not-allowed`;
@@ -53,7 +53,7 @@ export function Pagination({ currentPage, totalPages, basePath, searchParams = {
 
       {pages.map((page, idx) =>
         page === '...' ? (
-          <span key={`ellipsis-${idx}`} className="flex items-center justify-center w-9 h-9 text-[var(--text-muted)] text-[length:var(--t-small)]">
+          <span key={`ellipsis-${idx}`} className="flex items-center justify-center w-9 h-9 text-[var(--text-muted)] text-small">
             &hellip;
           </span>
         ) : (

@@ -183,7 +183,8 @@ vercel deploy --prod
 - ~~`perf/font-variable`~~ ✅ 2026-05-06 완료 — Pretendard Variable woff2 단일 파일 (현 브랜치)
 - ~~`perf/education-lcp`~~ ✅ 2026-05-06 완료 — /education hero priority + fetchPriority="high" (현 브랜치)
 - ~~`chore/inline-style-cleanup`~~ ✅ 2026-05-06 완료 — Header.tsx 모바일 toggle/panel inline → hifi/chrome.css 클래스 (현 브랜치)
-- `chore/theme-utility-migration` — typography arbitrary-value classes → Tailwind utility (deferred §6)
+- ~~`chore/theme-utility-migration` (Typography subset)~~ ✅ 2026-05-06 완료 — `text-[length:var(--t-*)]` 37건 → `text-small`/`text-h3`/`text-body-size` 등 utility (현 브랜치)
+- `chore/theme-utility-migration` (Container subset) — `max-w-[var(--container-*)]` / `px-[var(--gutter-*)]` 잔여 7건. Tailwind v4 max-width vs container query namespace mismatch + `--container-wide` (1280px) 와 `--max-width-container` (1120px) 값 불일치로 alias 토큰 추가 후 별도 PR.
 - `feat/hifi-token-canonical` — hifi 잔여 토큰 reconcile (deferred §2, 디자인 결정 필요)
 - `chore/csp-enforce` — CSP report-only → enforce (deferred §3, production 배포 후)
 

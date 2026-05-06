@@ -39,17 +39,17 @@ export function PostCard({ post }: PostCardProps) {
 
       {/* Content */}
       <div className="flex flex-col flex-1 p-4 gap-2">
-        <h2 className="font-semibold text-[var(--text-heading-strong)] text-[length:var(--t-body)] leading-snug line-clamp-2 group-hover:text-[var(--brand-primary-dark)] transition-colors">
+        <h2 className="font-semibold text-[var(--text-heading-strong)] text-body-size leading-snug line-clamp-2 group-hover:text-[var(--brand-primary-dark)] transition-colors">
           {post.title}
         </h2>
         {post.excerpt && (
-          <p className="text-[length:var(--t-small)] text-[var(--text-muted)] line-clamp-2 flex-1">
+          <p className="text-small text-[var(--text-muted)] line-clamp-2 flex-1">
             {post.excerpt}
           </p>
         )}
 
         {/* Bottom row */}
-        <div className="flex items-center gap-2 text-[length:var(--t-small)] text-[var(--text-muted)] mt-auto pt-2 border-t border-[var(--line-2)]">
+        <div className="flex items-center gap-2 text-small text-[var(--text-muted)] mt-auto pt-2 border-t border-[var(--line-2)]">
           {post.author?.name && (
             <span className="font-medium text-[var(--text-secondary)]">{post.author.name}</span>
           )}

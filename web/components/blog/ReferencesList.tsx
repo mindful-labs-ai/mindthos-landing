@@ -22,12 +22,12 @@ export function ReferencesList({ references }: ReferencesListProps) {
 
   return (
     <section className="mt-10 border-t border-[var(--line-1)] pt-8">
-      <h2 className="mb-4 text-[length:var(--t-h3)] font-semibold text-[var(--text-heading-strong)]">
+      <h2 className="mb-4 text-h3 font-semibold text-[var(--text-heading-strong)]">
         참고 자료
       </h2>
       <ol className="space-y-3">
         {references.map((ref, i) => (
-          <li key={i} className="flex items-start gap-3 text-[length:var(--t-small)] text-[var(--text-muted)]">
+          <li key={i} className="flex items-start gap-3 text-small text-[var(--text-muted)]">
             <span className="mt-0.5 shrink-0 font-medium text-[var(--text-body)]">{i + 1}.</span>
             <div className="flex flex-col gap-1">
               <div className="flex flex-wrap items-center gap-2">
@@ -42,7 +42,7 @@ export function ReferencesList({ references }: ReferencesListProps) {
                 </a>
                 <span
                   className={[
-                    'inline-block rounded-full px-2 py-0.5 text-[length:var(--t-eyebrow)] font-medium',
+                    'inline-block rounded-full px-2 py-0.5 text-eyebrow font-medium',
                     typeBadgeClass[ref.type],
                   ].join(' ')}
                 >

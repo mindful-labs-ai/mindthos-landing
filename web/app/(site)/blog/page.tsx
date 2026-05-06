@@ -96,7 +96,7 @@ export default async function BlogIndexPage({
               ? activeCategoryName
               : '상담 현장의 인사이트와 마음토스 이야기'}
         </h1>
-        <p className="mt-5 max-w-prose text-[length:var(--t-lead)] text-[var(--text-body)]">
+        <p className="mt-5 max-w-prose text-lead text-[var(--text-body)]">
           {searchQuery
             ? `${total}개의 글이 검색되었습니다.`
             : '상담사 인사이트 · 기술 / 보안 · 도입 사례 · 제품 업데이트가 한 곳에서 업데이트됩니다.'}
@@ -151,7 +151,7 @@ function EmptyState({ searchQuery }: { searchQuery?: string }) {
         className="mx-auto h-8 w-8 text-[var(--brand-primary-dark)]"
         aria-hidden
       />
-      <h2 className="mt-4 text-[length:var(--t-h3)] font-semibold text-[var(--text-heading-strong)]">
+      <h2 className="mt-4 text-h3 font-semibold text-[var(--text-heading-strong)]">
         {searchQuery ? '검색 결과가 없습니다' : '첫 글을 준비 중입니다'}
       </h2>
       <p className="mt-3 max-w-prose mx-auto text-[var(--text-body)]">
@@ -161,7 +161,7 @@ function EmptyState({ searchQuery }: { searchQuery?: string }) {
       </p>
       <Link
         href="/blog"
-        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--brand-primary)] px-5 py-3 text-[length:var(--t-cta)] font-semibold text-[var(--text-primary)] transition-colors hover:bg-[var(--brand-primary-soft)]"
+        className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[var(--brand-primary)] px-5 py-3 text-cta font-semibold text-[var(--text-primary)] transition-colors hover:bg-[var(--brand-primary-soft)]"
       >
         전체 글 보기 <ArrowRight className="h-4 w-4" aria-hidden />
       </Link>

@@ -34,7 +34,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
   if (items.length < 2) return null;
 
   const tocList = (
-    <ul className="space-y-1 text-[length:var(--t-small)]">
+    <ul className="space-y-1 text-small">
       {items.map((item) => (
         <li
           key={item.id}
@@ -71,7 +71,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
 
       {/* Mobile collapsible */}
       <details className="md:hidden my-6 rounded-xl border border-[var(--line-1)] bg-[var(--bg-warm)]">
-        <summary className="flex cursor-pointer items-center justify-between px-5 py-3 text-[length:var(--t-small)] font-semibold text-[var(--text-heading-strong)] list-none [&::-webkit-details-marker]:hidden">
+        <summary className="flex cursor-pointer items-center justify-between px-5 py-3 text-small font-semibold text-[var(--text-heading-strong)] list-none [&::-webkit-details-marker]:hidden">
           <span>목차</span>
           <span className="text-[var(--text-muted)]" aria-hidden="true">▼</span>
         </summary>

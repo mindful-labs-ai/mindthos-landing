@@ -15,13 +15,13 @@ export function InlineCTA({ ctaType, program }: InlineCTAProps) {
           {cta.kicker}
         </p>
       )}
-      <h3 className="mb-4 text-[length:var(--t-h3)] font-semibold text-[var(--text-primary)]">
+      <h3 className="mb-4 text-h3 font-semibold text-[var(--text-primary)]">
         {cta.heading}
       </h3>
       <a
         href={cta.href}
         {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-        className="inline-block rounded-xl bg-[var(--bg-base)] px-6 py-3 text-[length:var(--t-cta)] font-semibold text-[var(--brand-primary-dark)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+        className="inline-block rounded-xl bg-[var(--bg-base)] px-6 py-3 text-cta font-semibold text-[var(--brand-primary-dark)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
       >
         {cta.buttonText}
       </a>

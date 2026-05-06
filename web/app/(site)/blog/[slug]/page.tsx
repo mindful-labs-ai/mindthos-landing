@@ -125,7 +125,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <article className="mx-auto max-w-[var(--container-wide)] px-[var(--gutter-wide)] py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1.5 text-[length:var(--t-small)] text-[var(--text-muted)] transition-colors hover:text-[var(--brand-primary-dark)]"
+          className="inline-flex items-center gap-1.5 text-small text-[var(--text-muted)] transition-colors hover:text-[var(--brand-primary-dark)]"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden /> 블로그 목록
         </Link>
@@ -134,18 +134,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {post.category ? (
             <Link
               href={`/blog?category=${post.category.slug}`}
-              className="inline-block text-[length:var(--t-eyebrow)] font-semibold uppercase tracking-wider text-[var(--brand-primary-dark)] hover:underline"
+              className="inline-block text-eyebrow font-semibold uppercase tracking-wider text-[var(--brand-primary-dark)] hover:underline"
             >
               {post.category.name}
             </Link>
           ) : null}
           <h1 className="mt-3">{post.title}</h1>
           {post.excerpt ? (
-            <p className="mt-5 text-[length:var(--t-lead)] text-[var(--text-body)]">
+            <p className="mt-5 text-lead text-[var(--text-body)]">
               {post.excerpt}
             </p>
           ) : null}
-          <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-[length:var(--t-small)] text-[var(--text-muted)]">
+          <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-[var(--text-muted)]">
             {post.author?.name ? (
               <span className="font-medium text-[var(--text-secondary)]">
                 {post.author.name}

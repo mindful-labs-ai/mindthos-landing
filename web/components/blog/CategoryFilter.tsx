@@ -8,7 +8,7 @@ interface CategoryFilterProps {
 
 export function CategoryFilter({ categories, activeSlug }: CategoryFilterProps) {
   const pillBase =
-    'flex-shrink-0 px-4 py-1.5 rounded-full text-[length:var(--t-small)] font-medium transition-colors whitespace-nowrap';
+    'flex-shrink-0 px-4 py-1.5 rounded-full text-small font-medium transition-colors whitespace-nowrap';
   const pillActive = `${pillBase} bg-[var(--brand-primary)] text-[var(--text-primary)]`;
   const pillInactive = `${pillBase} bg-[var(--bg-elevated)] border border-[var(--line-1)] text-[var(--text-body)] hover:bg-[var(--bg-warm)]`;
 

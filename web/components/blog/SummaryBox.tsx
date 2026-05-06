@@ -17,7 +17,7 @@ export function SummaryBox({ summary }: SummaryBoxProps) {
         <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
         이 글의 핵심
       </p>
-      <p className="text-[length:var(--t-small)] leading-relaxed text-[var(--text-body)]">{summary}</p>
+      <p className="text-small leading-relaxed text-[var(--text-body)]">{summary}</p>
     </div>
   );
 }

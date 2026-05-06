@@ -48,7 +48,7 @@ export function BlogSearch({ defaultValue = '' }: BlogSearchProps) {
         onChange={(e) => setQuery(e.target.value)}
         placeholder="블로그 검색..."
         aria-label="검색어 입력"
-        className="w-full rounded-lg border border-[var(--line-1)] bg-[var(--bg-base)] px-4 py-2.5 pl-10 pr-10 text-[length:var(--t-small)] text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--brand-primary-dark)] focus:ring-1 focus:ring-[var(--brand-primary-dark)] transition-colors"
+        className="w-full rounded-lg border border-[var(--line-1)] bg-[var(--bg-base)] px-4 py-2.5 pl-10 pr-10 text-small text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--brand-primary-dark)] focus:ring-1 focus:ring-[var(--brand-primary-dark)] transition-colors"
       />
       {query && (
         <button

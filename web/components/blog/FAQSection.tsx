@@ -60,7 +60,7 @@ export function FAQSection({ schema_markup }: FAQSectionProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <h2 className="mb-6 text-[length:var(--t-h3)] font-semibold text-[var(--text-heading-strong)]">
+      <h2 className="mb-6 text-h3 font-semibold text-[var(--text-heading-strong)]">
         자주 묻는 질문
       </h2>
       <div className="space-y-3">
@@ -69,12 +69,12 @@ export function FAQSection({ schema_markup }: FAQSectionProps) {
             key={i}
             className="group rounded-xl border border-[var(--line-1)] bg-[var(--bg-base)] overflow-hidden"
           >
-            <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-[length:var(--t-small)] font-medium text-[var(--text-heading-strong)] list-none [&::-webkit-details-marker]:hidden hover:bg-[var(--bg-warm)] transition-colors">
+            <summary className="flex cursor-pointer items-center justify-between gap-4 px-5 py-4 text-small font-medium text-[var(--text-heading-strong)] list-none [&::-webkit-details-marker]:hidden hover:bg-[var(--bg-warm)] transition-colors">
               <span>{faq.question}</span>
               <span className="shrink-0 text-[var(--text-muted)] group-open:rotate-180 transition-transform" aria-hidden="true">▼</span>
             </summary>
             <div className="border-t border-[var(--line-2)] px-5 py-4">
-              <p className="text-[length:var(--t-small)] leading-relaxed text-[var(--text-body)]">
+              <p className="text-small leading-relaxed text-[var(--text-body)]">
                 {faq.answer}
               </p>
             </div>
