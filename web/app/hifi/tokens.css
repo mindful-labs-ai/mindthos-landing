@@ -50,8 +50,9 @@
 
     /* === Line · Cool === */
     --line:            #e2e8f0;   /* slate-200 */
-    --line-2:          #edf2f7;   /* very light cool */
-    --line-warm:       #e5ede9;   /* (legacy 명칭, cool 톤으로 재정의) */
+    /* --line-2 / --line-warm 는 globals.css canonical 토큰으로 alias — 시각 차이 미미 */
+    --line-2:          var(--line-1, #e7e7e7);
+    --line-warm:       var(--line-1, #e1dbd6);
     --line-strong:     #cbd5e1;   /* slate-300 */
 
     /* === Status === */

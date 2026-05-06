@@ -134,12 +134,16 @@ export async function getCounselingProgramById(
 
 export const getPopularPosts = cache(async (limit = 5): Promise<Post[]> => {
   const supabase = createStaticClient();
-  const { data } = await supabase
+  const { data, error } = await supabase
     .from('posts')
     .select('*, category:categories(*), author:authors(*)')
     .eq('status', 'published')
     .order('view_count', { ascending: false })
     .limit(limit);
+  if (error) {
+    console.error('[getPopularPosts]', error);
+    return [];
+  }
   return (data ?? []) as Post[];
 });
 
@@ -151,7 +155,12 @@ export async function searchPosts(
   const supabase = createStaticClient();
   const from = (page - 1) * perPage;
   const to = from + perPage - 1;
-  const safeQuery = query.replace(/[%_]/g, '\\$&');
+  // Strip PostgREST .or() meta characters and ilike wildcards; cap length to avoid abuse.
+  const safeQuery = query
+    .replace(/[%_,()*\\]/g, ' ')
+    .trim()
+    .slice(0, 80);
+  if (!safeQuery) return { posts: [], total: 0 };
   const { data, count, error } = await supabase
     .from('posts')
     .select('*, category:categories(*), author:authors(*)', { count: 'exact' })

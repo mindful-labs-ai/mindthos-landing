@@ -1,11 +1,19 @@
 import { revalidatePath, updateTag } from 'next/cache';
 import { NextResponse } from 'next/server';
+import { timingSafeEqual } from 'crypto';
 
 interface RevalidateBody {
   secret?: string;
   path?: string;
   tag?: string;
   paths?: string[];
+}
+
+function safeEqual(provided: string, expected: string): boolean {
+  const a = Buffer.from(provided, 'utf8');
+  const b = Buffer.from(expected, 'utf8');
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
 }
 
 export async function POST(req: Request) {
@@ -27,7 +35,7 @@ export async function POST(req: Request) {
     );
   }
 
-  if (body.secret !== expected) {
+  if (!body.secret || !safeEqual(body.secret, expected)) {
     return NextResponse.json(
       { ok: false, error: 'Invalid secret' },
       { status: 401 },
