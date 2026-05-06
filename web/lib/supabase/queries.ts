@@ -41,7 +41,7 @@ export async function getPublishedPosts(options?: {
     ? baseQuery.eq('category_id', categoryId)
     : baseQuery);
   if (error) throw error;
-  return { posts: (data ?? []) as unknown as Post[], total: count ?? 0 };
+  return { posts: (data ?? []) as Post[], total: count ?? 0 };
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
@@ -53,7 +53,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     .eq('status', 'published')
     .single();
   if (error) return null;
-  return data as unknown as Post;
+  return data as Post;
 }
 
 export const getCategories = cache(async (): Promise<Category[]> => {
@@ -76,7 +76,7 @@ export async function getFeaturedPosts(limit = 6): Promise<Post[]> {
     .order('published_at', { ascending: false })
     .limit(limit);
   if (error) throw error;
-  return (data ?? []) as unknown as Post[];
+  return (data ?? []) as Post[];
 }
 
 export async function getLatestPosts(limit = 6): Promise<Post[]> {
@@ -88,7 +88,7 @@ export async function getLatestPosts(limit = 6): Promise<Post[]> {
     .order('published_at', { ascending: false })
     .limit(limit);
   if (error) throw error;
-  return (data ?? []) as unknown as Post[];
+  return (data ?? []) as Post[];
 }
 
 export const getCounselingPrograms = cache(
@@ -140,7 +140,7 @@ export const getPopularPosts = cache(async (limit = 5): Promise<Post[]> => {
     .eq('status', 'published')
     .order('view_count', { ascending: false })
     .limit(limit);
-  return (data ?? []) as unknown as Post[];
+  return (data ?? []) as Post[];
 });
 
 export async function searchPosts(
@@ -162,7 +162,7 @@ export async function searchPosts(
     .order('published_at', { ascending: false })
     .range(from, to);
   if (error) throw error;
-  return { posts: (data ?? []) as unknown as Post[], total: count ?? 0 };
+  return { posts: (data ?? []) as Post[], total: count ?? 0 };
 }
 
 export async function getPostsTotalForCategory(

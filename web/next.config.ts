@@ -56,17 +56,9 @@ const nextConfig: NextConfig = {
       { source: '/contact', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
       { source: '/contact/:path*', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
       { source: '/inquiry', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
-      // 제품 — /about-service 의 핵심 기능 섹션으로
-      {
-        source: '/product',
-        destination: '/about-service#features',
-        permanent: false,
-      },
-      {
-        source: '/product/:slug*',
-        destination: '/about-service#features',
-        permanent: false,
-      },
+      // 제품 — 별도 /product 라우트 없음, 홈으로 흡수
+      { source: '/product', destination: '/', permanent: false },
+      { source: '/product/:slug*', destination: '/', permanent: false },
       // 기관용 — 카카오톡 오픈채팅으로 직행 (내부 contact 폼 제거)
       {
         source: '/for-institutions',
@@ -74,31 +66,25 @@ const nextConfig: NextConfig = {
         permanent: false,
         basePath: false,
       },
-      // 보안 — /about-service 보안 섹션
-      {
-        source: '/security',
-        destination: '/about-service#security',
-        permanent: false,
-      },
-      {
-        source: '/security/how-we-protect',
-        destination: '/about-service#security',
-        permanent: false,
-      },
+      // 보안 — /security 는 실제 라우트(app/(site)/security/page.tsx). redirect 두면 라우트가 가려져 제거.
+      // /security/* 하위 잔여 URL 만 흡수.
+      { source: '/security/how-we-protect', destination: '/security', permanent: false },
       {
         source: '/security/privacy-policy',
-        destination: '/privacy',
+        destination: 'https://app.mindthos.com/terms?type=privacy',
         permanent: false,
+        basePath: false,
       },
-      { source: '/security/terms', destination: '/terms', permanent: false },
+      {
+        source: '/security/terms',
+        destination: 'https://app.mindthos.com/terms?type=service',
+        permanent: false,
+        basePath: false,
+      },
       // 가격 — 랜딩 §09 anchor
       { source: '/pricing', destination: '/#pricing', permanent: false },
-      // 회사 — /about-service 회사 섹션
-      {
-        source: '/about',
-        destination: '/about-service#company',
-        permanent: false,
-      },
+      // 회사 — 별도 /about 라우트 없음, 홈으로
+      { source: '/about', destination: '/', permanent: false },
       // 리소스 — /blog 통합
       { source: '/resources', destination: '/blog', permanent: false },
       {

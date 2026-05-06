@@ -16,9 +16,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     /* /guide 는 외부 Notion 문서로 대체 (constants/nav.ts NOTION_GUIDE_URL) — sitemap 제외 */
     { url: `${SITE_URL}/blog`, lastModified: now, changeFrequency: 'daily', priority: 0.8 },
     { url: `${SITE_URL}/education`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${SITE_URL}/contact`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}/security`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    /* 서비스 이용약관 / 개인정보처리방침은 app.mindthos.com/terms 외부 라우트 — sitemap 제외 */
+    /* /contact 는 next.config.ts redirects 가 카카오톡 오픈채팅으로 외부 redirect — 사이트맵 제외 */
+    /* 서비스 이용약관 / 개인정보처리방침은 app.mindthos.com/terms 외부 라우트 — 사이트맵 제외 */
   ];
 
   let postPages: MetadataRoute.Sitemap = [];
@@ -32,9 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       .eq('status', 'published');
 
     if (posts) {
-      postPages = (
-        posts as unknown as { slug: string; updated_at: string }[]
-      ).map((post) => ({
+      postPages = (posts as { slug: string; updated_at: string }[]).map((post) => ({
         url: `${SITE_URL}/blog/${post.slug}`,
         lastModified: new Date(post.updated_at),
         changeFrequency: 'monthly' as const,

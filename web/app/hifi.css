@@ -20,13 +20,15 @@
   }
 
   :root {
-    /* === Brand · Mindthos Bright Green (2026-05-01 · 마음토스 공식 팔레트) === */
-    --brand:           #32D74B;
-    --brand-hover:     #168A35;
-    --brand-soft:      #65DE7A;
-    --brand-tint:      #B7F3C7;
-    --brand-pale:      #E9FBEF;
-    --brand-alpha:     rgba(50, 215, 75, 0.18);
+    /* === Brand · Mindthos Production Green (CLAUDE.md / design-tokens.md v1.2 · canonical) ===
+       hifi.css 의 짧은 alias(--brand 등) 는 globals.css 의 canonical token(--brand-primary 등) 으로
+       alias 처리하여 단일 진실 원본을 globals.css 가 갖도록 함. */
+    --brand:           var(--brand-primary, #44ce4b);
+    --brand-hover:     var(--brand-primary-dark, #40a755);
+    --brand-soft:      var(--brand-primary-soft, #65c377);
+    --brand-tint:      var(--brand-primary-tint, #b5e2bf);
+    --brand-pale:      var(--brand-primary-pale, #e2f6e6);
+    --brand-alpha:     rgba(68, 206, 75, 0.18);
 
     /* === Text · Cool Slate === */
     --ink:             #0f172a;   /* primary text (slate-900) */
