@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-[var(--container-narrow)] px-[var(--gutter)] py-24 text-center">
+    <div className="mx-auto max-w-narrow px-gutter py-24 text-center">
       <p className="eyebrow">404</p>
       <h1 className="mt-2 mb-4">페이지를 찾을 수 없어요</h1>
       <p className="mb-8 text-[var(--text-body)]">

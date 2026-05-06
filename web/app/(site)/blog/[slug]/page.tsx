@@ -122,7 +122,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <>
       <SchemaMarkup schema={[articleSchema, breadcrumbSchema]} />
 
-      <article className="mx-auto max-w-[var(--container-wide)] px-[var(--gutter-wide)] py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
+      <article className="mx-auto max-w-container-wide px-gutter-wide py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
         <Link
           href="/blog"
           className="inline-flex items-center gap-1.5 text-small text-[var(--text-muted)] transition-colors hover:text-[var(--brand-primary-dark)]"
@@ -130,7 +130,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <ArrowLeft className="h-4 w-4" aria-hidden /> 블로그 목록
         </Link>
 
-        <header className="mt-6 max-w-[var(--container-narrow)]">
+        <header className="mt-6 max-w-narrow">
           {post.category ? (
             <Link
               href={`/blog?category=${post.category.slug}`}

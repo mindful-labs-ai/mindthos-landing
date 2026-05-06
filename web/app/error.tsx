@@ -2,7 +2,7 @@
 
 export default function Error({ reset }: { error: Error; reset: () => void }) {
   return (
-    <div className="mx-auto max-w-[var(--container-narrow)] px-[var(--gutter)] py-24 text-center">
+    <div className="mx-auto max-w-narrow px-gutter py-24 text-center">
       <h1 className="mb-4">문제가 발생했어요</h1>
       <p className="mb-8 text-[var(--text-body)]">잠시 후 다시 시도해주세요.</p>
       <button

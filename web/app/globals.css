@@ -77,6 +77,7 @@
 
   /* Layout — Tailwind max-w-* utilities (legacy) */
   --max-width-container: 1120px;
+  --max-width-container-wide: 1280px;
   --max-width-narrow: 760px;
   --max-width-prose: 640px;
 
@@ -86,6 +87,10 @@
   --container-max: 1120px;
   --container-narrow: 760px;
   --container-prose: 640px;
+
+  /* Spacing aliases — Tailwind generates px-/mx-/gap- utilities for these token names. */
+  --spacing-gutter: clamp(16px, 4vw, 32px);
+  --spacing-gutter-wide: 40px;
 
   /* Typography scale — design tokens consumed by typography utilities */
   --text-display: var(--t-display);

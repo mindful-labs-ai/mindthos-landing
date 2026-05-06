@@ -132,7 +132,7 @@
 
 ---
 
-## 6. @theme inline 사용 통일 — `chore/theme-utility-migration` ✅ Typography 단계 완료 (2026-05-06)
+## 6. @theme inline 사용 통일 — `chore/theme-utility-migration` ✅ 완료 (2026-05-06)
 
 > **결과 (Typography subset)**: 14 파일 (`app/(site)/blog/{[slug],}/page.tsx` + 12 `components/blog/*.tsx`) 의 typography arbitrary values 37건 일괄 마이그레이션:
 >
@@ -144,9 +144,16 @@
 > - `text-[length:var(--t-cta)]` → `text-cta` (2건)
 > - `text-[length:var(--t-h2)]` → `text-h2` (1건)
 >
-> 검증: build 12 routes ✓, typecheck 0 errors, eslint 0 errors, blog 목록 + 상세 시각 parity (Chrome headless 1280px).
+> **결과 (Container/gutter subset)**: 5 파일 (`app/error.tsx`, `app/loading.tsx`, `app/not-found.tsx`, `app/(site)/blog/{[slug],}/page.tsx`) 의 container/gutter arbitrary 10건 일괄 마이그레이션. 새 alias 토큰 3개 추가 (`--max-width-container-wide: 1280px`, `--spacing-gutter`, `--spacing-gutter-wide: 40px`):
 >
-> **잔여 (Container subset)**: `max-w-[var(--container-wide)]` (2건), `max-w-[var(--container-narrow)]` (3건), `px-[var(--gutter-wide)]` (2건). Tailwind v4 의 `--max-width-*` 와 `--container-*` 가 다른 namespace (max-width vs container queries) 라 1:1 매핑이 없고, 기존 `--max-width-container` (1120px) 와 `--container-wide` (1280px) 가 값이 달라 단순 치환 불가. 별도 PR로 alias 토큰 추가 후 마이그레이션 권장.
+> - `max-w-[var(--container-narrow)]` → `max-w-narrow` (3건, 기존 760px alias 재사용)
+> - `max-w-[var(--container-wide)]` → `max-w-container-wide` (2건)
+> - `px-[var(--gutter)]` → `px-gutter` (3건)
+> - `px-[var(--gutter-wide)]` → `px-gutter-wide` (2건)
+>
+> `py-[var(--section-py-tablet)]` md:py-[var(--section-py-desktop)] 패턴은 utility-friendly 명명이 적합하지 않아 arbitrary value로 유지.
+>
+> 검증: build 12 routes ✓, typecheck 0 errors, eslint 0 errors, blog 목록 + 상세 + 404 페이지 시각 parity (Chrome headless 1280px).
 
 ### 현 상태 (당시)
 이전 라운드에서 `--text-display`, `--spacing-1..9`, `--container-*` 등을 `@theme inline` 에 노출.
@@ -201,7 +208,7 @@
 | ~~4. Pretendard Variable~~ ✅ | LCP ↓ | — | — | **2026-05-06 완료** |
 | ~~5. /education priority~~ ✅ | LCP ↓ | — | — | **2026-05-06 완료** |
 | ~~7. inline style cleanup~~ ✅ | 일관성 ↑ | — | — | **2026-05-06 완료** |
-| 6. @theme 사용 통일 (Typography ✅ / Container 잔여) | 가독성 ↑ | 매우 낮음 | 별도 PR | Container alias 토큰 추가 후 |
+| ~~6. @theme 사용 통일~~ ✅ | 가독성 ↑ | — | — | **2026-05-06 완료** |
 | 3. CSP enforce | 보안 ↑ | 외부 스크립트 차단 위험 | 모니터링 1주 | production 배포 후 |
 | 2. hifi 토큰 reconcile | 일관성 ↑ | 시각 회귀 ↑↑ | 사용자 결정 후 | 보류 |
 | 8. CSP nonce | 보안 ↑↑ | 통합 위험 ↑ | 1일 | 보류 (CSP enforce 후) |
