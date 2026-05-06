@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { KAKAO_INQUIRY_URL, NOTION_GUIDE_URL } from '@/constants/nav';
 
@@ -12,7 +13,7 @@ export function Footer() {
           {/* 브랜드 컬럼 */}
           <div className="flex flex-col gap-8">
             <Link href="/" aria-label="마음토스 홈" className="inline-flex items-center">
-              <img
+              <Image
                 src="/logo-mindthos.webp"
                 alt="마음토스"
                 width={420}

@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -46,7 +47,7 @@ export function Header() {
     <header className="gnb" data-scrolled={scrolled ? 'true' : 'false'}>
       <div className="container gnb-inner">
         <Link className="gnb-logo" href="/" aria-label="마음토스 홈">
-          <img src="/logo-mindthos.webp" alt="마음토스" width={420} height={108} />
+          <Image src="/logo-mindthos.webp" alt="마음토스" width={420} height={108} priority />
         </Link>
 
         <nav className="gnb-nav" aria-label="주 메뉴">
