@@ -37,7 +37,7 @@
 
 - ✅ `next/font/local` 6 weight 도입, jsDelivr CDN 제거
 - ✅ 2026-05-06: `Pretendard-Light.woff2` (300) 제거 — 사용처 0건 검증 후 (~92KB 절감, 5 weight 유지)
-- ⏸ Pretendard Variable woff2 단일 파일 통합은 별도 PR (`perf/font-variable` — `docs/refactor-deferred.md` §4 참조)
+- ✅ 2026-05-06: **Pretendard Variable woff2 단일 파일로 통합** — `PretendardVariable.woff2` (`weight: '100 900'`) 도입, 5 static weight (Bold/ExtraBold/Medium/Regular/SemiBold) 파일 삭제. preload 7건 → 3건, ~2MB 절감. 모든 weight 시각 parity 확인 (홈 hero h1 / sub / promo / gnb / CTA).
 
 ---
 
@@ -46,7 +46,7 @@
 **완료 — 2026-04-30 (claude).**
 
 - ✅ `components/home/HifiLanding.tsx` monolith 로 11 섹션 모두 구현
-- ⏸ 3,290줄 monolith 를 9~11개 sub-component로 분할은 별도 PR (`feat/hifi-section-split` — `docs/refactor-deferred.md` §1 참조)
+- ✅ 2026-05-06: 3,290줄 monolith → 11개 sub-component 분할 완료 (`components/home/sections/{Hero,TrustEncrypt,Pain,FeatureTabs,SampleExperience,Personas,VsCompare,Metrics,Pricing,Faq,FinalCta}Section.tsx`). 부모는 175줄 thin shell. §02/§03 cross-section fade-up effect만 부모에 유지. lint 정리 (Footer Link, Hero `<img>` eslint-disable, blockquote 따옴표 → 유니코드 큰따옴표)도 동반.
 
 ---
 
@@ -179,12 +179,12 @@ vercel deploy --prod
 
 ## 차후 PR (별도 브랜치 권장)
 
-- `feat/hifi-section-split` — HifiLanding 3,290줄 → sub-components (deferred §1)
+- ~~`feat/hifi-section-split`~~ ✅ 2026-05-06 완료 — HifiLanding 3,290줄 → 11 sub-components (현 브랜치)
+- ~~`perf/font-variable`~~ ✅ 2026-05-06 완료 — Pretendard Variable woff2 단일 파일 (현 브랜치)
+- ~~`perf/education-lcp`~~ ✅ 2026-05-06 완료 — /education hero priority + fetchPriority="high" (현 브랜치)
 - `feat/hifi-token-canonical` — hifi 잔여 토큰 reconcile (deferred §2)
 - `chore/csp-enforce` — CSP report-only → enforce (deferred §3)
-- `perf/font-variable` — Pretendard Variable woff2 단일 파일 (deferred §4)
-- `perf/education-lcp` — /education hero priority (deferred §5)
-- `chore/theme-utility-migration` — `text-[length:var(--t-*)]` → Tailwind utility (deferred §6)
+- `chore/theme-utility-migration` — typography arbitrary-value classes → Tailwind utility (deferred §6)
 
 자세한 spec: `docs/refactor-deferred.md`
 

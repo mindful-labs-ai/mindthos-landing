@@ -2,7 +2,13 @@
 
 `feat/large-refactor` 브랜치 (2026-05-06) 라운드에서 시각/회귀 위험 또는 결정 사안으로 deferred한 큰 작업들의 사양. 각 항목은 **별도 PR로 분리해 시각/성능 검증 후 머지**를 권장합니다.
 
-## 1. HifiLanding.tsx 섹션 추출 — `feat/hifi-section-split`
+## 1. HifiLanding.tsx 섹션 추출 — `feat/hifi-section-split` ✅ 완료 (2026-05-06)
+
+> **결과**: 3,290줄 monolith → 11개 sub-component 추출 (`components/home/sections/{Hero,TrustEncrypt,Pain,FeatureTabs,SampleExperience,Personas,VsCompare,Metrics,Pricing,Faq,FinalCta}Section.tsx`). 부모 HifiLanding.tsx 는 **175 lines** thin shell. §02/§03 fade-up cross-section IntersectionObserver만 부모에 유지 (주석으로 명시). 빌드 0 errors / typecheck 0 errors / eslint 0 errors. Hero/footer 섹션 시각 parity 검증 (Chrome headless).
+>
+> 동반 정리: HifiLanding.tsx Footer 의 `<a href="/">` → `<Link>` 2건, Hero `<img>` → eslint-disable + 주석, PainSection / FeatureTabsSection blockquote 의 raw `"` → 유니코드 큰따옴표(`""`).
+>
+> 잔여 본문은 historical reference 로 보존.
 
 ### 문제
 `web/components/home/HifiLanding.tsx` (3,290 lines) 에 11개 섹션 + 7개 useEffect 가 monolith 로 결합. 단일 파일이 너무 커서 유지보수가 어렵고, 한 섹션 수정이 다른 섹션까지 재컴파일.
@@ -94,9 +100,13 @@
 
 ---
 
-## 4. Pretendard Variable woff2 단일 파일로 통합 — `perf/font-variable`
+## 4. Pretendard Variable woff2 단일 파일로 통합 — `perf/font-variable` ✅ 완료 (2026-05-06)
 
-### 현 상태
+> **결과**: `web/public/fonts/PretendardVariable.woff2` (2.0 MB) 단일 파일로 교체. `app/layout.tsx` 의 5 static weight `localFont` config → 단일 entry `weight: '100 900'`. 5 static weight 파일 삭제 (Bold/ExtraBold/Medium/Regular/SemiBold). preload `<link rel="preload">` 7건 → 3건. 모든 weight 시각 parity 확인.
+>
+> 실측: spec의 "약 460KB → ~140KB" 추정은 부정확 — 실제 5 static weight 합 ~4.1MB, Variable 단일 ~2.0MB로 약 2MB 절감 + HTTP 요청 5→1.
+
+### 현 상태 (당시)
 5 weight static woff2 (400/500/600/700/800) — 약 460KB.
 
 ### 작업
@@ -109,9 +119,11 @@
 
 ---
 
-## 5. /education hero `<Image>` priority 부여 — `perf/education-lcp`
+## 5. /education hero `<Image>` priority 부여 — `perf/education-lcp` ✅ 완료 (2026-05-06)
 
-### 현 상태
+> **결과**: `app/(site)/education/page.tsx` `.map((p, idx) => ...)` 첫 카드(`idx === 0`)에 `priority` + `fetchPriority="high"` 부여. LCP 측정은 production 배포 후 CrUX/PSI 검증 권장.
+
+### 현 상태 (당시)
 `/education` 카드 그리드의 `<Image>` 들에 `priority` 미지정 — 첫 카드가 LCP 후보.
 
 ### 작업
@@ -167,10 +179,10 @@
 
 | ID | 효과 | 위험 | 소요 | 추천 순서 |
 |---|---|---|---|---|
-| 1. HifiLanding 분할 | 유지보수 ↑↑ | 시각 회귀 ↑ | 1-2일 (단계적) | 가장 먼저 |
-| 4. Pretendard Variable | LCP ↓ | 낮음 (시각 변화 없음) | 30분 | 두 번째 (빠른 win) |
-| 5. /education priority | LCP ↓ | 낮음 | 10분 | 세 번째 |
-| 3. CSP enforce | 보안 ↑ | 외부 스크립트 차단 위험 | 모니터링 1주 | 네 번째 |
+| ~~1. HifiLanding 분할~~ ✅ | 유지보수 ↑↑ | — | — | **2026-05-06 완료** |
+| ~~4. Pretendard Variable~~ ✅ | LCP ↓ | — | — | **2026-05-06 완료** |
+| ~~5. /education priority~~ ✅ | LCP ↓ | — | — | **2026-05-06 완료** |
+| 3. CSP enforce | 보안 ↑ | 외부 스크립트 차단 위험 | 모니터링 1주 | **다음** |
 | 6. @theme 사용 통일 | 가독성 ↑ | 매우 낮음 | 점진적 (PR마다) | 백그라운드 |
 | 2. hifi 토큰 reconcile | 일관성 ↑ | 시각 회귀 ↑↑ | 사용자 결정 후 | 보류 |
 | 7. inline style cleanup | 일관성 ↑ | 매우 낮음 | 1시간 | 보류 |

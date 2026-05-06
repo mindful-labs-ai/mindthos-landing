@@ -90,7 +90,7 @@ export default function EducationPage() {
           </div>
 
           <ul className="mt-8 grid gap-6 md:grid-cols-2">
-            {PROGRAMS.map((p) => (
+            {PROGRAMS.map((p, idx) => (
               <li
                 key={p.title}
                 className="flex flex-col overflow-hidden rounded-2xl border border-[var(--line-1)] bg-[var(--bg-elevated)]"
@@ -102,6 +102,8 @@ export default function EducationPage() {
                     fill
                     sizes="(min-width: 768px) 50vw, 100vw"
                     className="object-cover"
+                    priority={idx === 0}
+                    fetchPriority={idx === 0 ? 'high' : 'auto'}
                   />
                 </div>
                 <div className="flex flex-col p-5 md:p-6">

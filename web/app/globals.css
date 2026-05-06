@@ -87,7 +87,7 @@
   --container-narrow: 760px;
   --container-prose: 640px;
 
-  /* Typography scale — Tailwind text-[length:var(--t-*)] consumers */
+  /* Typography scale — design tokens consumed by typography utilities */
   --text-display: var(--t-display);
   --text-display-mobile: var(--t-display-mobile);
   --text-h2: var(--t-h2);
