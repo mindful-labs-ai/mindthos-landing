@@ -161,24 +161,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </header>
 
-        {post.thumbnail_url ? (
-          <div className="mt-10 overflow-hidden rounded-2xl bg-[var(--bg-elevated)]">
-            <Image
-              src={post.thumbnail_url}
-              alt={post.title}
-              width={1200}
-              height={630}
-              priority
-              fetchPriority="high"
-              sizes="(max-width: 1120px) 100vw, 1120px"
-              className="h-auto w-full object-cover"
-            />
-          </div>
-        ) : null}
-
         <div className="mt-10 grid gap-12 md:grid-cols-[1fr_240px]">
           <div className="min-w-0">
-            <SummaryBox summary={post.summary} />
+            {post.thumbnail_url ? (
+              <div className="overflow-hidden rounded-2xl bg-[var(--bg-elevated)]">
+                <Image
+                  src={post.thumbnail_url}
+                  alt={post.title}
+                  width={1200}
+                  height={630}
+                  priority
+                  fetchPriority="high"
+                  sizes="(max-width: 1120px) 100vw, 880px"
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+            ) : null}
+
+            <div className={post.thumbnail_url ? 'mt-8' : ''}>
+              <SummaryBox summary={post.summary} />
+            </div>
 
             <div className="prose mt-10">
               <div dangerouslySetInnerHTML={{ __html: html }} />

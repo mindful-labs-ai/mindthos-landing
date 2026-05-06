@@ -35,8 +35,8 @@ export function resolveCTA(
     };
   }
   return {
-    heading: '마음토스 무료로 시작하기',
-    buttonText: '무료로 시작',
+    heading: '상담사를 위한 가장 안전한 AI 에이전트, 마음토스',
+    buttonText: '무료로 시작하기',
     href: 'https://app.mindthos.com',
     external: true,
   };

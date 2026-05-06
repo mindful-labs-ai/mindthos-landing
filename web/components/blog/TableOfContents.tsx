@@ -60,7 +60,7 @@ export function TableOfContents({ items }: TableOfContentsProps) {
     <>
       {/* Desktop TOC — sticky */}
       <nav
-        className="hidden md:block md:sticky md:top-24 rounded-xl border border-[var(--line-1)] bg-[var(--bg-warm)] p-5"
+        className="hidden md:block md:sticky md:top-32 rounded-xl border border-[var(--line-1)] bg-[var(--bg-warm)] p-5"
         aria-label="목차"
       >
         <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">

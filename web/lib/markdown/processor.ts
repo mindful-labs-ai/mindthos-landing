@@ -2,6 +2,7 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import remarkRehype from 'remark-rehype';
+import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import type { Schema } from 'hast-util-sanitize';
@@ -64,6 +65,8 @@ export async function processMarkdown(markdown: string): Promise<string> {
     .use(remarkParse)
     .use(remarkGfm, { singleTilde: false })
     .use(remarkRehype, { allowDangerousHtml: true })
+    // raw HTML node 를 hast element 로 승격. 마이그레이션된 글의 <strong>/<em> 등 inline HTML 보존.
+    .use(rehypeRaw)
     .use(rehypeSlug)
     .use(rehypeResponsiveTable)
     .use(rehypeExternalLinks)
