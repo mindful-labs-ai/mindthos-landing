@@ -147,9 +147,13 @@
 
 ---
 
-## 7. 인라인 style → 클래스 마이그레이션 — `chore/inline-style-cleanup`
+## 7. 인라인 style → 클래스 마이그레이션 — `chore/inline-style-cleanup` ✅ 완료 (2026-05-06)
 
-### 현 상태
+> **결과**: `components/layout/Header.tsx` 의 모바일 toggle/panel inline styles 5개 (button + panel + nav + linkStyle) → `app/hifi/chrome.css` 의 `.gnb-mobile-toggle`, `.gnb-mobile-panel`, `.gnb-mobile-panel nav`, `.gnb-mobile-panel a` 클래스로 이전. `linkStyle` const 제거, `style` prop 제거. `#fff` → `var(--bg-base)` 토큰 사용. 모바일 viewport 시각 parity 확인.
+>
+> HifiLanding SVG fill 은 spec대로 유지 (SVG 속성).
+
+### 현 상태 (당시)
 - `Header.tsx` 모바일 메뉴 패널: 인라인 styles object (안전성 동기 — hifi.css 미로드 시도 동작)
 - `HifiLanding.tsx` SVG 아이콘 fill 일부
 
@@ -182,8 +186,8 @@
 | ~~1. HifiLanding 분할~~ ✅ | 유지보수 ↑↑ | — | — | **2026-05-06 완료** |
 | ~~4. Pretendard Variable~~ ✅ | LCP ↓ | — | — | **2026-05-06 완료** |
 | ~~5. /education priority~~ ✅ | LCP ↓ | — | — | **2026-05-06 완료** |
-| 3. CSP enforce | 보안 ↑ | 외부 스크립트 차단 위험 | 모니터링 1주 | **다음** |
-| 6. @theme 사용 통일 | 가독성 ↑ | 매우 낮음 | 점진적 (PR마다) | 백그라운드 |
+| ~~7. inline style cleanup~~ ✅ | 일관성 ↑ | — | — | **2026-05-06 완료** |
+| 6. @theme 사용 통일 | 가독성 ↑ | 매우 낮음 | 점진적 (PR마다) | **다음 (백그라운드)** |
+| 3. CSP enforce | 보안 ↑ | 외부 스크립트 차단 위험 | 모니터링 1주 | production 배포 후 |
 | 2. hifi 토큰 reconcile | 일관성 ↑ | 시각 회귀 ↑↑ | 사용자 결정 후 | 보류 |
-| 7. inline style cleanup | 일관성 ↑ | 매우 낮음 | 1시간 | 보류 |
 | 8. CSP nonce | 보안 ↑↑ | 통합 위험 ↑ | 1일 | 보류 (CSP enforce 후) |

@@ -90,17 +90,6 @@ export function Header() {
             aria-label={mobileOpen ? '메뉴 닫기' : '메뉴 열기'}
             aria-expanded={mobileOpen}
             aria-controls="gnb-mobile-panel"
-            style={{
-              width: 36,
-              height: 36,
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: 0,
-              background: 'transparent',
-              borderRadius: 8,
-              color: 'var(--text-primary)',
-            }}
           >
             {mobileOpen ? <X size={20} aria-hidden /> : <Menu size={20} aria-hidden />}
           </button>
@@ -108,33 +97,10 @@ export function Header() {
       </div>
 
       {mobileOpen && (
-        <div
-          id="gnb-mobile-panel"
-          className="gnb-mobile-panel"
-          style={{
-            borderTop: '1px solid var(--line-1)',
-            background: '#fff',
-          }}
-        >
-          <nav
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 4,
-              padding: '12px 24px 16px',
-            }}
-            aria-label="모바일 메뉴"
-          >
+        <div id="gnb-mobile-panel" className="gnb-mobile-panel">
+          <nav aria-label="모바일 메뉴">
             {PRIMARY_NAV.map((item, idx) => {
               const active = !item.external && isActive(pathname, item.href);
-              const linkStyle: React.CSSProperties = {
-                display: 'block',
-                padding: '10px 8px',
-                fontSize: 15,
-                fontWeight: 600,
-                color: 'var(--text-primary)',
-                textDecoration: 'none',
-              };
               const refProp = idx === 0 ? { ref: firstLinkRef } : {};
               return item.external ? (
                 <a
@@ -142,7 +108,6 @@ export function Header() {
                   href={item.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={linkStyle}
                   onClick={() => setMobileOpen(false)}
                   {...refProp}
                 >
@@ -153,7 +118,6 @@ export function Header() {
                   key={item.href}
                   href={item.href}
                   aria-current={active ? 'page' : undefined}
-                  style={linkStyle}
                   onClick={() => setMobileOpen(false)}
                   {...refProp}
                 >

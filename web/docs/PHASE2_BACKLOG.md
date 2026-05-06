@@ -114,12 +114,12 @@
 
 ---
 
-## 10. 인라인 style → Tailwind arbitrary value 통일 ✅ (대부분)
+## 10. 인라인 style → Tailwind arbitrary value 통일 ✅
 
-**Footer 14개 hex 마이그레이션 완료 — 2026-05-06.**
+**Footer + Header 마이그레이션 완료 — 2026-05-06.**
 
 - ✅ Footer.tsx: 14개 hex inline style → `text-[var(--ink)]`, `text-[var(--brand-hover)]`, `border-[var(--line)]` 등 hifi 토큰
-- ⏸ Header.tsx 모바일 패널 inline styles 일부 잔존 (안전성 동기 — `docs/refactor-deferred.md` §7 참조)
+- ✅ 2026-05-06: Header.tsx 모바일 toggle/panel inline styles → `app/hifi/chrome.css` 의 `.gnb-mobile-toggle` / `.gnb-mobile-panel` / `.gnb-mobile-panel nav` / `.gnb-mobile-panel a` 클래스로 이전. 시각 parity 확인.
 
 ---
 
@@ -182,9 +182,10 @@ vercel deploy --prod
 - ~~`feat/hifi-section-split`~~ ✅ 2026-05-06 완료 — HifiLanding 3,290줄 → 11 sub-components (현 브랜치)
 - ~~`perf/font-variable`~~ ✅ 2026-05-06 완료 — Pretendard Variable woff2 단일 파일 (현 브랜치)
 - ~~`perf/education-lcp`~~ ✅ 2026-05-06 완료 — /education hero priority + fetchPriority="high" (현 브랜치)
-- `feat/hifi-token-canonical` — hifi 잔여 토큰 reconcile (deferred §2)
-- `chore/csp-enforce` — CSP report-only → enforce (deferred §3)
+- ~~`chore/inline-style-cleanup`~~ ✅ 2026-05-06 완료 — Header.tsx 모바일 toggle/panel inline → hifi/chrome.css 클래스 (현 브랜치)
 - `chore/theme-utility-migration` — typography arbitrary-value classes → Tailwind utility (deferred §6)
+- `feat/hifi-token-canonical` — hifi 잔여 토큰 reconcile (deferred §2, 디자인 결정 필요)
+- `chore/csp-enforce` — CSP report-only → enforce (deferred §3, production 배포 후)
 
 자세한 spec: `docs/refactor-deferred.md`
 

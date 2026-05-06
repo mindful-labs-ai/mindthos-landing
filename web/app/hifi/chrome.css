@@ -126,6 +126,38 @@
     font-size: 13px;
   }
 
+  /* GNB mobile toggle button (hamburger) — moved from Header.tsx inline styles. */
+  .gnb-mobile-toggle {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    border-radius: 8px;
+    color: var(--text-primary);
+  }
+  /* GNB mobile panel — drops down below header when toggle is open. */
+  .gnb-mobile-panel {
+    border-top: 1px solid var(--line-1);
+    background: var(--bg-base);
+  }
+  .gnb-mobile-panel nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 24px 16px;
+  }
+  .gnb-mobile-panel a {
+    display: block;
+    padding: 10px 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
   /* 모바일 — 데스크탑 메뉴 숨기고 햄버거 자리 확보 (HTML에 햄버거가 없을 시 visual reflow만) */
   @media (max-width: 880px) {
     .gnb-inner { gap: 16px; height: 52px; }
