@@ -117,3 +117,68 @@ export async function getCounselingProgramBySlug(
   if (error) return null;
   return data;
 }
+
+export async function getCounselingProgramById(
+  id: string
+): Promise<CounselingProgram | null> {
+  const supabase = createStaticClient();
+  const { data, error } = await supabase
+    .from('counseling_programs')
+    .select('*')
+    .eq('id', id)
+    .eq('is_active', true)
+    .maybeSingle();
+  if (error) return null;
+  return data;
+}
+
+export const getPopularPosts = cache(async (limit = 5): Promise<Post[]> => {
+  const supabase = createStaticClient();
+  const { data } = await supabase
+    .from('posts')
+    .select('*, category:categories(*), author:authors(*)')
+    .eq('status', 'published')
+    .order('view_count', { ascending: false })
+    .limit(limit);
+  return (data ?? []) as unknown as Post[];
+});
+
+export async function searchPosts(
+  query: string,
+  options?: { page?: number; perPage?: number }
+): Promise<{ posts: Post[]; total: number }> {
+  const { page = 1, perPage = 12 } = options ?? {};
+  const supabase = createStaticClient();
+  const from = (page - 1) * perPage;
+  const to = from + perPage - 1;
+  const safeQuery = query.replace(/[%_]/g, '\\$&');
+  const { data, count, error } = await supabase
+    .from('posts')
+    .select('*, category:categories(*), author:authors(*)', { count: 'exact' })
+    .eq('status', 'published')
+    .or(
+      `title.ilike.%${safeQuery}%,content.ilike.%${safeQuery}%,summary.ilike.%${safeQuery}%`
+    )
+    .order('published_at', { ascending: false })
+    .range(from, to);
+  if (error) throw error;
+  return { posts: (data ?? []) as unknown as Post[], total: count ?? 0 };
+}
+
+export async function getPostsTotalForCategory(
+  categorySlug?: string
+): Promise<number> {
+  const supabase = createStaticClient();
+  let query = supabase
+    .from('posts')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'published');
+  if (categorySlug) {
+    const cats = await getCategories();
+    const cat = cats.find((c) => c.slug === categorySlug);
+    if (!cat) return 0;
+    query = query.eq('category_id', cat.id);
+  }
+  const { count } = await query;
+  return count ?? 0;
+}

@@ -20,6 +20,7 @@ export interface Post {
   view_count: number;
   is_featured: boolean;
   published_at: string | null;
+  counseling_program_id: string | null;
   created_at: string;
   updated_at: string;
   category?: Category;
