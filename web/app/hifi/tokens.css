@@ -1,0 +1,118 @@
+  /* -------- Hi-fi base tokens & primitives. Section styles untouched. --------
+     사수 v9 typography (2026-04-28) — heading/body 폰트 패밀리 분리:
+       - Heading: Source Serif 4 (영문 modern editorial) + Noto Serif KR (한글 modern serif) → serif feel
+       - Body: Pretendard Variable (산세리프, 가독성)
+       - Utility: IBM Plex Mono (라벨/배지/캡션) */
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.min.css');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  /* SUIT/Paperlogy CDN(@v2/sun-typeface, innei/Paperlogy) — 404 응답으로 제거 (2026-05-04).
+     font-family stack 끝의 Pretendard·시스템 fallback이 자연스럽게 흡수. */
+
+  /* Gyeonggi Title (경기천년제목) Medium — 사수 v11 (2026-04-29)
+     타이틀 전용 한글 디스플레이 폰트. Medium 1종으로 모든 heading weight를 커버
+     (font-weight 100~900 매핑 → 합성 굵기 비활성화, 본문/버튼은 SUIT 유지) */
+  @font-face {
+    font-family: 'GyeonggiTitleM';
+    src: url('/fonts/gyeonggi/Title_Medium.woff') format('woff');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    /* === Brand · Mindthos Production Green (CLAUDE.md / design-tokens.md v1.2 · canonical) ===
+       hifi.css 의 짧은 alias(--brand 등) 는 globals.css 의 canonical token(--brand-primary 등) 으로
+       alias 처리하여 단일 진실 원본을 globals.css 가 갖도록 함. */
+    --brand:           var(--brand-primary, #44ce4b);
+    --brand-hover:     var(--brand-primary-dark, #40a755);
+    --brand-soft:      var(--brand-primary-soft, #65c377);
+    --brand-tint:      var(--brand-primary-tint, #b5e2bf);
+    --brand-pale:      var(--brand-primary-pale, #e2f6e6);
+    --brand-alpha:     rgba(68, 206, 75, 0.18);
+
+    /* === Text · Cool Slate === */
+    --ink:             #0f172a;   /* primary text (slate-900) */
+    --ink-2:           #334155;   /* body (slate-700) */
+    --ink-3:           #64748b;   /* muted (slate-500) */
+    --ink-4:           #94a3b8;   /* disabled (slate-400) */
+    --ink-strong:      #0f172a;   /* heading-strong (slate-900) */
+    --ink-warm:        #1A3025;   /* deep cool green-black (was warm dark text) */
+    --on-dark:         #ffffff;
+    --on-dark-muted:   rgba(255, 255, 255, 0.72);
+
+    /* === Surface · Cool Neutral === */
+    --bg:              #ffffff;   /* base */
+    --bg-2:            #f6f8f7;   /* cool offwhite alt */
+    --bg-3:            #f1f5f9;   /* slate-100 elevated */
+    --bg-deep:         #1A3025;   /* cool deep green-black */
+    --ph:              #e2e8f0;   /* slate-200 placeholder */
+    --white:           #ffffff;
+
+    /* === Line · Cool === */
+    --line:            #e2e8f0;   /* slate-200 */
+    --line-2:          #edf2f7;   /* very light cool */
+    --line-warm:       #e5ede9;   /* (legacy 명칭, cool 톤으로 재정의) */
+    --line-strong:     #cbd5e1;   /* slate-300 */
+
+    /* === Status === */
+    --alert:           #dc2626;   /* cool red (warm 테라코타 제거) */
+    --success:         var(--brand);
+
+    /* === Section role tokens (사수 v12 · 2026-04-29 · section rhythm)
+       전체 톤은 쿨그린 통일이지만 섹션 역할별로 배경 대비를 줘서 랜딩 흐름 살림.
+       --bg-page          : default (흰 배경)
+       --bg-section-light : 살짝 cool slate-50 (§03 Pain — 딥그린 그래픽 위한 베이스)
+       --bg-section-cool  : slate-100 (§06 Persona / §10 FAQ alt — 가벼운 분리감)
+       --bg-section-dark  : 딥 차콜 (§08 정량+후기 — 풀스크린 임팩트)
+       --bg-section-dark-2: dark 내부 살짝 lift (logos 영역 등) */
+    --bg-page:           #ffffff;
+    --bg-section-light:  #f8fafc;            /* slate-50 */
+    --bg-section-cool:   var(--bg-3);        /* slate-100 alias */
+    --bg-section-dark:   #07110e;            /* deep cool charcoal-green */
+    --bg-section-dark-2: #0b1812;
+    --green-primary:     var(--brand);
+    --green-soft:        var(--brand-soft);
+    --green-mint:        #6ee7b7;            /* 다크 배경 위 mint accent */
+    --green-glow:        rgba(50, 215, 75, 0.32);
+    --text-primary:      var(--ink);
+    --text-on-dark:      #ffffff;
+    --text-on-dark-muted: rgba(255, 255, 255, 0.64);
+    --text-on-dark-dim:   rgba(255, 255, 255, 0.42);
+    --border-cool:       var(--line);
+    --border-on-dark:    rgba(255, 255, 255, 0.10);
+
+    /* === Radius === */
+    --radius-xs:       4px;
+    --radius:          6px;
+    --radius-lg:       8px;
+    --radius-xl:       12px;
+    --radius-2xl:      20px;
+    --radius-pill:     999px;
+
+    /* === Shadow === */
+    --shadow-paper:    0 1px 0 rgba(0, 0, 0, 0.04);
+    --shadow-card:     0 6px 24px -16px rgba(15, 23, 42, 0.18);
+    --shadow-elev:     0 18px 48px -28px rgba(15, 23, 42, 0.28);
+    --shadow-deep:     0 14px 36px -20px rgba(0, 0, 0, 0.45);
+
+    /* === Type · 사수 v11 (2026-04-29) — heading 계열만 경기천년제목(Medium)으로 교체 ============
+       --font-title  : GyeonggiTitleM (한글 타이틀 디스플레이) → Paperlogy → Pretendard fallback
+       --font-heading: --font-title alias (전역 h1-h4 + .t-h*에 자동 적용)
+       --font-body   : SUIT Variable (본문/버튼/라벨 — 그대로 유지)
+       --font-base   : legacy alias → body 기준 (기존 참조 호환)
+       --font-mono   : IBM Plex Mono (라벨 / 배지 / 캡션 / 숫자) */
+    --font-title: 'GyeonggiTitleM', 'Paperlogy', 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif;
+    --font-heading: var(--font-title);
+    --font-body: 'SUIT Variable', 'SUIT', 'Pretendard Variable', 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans KR', sans-serif;
+    --font-base: var(--font-body);
+    --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+    /* === Layout === */
+    --container:       1280px;
+    --gutter:          40px;
+
+    /* === Motion === */
+    --ease:            cubic-bezier(0.4, 0.2, 0.2, 1);
+    --dur-fast:        0.16s;
+    --dur:             0.22s;
+  }
