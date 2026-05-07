@@ -6,31 +6,135 @@ import { useEffect } from 'react';
 export function MetricsSection() {
   useEffect(() => {
     const cleanups: Array<() => void> = [];
+    let rafIds: number[] = [];
 
-    /* === §08 metrics in-view === */
+    /* === §08 metrics in-view + count-up (replays on every re-entry) === */
     {
-      const strip = document.querySelector('.metrics-strip');
+      const strip = document.querySelector<HTMLElement>('.metrics-strip');
       if (strip) {
         const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReduced || !('IntersectionObserver' in window)) {
+
+        type Target = { textNode: Text; value: number; hasComma: boolean; original: string };
+        const valEls = Array.from(strip.querySelectorAll<HTMLElement>('.metric-val'));
+        const targets: Target[] = [];
+        valEls.forEach((el) => {
+          const value = Number(el.dataset.count);
+          if (!Number.isFinite(value)) return;
+          const hasComma = el.dataset.comma === 'true';
+          const original = hasComma ? value.toLocaleString('en-US') : String(value);
+          let textNode = Array.from(el.childNodes).find(
+            (n) => n.nodeType === Node.TEXT_NODE,
+          ) as Text | undefined;
+          if (!textNode) {
+            textNode = document.createTextNode(original);
+            el.insertBefore(textNode, el.firstChild);
+          }
+          targets.push({ textNode, value, hasComma, original });
+        });
+
+        const cancelRafs = () => {
+          rafIds.forEach((id) => cancelAnimationFrame(id));
+          rafIds = [];
+        };
+
+        const writeAll = (text: (t: Target) => string) => {
+          targets.forEach((t) => { t.textNode.textContent = text(t); });
+        };
+
+        const resetToZero = () => {
+          cancelRafs();
+          writeAll((t) => (t.hasComma ? (0).toLocaleString('en-US') : '0'));
+        };
+
+        const restoreOriginals = () => {
+          cancelRafs();
+          writeAll((t) => t.original);
+        };
+
+        const startCountUp = () => {
+          if (prefersReduced) {
+            restoreOriginals();
+            return;
+          }
+          cancelRafs();
+          const duration = 1600;
+          const stagger = 100;
+          const ease = (p: number) => 1 - Math.pow(1 - p, 3);
+          targets.forEach((t, i) => {
+            const startAt = performance.now() + i * stagger;
+            const tick = (now: number) => {
+              if (now < startAt) {
+                rafIds.push(requestAnimationFrame(tick));
+                return;
+              }
+              const p = Math.min((now - startAt) / duration, 1);
+              const current = Math.floor(t.value * ease(p));
+              t.textNode.textContent = t.hasComma
+                ? current.toLocaleString('en-US')
+                : String(current);
+              if (p < 1) {
+                rafIds.push(requestAnimationFrame(tick));
+              } else {
+                t.textNode.textContent = t.original;
+              }
+            };
+            rafIds.push(requestAnimationFrame(tick));
+          });
+        };
+
+        let inView = false;
+        const enter = () => {
+          if (inView) return;
+          inView = true;
           strip.classList.add('stats-in-view');
+          startCountUp();
+        };
+        const leave = () => {
+          if (!inView) return;
+          inView = false;
+          strip.classList.remove('stats-in-view');
+          if (!prefersReduced) resetToZero();
+        };
+
+        const isStripVisible = () => {
+          const r = strip.getBoundingClientRect();
+          const vh = window.innerHeight || document.documentElement.clientHeight;
+          const vw = window.innerWidth || document.documentElement.clientWidth;
+          if (r.bottom <= 0 || r.top >= vh) return false;
+          if (r.right <= 0 || r.left >= vw) return false;
+          const visibleH = Math.min(r.bottom, vh) - Math.max(r.top, 0);
+          return visibleH / Math.max(r.height, 1) >= 0.2 || visibleH >= vh * 0.2;
+        };
+
+        if (prefersReduced || !('IntersectionObserver' in window)) {
+          enter();
         } else {
+          if (!prefersReduced) resetToZero();
+
           const io = new IntersectionObserver((entries) => {
-            entries.forEach(e => {
+            entries.forEach((e) => {
               if (e.isIntersecting && e.intersectionRatio >= 0.2) {
-                strip.classList.add('stats-in-view');
-                io.unobserve(strip);
+                enter();
+              } else if (!e.isIntersecting) {
+                leave();
               }
             });
           }, { threshold: [0, 0.2, 0.5] });
           io.observe(strip);
           cleanups.push(() => io.disconnect());
+
+          /* IO 첫 콜백이 누락되거나 지연되는 경우 대비 — 다음 프레임에 즉시 가시성 직접 확인 */
+          const fallbackId = window.setTimeout(() => {
+            if (!inView && isStripVisible()) enter();
+          }, 60);
+          cleanups.push(() => window.clearTimeout(fallbackId));
         }
       }
     }
 
     return () => {
-      cleanups.forEach(fn => fn());
+      cleanups.forEach((fn) => fn());
+      rafIds.forEach((id) => cancelAnimationFrame(id));
     };
   }, []);
 
@@ -48,23 +152,23 @@ export function MetricsSection() {
     <div className="metrics-strip" aria-label="마음토스 정량 지표">
       <div className="metrics-grid">
         <div className="metric-card">
-          <div className="metric-val">1,400<span className="unit">+</span></div>
+          <div className="metric-val" data-count="1400" data-comma="true">1,400<span className="unit">+</span></div>
           <div className="metric-label">함께 쓰는 상담사</div>
         </div>
 
         <div className="metric-card">
-          <div className="metric-val">10,000<span className="unit">+</span></div>
+          <div className="metric-val" data-count="10000" data-comma="true">10,000<span className="unit">+</span></div>
           <div className="metric-label">정리된 상담 기록</div>
         </div>
 
         <div className="metric-card">
-          <div className="metric-val">12<span className="unit">시간+</span></div>
-          <div className="metric-label">월 단위 기록 시간 절감</div>
+          <div className="metric-val" data-count="12">12<span className="unit">시간+</span></div>
+          <div className="metric-label">월 기록 시간 절감</div>
         </div>
 
         <div className="metric-card">
-          <div className="metric-val">약 90<span className="unit">%</span></div>
-          <div className="metric-label">다시 쓰는 상담사 비율</div>
+          <div className="metric-val" data-count="90">90<span className="unit">%</span></div>
+          <div className="metric-label">마음토스 재구독</div>
         </div>
       </div>
     </div>

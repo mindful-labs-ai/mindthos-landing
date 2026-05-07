@@ -523,7 +523,8 @@
      premium B2B SaaS 톤의 깨끗한 white 카드 + 얇은 cool gray border */
   .trust-team {
     position: sticky;
-    top: 88px;
+    /* promo-top(44px) + gnb(56px) = 100px stack 아래로 12px 여유 */
+    top: 112px;
     display: flex;
     flex-direction: column;
     gap: 22px;
@@ -537,6 +538,15 @@
   }
   .trust-team::before,
   .trust-team::after { content: none; }
+
+  /* 단일 컬럼(모바일/태블릿)에서는 sticky 해제 — 트러스트 팀 카드가
+     자연스럽게 스크롤되도록 PC와 분리 (cascade 순서: 베이스 규칙보다 뒤) */
+  @media (max-width: 880px) {
+    .trust-team {
+      position: static;
+      top: auto;
+    }
+  }
   .trust-team-eyebrow {
     align-self: flex-start;
     display: inline-flex;
@@ -1567,6 +1577,8 @@
     text-decoration: none;
     border-bottom: 1.5px solid var(--brand-tint);
     padding-bottom: 4px;
+    /* WCAG 2.5.5 — secondary CTA hit area ≥44px while underline visual stays unchanged. */
+    min-height: 44px;
     letter-spacing: -0.012em;
     transition:
       color var(--dur-fast) var(--ease),
@@ -3879,6 +3891,14 @@
     .trust-protect-desc { font-size: 15px; }
     .trust-timeline-title { font-size: 15.5px; padding-bottom: 14px; margin-bottom: 20px; }
     .trust-visual { padding: 18px 0 12px; }
+    /* 다크 그래픽 박스 (.trust-visual-encrypt/.noai/.mask) 의 모바일 inner padding 복구 —
+       위 .trust-visual 룰이 source order 로 뒤에 와서 PC 기본 (28px 24px) 의 좌우 padding 까지
+       0 으로 덮어버려 내부 텍스트가 edge 에 붙는 문제가 있었음. 모바일 컴팩트 padding 으로 재지정. */
+    .trust-visual-encrypt,
+    .trust-visual-noai,
+    .trust-visual-mask {
+      padding: 22px 20px;
+    }
     .trust-visual-encrypt .tv-row { grid-template-columns: 1fr 80px 1fr; gap: 10px; height: 120px; }
     .tv-storage { width: 100px; }
     .trust-visual-noai .tv-noai-stage { gap: 8px 16px; height: 150px; }
@@ -5210,57 +5230,49 @@
   }
 
   @media (max-width: 880px) {
-    /* mobile: vertical accordion */
-    .feat-tablist { display: none; }
-    .feat-panel {
-      display: block;
-      border: 1px solid var(--line);
-      border-top: 1px solid var(--line);
-      padding: 0;
-      margin-bottom: -1px;
-      min-height: 0;
+    /* mobile: keep horizontal tab structure (PC parity), 가로 스크롤로 탭 이동.
+       이전엔 vertical accordion 이었으나 사용자 요청으로 탭 + 가로 스크롤 구조로 회귀. */
+    /* tablist 좌우 끝의 잘린 탭을 자연스럽게 페이드시키기 위해 CSS mask-image 사용.
+       이전엔 .feat-tabs::before/::after 로 absolute overlay 를 깔았으나, .feat-tabs 가 panel
+       전체까지 wrap 하므로 그 아래 본문 영역까지 가렸음. mask 는 픽셀 자체에만 적용되어
+       panel 콘텐츠를 침범하지 않는다. */
+    .feat-tablist {
+      -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+              mask-image: linear-gradient(90deg, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
     }
-    .feat-panel[data-active="true"] { border-color: var(--ink); }
-    .feat-acc-trigger {
+    .feat-tablist {
       display: flex;
-      width: 100%;
-      align-items: center;
-      gap: 14px;
-      padding: 18px 20px;
-      background: var(--white);
-      border: none;
-      cursor: pointer;
-      font-family: inherit;
-      text-align: left;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      overflow-y: hidden;
+      gap: 8px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      /* 첫 탭이 화면 좌측에 붙지 않도록 inline padding 으로 여백 확보. scroll-snap 은 첫 탭을
+         자동으로 viewport 0 으로 끌어당기므로 사용 안 함. */
+      padding: 4px 20px 12px;
     }
-    .feat-acc-trigger .feat-acc-num {
-      font-family: ui-monospace, monospace;
-      font-size: 11px;
-      color: var(--ink-4);
+    .feat-tablist::-webkit-scrollbar { display: none; }
+    .feat-tab {
+      flex: 0 0 auto;
+      min-width: 132px;
+      scroll-snap-align: start;
     }
-    .feat-acc-trigger .feat-acc-label {
-      flex: 1;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--ink-2);
-    }
-    .feat-panel[data-active="true"] .feat-acc-trigger .feat-acc-label {
-      color: var(--ink);
-      font-weight: 600;
-    }
-    .feat-acc-trigger .feat-acc-icon {
-      font-family: ui-monospace, monospace;
-      font-size: 14px;
-      color: var(--ink-3);
-    }
-    .feat-panel[data-active="true"] .feat-acc-trigger .feat-acc-icon { color: var(--ink); }
-    .feat-acc-body {
+    /* 모바일에서는 패널 자체를 1-col stack 으로 표시. accordion trigger 는 안 보임. */
+    .feat-acc-trigger { display: none; }
+    .feat-acc-body { display: contents; }
+    .feat-panel {
       display: none;
-      padding: 8px 20px 24px;
       grid-template-columns: 1fr;
       gap: 24px;
+      padding: 0;
+      border: none;
+      min-height: 0;
     }
-    .feat-panel[data-active="true"] .feat-acc-body { display: grid; }
+    .feat-panel[data-active="true"] {
+      display: grid;
+      border: none;
+    }
     .feat-msg { font-size: 21px; }
     .pf-body { grid-template-columns: 1fr; gap: 8px; padding: 16px; }
     .pf-arrow { transform: rotate(90deg); margin: 2px 0; }

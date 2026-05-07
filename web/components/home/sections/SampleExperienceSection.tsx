@@ -66,7 +66,11 @@ export function SampleExperienceSection() {
     {
       const section = document.querySelector<HTMLElement>('.sample-section');
       const expCard = document.getElementById('sample-step-card');
-      if (section && 'IntersectionObserver' in window) {
+      const isMobile = window.matchMedia('(max-width: 860px)').matches;
+      if (section && isMobile) {
+        /* 모바일에서는 스크롤 fade-in 비활성화 — 즉시 visible 처리 */
+        section.classList.add('is-in-view', 'exp-in-view');
+      } else if (section && 'IntersectionObserver' in window) {
         const ioIntro = new IntersectionObserver((entries) => {
           entries.forEach(e => {
             if (e.isIntersecting) {
@@ -207,6 +211,65 @@ export function SampleExperienceSection() {
       }
     }
 
+    /* §05 슬라이드형 핀 트랜지션 — scroll-progress 기반 CSS 변수 구동.
+       - --title-progress: slot1.bottom 이 1.2vh → 0.7vh 구간을 지나는 동안 0 → 1
+         (slot1 핀 종료 직전부터 핀 종료 직후까지 — 사용자가 타이틀 fade-out 을 viewport 안에서 보게 됨)
+       - --card-enter: slot2.top 이 0.7vh → 0 구간을 지나는 동안 0 → 1
+         (slot2 가 viewport 하단 70% 지점부터 진입 → 핀 부착 시점까지 좌→중앙 slide in)
+       - --card-exit: slot2.top 이 -0.4vh → -0.95vh 구간을 지나는 동안 0 → 1
+         (slot2 핀 후반, 카드가 중앙 → 오른쪽 바깥으로 slide out)
+       양방향 스크롤에서 동일하게 작동 (값이 progress 에 직접 매핑). */
+    {
+      const section = document.querySelector<HTMLElement>('.sample-section');
+      const slot1 = document.querySelector<HTMLElement>('.sample-pin-slot--title');
+      const slot2 = document.querySelector<HTMLElement>('.sample-pin-slot--card');
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobile = window.matchMedia('(max-width: 860px)').matches;
+      /* 모바일에서는 스크롤-progress 애니메이션 비활성화 — CSS 변수도 0 으로 고정 (calc 경로 무력화) */
+      if (section && isMobile) {
+        section.style.setProperty('--title-progress', '0');
+        section.style.setProperty('--card-enter', '1');
+        section.style.setProperty('--card-exit', '0');
+      }
+      if (section && slot1 && slot2 && !reduce && !isMobile) {
+        let raf: number | null = null;
+        const clamp01 = (v: number): number => Math.min(1, Math.max(0, v));
+        const update = (): void => {
+          const r1 = slot1.getBoundingClientRect();
+          const r2 = slot2.getBoundingClientRect();
+          const vh = window.innerHeight;
+          const tStart = vh * 1.2;
+          const tEnd = vh * 0.7;
+          const titleProgress = clamp01((tStart - r1.bottom) / (tStart - tEnd));
+          /* enter 와 exit 를 동일한 70vh 구간 + linear 보간으로 맞춰 좌우 대칭의 슬라이드 속도감 */
+          const enterStart = vh * 0.7;
+          const enterEnd = 0;
+          const cardEnter = clamp01((enterStart - r2.top) / (enterStart - enterEnd));
+          const exitStart = -vh * 0.3;
+          const exitEnd = -vh * 1.0;
+          const cardExit = clamp01((exitStart - r2.top) / (exitStart - exitEnd));
+          section.style.setProperty('--title-progress', titleProgress.toFixed(3));
+          section.style.setProperty('--card-enter', cardEnter.toFixed(3));
+          section.style.setProperty('--card-exit', cardExit.toFixed(3));
+        };
+        const handler = (): void => {
+          if (raf !== null) return;
+          raf = requestAnimationFrame(() => {
+            raf = null;
+            update();
+          });
+        };
+        window.addEventListener('scroll', handler, { passive: true });
+        window.addEventListener('resize', handler);
+        update();
+        cleanups.push(() => {
+          window.removeEventListener('scroll', handler);
+          window.removeEventListener('resize', handler);
+          if (raf !== null) cancelAnimationFrame(raf);
+        });
+      }
+    }
+
     return () => {
       cleanups.forEach(fn => fn());
     };
@@ -214,16 +277,34 @@ export function SampleExperienceSection() {
 
   return (
 <section className="wf-section sample-section">
-  <div className="container">
-    <div className="sample-head">
-      <h2 className="t-h2">시작하기 전,<br/>결과부터 확인해보세요</h2>
-      <p className="sample-head-sub">샘플 회기를 선택하고, 마음토스가 정리한 상담노트 초안을 확인해보세요.</p>
-      <span className="sample-head-scroll" aria-hidden="true">
-        <span className="sample-head-scroll-line"></span>
-      </span>
-    </div>
+  {/* 슬라이드형 순차 핀 패턴
+     두 개의 독립 슬롯이 차례로 viewport 에 핀.
+     - .sample-pin-slot: 외곽 (200vh) — 핀 지속 스크롤 거리
+     - .sample-pin-frame: position: sticky; top: 0; height: 100vh — viewport 에 고정되는 프레임
+     스크롤 → slot 1 의 frame 이 100vh 동안 sticky → slot 1 종료 시 다음 slot 진입 → slot 2 의 frame sticky.
+     순수 CSS sticky 로 작동 (overflow:hidden 가 sticky 를 깨므로 .sample-section 에서 제거함).
+  */}
 
-    <div className="step-card" id="sample-step-card" data-collapsed="false">
+  {/* SLOT 1 — 타이틀 페이지 */}
+  <div className="sample-pin-slot sample-pin-slot--title">
+    <div className="sample-pin-frame">
+      <div className="container">
+        <div className="sample-head">
+          <h2 className="t-h2">시작하기 전,<br/>결과부터 확인해보세요</h2>
+          <p className="sample-head-sub">샘플 회기를 선택하고, 마음토스가 정리한 상담노트 초안을 확인해보세요.</p>
+          <span className="sample-head-scroll" aria-hidden="true">
+            <span className="sample-head-scroll-line"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* SLOT 2 — 체험 UI 페이지 */}
+  <div className="sample-pin-slot sample-pin-slot--card">
+    <div className="sample-pin-frame">
+      <div className="container">
+        <div className="step-card" id="sample-step-card" data-collapsed="false">
       
       <div className="step-progress">
         <div className="step-dots" data-step-dots>
@@ -406,12 +487,13 @@ export function SampleExperienceSection() {
         </div>
       </div>
 
-      
+
       <div className="step-foot" data-step-foot>
         <button type="button" className="step-next" data-step-next>다음 →</button>
       </div>
+        </div>
+      </div>
     </div>
-
   </div>
 </section>
   );

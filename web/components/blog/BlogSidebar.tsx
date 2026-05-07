@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Category, Post } from '@/types/blog';
+import { NewsletterSignupCard } from './NewsletterSignupCard';
 
 interface BlogSidebarProps {
   categories: Category[];
@@ -57,18 +58,7 @@ export async function BlogSidebar({ categories, popularPosts = [] }: BlogSidebar
         </ul>
       </div>
 
-      {/* Newsletter placeholder */}
-      <div className="rounded-xl bg-[var(--bg-warm)] border border-[var(--line-warm)] p-6">
-        <h3 className="font-semibold text-[var(--text-heading-strong)] text-body-size mb-1">
-          뉴스레터
-        </h3>
-        <p className="text-small text-[var(--text-muted)] mb-3">
-          마음토스 최신 콘텐츠를 이메일로 받아보세요
-        </p>
-        <p className="inline-block rounded-full bg-[var(--brand-primary-pale)] px-3 py-1 text-xs font-medium text-[var(--brand-primary-dark)]">
-          곧 오픈
-        </p>
-      </div>
+      <NewsletterSignupCard />
     </aside>
   );
 }

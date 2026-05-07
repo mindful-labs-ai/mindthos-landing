@@ -9,13 +9,13 @@ export function InlineCTA({ ctaType, program }: InlineCTAProps) {
   const cta = resolveCTA(ctaType, program);
 
   return (
-    <div className="my-10 rounded-2xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-gradient-pair)] p-8 text-center">
+    <div className="my-8 rounded-2xl bg-gradient-to-br from-[var(--brand-primary)] to-[var(--brand-gradient-pair)] px-6 py-7 text-center md:my-10 md:p-8">
       {cta.kicker && (
         <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-[var(--text-primary)] opacity-70">
           {cta.kicker}
         </p>
       )}
-      <h3 className="mb-4 text-h3 font-semibold text-[var(--text-primary)]">
+      <h3 className="mb-3 text-h3 font-semibold text-[var(--text-primary)] md:mb-4">
         {cta.heading}
       </h3>
       <a

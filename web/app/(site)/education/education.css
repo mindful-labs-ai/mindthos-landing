@@ -1,0 +1,165 @@
+/* /education — 페이지 전용 스타일.
+   메인 페이지의 hifi 디자인 언어(.wf-section / .container / .section-pill / .t-h2 / .t-sub / .btn / .t-tag)
+   와 globals.css 의 공통 .page-hero* 를 그대로 사용하고,
+   본 파일은 /education 에서만 쓰이는 카드/CTA strip 만 정의한다. */
+
+/* ============== SECTION HEAD ============== */
+.edu-section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  max-width: 760px;
+  margin: 0 0 clamp(36px, 4.5vw, 56px);
+}
+.edu-section-head .section-pill {
+  align-self: flex-start;
+  margin: 0;
+}
+.edu-section-head .t-h2 {
+  margin: 0;
+  font-size: clamp(28px, 3.2vw, 40px);
+  letter-spacing: -0.022em;
+  line-height: 1.26;
+}
+.edu-section-head .t-sub {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+
+/* ============== PROGRAM CARDS ============== */
+.edu-programs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(20px, 2.6vw, 32px);
+}
+@media (max-width: 880px) {
+  .edu-programs { grid-template-columns: 1fr; }
+}
+
+.edu-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition: border-color var(--dur-fast) var(--ease),
+              box-shadow var(--dur-fast) var(--ease),
+              transform var(--dur-fast) var(--ease);
+}
+.edu-card:hover {
+  border-color: var(--brand-tint);
+  box-shadow: 0 18px 36px -24px rgba(15, 60, 25, 0.22);
+  transform: translateY(-2px);
+}
+
+.edu-card-media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: var(--bg-2);
+  overflow: hidden;
+}
+.edu-card-media img {
+  object-fit: cover;
+}
+
+.edu-card-body {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(22px, 2.6vw, 30px);
+  gap: 14px;
+  flex: 1;
+}
+
+.edu-card-status {
+  align-self: flex-start;
+}
+
+.edu-card-title {
+  font-family: var(--font-heading);
+  font-size: clamp(20px, 2vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.014em;
+  line-height: 1.32;
+  color: var(--ink-strong);
+  margin: 2px 0 0;
+}
+
+.edu-card-lead {
+  font-size: 15.5px;
+  line-height: 1.72;
+  color: var(--ink-2);
+  margin: 0;
+}
+
+.edu-card-meta {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0 0;
+  border-top: 1px dashed var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.edu-card-meta li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.edu-card-meta-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--brand-hover);
+}
+.edu-card-meta-label {
+  font-weight: 600;
+  color: var(--ink-strong);
+  letter-spacing: -0.005em;
+}
+.edu-card-meta-sep {
+  color: var(--ink-3);
+}
+
+.edu-card-cta {
+  margin-top: auto;
+  padding-top: 4px;
+}
+.edu-card-cta .btn {
+  width: 100%;
+  justify-content: center;
+}
+
+/* ============== FOOTER NOTE STRIP ============== */
+.edu-footer-note {
+  background: var(--bg-2);
+  border-top: 1px solid var(--line);
+  padding: clamp(56px, 7vw, 88px) 0;
+  text-align: center;
+}
+.edu-footer-note-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+.edu-footer-note-link {
+  font-weight: 700;
+  color: var(--brand-hover);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color var(--dur-fast) var(--ease);
+}
+.edu-footer-note-link:hover {
+  color: var(--ink-strong);
+}

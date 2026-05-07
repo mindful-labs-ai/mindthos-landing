@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -7,6 +8,44 @@ interface PaginationProps {
   basePath: string;
   searchParams?: Record<string, string>;
 }
+
+const btnStyle: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  height: 44,
+  minWidth: 44,
+  padding: '0 10px',
+  borderRadius: 8,
+  fontSize: 14,
+  fontWeight: 500,
+  lineHeight: 1,
+  transition: 'background-color 160ms, color 160ms',
+};
+
+const ellipsisStyle: CSSProperties = {
+  ...btnStyle,
+  minWidth: 24,
+  padding: '0 4px',
+  color: 'var(--text-muted)',
+};
+
+const activeStyle: CSSProperties = {
+  ...btnStyle,
+  background: 'var(--brand-primary)',
+  color: 'var(--text-primary)',
+};
+
+const inactiveStyle: CSSProperties = {
+  ...btnStyle,
+  color: 'var(--text-body)',
+};
+
+const disabledStyle: CSSProperties = {
+  ...btnStyle,
+  color: 'var(--line-1)',
+  cursor: 'not-allowed',
+};
 
 export function Pagination({ currentPage, totalPages, basePath, searchParams = {} }: PaginationProps) {
   if (totalPages <= 1) return null;
@@ -33,34 +72,37 @@ export function Pagination({ currentPage, totalPages, basePath, searchParams = {
 
   const pages = getPages();
 
-  const btnBase =
-    'flex items-center justify-center w-9 h-9 rounded-full text-small font-medium transition-colors';
-  const btnActive = `${btnBase} bg-[var(--brand-primary)] text-[var(--text-primary)]`;
-  const btnInactive = `${btnBase} border border-[var(--line-1)] text-[var(--text-muted)] hover:bg-[var(--bg-warm)]`;
-  const btnDisabled = `${btnBase} border border-[var(--line-2)] text-[var(--line-1)] cursor-not-allowed`;
-
   return (
-    <nav aria-label="페이지 이동" className="flex items-center justify-center gap-1 mt-10">
+    <nav
+      aria-label="페이지 이동"
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, marginTop: 40 }}
+    >
       {currentPage > 1 ? (
-        <Link href={pageHref(currentPage - 1)} className={btnInactive} aria-label="이전 페이지">
-          <ChevronLeft className="w-4 h-4" />
+        <Link
+          href={pageHref(currentPage - 1)}
+          style={inactiveStyle}
+          className="hover:bg-[var(--bg-warm)]"
+          aria-label="이전 페이지"
+        >
+          <ChevronLeft style={{ width: 16, height: 16 }} />
         </Link>
       ) : (
-        <span className={btnDisabled} aria-disabled="true" aria-label="이전 페이지">
-          <ChevronLeft className="w-4 h-4" />
+        <span style={disabledStyle} aria-disabled="true" aria-label="이전 페이지">
+          <ChevronLeft style={{ width: 16, height: 16 }} />
         </span>
       )}
 
       {pages.map((page, idx) =>
         page === '...' ? (
-          <span key={`ellipsis-${idx}`} className="flex items-center justify-center w-9 h-9 text-[var(--text-muted)] text-small">
+          <span key={`ellipsis-${idx}`} style={ellipsisStyle}>
             &hellip;
           </span>
         ) : (
           <Link
             key={page}
             href={pageHref(page)}
-            className={page === currentPage ? btnActive : btnInactive}
+            style={page === currentPage ? activeStyle : inactiveStyle}
+            className={page === currentPage ? '' : 'hover:bg-[var(--bg-warm)]'}
             aria-current={page === currentPage ? 'page' : undefined}
           >
             {page}
@@ -69,12 +111,17 @@ export function Pagination({ currentPage, totalPages, basePath, searchParams = {
       )}
 
       {currentPage < totalPages ? (
-        <Link href={pageHref(currentPage + 1)} className={btnInactive} aria-label="다음 페이지">
-          <ChevronRight className="w-4 h-4" />
+        <Link
+          href={pageHref(currentPage + 1)}
+          style={inactiveStyle}
+          className="hover:bg-[var(--bg-warm)]"
+          aria-label="다음 페이지"
+        >
+          <ChevronRight style={{ width: 16, height: 16 }} />
         </Link>
       ) : (
-        <span className={btnDisabled} aria-disabled="true" aria-label="다음 페이지">
-          <ChevronRight className="w-4 h-4" />
+        <span style={disabledStyle} aria-disabled="true" aria-label="다음 페이지">
+          <ChevronRight style={{ width: 16, height: 16 }} />
         </span>
       )}
     </nav>

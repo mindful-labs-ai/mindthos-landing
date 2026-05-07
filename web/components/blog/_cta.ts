@@ -37,7 +37,7 @@ export function resolveCTA(
   return {
     heading: '상담사를 위한 가장 안전한 AI 에이전트, 마음토스',
     buttonText: '무료로 시작하기',
-    href: 'https://app.mindthos.com',
+    href: 'https://app.mindthos.com/?utm_source=blog&utm_medium=channel-post&utm_campaign=mindthos',
     external: true,
   };
 }

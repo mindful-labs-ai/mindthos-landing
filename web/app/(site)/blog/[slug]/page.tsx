@@ -12,13 +12,15 @@ import { generatePostMetadata } from '@/lib/seo/metadata';
 import {
   generateArticleSchema,
   generateBreadcrumbSchema,
+  generateFAQSchema,
+  generatePersonSchema,
 } from '@/lib/seo/schema';
 import { processMarkdown } from '@/lib/markdown/processor';
 import { extractToc } from '@/lib/markdown/toc';
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { SummaryBox } from '@/components/blog/SummaryBox';
 import { TableOfContents } from '@/components/blog/TableOfContents';
-import { FAQSection } from '@/components/blog/FAQSection';
+import { FAQSection, extractFAQs } from '@/components/blog/FAQSection';
 import { ReferencesList } from '@/components/blog/ReferencesList';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { InlineCTA } from '@/components/blog/InlineCTA';
@@ -97,7 +99,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     published_at: post.published_at,
     updated_at: post.updated_at,
     thumbnail_url: post.thumbnail_url,
-    author: post.author ? { name: post.author.name } : null,
+    author: post.author
+      ? { name: post.author.name, slug: post.author.slug ?? null }
+      : null,
     url: articleUrl,
   });
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -114,18 +118,41 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     { name: post.title, url: articleUrl },
   ]);
 
+  /* FAQ 스키마는 본 페이지에서 단일 진입점으로 주입 (FAQSection 컴포넌트는 UI 만 담당). */
+  const faqs = extractFAQs(
+    (post.schema_markup ?? null) as Record<string, unknown> | null,
+  );
+  const schemas: Record<string, unknown>[] = [articleSchema, breadcrumbSchema];
+  if (faqs.length > 0) {
+    schemas.push(generateFAQSchema(faqs));
+  }
+  if (post.author?.name) {
+    schemas.push(
+      generatePersonSchema({
+        name: post.author.name,
+        jobTitle: post.author.title,
+        description: post.author.bio,
+        image: post.author.profile_image_url,
+        specialties: post.author.specialties,
+        url: post.author.slug
+          ? `${SITE_CONFIG.url}/blog/author/${post.author.slug}`
+          : null,
+      }),
+    );
+  }
+
   const readingTime =
     post.reading_time ?? Math.ceil((post.content?.length ?? 0) / 500);
   const references = (post.references ?? null) as Reference[] | null;
 
   return (
     <>
-      <SchemaMarkup schema={[articleSchema, breadcrumbSchema]} />
+      <SchemaMarkup schema={schemas} />
 
-      <article className="mx-auto max-w-container-wide px-gutter-wide py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
+      <article className="mx-auto max-w-container-wide px-gutter md:px-gutter-wide py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-1.5 text-small text-[var(--text-muted)] transition-colors hover:text-[var(--brand-primary-dark)]"
+          className="inline-flex min-h-[44px] items-center gap-1.5 text-small text-[var(--text-muted)] transition-colors hover:text-[var(--brand-primary-dark)]"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden /> 블로그 목록
         </Link>
@@ -134,7 +161,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {post.category ? (
             <Link
               href={`/blog?category=${post.category.slug}`}
-              className="inline-block text-eyebrow font-semibold uppercase tracking-wider text-[var(--brand-primary-dark)] hover:underline"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center text-eyebrow font-semibold uppercase tracking-wider text-[var(--brand-primary-dark)] hover:underline"
             >
               {post.category.name}
             </Link>

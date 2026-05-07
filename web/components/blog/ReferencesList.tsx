@@ -35,7 +35,7 @@ export function ReferencesList({ references }: ReferencesListProps) {
                   href={ref.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[var(--text-body)] hover:text-[var(--brand-primary-dark)] hover:underline transition-colors"
+                  className="inline-flex items-center gap-1 py-1 text-[var(--text-body)] hover:text-[var(--brand-primary-dark)] hover:underline transition-colors"
                 >
                   {ref.name}
                   <ExternalLink className="h-3 w-3 shrink-0" aria-hidden="true" />

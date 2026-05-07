@@ -1,0 +1,474 @@
+/* /security — 페이지 전용 스타일.
+   메인 페이지의 hifi 디자인 언어(wf-section / section-pill / t-h1·t-h2·t-sub / btn / t-tag)를 그대로 사용하고,
+   본 파일은 /security 에서만 쓰이는 레이아웃·카드·placeholder 만 정의한다. */
+
+/* ============== HERO — 풀-블리드 배경 + scrim (메인 홈 .hero 패턴) ============== */
+.security-hero {
+  position: relative;
+  width: 100%;
+  min-height: clamp(460px, 62vh, 640px);
+  overflow: hidden;
+  background: #0a1216;
+  color: #fff;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+}
+
+.security-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+.security-hero-bg-img {
+  object-fit: cover;
+  object-position: 75% center;
+}
+
+/* 좌측 텍스트 영역 가독성 — 좌→우 dim, 우측 atmospheric glow 노출 */
+.security-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(95deg,
+    rgba(10, 18, 22, 0.86) 0%,
+    rgba(10, 18, 22, 0.66) 28%,
+    rgba(10, 18, 22, 0.34) 56%,
+    rgba(10, 18, 22, 0.10) 80%,
+    rgba(10, 18, 22, 0.00) 100%);
+}
+
+.security-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg,
+      rgba(10, 18, 22, 0.20) 0%,
+      rgba(10, 18, 22, 0)    16%,
+      rgba(10, 18, 22, 0)    78%,
+      rgba(10, 18, 22, 0.32) 100%),
+    radial-gradient(ellipse 70% 60% at 14% 50%, rgba(10, 18, 22, 0.20), transparent 60%);
+}
+
+.security-hero-bottom-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 110px;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(10, 18, 22, 0) 0%, rgba(10, 18, 22, 0.55) 100%);
+}
+
+.security-hero-content-wrap {
+  position: relative;
+  z-index: 5;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  /* padding-block 만 지정 — 가로는 .container 의 padding (0 var(--gutter)) 유지.
+     shorthand `padding: ... 0` 를 쓰면 가로 padding 까지 0 으로 덮여 좌우 여백이 사라짐. */
+  padding-block: clamp(72px, 10vw, 128px);
+}
+.security-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  max-width: 640px;
+}
+
+.security-hero .section-pill {
+  align-self: flex-start;
+  margin: 0;
+  background: rgba(110, 231, 183, 0.14);
+  border-color: rgba(110, 231, 183, 0.34);
+  color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.security-hero .section-pill::before {
+  background: #6ee7b7;
+  box-shadow: 0 0 0 3px rgba(110, 231, 183, 0.22);
+}
+
+.security-hero-h1 {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-heading);
+  font-size: clamp(38px, 5vw, 68px);
+  font-weight: 800;
+  line-height: 1.14;
+  letter-spacing: -0.028em;
+  text-wrap: balance;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.42);
+}
+.security-hero-h1-accent {
+  background: linear-gradient(135deg, #4ade80 0%, #6ee7b7 55%, #a7f3d0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.security-hero-sub {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  max-width: 560px;
+  font-size: 17.5px;
+  line-height: 1.75;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.32);
+}
+
+.security-hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.security-hero-tags .t-tag {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(110, 231, 183, 0.28);
+  color: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+@media (max-width: 720px) {
+  .security-hero { min-height: 480px; }
+  .security-hero-bg-img { object-position: 78% center; }
+  .security-hero-scrim {
+    background: linear-gradient(180deg,
+      rgba(10, 18, 22, 0.32) 0%,
+      rgba(10, 18, 22, 0.58) 50%,
+      rgba(10, 18, 22, 0.78) 100%);
+  }
+  .security-hero-content { gap: 18px; }
+}
+
+/* ============== SECTION HEAD ============== */
+.security-section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  max-width: 760px;
+  margin: 0 0 clamp(40px, 5vw, 64px);
+}
+.security-section-head .section-pill {
+  align-self: flex-start;
+  margin: 0;
+}
+.security-section-head .t-h2 {
+  margin: 0;
+  font-size: clamp(30px, 3.4vw, 44px);
+  letter-spacing: -0.024em;
+  line-height: 1.24;
+}
+.security-section-head .t-sub {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--ink-2);
+}
+
+/* ============== 2-COL LAYOUT (text + image) ============== */
+.security-grid--sidebyside {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+@media (max-width: 880px) {
+  .security-grid--sidebyside { grid-template-columns: 1fr; gap: 32px; }
+}
+
+/* ============== DATA CARDS — §1 보호 데이터 ============== */
+.security-data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+@media (max-width: 540px) {
+  .security-data-grid { grid-template-columns: 1fr; }
+}
+.security-data-cell {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 16px 18px;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.security-data-cell:hover {
+  border-color: var(--brand-tint);
+  box-shadow: 0 4px 14px -10px rgba(15, 60, 25, 0.18);
+  transform: translateY(-1px);
+}
+
+/* ============== BULLETS ============== */
+.security-bullets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.security-bullets--2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 32px;
+}
+@media (max-width: 720px) {
+  .security-bullets--2col { grid-template-columns: 1fr; }
+}
+.security-bullet {
+  display: flex;
+  gap: 12px;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.security-bullet-dot {
+  flex-shrink: 0;
+  margin-top: 11px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-alpha);
+}
+
+/* ============== ENCRYPT STEPS ============== */
+.security-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  position: relative;
+}
+@media (max-width: 880px) {
+  .security-steps { grid-template-columns: 1fr; }
+}
+.security-step {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px 26px;
+  position: relative;
+  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), transform var(--dur-fast) var(--ease);
+}
+.security-step:hover {
+  border-color: var(--brand-tint);
+  box-shadow: 0 14px 28px -22px rgba(15, 60, 25, 0.22);
+  transform: translateY(-2px);
+}
+.security-step-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  font-weight: 600;
+  color: var(--brand-hover);
+  display: block;
+}
+.security-step-title {
+  margin: 12px 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-strong);
+  letter-spacing: -0.012em;
+}
+.security-step-body {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+/* ============== RULE CARDS — §4 접근 권한 ============== */
+.security-rules {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 720px) {
+  .security-rules { grid-template-columns: 1fr; }
+}
+.security-rule {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 26px 24px 22px;
+  position: relative;
+  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+}
+.security-rule::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 24px;
+  width: 28px;
+  height: 2px;
+  background: var(--brand);
+  border-radius: 1px;
+}
+.security-rule:hover {
+  border-color: var(--brand-tint);
+  box-shadow: 0 12px 28px -22px rgba(15, 60, 25, 0.18);
+}
+.security-rule-title {
+  margin: 16px 0 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--ink-strong);
+  letter-spacing: -0.012em;
+}
+.security-rule-desc {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--ink-2);
+}
+
+/* ============== COMPARE BEFORE/AFTER — §5 비식별화 ============== */
+.security-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+@media (max-width: 880px) {
+  .security-compare { grid-template-columns: 1fr; gap: 12px; }
+  .security-compare-arrow { transform: rotate(90deg); justify-self: center; }
+}
+.security-compare-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.security-compare-card header {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.security-compare-card p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink);
+}
+.security-compare-card--before strong {
+  background: linear-gradient(180deg, transparent 60%, rgba(254, 215, 102, 0.55) 60%);
+  font-weight: 700;
+  padding: 0 2px;
+}
+.security-compare-card--after {
+  background: var(--brand-pale);
+  border-color: var(--brand-tint);
+}
+.security-compare-card--after header { color: var(--brand-hover); }
+.security-compare-card--after strong {
+  background: rgba(50, 215, 75, 0.18);
+  color: var(--brand-hover);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-weight: 700;
+}
+.security-compare-arrow {
+  align-self: center;
+  font-size: 24px;
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+}
+
+/* ============== IMAGE WRAPPER ============== */
+.security-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ph-aspect, 4 / 3);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-3);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04), 0 18px 40px -28px rgba(15, 23, 42, 0.18);
+}
+.security-image-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ============== INFO NOTE ============== */
+.security-note {
+  margin: 28px 0 0;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--ink-3);
+}
+
+/* ============== FAQ ============== */
+.security-faq-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: clamp(36px, 4vw, 56px);
+}
+.security-faq-head .section-pill { margin: 0; align-self: flex-start; }
+.security-faq-head .t-h2 { margin: 0; font-size: clamp(28px, 3.2vw, 40px); }
+.security-faq-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+.security-faq-item {
+  border-bottom: 1px solid var(--line);
+  padding: 28px 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  gap: 32px;
+}
+@media (max-width: 720px) {
+  .security-faq-item { grid-template-columns: 1fr; gap: 12px; }
+}
+.security-faq-q {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink-strong);
+  letter-spacing: -0.012em;
+  line-height: 1.45;
+}
+.security-faq-a {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.85;
+  color: var(--ink-2);
+}

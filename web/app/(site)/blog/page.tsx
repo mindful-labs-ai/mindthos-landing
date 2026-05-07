@@ -87,57 +87,68 @@ export default async function BlogIndexPage({
   return (
     <>
       <SchemaMarkup schema={buildBlogSchema(SITE_CONFIG.url)} />
-      <section className="mx-auto max-w-container-wide px-gutter-wide py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
-        <p className="eyebrow">블로그</p>
-        <h1 className="mt-3">
-          {searchQuery
-            ? `“${searchQuery}” 검색 결과`
-            : activeCategoryName
-              ? activeCategoryName
-              : '상담 현장의 인사이트와 마음토스 이야기'}
-        </h1>
-        <p className="mt-5 max-w-prose text-lead text-[var(--text-body)]">
-          {searchQuery
-            ? `${total}개의 글이 검색되었습니다.`
-            : '상담사 인사이트 · 기술 / 보안 · 도입 사례 · 제품 업데이트가 한 곳에서 업데이트됩니다.'}
-        </p>
 
-        <div className="mt-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <CategoryFilter categories={categories} activeSlug={categorySlug} />
-          <BlogSearch
-            key={searchQuery ?? ''}
-            defaultValue={searchQuery ?? ''}
-          />
-        </div>
-
-        <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_280px]">
-          <div>
-            {posts.length === 0 ? (
-              <EmptyState searchQuery={searchQuery} />
-            ) : (
-              <>
-                <ul className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                  {posts.map((post) => (
-                    <li key={post.id}>
-                      <PostCard post={post} />
-                    </li>
-                  ))}
-                </ul>
-                <Pagination
-                  currentPage={page}
-                  totalPages={totalPages}
-                  basePath="/blog"
-                  searchParams={preservedSearchParams}
-                />
-              </>
-            )}
+      {/* HERO — globals.css 공통 .page-hero (서브 페이지 공유 / education 과 동일) */}
+      <section className="page-hero" aria-label="마음토스 블로그 — 페이지 헤더">
+        <div className="container">
+          <div className="page-hero-content">
+            <span className="section-pill">마음토스 블로그</span>
+            <h1 className="page-hero-h1">
+              {searchQuery
+                ? `“${searchQuery}” 검색 결과`
+                : activeCategoryName
+                  ? activeCategoryName
+                  : '상담 현장의 인사이트와 마음토스 이야기'}
+            </h1>
+            <p className="page-hero-sub">
+              {searchQuery
+                ? `${total}개의 글이 검색되었습니다.`
+                : '상담사 인사이트 · 기술 / 보안 · 도입 사례 · 제품 업데이트가 한 곳에서 업데이트됩니다.'}
+            </p>
           </div>
-          <aside className="lg:sticky lg:top-24 lg:self-start">
-            <BlogSidebar
-              categories={categories}
-              popularPosts={popularPosts}
+        </div>
+      </section>
+
+      {/* CONTENT — wf-section 톤 (홈/시큐리티 와 동일 패턴) */}
+      <section className="wf-section">
+        <div className="container">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <CategoryFilter categories={categories} activeSlug={categorySlug} />
+            <BlogSearch
+              key={searchQuery ?? ''}
+              defaultValue={searchQuery ?? ''}
             />
-          </aside>
+          </div>
+
+          <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_280px]">
+            <div>
+              {posts.length === 0 ? (
+                <EmptyState searchQuery={searchQuery} />
+              ) : (
+                <>
+                  <ul className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    {posts.map((post) => (
+                      <li key={post.id}>
+                        <PostCard post={post} />
+                      </li>
+                    ))}
+                  </ul>
+                  <Pagination
+                    currentPage={page}
+                    totalPages={totalPages}
+                    basePath="/blog"
+                    searchParams={preservedSearchParams}
+                  />
+                </>
+              )}
+            </div>
+            <aside className="lg:sticky lg:top-24 lg:self-start">
+              <BlogSidebar
+                categories={categories}
+                popularPosts={popularPosts}
+              />
+            </aside>
+          </div>
         </div>
       </section>
     </>

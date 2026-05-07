@@ -353,6 +353,8 @@
   .final-cta-link {
     display: inline-flex;
     align-items: center;
+    /* WCAG 2.5.5 — final CTA secondary link hit area ≥44px. */
+    min-height: 44px;
     color: #ffffff;
     font-family: var(--font-base);
     font-size: 15px;

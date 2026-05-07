@@ -1039,7 +1039,8 @@
       #1A7A52 56%,
       #0F5F3E 78%,
       #064E3B 100%);
-    overflow: hidden;
+    /* overflow: hidden 은 자식 sticky 핀 동작을 깨뜨려 제거.
+       (overflow:hidden 인 ancestor 안의 sticky 는 ancestor 가 스크롤 컨테이너 가 되어 viewport 기반 sticky 가 작동하지 않음) */
   }
   .sample-section .container { padding-top: 0; padding-bottom: 0; }
   .sample-section .wf-marker { position: absolute; top: 28px; left: 50%; transform: translateX(-50%); z-index: 2; padding: 0 var(--gutter); }
@@ -1098,7 +1099,150 @@
     align-items: center;
     padding: 32px 0 56px;
   }
-  .sample-stage-sticky > .step-card { width: 100%; margin: 0 auto; animation-name: sample-stage-in; }
+  /* descendant selector — 마크업이 .sample-stage-sticky > .container > .step-card 로 들어와도 매치되도록 */
+  .sample-stage-sticky .step-card { width: 100%; margin: 0 auto; animation-name: sample-stage-in; }
+
+  /* === 슬라이드형 순차 핀 패턴 (사수 v72, 2026-05-07) ===
+     §05 안에 두 개의 독립 슬롯이 차례로 viewport 에 핀:
+     - .sample-pin-slot: 외곽 (200vh) — 핀 지속 스크롤 거리
+     - .sample-pin-frame: position: sticky; top: 0; height: 100vh — viewport 에 고정되는 프레임
+     스크롤 → slot 1 의 frame 이 100vh 동안 sticky → slot 1 종료 시 다음 slot 진입 → slot 2 의 frame sticky.
+     순수 CSS sticky — overflow:hidden 인 ancestor 가 없도록 .sample-section 의 overflow 도 제거함. */
+  .sample-pin-slot {
+    position: relative;
+    height: 200vh;
+  }
+  .sample-pin-frame {
+    position: sticky;
+    /* GNB(56px) 아래에 stick → 헤더가 점유한 영역만큼 아래로 내려 시각적 정중앙 정렬 */
+    top: 56px;
+    height: calc(100vh - 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* promo banner(44px) 가 떠 있을 때는 banner+GNB(=100px) 만큼 더 내려 시각 중앙 유지 */
+  html.has-promo-top .sample-pin-frame {
+    top: 100px;
+    height: calc(100vh - 100px);
+  }
+  .sample-pin-frame > .container {
+    width: 100%;
+  }
+  /* 타이틀 슬롯 — sample-head 가 frame 중앙에 정렬 */
+  .sample-pin-slot--title .sample-head {
+    text-align: center;
+    margin: 0 auto;
+  }
+  .sample-pin-slot--title .sample-head .t-h2 { text-wrap: balance; }
+
+  /* 슬라이드 트랜지션은 scroll-progress 기반 CSS 변수 (--title-progress, --card-enter, --card-exit) 로 구동.
+     JS 가 매 scroll frame 마다 0~1 값을 .sample-section 에 set → calc() 로 즉시 반영.
+     - title-progress: slot1 종료 직전, 타이틀이 fade+blur 로 사라짐
+     - card-enter: slot2 진입, 카드가 좌측 바깥 → 중앙으로 slide in
+     - card-exit:  slot2 핀 후반, 카드가 중앙 → 우측 바깥으로 slide out
+     양방향 스크롤에서 모두 작동 (값이 progress 에 직접 매핑). */
+  .sample-section {
+    --title-progress: 0;
+    --card-enter: 0;
+    --card-exit: 0;
+  }
+
+  /* 체험 UI 슬롯 — step-card 의 lifecycle.
+     특이도 주의: .sample-section.exp-in-view .step-card (0,0,3,0) 가 위쪽에 정의돼 있어
+     같은 특이도(0,0,3,0)를 만들고 source order 로 우선권 확보. transition 은 None 으로 scroll-progress 즉시 반영.
+
+     === [현재 모드] scale-up (enter only, exit 애니메이션 없음) ===
+     enter=0 → opacity 0, scale(0.7)    (pre-enter, 작게)
+     enter=1 → opacity 1, scale(1.0)    (centered, 이후 핀 종료까지 유지) */
+  .sample-section .sample-pin-slot--card .step-card {
+    margin: 0 auto;
+    min-height: 0;
+    opacity: var(--card-enter);
+    transform: scale(calc(0.7 + 0.3 * var(--card-enter)));
+    transform-origin: center center;
+    transition: none;
+    will-change: opacity, transform;
+  }
+  /* === [롤백용 백업] slide 애니메이션 ===
+     아래 .sample-section .sample-pin-slot--card .step-card 블록의 transform 을
+     translateX 버전으로 되돌리고 위쪽 scale 블록을 주석 처리하면 slide 모드로 즉시 복구.
+  ----------------------------------------------------------------
+  .sample-section .sample-pin-slot--card .step-card {
+    margin: 0 auto;
+    min-height: 0;
+    opacity: calc(var(--card-enter) - var(--card-exit));
+    transform: translateX(calc(
+      -160px * (1 - var(--card-enter)) + 160px * var(--card-exit)
+    ));
+    transition: none;
+    will-change: opacity, transform;
+  }
+  ---------------------------------------------------------------- */
+
+  /* 타이틀 슬라이드 — 기본 visible. --title-progress 가 0→1 이 되면 뒤로 흐려지며 사라짐. */
+  .sample-pin-slot--title .sample-head .t-h2,
+  .sample-pin-slot--title .sample-head-sub {
+    transform: none;
+  }
+  .sample-pin-slot--title .sample-head {
+    opacity: calc(1 - var(--title-progress));
+    filter: blur(calc(var(--title-progress) * 14px));
+    transform: scale(calc(1 - var(--title-progress) * 0.06));
+    will-change: opacity, filter, transform;
+  }
+  .sample-pin-slot--title .sample-head-scroll {
+    opacity: calc(1 - var(--title-progress));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sample-pin-slot--title .sample-head {
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+    .sample-pin-slot--card .step-card {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* 모바일: 작은 화면에서는 sticky 핀이 부자연스러우므로 일반 흐름으로 적층 */
+  @media (max-width: 860px) {
+    .sample-pin-slot { height: auto; }
+    .sample-pin-frame {
+      position: static;
+      height: auto;
+      display: block;
+      padding: 60px 0;
+    }
+    .sample-pin-slot--card .sample-pin-frame { padding: 16px 0 60px; }
+
+    /* 모바일에서는 §05 의 모든 스크롤/진입 애니메이션 비활성화.
+       - 진입 fade-in (is-in-view / exp-in-view) → 즉시 visible
+       - 스크롤-progress (--title-progress / --card-enter / --card-exit) → 무력화 */
+    .sample-head .t-h2,
+    .sample-head-sub,
+    .sample-head-scroll,
+    .sample-section .step-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .sample-head-scroll-line { animation: none; }
+    .sample-pin-slot--title .sample-head {
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+    .sample-pin-slot--title .sample-head-scroll {
+      opacity: 1;
+    }
+    .sample-section .sample-pin-slot--card .step-card {
+      opacity: 1;
+      transform: none;
+    }
+  }
 
   @media (max-width: 860px) {
     .sample-section .wf-marker { position: static; transform: none; padding: 24px 0 0; text-align: left; }
@@ -2192,8 +2336,89 @@
   @media (max-width: 880px) {
     .sample-section { padding: 64px 0 80px; }
     .sample-section .container { padding-left: 18px; padding-right: 18px; }
-    .sample-section .step-card { padding: 0; min-height: 0; gap: 24px; }
+
+    /* 카드 자체는 컴팩트한 컨테이너 — inner padding 복구 + overflow:hidden 으로
+       내부 step-viewport 의 스크롤 경계 역할. */
+    .sample-section .step-card {
+      padding: 20px 16px 22px;
+      min-height: 0;
+      gap: 16px;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    /* step-viewport: 모바일에서 viewport 의 일정 비율로 고정 높이 + 내부 스크롤.
+       60vh 는 작은 화면(아이폰 SE ~568px)에서 ~340px, 큰 화면(아이폰 14 Pro Max ~932px)에서 ~559px,
+       min/max 로 양극단 클램프. overscroll-behavior: contain 으로 페이지 스크롤로 빠지지 않게. */
+    .sample-section .step-viewport {
+      height: 60vh;
+      min-height: 380px;
+      max-height: 560px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      /* 스크롤 영역 시각 hint — 상/하단 8px subtle fade */
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 10px, #000 calc(100% - 10px), transparent 100%);
+              mask-image: linear-gradient(to bottom, transparent 0, #000 10px, #000 calc(100% - 10px), transparent 100%);
+    }
+    /* slide: 콘텐츠 높이만큼 자연스럽게 → viewport 가 스크롤 */
+    .sample-section .step-slide:not([hidden]) {
+      height: auto;
+      min-height: 0;
+      padding: 4px 2px 8px; /* mask edge 와 콘텐츠 사이 약간의 호흡 */
+    }
+    /* Step 3: PC 의 flex-column + mask 패턴은 모바일에선 풀고 — viewport 자체가 스크롤 컨테이너 */
+    .sample-section .step-slide[data-step="3"]:not([hidden]) {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      gap: 12px;
+    }
+    .sample-section .step-slide[data-step="3"] .sm-mock-result {
+      overflow: visible;
+      flex: 0 0 auto;
+    }
+    .sample-section .step-slide[data-step="3"] .sm-mock-result .sm-result-body.sm-result-body-fade {
+      max-height: none;
+      overflow: visible;
+      -webkit-mask-image: none;
+              mask-image: none;
+    }
+    .sample-section .step-slide[data-step="3"] .sm-finish-cta-row {
+      margin-top: 8px;
+    }
+
     .sample-section .case-grid.case-grid-5 { grid-template-columns: 1fr; gap: 12px; }
+    .sample-section .case-grid-5 .case-card {
+      min-height: 0;
+      padding: 18px 18px 16px;
+    }
     .sample-section .sm-gen-list { padding: 12px 16px; }
+
+    /* step-label: 한글이 letter-spacing/uppercase 영향으로 어색하게 벌어지는 문제 보정 */
+    .sample-section .step-label {
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    /* 모바일 타이포 보정 — 라인 높이/사이즈 컴팩트하게 */
+    .sample-section .step-lead,
+    .sample-section .step-lead-big {
+      font-size: 18px;
+      line-height: 1.4;
+    }
+    .sample-section .step-sub {
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    /* progress dots row — 모바일에선 가로 한 줄 유지 (column 강제 해제) */
+    .sample-section .step-progress {
+      flex-direction: row;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 16px;
+    }
+    .sample-section .step-counter { text-align: right; flex-shrink: 0; }
   }
 

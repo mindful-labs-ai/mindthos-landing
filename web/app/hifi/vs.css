@@ -163,6 +163,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    /* Match Generic brand-stack height (24 + 10 + 28) so both panels' first dividers align */
+    min-height: 62px;
   }
   .vs-side-tag-icons {
     display: inline-flex;
@@ -392,7 +394,8 @@
   .vs-side-mindthos .vs-row { transform: translateY(8px); }
   .vs-compare.vs-in-view .vs-side-mindthos {
     opacity: 1;
-    transform: translateX(0) translateY(-4px);
+    /* translateY(0): align with Generic panel so row dividers sit at the same Y on both sides */
+    transform: translateX(0) translateY(0);
     transition: opacity .75s ease 0.22s, transform .75s cubic-bezier(.22,.78,.32,1) 0.22s, box-shadow .3s ease;
     animation: vs-mindthos-glow 1.6s cubic-bezier(.4,.0,.2,1) 0.45s 1 both;
   }
@@ -442,6 +445,8 @@
   /* Tablet/mobile — stack panels, overlap 해제 (Mindthos는 border + glow로만 강조) */
   @media (max-width: 860px) {
     .vs-compare { grid-template-columns: 1fr; gap: 20px; }
+    /* Stacked layout: drop the side-by-side title min-height so the Mindthos logo isn't padded with empty space */
+    .vs-side-title { min-height: 0; }
     .vs-side-generic { padding-right: 26px; }
     .vs-side-mindthos {
       margin-left: 0;

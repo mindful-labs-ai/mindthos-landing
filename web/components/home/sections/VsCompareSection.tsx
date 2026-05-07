@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect } from 'react';
+import { MindthosLogo } from '@/components/layout/MindthosLogo';
 
 export function VsCompareSection() {
   useEffect(() => {
@@ -91,7 +92,7 @@ export function VsCompareSection() {
         </span>
         <header className="vs-side-head">
           <div className="vs-side-title">
-            <Image className="vs-side-logo-img" src="/logo-mindthos.webp" alt="마음토스" width={420} height={108} />
+            <MindthosLogo className="vs-side-logo-img" aria-label="마음토스" />
           </div>
           <p className="vs-side-sub">상담사를 위한 전문 AI agent</p>
         </header>

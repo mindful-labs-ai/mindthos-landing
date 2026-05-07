@@ -2,6 +2,10 @@
   *, *::before, *::after { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
+  /* 페르소나 캐러셀(slot ±2) / testimonials 마퀴 / Hero Ken Burns transform 등이
+     의도된 시각 효과로 viewport 밖까지 그려지지만, body 의 가로 스크롤은 만들지 않아야 한다.
+     `clip` 은 `hidden` 과 달리 position:sticky 의 스크롤 컨텍스트를 깨지 않는다. */
+  html, body { overflow-x: clip; }
   /* 사수 v43 (2026-04-30): 전체 타이포그래피 한 단계 확대 — 40대+ 가독성 강화 */
   body {
     font-family: var(--font-body);
@@ -607,4 +611,44 @@
   .lines .ln.s { width: 60%; }
   .lines .ln.m { width: 80%; }
   .lines .ln.l { width: 100%; }
+
+  /* ============== Shared page hero (서브 페이지 공통 헤더) ==============
+     /education, /blog 등 비-메인 서브 페이지 헤더 공통 컴포넌트.
+     · bg-2 알트 톤 + 하단 hairline + clamp 패딩
+     · 좌측 정렬 컬럼 (max-width 720px) — section-pill / h1 / lead 순
+     · security/홈처럼 풀-블리드 비주얼이 필요한 페이지는 별도 hero 클래스 사용 */
+  .page-hero {
+    position: relative;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+    padding: clamp(72px, 10vw, 128px) 0 clamp(56px, 7vw, 96px);
+  }
+  .page-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+    max-width: 720px;
+  }
+  .page-hero .section-pill {
+    align-self: flex-start;
+    margin: 0;
+  }
+  .page-hero-h1 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 800;
+    line-height: 1.16;
+    letter-spacing: -0.025em;
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+  .page-hero-sub {
+    margin: 0;
+    font-size: 17.5px;
+    line-height: 1.75;
+    color: var(--ink-2);
+    max-width: 640px;
+  }
 
