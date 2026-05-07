@@ -99,7 +99,7 @@ export default function SecurityPage() {
       <section className="security-hero" aria-label="상담 기록 보호 — 보안 페이지 헤더">
         <div className="security-hero-bg" aria-hidden="true">
           <Image
-            src="/security/hero-bg.png"
+            src="/security/hero-bg.webp"
             alt=""
             fill
             priority
@@ -150,7 +150,7 @@ export default function SecurityPage() {
             ))}
           </div>
           <SecurityImage
-            src="/security/protected-data.png"
+            src="/security/protected-data.webp"
             alt="보호 대상 상담 기록 — 녹음·축어록·노트·사례개념화·가계도·검사 자료 카드 그리드"
             width={1536}
             height={1024}
@@ -174,7 +174,7 @@ export default function SecurityPage() {
             ))}
           </ul>
           <SecurityImage
-            src="/security/no-ai-training.png"
+            src="/security/no-ai-training.webp"
             alt="상담 기록이 AI 학습 데이터로 흘러가지 않도록 차단되는 흐름 다이어그램"
             width={1536}
             height={1024}
@@ -220,7 +220,7 @@ export default function SecurityPage() {
             ))}
           </ul>
           <SecurityImage
-            src="/security/access-roles.png"
+            src="/security/access-roles.webp"
             alt="역할 기반 접근 모델 — 권한별로 접근 깊이가 달라지는 동심원 보호 구조"
             width={1536}
             height={1024}

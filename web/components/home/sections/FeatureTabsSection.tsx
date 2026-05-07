@@ -636,7 +636,7 @@ export function FeatureTabsSection() {
             </div>
 
             <div className="pf-geno2-canvas">
-              <Image className="pf-geno2-image" src="/genogram-honggildong.png" alt="가계도 분석 보고서 — 홍길동 가족" width={1632} height={1437} sizes="(max-width: 768px) 100vw, 50vw" />
+              <Image className="pf-geno2-image" src="/genogram-honggildong.webp" alt="가계도 분석 보고서 — 홍길동 가족" width={1632} height={1437} sizes="(max-width: 768px) 100vw, 50vw" />
 
               
               <div className="pf-geno2-toolbar">

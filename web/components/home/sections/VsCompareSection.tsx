@@ -55,8 +55,8 @@ export function VsCompareSection() {
           <div className="vs-side-title">
             <span className="vs-side-name">범용 AI</span>
             <span className="vs-side-tag-brands" aria-hidden="true">
-              <Image src="/logo-gemini.png" alt="" className="vs-brand-img vs-brand-gemini" width={470} height={135} />
-              <Image src="/logo-gpt.png" alt="" className="vs-brand-img vs-brand-gpt" width={535} height={180} />
+              <Image src="/logo-gemini.webp" alt="" className="vs-brand-img vs-brand-gemini" width={470} height={135} />
+              <Image src="/logo-gpt.webp" alt="" className="vs-brand-img vs-brand-gpt" width={535} height={180} />
             </span>
           </div>
           <p className="vs-side-sub">대화창 안에서 즉시 답을 만드는 일반 AI</p>
@@ -88,7 +88,7 @@ export function VsCompareSection() {
       
       <section className="vs-side vs-side-mindthos" aria-label="마음토스 비교 항목">
         <span className="vs-side-watermark" aria-hidden="true">
-          <Image src="/logo-mindthos-webclip.png" alt="" width={256} height={256} />
+          <Image src="/logo-mindthos-webclip.webp" alt="" width={256} height={256} />
         </span>
         <header className="vs-side-head">
           <div className="vs-side-title">

@@ -14,7 +14,7 @@ const PERSONAS: Array<{
 }> = [
   {
     slot: -2,
-    src: '/personas/persona-1-late-night-notes.png',
+    src: '/personas/persona-1-late-night-notes.webp',
     cat: '기록이 밀리는 상담사',
     scene: (
       <>
@@ -29,7 +29,7 @@ const PERSONAS: Array<{
   },
   {
     slot: -1,
-    src: '/personas/persona-2-test-and-interview.png',
+    src: '/personas/persona-2-test-and-interview.webp',
     cat: '통합 해석이 막히는 상담사',
     scene: (
       <>
@@ -44,7 +44,7 @@ const PERSONAS: Array<{
   },
   {
     slot: 0,
-    src: '/personas/persona-3-supervision-prep.png',
+    src: '/personas/persona-3-supervision-prep.webp',
     cat: '슈퍼비전 준비 중인 상담사',
     scene: (
       <>
@@ -59,7 +59,7 @@ const PERSONAS: Array<{
   },
   {
     slot: 1,
-    src: '/personas/persona-4-multi-format.png',
+    src: '/personas/persona-4-multi-format.webp',
     cat: '기관 양식에 묶인 상담사',
     scene: (
       <>
@@ -74,7 +74,7 @@ const PERSONAS: Array<{
   },
   {
     slot: 2,
-    src: '/personas/persona-5-genogram.png',
+    src: '/personas/persona-5-genogram.webp',
     cat: '가족 관계를 구조화해야 하는 상담사',
     scene: (
       <>

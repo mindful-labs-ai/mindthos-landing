@@ -42,7 +42,7 @@ const PROGRAMS: Program[] = [
     cta: '워크숍 자세히 보기',
     external: true,
     image: {
-      src: '/education-genogram.jpg',
+      src: '/education-genogram.webp',
       alt: '가계도 이론 강의 장면',
     },
   },
@@ -59,7 +59,7 @@ const PROGRAMS: Program[] = [
     cta: '인턴십 자세히 보기',
     external: true,
     image: {
-      src: '/education-internship.jpg',
+      src: '/education-internship.webp',
       alt: '인턴십 1:1 수퍼비전 장면',
     },
   },
