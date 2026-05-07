@@ -39,6 +39,12 @@ supabase/.temp/
 .claude/scheduled_tasks.lock
 **/.claude/scheduled_tasks.lock
 
+# QA artifacts (ephemeral — large screenshots and JSON dumps)
+web/.qa/screenshots/
+**/.qa/screenshots/
+web/.qa/*-audit.json
+**/.qa/*-audit.json
+
 # Embedded sub-projects (have their own remote)
 andotherlife-web/
 
