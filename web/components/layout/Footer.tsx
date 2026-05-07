@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { KAKAO_INQUIRY_URL, NOTION_GUIDE_URL } from '@/constants/nav';
+import { MindthosLogo } from './MindthosLogo';
 
 export function Footer() {
   return (
@@ -12,14 +12,8 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-12 border-b border-[var(--line)] pb-14 md:grid-cols-[minmax(300px,1fr)_2fr] md:gap-20 md:pb-14">
           {/* 브랜드 컬럼 */}
           <div className="flex flex-col gap-8">
-            <Link href="/" aria-label="마음토스 홈" className="inline-flex items-center">
-              <Image
-                src="/logo-mindthos.webp"
-                alt="마음토스"
-                width={420}
-                height={108}
-                className="block h-[38px] w-auto"
-              />
+            <Link href="/" aria-label="마음토스 홈" className="inline-flex min-h-[44px] items-center">
+              <MindthosLogo aria-hidden="true" className="block h-[38px] w-auto" />
             </Link>
 
             <dl className="flex flex-col gap-6">
@@ -29,10 +23,10 @@ export function Footer() {
                 </dt>
                 <dd className="flex flex-wrap items-center gap-[10px] text-[15.5px] font-medium leading-[1.6] text-[var(--ink)]">
                   <a
-                    href="https://www.instagram.com/mindthos.official"
+                    href="https://www.instagram.com/mind.thos/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[var(--ink)] transition-colors hover:text-[var(--brand-hover)]"
+                    className="inline-flex min-h-[44px] items-center text-[var(--ink)] transition-colors hover:text-[var(--brand-hover)]"
                   >
                     Instagram
                   </a>
@@ -40,10 +34,10 @@ export function Footer() {
                     |
                   </span>
                   <a
-                    href="https://www.threads.net/@mindthos.official"
+                    href="https://www.threads.com/@mind.thos"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[var(--ink)] transition-colors hover:text-[var(--brand-hover)]"
+                    className="inline-flex min-h-[44px] items-center text-[var(--ink)] transition-colors hover:text-[var(--brand-hover)]"
                   >
                     Threads
                   </a>
@@ -55,7 +49,10 @@ export function Footer() {
                   이메일
                 </dt>
                 <dd className="text-[15.5px] font-medium leading-[1.6] text-[var(--ink)]">
-                  <a href="mailto:business@mindfullabs.ai" className="text-[var(--ink)]">
+                  <a
+                    href="mailto:business@mindfullabs.ai"
+                    className="inline-flex min-h-[44px] items-center text-[var(--ink)]"
+                  >
                     business@mindfullabs.ai
                   </a>
                 </dd>
@@ -151,7 +148,7 @@ function FooterColumn({
       <h5 className="mb-[18px] text-[17px] font-bold leading-[1.4] tracking-[-0.005em] text-[var(--brand-hover)]">
         {heading}
       </h5>
-      <ul className="flex list-none flex-col gap-3.5 p-0 text-[15.5px] font-medium leading-[1.55] text-[var(--ink)] [&_a]:transition-colors [&_a:hover]:text-[var(--brand-hover)]">
+      <ul className="flex list-none flex-col gap-1 p-0 text-[15.5px] font-medium leading-[1.55] text-[var(--ink)] [&_a]:inline-flex [&_a]:min-h-[44px] [&_a]:min-w-[44px] [&_a]:items-center [&_a]:transition-colors [&_a:hover]:text-[var(--brand-hover)]">
         {children}
       </ul>
     </div>

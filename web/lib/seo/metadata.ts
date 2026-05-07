@@ -9,19 +9,29 @@ export function generatePageMetadata(options: {
   noindex?: boolean;
 }): Metadata {
   const url = `${SITE_CONFIG.url}${options.path}`;
+  const ogImages = options.image
+    ? [{ url: options.image, width: 1200, height: 630, alt: options.title }]
+    : [
+        {
+          url: '/og-default.png',
+          width: 1200,
+          height: 630,
+          alt: SITE_CONFIG.name,
+        },
+      ];
   return {
     title: options.title,
     description: options.description,
     alternates: { canonical: url },
     robots: options.noindex
-      ? { index: false, follow: false }
+      ? { index: false, follow: true }
       : { index: true, follow: true },
     openGraph: {
       title: options.title,
       description: options.description,
       url,
       type: 'website',
-      images: options.image ? [{ url: options.image }] : undefined,
+      images: ogImages,
       siteName: SITE_CONFIG.name,
       locale: SITE_CONFIG.locale,
     },
@@ -29,6 +39,7 @@ export function generatePageMetadata(options: {
       card: 'summary_large_image',
       title: options.title,
       description: options.description,
+      images: ogImages.map((img) => img.url),
     },
   };
 }

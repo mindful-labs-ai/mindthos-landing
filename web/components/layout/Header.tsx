@@ -1,11 +1,11 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { PRIMARY_NAV } from '@/constants/nav';
+import { MindthosLogo } from './MindthosLogo';
 
 const APP_URL = 'https://app.mindthos.com';
 
@@ -29,6 +29,10 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // 홈(/)에서 스크롤 0 일 때만 헤더를 투명 배경 + 화이트 톤으로 — Hero 영상이 GNB 뒤로 보이도록.
+  // 햄버거 메뉴가 열려도 헤더 디자인은 그대로 유지 — 그 아래 흰 panel 만 떠올리는 디자인.
+  const transparent = pathname === '/' && !scrolled;
+
   // Esc closes mobile menu; first link receives focus when opened.
   useEffect(() => {
     if (!mobileOpen) return;
@@ -44,10 +48,14 @@ export function Header() {
   }, [mobileOpen]);
 
   return (
-    <header className="gnb" data-scrolled={scrolled ? 'true' : 'false'}>
+    <header
+      className="gnb"
+      data-scrolled={scrolled ? 'true' : 'false'}
+      data-transparent={transparent ? 'true' : 'false'}
+    >
       <div className="container gnb-inner">
         <Link className="gnb-logo" href="/" aria-label="마음토스 홈">
-          <Image src="/logo-mindthos.webp" alt="마음토스" width={420} height={108} priority />
+          <MindthosLogo aria-hidden="true" />
         </Link>
 
         <nav className="gnb-nav" aria-label="주 메뉴">
@@ -127,6 +135,14 @@ export function Header() {
               );
             })}
           </nav>
+          <div className="gnb-mobile-cta">
+            <a className="btn ghost" href={APP_URL} onClick={() => setMobileOpen(false)}>
+              로그인
+            </a>
+            <a className="btn primary" href={APP_URL} onClick={() => setMobileOpen(false)}>
+              무료로 시작하기
+            </a>
+          </div>
         </div>
       )}
     </header>

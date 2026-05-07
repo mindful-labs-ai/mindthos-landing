@@ -1,7 +1,10 @@
 export const SITE_CONFIG = {
   name: '마음토스',
+  alternateName: 'Mindthos',
   shortName: '마음토스',
   legalName: '마인드풀랩스 주식회사',
+  legalNameEn: 'Mindful Labs Inc.',
+  legalUrl: 'https://www.mindfullabs.ai/',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://mindthos.com',
   email: process.env.NEXT_PUBLIC_SITE_EMAIL || 'business@mindfullabs.ai',
   phone: process.env.NEXT_PUBLIC_SITE_PHONE || '',
@@ -12,10 +15,22 @@ export const SITE_CONFIG = {
   locale: 'ko_KR',
   language: 'ko',
   timezone: 'Asia/Seoul',
+  /** 운영 채널 — 빈 env면 기본값(공식 채널) 사용. JSON-LD sameAs 에 그대로 노출됨 */
   social: {
-    instagram: process.env.NEXT_PUBLIC_INSTAGRAM || '',
+    instagram:
+      process.env.NEXT_PUBLIC_INSTAGRAM || 'https://www.instagram.com/mind.thos',
+    threads:
+      process.env.NEXT_PUBLIC_THREADS || 'https://www.threads.net/@mind.thos',
     linkedin: process.env.NEXT_PUBLIC_LINKEDIN || '',
     twitter: process.env.NEXT_PUBLIC_TWITTER || '',
+  },
+  /** Organization JSON-LD address — 사업장 정보 (site-map-v2 §4-3) */
+  address: {
+    streetAddress: '성동구 뚝섬로13길 38, 4층',
+    addressLocality: '성수동',
+    addressRegion: '서울',
+    postalCode: '04782',
+    addressCountry: 'KR',
   },
   /** 운영 사이트 색 — design-tokens.md v1.2 */
   brand: {

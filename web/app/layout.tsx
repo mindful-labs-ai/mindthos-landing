@@ -5,6 +5,7 @@ import Script from 'next/script';
 import './globals.css';
 import './hifi.css';
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
+import { UtmForwarder } from '@/components/layout/UtmForwarder';
 import {
   generateOrganizationSchema,
   generateWebSiteSchema,
@@ -73,13 +74,28 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: '32x32' },
-      { url: '/icon.png', sizes: '192x192', type: 'image/png' },
-    ],
-    apple: '/apple-touch-icon.png',
+  alternates: {
+    canonical: SITE_CONFIG.url,
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: {
+      /* Naver Search Advisor 사이트 소유 확인 — 기존 webflow head 에서 이관 (2026-05-07) */
+      'naver-site-verification':
+        process.env.NEXT_PUBLIC_NAVER_SITE_VERIFICATION ||
+        '0052a5554759a4860f31ad1b50a910b37e0a2b9b',
+      /* Bing Webmaster Tools 사이트 소유 확인 (2026-05-07) */
+      'msvalidate.01':
+        process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ||
+        'C280F0528DA0B9B0B2619158CE80E0E8',
+    },
+  },
+  /**
+   * Favicon — Next.js 16 파일 컨벤션 사용.
+   * 단일 진실 원본: `app/icon.svg` (브랜드 그린 #44CE4B 심볼)
+   * Next 가 자동으로 `<link rel="icon" type="image/svg+xml" href="/icon">` 주입.
+   * apple-touch-icon (iOS 홈스크린)·legacy ICO 는 디자이너 자산 확정 후 별도 PR.
+   */
 };
 
 export const viewport: Viewport = {
@@ -135,6 +151,7 @@ export default function RootLayout({
         <SchemaMarkup
           schema={[generateOrganizationSchema(), generateWebSiteSchema()]}
         />
+        <UtmForwarder />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-[var(--brand-primary-dark)]"

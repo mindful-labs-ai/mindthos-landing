@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 const STORAGE_KEY = 'mt-promo-1month-dismissed';
-const APP_URL = 'https://app.mindthos.com';
+const APP_URL = 'https://app.mindthos.com/?utm_source=landing&utm_medium=display&utm_campaign=banner';
 
 export function PromoBanner() {
   const [dismissed, setDismissed] = useState<boolean | null>(null);
