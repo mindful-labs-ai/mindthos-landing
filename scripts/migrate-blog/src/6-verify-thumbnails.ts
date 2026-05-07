@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { TransformedPost } from './4-transform.js';
@@ -20,6 +20,9 @@ async function head(url: string): Promise<number> {
 
 async function main() {
   log.step('Supabase Storage thumbnail 200 검증');
+
+  // 이전 실행의 stale 리포트가 있으면 제거 — 멱등성 확보.
+  rmSync(REPORT, { force: true });
 
   const posts: TransformedPost[] = JSON.parse(readFileSync(SRC, 'utf-8'));
   const checks = posts
