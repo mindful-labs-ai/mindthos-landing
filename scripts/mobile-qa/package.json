@@ -1,0 +1,12 @@
+{
+  "name": "mobile-qa",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture": "node capture.mjs",
+    "verify": "node verify.mjs"
+  },
+  "dependencies": {
+    "puppeteer-core": "^24.43.0"
+  }
+}

@@ -41,7 +41,7 @@ export async function getPublishedPosts(options?: {
     ? baseQuery.eq('category_id', categoryId)
     : baseQuery);
   if (error) throw error;
-  return { posts: (data ?? []) as unknown as Post[], total: count ?? 0 };
+  return { posts: (data ?? []) as Post[], total: count ?? 0 };
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
@@ -53,7 +53,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     .eq('status', 'published')
     .single();
   if (error) return null;
-  return data as unknown as Post;
+  return data as Post;
 }
 
 export const getCategories = cache(async (): Promise<Category[]> => {
@@ -76,7 +76,7 @@ export async function getFeaturedPosts(limit = 6): Promise<Post[]> {
     .order('published_at', { ascending: false })
     .limit(limit);
   if (error) throw error;
-  return (data ?? []) as unknown as Post[];
+  return (data ?? []) as Post[];
 }
 
 export async function getLatestPosts(limit = 6): Promise<Post[]> {
@@ -88,7 +88,7 @@ export async function getLatestPosts(limit = 6): Promise<Post[]> {
     .order('published_at', { ascending: false })
     .limit(limit);
   if (error) throw error;
-  return (data ?? []) as unknown as Post[];
+  return (data ?? []) as Post[];
 }
 
 export const getCounselingPrograms = cache(
@@ -116,4 +116,78 @@ export async function getCounselingProgramBySlug(
     .maybeSingle();
   if (error) return null;
   return data;
+}
+
+export async function getCounselingProgramById(
+  id: string
+): Promise<CounselingProgram | null> {
+  const supabase = createStaticClient();
+  const { data, error } = await supabase
+    .from('counseling_programs')
+    .select('*')
+    .eq('id', id)
+    .eq('is_active', true)
+    .maybeSingle();
+  if (error) return null;
+  return data;
+}
+
+export const getPopularPosts = cache(async (limit = 5): Promise<Post[]> => {
+  const supabase = createStaticClient();
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*, category:categories(*), author:authors(*)')
+    .eq('status', 'published')
+    .order('view_count', { ascending: false })
+    .limit(limit);
+  if (error) {
+    console.error('[getPopularPosts]', error);
+    return [];
+  }
+  return (data ?? []) as Post[];
+});
+
+export async function searchPosts(
+  query: string,
+  options?: { page?: number; perPage?: number }
+): Promise<{ posts: Post[]; total: number }> {
+  const { page = 1, perPage = 12 } = options ?? {};
+  const supabase = createStaticClient();
+  const from = (page - 1) * perPage;
+  const to = from + perPage - 1;
+  // Strip PostgREST .or() meta characters and ilike wildcards; cap length to avoid abuse.
+  const safeQuery = query
+    .replace(/[%_,()*\\]/g, ' ')
+    .trim()
+    .slice(0, 80);
+  if (!safeQuery) return { posts: [], total: 0 };
+  const { data, count, error } = await supabase
+    .from('posts')
+    .select('*, category:categories(*), author:authors(*)', { count: 'exact' })
+    .eq('status', 'published')
+    .or(
+      `title.ilike.%${safeQuery}%,content.ilike.%${safeQuery}%,summary.ilike.%${safeQuery}%`
+    )
+    .order('published_at', { ascending: false })
+    .range(from, to);
+  if (error) throw error;
+  return { posts: (data ?? []) as Post[], total: count ?? 0 };
+}
+
+export async function getPostsTotalForCategory(
+  categorySlug?: string
+): Promise<number> {
+  const supabase = createStaticClient();
+  let query = supabase
+    .from('posts')
+    .select('id', { count: 'exact', head: true })
+    .eq('status', 'published');
+  if (categorySlug) {
+    const cats = await getCategories();
+    const cat = cats.find((c) => c.slug === categorySlug);
+    if (!cat) return 0;
+    query = query.eq('category_id', cat.id);
+  }
+  const { count } = await query;
+  return count ?? 0;
 }

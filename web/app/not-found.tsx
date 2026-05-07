@@ -1,8 +1,15 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: '페이지를 찾을 수 없습니다',
+  description: '요청하신 페이지가 이동되었거나 더 이상 존재하지 않습니다.',
+  robots: { index: false, follow: false },
+};
 
 export default function NotFound() {
   return (
-    <div className="mx-auto max-w-[var(--container-narrow)] px-[var(--gutter)] py-24 text-center">
+    <div className="mx-auto max-w-narrow px-gutter py-24 text-center">
       <p className="eyebrow">404</p>
       <h1 className="mt-2 mb-4">페이지를 찾을 수 없어요</h1>
       <p className="mb-8 text-[var(--text-body)]">

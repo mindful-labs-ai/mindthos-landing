@@ -75,10 +75,46 @@
 
   --color-alert: var(--alert);
 
-  /* Layout */
+  /* Layout — Tailwind max-w-* utilities (legacy) */
   --max-width-container: 1120px;
+  --max-width-container-wide: 1280px;
   --max-width-narrow: 760px;
   --max-width-prose: 640px;
+
+  /* Container & gutter — components consume via Tailwind max-w-[var(--container-*)] / px-[var(--gutter-*)] */
+  --container-wide: 1280px;
+  --gutter-wide: 40px;
+  --container-max: 1120px;
+  --container-narrow: 760px;
+  --container-prose: 640px;
+
+  /* Spacing aliases — Tailwind generates px-/mx-/gap- utilities for these token names. */
+  --spacing-gutter: clamp(16px, 4vw, 32px);
+  --spacing-gutter-wide: 40px;
+
+  /* Typography scale — design tokens consumed by typography utilities */
+  --text-display: var(--t-display);
+  --text-display-mobile: var(--t-display-mobile);
+  --text-h2: var(--t-h2);
+  --text-h2-mobile: var(--t-h2-mobile);
+  --text-h3: var(--t-h3);
+  --text-lead: var(--t-lead);
+  --text-body-size: var(--t-body);
+  --text-small: var(--t-small);
+  --text-meta: var(--t-meta);
+  --text-eyebrow: var(--t-eyebrow);
+  --text-cta: var(--t-cta);
+
+  /* Spacing scale (sp-1…sp-9) — design-tokens.md §3.1 */
+  --spacing-1: var(--sp-1);
+  --spacing-2: var(--sp-2);
+  --spacing-3: var(--sp-3);
+  --spacing-4: var(--sp-4);
+  --spacing-5: var(--sp-5);
+  --spacing-6: var(--sp-6);
+  --spacing-7: var(--sp-7);
+  --spacing-8: var(--sp-8);
+  --spacing-9: var(--sp-9);
 }
 
 :root {
@@ -151,6 +187,10 @@
   --sp-9: 120px;
 
   /* === Container === */
+  /* `--container-wide` / `--gutter-wide` 는 hifi.css 의 `.container` (1280/40) 와
+     동일 — 홈/블로그 등 GNB 너비 기준 페이지에서 사용. */
+  --container-wide: 1280px;
+  --gutter-wide: 40px;
   --container-max: 1120px;
   --container-narrow: 760px;
   --container-prose: 640px;

@@ -2,7 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Clock, Users } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo/metadata';
+import {
+  generateBreadcrumbSchema,
+  generateCourseSchema,
+} from '@/lib/seo/schema';
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
+import { SITE_CONFIG } from '@/constants/site';
 import { KAKAO_INQUIRY_URL } from '@/constants/nav';
+import './education.css';
 
 export const metadata = generatePageMetadata({
   title: '교육 프로그램',
@@ -59,102 +66,101 @@ const PROGRAMS: Program[] = [
 ];
 
 export default function EducationPage() {
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: '홈', url: SITE_CONFIG.url },
+    { name: '교육 프로그램', url: `${SITE_CONFIG.url}/education` },
+  ]);
+
+  const courseSchemas = PROGRAMS.map((p) =>
+    generateCourseSchema({
+      name: p.title,
+      description: p.lead,
+      url: p.href.startsWith('http') ? p.href : `${SITE_CONFIG.url}${p.href}`,
+      educationalLevel: '전문가',
+      audienceType: '심리상담사',
+    }),
+  );
+
   return (
     <>
-      <section className="border-b border-[var(--line-1)] bg-[var(--bg-warm)]">
-        <div className="mx-auto max-w-[var(--max-width-container)] px-6 py-20 md:py-28">
-          <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-primary-dark)]">
-            상담사를 위한 세미나
-          </p>
-          <h1 className="mt-4 text-[34px] font-bold leading-tight tracking-tight text-[var(--text-heading-strong)] md:text-[44px]">
-            마음토스의 교육 프로그램
-          </h1>
-          <p className="mt-5 max-w-2xl text-[16px] leading-relaxed text-[var(--text-body)]">
-            상담 현장의 역량 강화를 돕는 심화 워크숍과 자격 취득 인턴십 프로그램을 운영합니다.
-            모집 일정은 프로그램별 안내 페이지를 확인해 주세요.
-          </p>
+      <SchemaMarkup schema={[breadcrumbSchema, ...courseSchemas]} />
+
+      {/* HERO — globals.css 공통 .page-hero 컴포넌트 (블로그 등 서브 페이지 공유) */}
+      <section className="page-hero" aria-label="마음토스 교육 프로그램 — 페이지 헤더">
+        <div className="container">
+          <div className="page-hero-content">
+            <span className="section-pill">상담사를 위한 세미나</span>
+            <h1 className="page-hero-h1">마음토스의 교육 프로그램</h1>
+            <p className="page-hero-sub">
+              상담 현장의 역량 강화를 돕는 심화 워크숍과 자격 취득 인턴십 프로그램을 운영합니다.
+              모집 일정은 프로그램별 안내 페이지를 확인해 주세요.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section className="bg-[var(--bg-base)]">
-        <div className="mx-auto max-w-[var(--max-width-container)] px-6 py-14 md:py-16">
-          <div className="flex items-end justify-between">
-            <div>
-              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-[var(--brand-primary-dark)]">
-                현재 진행 프로그램
-              </p>
-              <h2 className="mt-3 text-[24px] font-bold leading-tight tracking-tight text-[var(--text-heading-strong)] md:text-[28px]">
-                마음토스에서 운영하는 두 가지 프로그램
-              </h2>
-            </div>
-          </div>
+      {/* PROGRAMS */}
+      <section className="wf-section">
+        <div className="container">
+          <header className="edu-section-head">
+            <h2 className="t-h2">운영 중인 프로그램</h2>
+            <p className="t-sub">
+              상담 현장에서 바로 적용 가능한 실무 중심 커리큘럼과, 자격 취득까지 함께 준비하는 인턴십을 제공합니다.
+            </p>
+          </header>
 
-          <ul className="mt-8 grid gap-6 md:grid-cols-2">
-            {PROGRAMS.map((p) => (
-              <li
-                key={p.title}
-                className="flex flex-col overflow-hidden rounded-2xl border border-[var(--line-1)] bg-[var(--bg-elevated)]"
-              >
-                <div className="relative aspect-[16/9] w-full overflow-hidden bg-[var(--bg-warm)]">
+          <ul className="edu-programs">
+            {PROGRAMS.map((p, idx) => (
+              <li key={p.title} className="edu-card">
+                <div className="edu-card-media">
                   <Image
                     src={p.image.src}
                     alt={p.image.alt}
                     fill
-                    sizes="(min-width: 768px) 50vw, 100vw"
+                    sizes="(min-width: 880px) 50vw, 100vw"
                     className="object-cover"
+                    priority={idx === 0}
+                    fetchPriority={idx === 0 ? 'high' : 'auto'}
                   />
                 </div>
-                <div className="flex flex-col p-5 md:p-6">
-                <span className="self-start rounded-full border border-[var(--brand-primary-tint)] bg-[var(--brand-primary-pale)] px-2.5 py-0.5 text-[11px] font-semibold tracking-wider text-[var(--brand-primary-dark)]">
-                  {p.status}
-                </span>
-                <h3 className="mt-3 text-[18px] font-bold leading-snug text-[var(--text-heading-strong)] md:text-[20px]">
-                  {p.title}
-                </h3>
-                <p className="mt-2 text-[14px] leading-relaxed text-[var(--text-body)]">
-                  {p.lead}
-                </p>
+                <div className="edu-card-body">
+                  <span className="t-tag edu-card-status">{p.status}</span>
+                  <h3 className="edu-card-title">{p.title}</h3>
+                  <p className="edu-card-lead">{p.lead}</p>
 
-                <dl className="mt-4 space-y-1.5 text-[13px] text-[var(--text-secondary)]">
-                  {p.details.map((d, i) => (
-                    <div key={d.label} className="flex items-center gap-2">
-                      {i === 0 ? (
-                        <Clock className="h-3.5 w-3.5 text-[var(--text-muted)]" aria-hidden />
-                      ) : (
-                        <Users className="h-3.5 w-3.5 text-[var(--text-muted)]" aria-hidden />
-                      )}
-                      <dt className="sr-only">{d.label}</dt>
-                      <dd>
-                        <span className="font-semibold text-[var(--text-primary)]">
-                          {d.label}
-                        </span>{' '}
-                        · {d.value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
+                  <ul className="edu-card-meta">
+                    {p.details.map((d, i) => (
+                      <li key={d.label}>
+                        {i === 0 ? (
+                          <Clock className="edu-card-meta-icon" aria-hidden />
+                        ) : (
+                          <Users className="edu-card-meta-icon" aria-hidden />
+                        )}
+                        <span className="edu-card-meta-label">{d.label}</span>
+                        <span className="edu-card-meta-sep" aria-hidden>·</span>
+                        <span>{d.value}</span>
+                      </li>
+                    ))}
+                  </ul>
 
-                <div className="mt-5">
-                  {p.external ? (
-                    <a
-                      href={p.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[var(--brand-primary)] px-4 text-[13.5px] font-semibold text-white transition-colors hover:bg-[var(--brand-primary-dark)]"
-                    >
-                      {p.cta}
-                      <ArrowRight className="h-4 w-4" aria-hidden />
-                    </a>
-                  ) : (
-                    <Link
-                      href={p.href}
-                      className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-[var(--brand-primary)] px-4 text-[13.5px] font-semibold text-white transition-colors hover:bg-[var(--brand-primary-dark)]"
-                    >
-                      {p.cta}
-                      <ArrowRight className="h-4 w-4" aria-hidden />
-                    </Link>
-                  )}
-                </div>
+                  <div className="edu-card-cta">
+                    {p.external ? (
+                      <a
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn primary"
+                      >
+                        {p.cta}
+                        <ArrowRight className="arr" width={16} height={16} aria-hidden />
+                      </a>
+                    ) : (
+                      <Link href={p.href} className="btn primary">
+                        {p.cta}
+                        <ArrowRight className="arr" width={16} height={16} aria-hidden />
+                      </Link>
+                    )}
+                  </div>
                 </div>
               </li>
             ))}
@@ -162,15 +168,16 @@ export default function EducationPage() {
         </div>
       </section>
 
-      <section className="border-t border-[var(--line-1)] bg-[var(--bg-warm)]">
-        <div className="mx-auto max-w-[var(--max-width-container)] px-6 py-16 text-center md:py-20">
-          <p className="text-[14.5px] text-[var(--text-body)]">
+      {/* FOOTER NOTE — 카카오 문의 링크 */}
+      <section className="edu-footer-note" aria-label="프로그램 문의">
+        <div className="container">
+          <p className="edu-footer-note-text">
             프로그램 문의는{' '}
             <a
               href={KAKAO_INQUIRY_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-semibold text-[var(--brand-primary-dark)] underline underline-offset-4 transition-colors hover:text-[var(--text-primary)]"
+              className="edu-footer-note-link"
             >
               카카오톡 오픈채팅
             </a>

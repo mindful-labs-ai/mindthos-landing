@@ -1,5 +1,33 @@
 import type { NextConfig } from 'next';
 
+/**
+ * Content Security Policy — report-only 모드.
+ * 본 사이트는 다음 외부 origin 을 의도적으로 사용:
+ *  - Google Fonts (IBM Plex Mono via next/font/google) → fonts.gstatic.com / fonts.googleapis.com
+ *  - GA4 (선택) → www.google-analytics.com / www.googletagmanager.com
+ *  - Meta Pixel (선택) → connect.facebook.net / *.facebook.com
+ *  - Supabase Storage 이미지 → *.supabase.co
+ *  - cdn.prod.website-files.com (랜딩에 일부 외부 이미지)
+ *  - app.mindthos.com (외부 redirect 대상이지만 frame 은 아님)
+ *  - vercel insights (선택) → vitals.vercel-insights.com
+ * inline script 가 (GA/Pixel/JSON-LD) 존재하므로 unsafe-inline 허용.
+ * Report-only 로 시작 — 1주 모니터링 후 enforce 로 전환.
+ */
+const cspReportOnly = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net",
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' https://fonts.gstatic.com data:",
+  "img-src 'self' data: blob: https://*.supabase.co https://cdn.prod.website-files.com https://www.google-analytics.com https://*.facebook.com",
+  "media-src 'self'",
+  "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.facebook.com https://vitals.vercel-insights.com",
+  "frame-src 'self'",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self' https://app.mindthos.com",
+  "object-src 'none'",
+].join('; ');
+
 const securityHeaders = [
   { key: 'X-Content-Type-Options', value: 'nosniff' },
   { key: 'X-Frame-Options', value: 'DENY' },
@@ -13,6 +41,7 @@ const securityHeaders = [
     value: 'camera=(), microphone=(), geolocation=()',
   },
   { key: 'X-Permitted-Cross-Domain-Policies', value: 'none' },
+  { key: 'Content-Security-Policy-Report-Only', value: cspReportOnly },
 ];
 
 const nextConfig: NextConfig = {
@@ -56,17 +85,9 @@ const nextConfig: NextConfig = {
       { source: '/contact', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
       { source: '/contact/:path*', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
       { source: '/inquiry', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
-      // 제품 — /about-service 의 핵심 기능 섹션으로
-      {
-        source: '/product',
-        destination: '/about-service#features',
-        permanent: false,
-      },
-      {
-        source: '/product/:slug*',
-        destination: '/about-service#features',
-        permanent: false,
-      },
+      // 제품 — 별도 /product 라우트 없음, 홈으로 흡수
+      { source: '/product', destination: '/', permanent: false },
+      { source: '/product/:slug*', destination: '/', permanent: false },
       // 기관용 — 카카오톡 오픈채팅으로 직행 (내부 contact 폼 제거)
       {
         source: '/for-institutions',
@@ -74,31 +95,25 @@ const nextConfig: NextConfig = {
         permanent: false,
         basePath: false,
       },
-      // 보안 — /about-service 보안 섹션
-      {
-        source: '/security',
-        destination: '/about-service#security',
-        permanent: false,
-      },
-      {
-        source: '/security/how-we-protect',
-        destination: '/about-service#security',
-        permanent: false,
-      },
+      // 보안 — /security 는 실제 라우트(app/(site)/security/page.tsx). redirect 두면 라우트가 가려져 제거.
+      // /security/* 하위 잔여 URL 만 흡수.
+      { source: '/security/how-we-protect', destination: '/security', permanent: false },
       {
         source: '/security/privacy-policy',
-        destination: '/privacy',
+        destination: 'https://app.mindthos.com/terms?type=privacy',
         permanent: false,
+        basePath: false,
       },
-      { source: '/security/terms', destination: '/terms', permanent: false },
+      {
+        source: '/security/terms',
+        destination: 'https://app.mindthos.com/terms?type=service',
+        permanent: false,
+        basePath: false,
+      },
       // 가격 — 랜딩 §09 anchor
       { source: '/pricing', destination: '/#pricing', permanent: false },
-      // 회사 — /about-service 회사 섹션
-      {
-        source: '/about',
-        destination: '/about-service#company',
-        permanent: false,
-      },
+      // 회사 — 별도 /about 라우트 없음, 홈으로
+      { source: '/about', destination: '/', permanent: false },
       // 리소스 — /blog 통합
       { source: '/resources', destination: '/blog', permanent: false },
       {

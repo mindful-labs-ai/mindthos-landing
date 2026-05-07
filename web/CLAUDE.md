@@ -114,12 +114,30 @@ mindthos.com
 7. 작업 대상 파일                                          ← 실제 수정
 ```
 
-## 7.5. 후속 작업 (Phase 2 — 본 세팅 후 진입)
+## 7.5. 후속 작업 추적
 
-본 부트스트랩은 "프로젝트 토대" 까지만 다룹니다. Phase 2 항목은 README.md
-"후속 작업" 섹션 참조: og 자산 / 파비콘, Pretendard 로컬화, 블로그 컴포넌트 본 구현,
-문의·뉴스레터 폼 본 구현, 법무 본문, 제품 4종 상세 본 구현, 가격 4단 + 크레딧 계산기,
-콘텐츠 카테고리 확정.
+후속 작업 진행 상황 + 차후 PR 권장 항목은 다음 문서를 단일 진실 원본으로 참조:
+
+| 문서 | 내용 |
+|---|---|
+| `docs/PHASE2_BACKLOG.md` | Phase 2 항목 진행 추적 (✅ 완료 / △ 부분 / ☐ 미진행 / ⏸ 결정 대기) |
+| `docs/refactor-deferred.md` | 시각 회귀 위험 / 디자인 결정 필요로 차후 PR 권장 항목 8개 spec |
+| `docs/blog-publishing.md` | 블로그 글 발행 절차 (Supabase Studio + revalidate + IndexNow) |
+| `.qa/qa-checklist.md` | 자동 + 수동 검증 체크리스트 (75 항목) |
+| `.qa/qa-report.md` | 가장 최근 검증 결과 + Chrome headless 스크린샷 |
+
+주요 완료 항목 (2026-05-06 기준):
+- ✅ Supabase 인프라 + 마이그레이션 적용 + 시드
+- ✅ Pretendard 로컬화 + Light(300) weight 제거 (~92KB 절감)
+- ✅ 랜딩 11 섹션 monolith (sub-component 분할은 deferred)
+- ✅ 블로그 시스템 (목록 + 상세 + OG + Schema + ISR)
+- ✅ hifi.css 18,467줄 → 13 모듈 분할
+- ✅ 25 raw `<img>` → `next/image`
+- ✅ Footer 14 hex → CSS 토큰
+- ✅ CSP report-only + timingSafeEqual + rehype-sanitize
+- ✅ /api/revalidate + /api/indexnow
+
+미완료 + 차후 PR 권장: HifiLanding 분할, hifi 토큰 reconcile, og/favicon 자산, Pretendard Variable 통합, CSP enforce 전환, /education hero priority.
 
 ## 8. Vercel 배포
 
