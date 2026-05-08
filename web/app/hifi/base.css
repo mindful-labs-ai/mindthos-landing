@@ -444,16 +444,18 @@
     color: var(--white);
     transform: translateY(-1px);
   }
+  /* CLAUDE.md 규칙: --brand-primary(#44ce4b) 위 흰 텍스트는 대비 부족(2.06:1) → #1f1f1f 사용.
+     Lighthouse a11y(2026-05-08) color-contrast 패스를 위한 정정. */
   .btn.primary {
     background: var(--brand);
     border-color: var(--brand);
-    color: var(--white);
+    color: #1f1f1f;
     font-weight: 700;
   }
   .btn.primary:hover {
     background: var(--brand-hover);
     border-color: var(--brand-hover);
-    color: var(--white);
+    color: #1f1f1f;
     box-shadow: 0 10px 24px -14px rgba(50, 215, 75, 0.5);
   }
   .btn.ghost {

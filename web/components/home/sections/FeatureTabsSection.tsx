@@ -120,9 +120,11 @@ export function FeatureTabsSection() {
       <h2 className="t-h2">필요한 순간에,<br/>필요한 기능만 꺼내 쓰세요</h2>
     </div>
 
-    <div className="feat-tabs" role="tablist" aria-label="핵심 기능 탭">
-      
-      <div className="feat-tablist">
+    {/* aria-required-children: role="tablist"는 role="tab" 자식만 허용 — 패널이 형제로 같은 컨테이너에 있으면 위반.
+        role/aria-label을 안쪽 .feat-tablist (탭 버튼만 감싸는 wrapper) 로 이동 (Lighthouse 2026-05-08). */}
+    <div className="feat-tabs">
+
+      <div className="feat-tablist" role="tablist" aria-label="핵심 기능 탭">
         <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="trx">
           <span className="feat-tab-num">01</span>
           <span className="feat-tab-icon" aria-hidden="true">

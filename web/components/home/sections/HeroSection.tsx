@@ -1,14 +1,27 @@
 'use client';
 
 export function HeroSection() {
+  /* Hero 비디오 (2026-05-08):
+     SSR/CSR 모두 렌더 — preload="metadata" + fetchpriority="low" 로 첫 프레임만 가볍게 받고,
+     디코딩/재생은 브라우저가 idle 시점에 처리. 자산은 압축본 (모바일 2.6MB / 데스크톱 2.6MB). */
+
   return (
 <section className="hero" aria-label="마음토스 — 상담사를 위한 안전한 AI agent">
 
-  
+
   <div className="hero-bg" aria-hidden="true">
-    <video className="hero-bg-video" autoPlay muted loop playsInline preload="metadata"
-           aria-hidden="true"
-           onError={(e) => { (e.currentTarget as HTMLElement).style.display = 'none'; }}>
+    <video
+      className="hero-bg-video"
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      // @ts-expect-error — fetchPriority 는 React 19 지원, video 타입엔 아직 미반영
+      fetchPriority="low"
+      aria-hidden="true"
+      onError={(e) => { (e.currentTarget as HTMLElement).style.display = 'none'; }}
+    >
       {/* 모바일 전용 영상 (세로 비율 + 인물 클로즈업). 720px 이하에서 우선 매칭. */}
       <source src="/hero-bg-mobile.mp4" type="video/mp4" media="(max-width: 720px)" />
       <source src="/hero-bg.mp4" type="video/mp4"/>

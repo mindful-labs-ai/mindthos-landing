@@ -18,7 +18,7 @@ export function Footer() {
 
             <dl className="flex flex-col gap-6">
               <div className="flex flex-col gap-2">
-                <dt className="text-[14px] font-bold tracking-[0.01em] text-[var(--brand-hover)]">
+                <dt className="text-[14px] font-bold tracking-[0.01em] text-[var(--brand-text-on-light)]">
                   SNS
                 </dt>
                 <dd className="flex flex-wrap items-center gap-[10px] text-[15.5px] font-medium leading-[1.6] text-[var(--ink)]">
@@ -45,7 +45,7 @@ export function Footer() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <dt className="text-[14px] font-bold tracking-[0.01em] text-[var(--brand-hover)]">
+                <dt className="text-[14px] font-bold tracking-[0.01em] text-[var(--brand-text-on-light)]">
                   이메일
                 </dt>
                 <dd className="text-[15.5px] font-medium leading-[1.6] text-[var(--ink)]">
@@ -59,7 +59,7 @@ export function Footer() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <dt className="text-[14px] font-bold tracking-[0.01em] text-[var(--brand-hover)]">
+                <dt className="text-[14px] font-bold tracking-[0.01em] text-[var(--brand-text-on-light)]">
                   주소
                 </dt>
                 <dd
@@ -145,9 +145,11 @@ function FooterColumn({
 }) {
   return (
     <div>
-      <h5 className="mb-[18px] text-[17px] font-bold leading-[1.4] tracking-[-0.005em] text-[var(--brand-hover)]">
+      {/* heading-order: 본문 마지막 h2(섹션) 다음에 h5는 레벨 스킵 → h3로 정정 (Lighthouse 2026-05-08).
+          색은 var(--brand-hover) 3.05:1 ✗ → --brand-text-on-light 5.96:1 ✓ */}
+      <h3 className="mb-[18px] text-[17px] font-bold leading-[1.4] tracking-[-0.005em] text-[var(--brand-text-on-light)]">
         {heading}
-      </h5>
+      </h3>
       <ul className="flex list-none flex-col gap-1 p-0 text-[15.5px] font-medium leading-[1.55] text-[var(--ink)] [&_a]:inline-flex [&_a]:min-h-[44px] [&_a]:min-w-[44px] [&_a]:items-center [&_a]:transition-colors [&_a:hover]:text-[var(--brand-hover)]">
         {children}
       </ul>

@@ -82,13 +82,14 @@
     transform: translateY(-4px);
   }
 
-  /* Recommend badge — 좌상단 pill (BEST/HOT 쇼핑몰 톤 X) */
+  /* Recommend badge — 좌상단 pill (BEST/HOT 쇼핑몰 톤 X)
+     CLAUDE.md: --brand 위 흰 텍스트 대비 부족(2.06:1) → #1f1f1f */
   .price-badge {
     position: absolute;
     top: -12px;
     left: 24px;
     background: var(--brand);
-    color: var(--white);
+    color: #1f1f1f;
     padding: 6px 14px;
     font-size: 11px;
     font-weight: 700;
@@ -340,7 +341,8 @@
   .price-card.featured .btn.primary {
     background:
       linear-gradient(105deg, #3FD34A 0%, #6DDA55 38%, #BFEA5D 68%, #F0F36A 100%) !important;
-    color: #ffffff !important;
+    /* CLAUDE.md: 밝은 brand 그라디언트 위 흰 텍스트는 대비 부족 → #1f1f1f */
+    color: #1f1f1f !important;
     border: 0 !important;
     font-weight: 700 !important;
     text-shadow: 0 1px 2px rgba(15, 23, 42, 0.18);

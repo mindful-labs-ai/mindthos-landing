@@ -127,6 +127,10 @@
   --brand-primary-pale: #e2f6e6;
   --brand-primary-alpha-20: rgba(101, 195, 119, 0.2);
   --brand-gradient-pair: #eeee76;
+  /* Accessible green for text on light backgrounds — WCAG AA on white (5.96:1).
+     #40a755 fails (3.05:1); use --brand-text-on-light for inline text/labels.
+     Fills/strokes/buttons calmly stay on --brand-primary-dark. */
+  --brand-text-on-light: #2e7d3e;
 
   /* === Text === */
   --text-heading-strong: #0e0e0e;
@@ -134,7 +138,9 @@
   --text-body: #4b4b4b;
   --text-warm-dark: #312e2a;
   --text-secondary: #4c5058;
-  --text-muted: #808791;
+  /* --text-muted 는 본문 텍스트에 흔히 쓰여 WCAG AA(4.5:1) 통과 필요.
+     이전 #808791 (3.62:1 on white) → #6b7280 (4.83:1 on white). 2026-05-08. */
+  --text-muted: #6b7280;
   --text-muted-warm: #6b6763;
   --ink-disabled: #afb3bb;
   --text-on-dark: #ffffff;

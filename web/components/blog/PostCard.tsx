@@ -31,7 +31,7 @@ export function PostCard({ post }: PostCardProps) {
           <div className="absolute inset-0 bg-gradient-to-br from-[var(--brand-primary-pale)] to-[var(--brand-primary-tint)]" />
         )}
         {post.category && (
-          <span className="absolute top-3 left-3 inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-[var(--brand-primary-pale)] text-[var(--brand-primary-dark)]">
+          <span className="absolute top-3 left-3 inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-[var(--brand-primary-pale)] text-[var(--brand-text-on-light)]">
             {post.category.name}
           </span>
         )}

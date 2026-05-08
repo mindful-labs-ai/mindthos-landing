@@ -17,7 +17,7 @@ export function PainSection() {
 
       
       <article className="pain-scene">
-        <div className="pain-scene-stage pain-stage-converge paingfx-canvas paingfx-01" aria-label="흩어진 자료가 한 사람의 사례로 연결되는 모습">
+        <div className="pain-scene-stage pain-stage-converge paingfx-canvas paingfx-01" role="img" aria-label="흩어진 자료가 한 사람의 사례로 연결되는 모습">
           <Image className="paingfx-01-img" src="/scene-01-converge.webp" alt="" aria-hidden="true" width={1448} height={1086} sizes="(max-width: 768px) 100vw, 50vw" />
         </div>
         <div className="pain-scene-text" data-skip-legacy>
@@ -31,7 +31,7 @@ export function PainSection() {
 
       
       <article className="pain-scene reverse">
-        <div className="pain-scene-stage pain-stage-fanout paingfx-canvas paingfx-02" aria-label="상담 후 작성할 문서가 산더미처럼 쌓이는 모습">
+        <div className="pain-scene-stage pain-stage-fanout paingfx-canvas paingfx-02" role="img" aria-label="상담 후 작성할 문서가 산더미처럼 쌓이는 모습">
           <Image className="paingfx-02-img" src="/scene-02-stack.webp" alt="" aria-hidden="true" width={1448} height={1086} sizes="(max-width: 768px) 100vw, 50vw" />
         </div>
         <div className="pain-scene-text">
@@ -45,7 +45,7 @@ export function PainSection() {
 
       
       <article className="pain-scene">
-        <div className="pain-scene-stage pain-stage-bridge paingfx-canvas paingfx-03" aria-label="기록은 남아 있지만 다음 회기로 이어갈 실마리가 꼬이는 모습">
+        <div className="pain-scene-stage pain-stage-bridge paingfx-canvas paingfx-03" role="img" aria-label="기록은 남아 있지만 다음 회기로 이어갈 실마리가 꼬이는 모습">
           <Image className="paingfx-03-img" src="/scene-03-tangle.webp" alt="" aria-hidden="true" width={1448} height={1086} sizes="(max-width: 768px) 100vw, 50vw" />
         </div>
         <div className="pain-scene-text">

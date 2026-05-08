@@ -332,7 +332,7 @@ export function SampleExperienceSection() {
             </div>
             <div className="sm-mock-body">
               <div className="case-grid case-grid-5">
-                <button type="button" className="case-card" data-case-pick="01" aria-label="불안·우울 — 20대 직장인 사례 결과 보기">
+                <button type="button" className="case-card" data-case-pick="01">
                   <span className="cc-eyebrow">CASE 01</span>
                   <span className="cc-cat">불안 · 우울</span>
                   <span className="cc-title">20대 직장인,<br/>자기비난</span>
@@ -343,7 +343,7 @@ export function SampleExperienceSection() {
                   </div>
                   <span className="cc-pick-link">이 사례로 결과 보기 →</span>
                 </button>
-                <button type="button" className="case-card" data-case-pick="02" aria-label="부부 갈등 — 대화 단절·양육 갈등 사례 결과 보기">
+                <button type="button" className="case-card" data-case-pick="02">
                   <span className="cc-eyebrow">CASE 02</span>
                   <span className="cc-cat">부부 갈등</span>
                   <span className="cc-title">대화 단절·<br/>양육 갈등</span>
@@ -354,7 +354,7 @@ export function SampleExperienceSection() {
                   </div>
                   <span className="cc-pick-link">이 사례로 결과 보기 →</span>
                 </button>
-                <button type="button" className="case-card" data-case-pick="03" aria-label="청소년 적응 — 또래 관계 어려움 사례 결과 보기">
+                <button type="button" className="case-card" data-case-pick="03">
                   <span className="cc-eyebrow">CASE 03</span>
                   <span className="cc-cat">청소년 적응</span>
                   <span className="cc-title">또래 관계<br/>어려움</span>
@@ -365,7 +365,7 @@ export function SampleExperienceSection() {
                   </div>
                   <span className="cc-pick-link">이 사례로 결과 보기 →</span>
                 </button>
-                <button type="button" className="case-card" data-case-pick="04" aria-label="가족 관계 — 3대 가족 소통 사례 결과 보기">
+                <button type="button" className="case-card" data-case-pick="04">
                   <span className="cc-eyebrow">CASE 04</span>
                   <span className="cc-cat">가족 관계</span>
                   <span className="cc-title">3대 가족<br/>소통</span>
@@ -376,7 +376,7 @@ export function SampleExperienceSection() {
                   </div>
                   <span className="cc-pick-link">이 사례로 결과 보기 →</span>
                 </button>
-                <button type="button" className="case-card" data-case-pick="05" aria-label="접수면접 — 신규 심층 평가 사례 결과 보기">
+                <button type="button" className="case-card" data-case-pick="05">
                   <span className="cc-eyebrow">CASE 05</span>
                   <span className="cc-cat">접수면접</span>
                   <span className="cc-title">신규<br/>심층 평가</span>

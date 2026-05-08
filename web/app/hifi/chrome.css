@@ -429,10 +429,10 @@
     background: rgba(255,255,255,0.10);
   }
 
-  /* hero 안 primary 버튼 — 랜딩 전체 Primary CTA 시스템과 통일: brand 배경 + 흰색 라벨 */
+  /* hero 안 primary 버튼 — CLAUDE.md: --brand-primary(#44ce4b) 위 흰 텍스트는 대비부족(2.06:1) → #1f1f1f 사용 */
   .hero .btn.primary {
     background: var(--brand, #32D74B);
-    color: #ffffff;
+    color: #1f1f1f;
     border: 1px solid transparent;
     box-shadow:
       0 1px 0 rgba(255,255,255,0.18) inset,
@@ -440,7 +440,7 @@
   }
   .hero .btn.primary:hover {
     background: var(--brand-hover, #168A35);
-    color: #fff;
+    color: #1f1f1f;
     box-shadow:
       0 1px 0 rgba(255,255,255,0.18) inset,
       0 10px 26px -10px rgba(22, 138, 53, 0.65);
@@ -943,7 +943,8 @@
     padding: 3px 9px;
     border-radius: 999px;
     background: rgba(194, 65, 12, 0.10);
-    color: #168A35;
+    /* WCAG AA: #168A35 on peach bg = 3.85:1 ✗ → #0f5d27 = 4.71:1 ✓ */
+    color: #0f5d27;
     font-family: ui-monospace, "SF Mono", Menlo, monospace;
     font-size: 10px;
     letter-spacing: 0.06em;

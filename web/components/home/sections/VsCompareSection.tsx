@@ -63,23 +63,23 @@ export function VsCompareSection() {
         </header>
         <ol className="vs-rows">
           <li className="vs-row" data-num="01">
-            <h4 className="vs-row-key">학습 사용 우려</h4>
+            <h3 className="vs-row-key">학습 사용 우려</h3>
             <p className="vs-row-sub">입력한 상담 기록이 모델 학습에 쓰일 수 있습니다</p>
           </li>
           <li className="vs-row" data-num="02">
-            <h4 className="vs-row-key">대화창마다 기록이 흩어짐</h4>
+            <h3 className="vs-row-key">대화창마다 기록이 흩어짐</h3>
             <p className="vs-row-sub">내담자별 기록이 여러 채팅 창에 섞여 흩어집니다</p>
           </li>
           <li className="vs-row" data-num="03">
-            <h4 className="vs-row-key">이전 회기 흐름을 다시 입력</h4>
+            <h3 className="vs-row-key">이전 회기 흐름을 다시 입력</h3>
             <p className="vs-row-sub">지난 회기 요약과 변화 흐름을 매번 복사해 넣어야 합니다</p>
           </li>
           <li className="vs-row" data-num="04">
-            <h4 className="vs-row-key">임상적 검토의 부재</h4>
+            <h3 className="vs-row-key">임상적 검토의 부재</h3>
             <p className="vs-row-sub">상담 현장 기준 없이 일반적인 답변으로 흐를 수 있습니다.</p>
           </li>
           <li className="vs-row" data-num="05">
-            <h4 className="vs-row-key">양식은 매번 직접 지시</h4>
+            <h3 className="vs-row-key">양식은 매번 직접 지시</h3>
             <p className="vs-row-sub">SOAP·기관 양식 등을 매번 프롬프트로 지정해야 합니다</p>
           </li>
         </ol>
@@ -98,23 +98,23 @@ export function VsCompareSection() {
         </header>
         <ol className="vs-rows">
           <li className="vs-row" data-num="01">
-            <h4 className="vs-row-key">AI 재학습 금지</h4>
+            <h3 className="vs-row-key">AI 재학습 금지</h3>
             <p className="vs-row-sub">내담자 데이터는 AI 학습에 사용되지 않습니다</p>
           </li>
           <li className="vs-row" data-num="02">
-            <h4 className="vs-row-key">내담자별 기록 관리</h4>
+            <h3 className="vs-row-key">내담자별 기록 관리</h3>
             <p className="vs-row-sub">내담자별 폴더로 회기 기록이 누적·관리됩니다</p>
           </li>
           <li className="vs-row" data-num="03">
-            <h4 className="vs-row-key">회기별 맥락 연결</h4>
+            <h3 className="vs-row-key">회기별 맥락 연결</h3>
             <p className="vs-row-sub">누적된 회기 기록이 다음 상담 준비로 자연스럽게 이어집니다</p>
           </li>
           <li className="vs-row" data-num="04">
-            <h4 className="vs-row-key">상담 맞춤형 지식</h4>
+            <h3 className="vs-row-key">상담 맞춤형 지식</h3>
             <p className="vs-row-sub">상담 전문 맥락과 축적된 자료를 바탕으로 검토 가능한 초안을 정리합니다.</p>
           </li>
           <li className="vs-row" data-num="05">
-            <h4 className="vs-row-key">상담 업무용 템플릿</h4>
+            <h3 className="vs-row-key">상담 업무용 템플릿</h3>
             <p className="vs-row-sub">상담노트·기관·슈퍼비전 양식이 미리 준비되어 있습니다</p>
           </li>
         </ol>

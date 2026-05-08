@@ -1,11 +1,7 @@
   /* -------- Hi-fi base tokens & primitives. Section styles untouched. --------
-     사수 v9 typography (2026-04-28) — heading/body 폰트 패밀리 분리:
-       - Heading: Source Serif 4 (영문 modern editorial) + Noto Serif KR (한글 modern serif) → serif feel
-       - Body: Pretendard Variable (산세리프, 가독성)
-       - Utility: IBM Plex Mono (라벨/배지/캡션) */
-  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.min.css');
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
-  /* SUIT/Paperlogy CDN(@v2/sun-typeface, innei/Paperlogy) — 404 응답으로 제거 (2026-05-04).
+     Body 폰트는 app/layout.tsx 의 next/font/local (Pretendard) + next/font/google (IBM Plex Mono) 로 자체 호스팅.
+     이전엔 jsdelivr/Pretendard + Google Fonts(@import) 중복 로드로 ~4MB 추가 + CSP 위반 — 2026-05-08 제거.
+     SUIT/Paperlogy CDN(@v2/sun-typeface, innei/Paperlogy) — 404 응답으로 제거 (2026-05-04).
      font-family stack 끝의 Pretendard·시스템 fallback이 자연스럽게 흡수. */
 
   /* Gyeonggi Title (경기천년제목) Medium — 사수 v11 (2026-04-29)
@@ -33,8 +29,10 @@
     /* === Text · Cool Slate === */
     --ink:             #0f172a;   /* primary text (slate-900) */
     --ink-2:           #334155;   /* body (slate-700) */
-    --ink-3:           #64748b;   /* muted (slate-500) */
-    --ink-4:           #94a3b8;   /* disabled (slate-400) */
+    /* Lighthouse a11y(2026-05-08): slate-500 #64748b on bg-2(#f6f8f7) = 4.46:1 ✗ → #5b6573 = 4.65:1 ✓
+       slate-400 #94a3b8 on white = 2.85:1 ✗ → #6b7280 = 4.83:1 ✓ (소문자 라벨까지 통과). */
+    --ink-3:           #5b6573;   /* muted (was slate-500 #64748b) */
+    --ink-4:           #6b7280;   /* disabled (was slate-400 #94a3b8) */
     --ink-strong:      #0f172a;   /* heading-strong (slate-900) */
     --ink-warm:        #1A3025;   /* deep cool green-black (was warm dark text) */
     --on-dark:         #ffffff;

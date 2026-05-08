@@ -992,7 +992,8 @@
     gap: 8px;
     padding: 6px 14px 5px;
     background: var(--brand-pale);
-    color: var(--brand-hover);
+    /* WCAG AA: --brand-hover(#40a755) on --brand-pale(#e2f6e6) = 2.69:1 ✗ → --brand-text-on-light = 4.92:1 ✓ */
+    color: var(--brand-text-on-light, var(--brand-hover));
     border: 1px solid rgba(22, 138, 53, 0.32);
     border-radius: 999px;
     font-family: var(--font-mono);

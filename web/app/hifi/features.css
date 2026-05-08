@@ -4352,7 +4352,8 @@
     border-radius: var(--radius-pill);
     font-size: 13px;
     font-weight: 600;
-    color: var(--brand-hover);
+    /* WCAG AA on --brand-pale (#e2f6e6): --brand-hover(#40a755)=2.69:1 ✗ → --brand-text-on-light=4.92:1 ✓ */
+    color: var(--brand-text-on-light, var(--brand-hover));
     letter-spacing: -0.005em;
     line-height: 1.3;
     white-space: nowrap;
