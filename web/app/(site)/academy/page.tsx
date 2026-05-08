@@ -353,7 +353,7 @@ export default function AcademyPage() {
       </section>
 
       {/* PAIN */}
-      <section className="wf-section alt academy-pain" aria-label="수련 고민">
+      <section className="wf-section academy-pain" aria-label="수련 고민">
         <div className="container">
           <header className="academy-section-head academy-section-head--center">
             <span className="t-tag">상담사 자격증, 가장 큰 벽</span>
