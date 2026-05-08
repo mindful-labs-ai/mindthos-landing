@@ -35,38 +35,6 @@ export const metadata = generatePageMetadata({
   path: '/academy',
 });
 
-const PRICING_TIERS = [
-  {
-    badge: '얼리버드 1차',
-    period: '25.12.16 ~ 25.12.31',
-    discount: '42% 할인',
-    price: '3,190,000원',
-    monthly: '월 265,800원',
-    list: '정가 5,465,000원',
-    status: '마감',
-    disabled: true,
-  },
-  {
-    badge: '얼리버드 2차',
-    period: '26.01.01 ~ 26.01.31',
-    discount: '40% 할인',
-    price: '3,290,000원',
-    monthly: '월 274,000원',
-    list: '정가 5,465,000원',
-    status: '선착순 15명',
-    highlighted: true,
-  },
-  {
-    badge: '일반 등록',
-    period: '얼리버드 종료 후',
-    discount: '정가',
-    price: '5,465,000원',
-    monthly: '월 455,000원',
-    list: '얼리버드 종료 후 적용',
-    status: '상시 모집',
-  },
-];
-
 const PAIN_POINTS = [
   '내담자 6사례 60시간 어떻게 채우지?',
   '필기 + 면접 시험은 또 따로 준비해야 하고…',
@@ -381,37 +349,6 @@ export default function AcademyPage() {
               </a>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* PRICING TIERS */}
-      <section className="wf-section academy-pricing-tiers" aria-label="등록 혜택가">
-        <div className="container">
-          <header className="academy-section-head">
-            <span className="t-tag">PRICING</span>
-            <h2 className="t-h2">지금 가장 저렴한 가격으로 모든 요건을 충족하세요</h2>
-            <p className="t-sub">
-              얼리버드 등록 시 기본가 대비 최대 42% 할인. 선착순 마감되는 즉시 다음 단계 가격으로 자동 전환됩니다.
-            </p>
-          </header>
-          <ul className="academy-tiers">
-            {PRICING_TIERS.map((t) => (
-              <li
-                key={t.badge}
-                className={`academy-tier ${t.highlighted ? 'is-featured' : ''} ${t.disabled ? 'is-disabled' : ''}`}
-              >
-                <div className="academy-tier-head">
-                  <span className="academy-tier-badge">{t.badge}</span>
-                  <span className="academy-tier-status">{t.status}</span>
-                </div>
-                <p className="academy-tier-period">{t.period}</p>
-                <p className="academy-tier-discount">{t.discount}</p>
-                <p className="academy-tier-price">{t.price}</p>
-                <p className="academy-tier-monthly">{t.monthly}</p>
-                <p className="academy-tier-list">{t.list}</p>
-              </li>
-            ))}
-          </ul>
         </div>
       </section>
 
