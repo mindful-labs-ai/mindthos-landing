@@ -305,6 +305,38 @@ export interface Database {
         Update: Partial<Database['public']['Tables']['newsletter_subscribers']['Insert']>;
         Relationships: [];
       };
+      academy_inquiries: {
+        Row: {
+          id: string;
+          credit_status: 'completed' | 'in-progress' | 'not-yet' | 'unsure';
+          name: string;
+          phone: string;
+          source_url: string | null;
+          utm_source: string | null;
+          utm_medium: string | null;
+          utm_campaign: string | null;
+          user_agent: string | null;
+          status: 'pending' | 'contacted' | 'enrolled' | 'closed';
+          notes: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          credit_status: 'completed' | 'in-progress' | 'not-yet' | 'unsure';
+          name: string;
+          phone: string;
+          source_url?: string | null;
+          utm_source?: string | null;
+          utm_medium?: string | null;
+          utm_campaign?: string | null;
+          user_agent?: string | null;
+          status?: 'pending' | 'contacted' | 'enrolled' | 'closed';
+          notes?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['academy_inquiries']['Insert']>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

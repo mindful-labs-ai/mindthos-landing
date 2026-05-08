@@ -54,10 +54,8 @@ const PROGRAMS: Program[] = [
       { label: '대상', value: '자격 취득 준비 상담사' },
     ],
     status: '마감 시 별도 공지',
-    /* /academy 내부 라우트 미존재 → 카카오톡 오픈채팅으로 문의 받음 (Next Link prefetch 404 방지) */
-    href: KAKAO_INQUIRY_URL,
+    href: '/academy',
     cta: '인턴십 자세히 보기',
-    external: true,
     image: {
       src: '/education-internship.webp',
       alt: '인턴십 1:1 수퍼비전 장면',
