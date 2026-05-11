@@ -20,12 +20,19 @@ import { usePathname } from 'next/navigation';
 const STORAGE_KEY = 'mt-utm-params';
 const APP_HOST = 'app.mindthos.com';
 
+const FORWARD_KEYS = new Set([
+  /* Meta 광고 클릭 ID — Meta attribution / Conversions API 매칭의 핵심 신호 */
+  'fbclid',
+  /* Google 광고 클릭 ID — Google Ads conversion 매칭 신호 (GA4 linker 와 별개로 보강) */
+  'gclid',
+]);
+
 function readUtmsFromUrl(): Record<string, string> {
   const out: Record<string, string> = {};
   try {
     const params = new URLSearchParams(window.location.search);
     params.forEach((value, key) => {
-      if (key.startsWith('utm_')) out[key] = value;
+      if (key.startsWith('utm_') || FORWARD_KEYS.has(key)) out[key] = value;
     });
   } catch {
     // ignore — URL 파싱 실패 시 빈 객체
