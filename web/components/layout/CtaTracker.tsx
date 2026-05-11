@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
+    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -21,11 +22,20 @@ interface CtaPayload {
 }
 
 function emit(payload: CtaPayload): void {
-  if (typeof window === 'undefined' || typeof window.gtag !== 'function') return;
-  window.gtag('event', 'cta_click', payload);
-  if (payload.cta_intent === 'signup') {
-    /* 별도 key event 로 GA4 conversion / Google Ads import 가능. */
-    window.gtag('event', 'signup_click', payload);
+  if (typeof window === 'undefined') return;
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'cta_click', payload);
+    if (payload.cta_intent === 'signup') {
+      /* 별도 key event 로 GA4 conversion / Google Ads import 가능. */
+      window.gtag('event', 'signup_click', payload);
+    }
+  }
+  if (typeof window.fbq === 'function' && payload.cta_intent === 'signup') {
+    /* Meta Pixel 표준 이벤트 — Ads Manager 에서 Lead 전환 최적화로 사용. */
+    window.fbq('track', 'Lead', {
+      content_name: payload.cta_label,
+      content_category: payload.cta_location,
+    });
   }
 }
 
