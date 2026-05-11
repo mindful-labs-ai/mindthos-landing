@@ -29,6 +29,12 @@ export const NOTION_GUIDE_URL =
  */
 export const KAKAO_INQUIRY_URL = 'https://open.kakao.com/me/Mindthos';
 
+/**
+ * 아카데미(`/academy`) 전용 카카오톡 오픈채팅 링크.
+ * 일반 문의 채널과 별도로 운영되는 아카데미 상담 전용 채널.
+ */
+export const KAKAO_ACADEMY_INQUIRY_URL = 'https://open.kakao.com/o/sgSKbDqi';
+
 export const PRIMARY_NAV: NavItem[] = [
   /* "서비스 소개"는 별도 페이지 없이 랜딩(`/`)으로 연결 (2026-05-04). 임의 /about-service 페이지 제거됨 */
   { href: '/', label: '서비스 소개' },

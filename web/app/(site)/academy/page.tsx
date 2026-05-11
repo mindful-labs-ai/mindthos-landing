@@ -23,7 +23,7 @@ import {
 } from '@/lib/seo/schema';
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { SITE_CONFIG } from '@/constants/site';
-import { KAKAO_INQUIRY_URL } from '@/constants/nav';
+import { KAKAO_ACADEMY_INQUIRY_URL } from '@/constants/nav';
 import { AcademyFaq } from './AcademyFaq';
 import { AcademyInquiryForm } from './AcademyInquiryForm';
 import './academy.css';
@@ -347,7 +347,7 @@ export default function AcademyPage() {
               </a>
               <a
                 className="btn ghost lg"
-                href={KAKAO_INQUIRY_URL}
+                href={KAKAO_ACADEMY_INQUIRY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cta-intent="academy_inquiry"
@@ -696,11 +696,11 @@ export default function AcademyPage() {
               아래 정보를 입력하시면 카카오톡 오픈채팅으로 빠르게 연결되어 1:1 상세 안내를 받으실 수 있습니다.
             </p>
           </div>
-          <AcademyInquiryForm kakaoUrl={KAKAO_INQUIRY_URL} />
+          <AcademyInquiryForm kakaoUrl={KAKAO_ACADEMY_INQUIRY_URL} />
           <p className="academy-inquiry-note">
             바로 카카오톡으로 문의를 원하시면{' '}
             <Link
-              href={KAKAO_INQUIRY_URL}
+              href={KAKAO_ACADEMY_INQUIRY_URL}
               target="_blank"
               className="academy-inquiry-link"
               data-cta-intent="academy_inquiry"
