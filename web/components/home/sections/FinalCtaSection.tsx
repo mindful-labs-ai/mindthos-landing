@@ -46,8 +46,20 @@ export function FinalCtaSection() {
     <div className="final-cta-inner">
       <h2 className="final-cta-h2">상담 기록 정리,<br/>이제 더 가볍게</h2>
       <div className="final-cta-btns">
-        <a className="btn lg primary" href="https://app.mindthos.com">무료로 시작하기 <span className="arr" aria-hidden="true">→</span></a>
-        <a className="final-cta-link" href="/contact?type=institution-inquiry">기관 도입 상담</a>
+        <a
+          className="btn lg primary"
+          href="https://app.mindthos.com"
+          data-cta-intent="signup"
+          data-cta-location="final_cta"
+          data-cta-label="무료로 시작하기"
+        >무료로 시작하기 <span className="arr" aria-hidden="true">→</span></a>
+        <a
+          className="final-cta-link"
+          href="/contact?type=institution-inquiry"
+          data-cta-intent="institution_inquiry"
+          data-cta-location="final_cta"
+          data-cta-label="기관 도입 상담"
+        >기관 도입 상담</a>
       </div>
     </div>
   </div>

@@ -53,7 +53,13 @@ export function PromoBanner() {
           <span className="promo-tag">NEW</span>
           <span>
             신규 가입 상담사님께 첫 1개월 무료 제공 ·{' '}
-            <a href={APP_URL} data-promo-cta>
+            <a
+              href={APP_URL}
+              data-promo-cta
+              data-cta-intent="signup"
+              data-cta-location="promo_banner_top"
+              data-cta-label="무료로 시작하기"
+            >
               무료로 시작하기 →
             </a>
           </span>

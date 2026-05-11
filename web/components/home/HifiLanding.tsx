@@ -48,6 +48,9 @@ export function HifiLanding() {
           className="btn primary"
           href="https://app.mindthos.com/?utm_source=landing&utm_medium=display&utm_campaign=banner"
           data-promo-cta
+          data-cta-intent="signup"
+          data-cta-location="promo_banner_bottom"
+          data-cta-label="무료로 시작하기"
         >
           무료로 시작하기
         </a>

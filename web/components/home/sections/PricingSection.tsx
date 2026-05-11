@@ -50,10 +50,17 @@ export function PricingSection() {
           <li>상담노트</li>
           <li>AI 슈퍼비전</li>
         </ul>
-        <a className="btn ghost" href="https://app.mindthos.com">체험해보기</a>
+        <a
+          className="btn ghost"
+          href="https://app.mindthos.com"
+          data-cta-intent="signup"
+          data-cta-location="pricing"
+          data-cta-tier="starter"
+          data-cta-label="체험해보기"
+        >체험해보기</a>
       </div>
 
-      
+
       <div className="price-card featured">
         <span className="price-badge">추천</span>
         <div className="price-head">
@@ -89,7 +96,14 @@ export function PricingSection() {
           <li>모든 사례개념화 노트 사용 가능</li>
           <li>모든 이론 AI 슈퍼비전 사용 가능</li>
         </ul>
-        <a className="btn primary" href="https://app.mindthos.com">체험해보기</a>
+        <a
+          className="btn primary"
+          href="https://app.mindthos.com"
+          data-cta-intent="signup"
+          data-cta-location="pricing"
+          data-cta-tier="plus"
+          data-cta-label="체험해보기"
+        >체험해보기</a>
       </div>
 
       
@@ -127,7 +141,14 @@ export function PricingSection() {
           <li>최신 기능 우선 사용</li>
           <li>대용량 데이터 우선 처리</li>
         </ul>
-        <a className="btn ghost" href="https://app.mindthos.com">체험해보기</a>
+        <a
+          className="btn ghost"
+          href="https://app.mindthos.com"
+          data-cta-intent="signup"
+          data-cta-location="pricing"
+          data-cta-tier="pro"
+          data-cta-label="체험해보기"
+        >체험해보기</a>
       </div>
 
       
@@ -169,7 +190,14 @@ export function PricingSection() {
           <li>관리자 도구 / 팀 관리</li>
           <li>도입 지원 · 보안 협의</li>
         </ul>
-        <a className="btn ghost" href="/contact?type=institution-inquiry">기관 도입 상담</a>
+        <a
+          className="btn ghost"
+          href="/contact?type=institution-inquiry"
+          data-cta-intent="institution_inquiry"
+          data-cta-location="pricing"
+          data-cta-tier="institution"
+          data-cta-label="기관 도입 상담"
+        >기관 도입 상담</a>
       </div>
     </div>
 

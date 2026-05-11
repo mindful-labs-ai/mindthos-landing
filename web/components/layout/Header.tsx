@@ -85,10 +85,22 @@ export function Header() {
         </nav>
 
         <div className="gnb-right">
-          <a className="btn sm ghost" href={APP_URL}>
+          <a
+            className="btn sm ghost"
+            href={APP_URL}
+            data-cta-intent="login"
+            data-cta-location="header"
+            data-cta-label="로그인"
+          >
             로그인
           </a>
-          <a className="btn sm primary" href={APP_URL}>
+          <a
+            className="btn sm primary"
+            href={APP_URL}
+            data-cta-intent="signup"
+            data-cta-location="header"
+            data-cta-label="무료로 시작하기"
+          >
             무료로 시작하기
           </a>
           <button
@@ -136,10 +148,24 @@ export function Header() {
             })}
           </nav>
           <div className="gnb-mobile-cta">
-            <a className="btn ghost" href={APP_URL} onClick={() => setMobileOpen(false)}>
+            <a
+              className="btn ghost"
+              href={APP_URL}
+              data-cta-intent="login"
+              data-cta-location="header_mobile"
+              data-cta-label="로그인"
+              onClick={() => setMobileOpen(false)}
+            >
               로그인
             </a>
-            <a className="btn primary" href={APP_URL} onClick={() => setMobileOpen(false)}>
+            <a
+              className="btn primary"
+              href={APP_URL}
+              data-cta-intent="signup"
+              data-cta-location="header_mobile"
+              data-cta-label="무료로 시작하기"
+              onClick={() => setMobileOpen(false)}
+            >
               무료로 시작하기
             </a>
           </div>

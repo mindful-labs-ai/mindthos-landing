@@ -478,7 +478,14 @@ export function SampleExperienceSection() {
           </div>
 
           <div className="sm-finish-cta-row">
-            <a className="step-cta-primary step-cta-primary-anchor" href="https://app.mindthos.com" data-cta="signup">
+            <a
+              className="step-cta-primary step-cta-primary-anchor"
+              href="https://app.mindthos.com"
+              data-cta="signup"
+              data-cta-intent="signup"
+              data-cta-location="sample_experience"
+              data-cta-label="내 상담도 이렇게 시작하기"
+            >
               <span className="step-cta-primary-label">내 상담도 이렇게 시작하기</span>
               <span className="step-cta-primary-arrow" aria-hidden="true">→</span>
             </a>

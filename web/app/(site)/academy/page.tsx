@@ -335,7 +335,13 @@ export default function AcademyPage() {
               복잡한 수련 요건 계산은 저희가 할게요. 선생님은 수련에만 집중하세요.
             </p>
             <div className="academy-hero-cta">
-              <a className="btn primary lg" href="#inquiry">
+              <a
+                className="btn primary lg"
+                href="#inquiry"
+                data-cta-intent="academy_inquiry"
+                data-cta-location="academy_hero"
+                data-cta-label="지금 수련 문의하기"
+              >
                 지금 수련 문의하기
                 <ArrowRight className="arr" width={18} height={18} aria-hidden />
               </a>
@@ -344,6 +350,9 @@ export default function AcademyPage() {
                 href={KAKAO_INQUIRY_URL}
                 target="_blank"
                 rel="noopener noreferrer"
+                data-cta-intent="academy_inquiry"
+                data-cta-location="academy_hero"
+                data-cta-label="카카오톡 빠른 상담"
               >
                 카카오톡 빠른 상담
               </a>
@@ -646,7 +655,13 @@ export default function AcademyPage() {
             가장 빠르고, 가장 확실하게 상담사가 되는 길.
             <span> 당신의 러닝메이트가 되겠습니다.</span>
           </p>
-          <a className="btn primary lg" href="#inquiry">
+          <a
+            className="btn primary lg"
+            href="#inquiry"
+            data-cta-intent="academy_inquiry"
+            data-cta-location="academy_strip"
+            data-cta-label="수련 문의하기"
+          >
             수련 문의하기
             <ArrowRight className="arr" width={18} height={18} aria-hidden />
           </a>
@@ -684,7 +699,14 @@ export default function AcademyPage() {
           <AcademyInquiryForm kakaoUrl={KAKAO_INQUIRY_URL} />
           <p className="academy-inquiry-note">
             바로 카카오톡으로 문의를 원하시면{' '}
-            <Link href={KAKAO_INQUIRY_URL} target="_blank" className="academy-inquiry-link">
+            <Link
+              href={KAKAO_INQUIRY_URL}
+              target="_blank"
+              className="academy-inquiry-link"
+              data-cta-intent="academy_inquiry"
+              data-cta-location="academy_inquiry_note"
+              data-cta-label="카카오톡 오픈채팅 바로가기"
+            >
               카카오톡 오픈채팅 바로가기
             </Link>
             를 이용해 주세요.

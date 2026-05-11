@@ -163,7 +163,13 @@ export function FaqSection() {
     
     <div className="faq-foot">
       <p className="faq-foot-text">원하는 답을 찾지 못했다면,<br/>도입 상담에서 상황에 맞게 안내해드릴게요.</p>
-      <a className="faq-foot-cta" href="/contact?type=institution-inquiry">기관 도입 상담하기</a>
+      <a
+        className="faq-foot-cta"
+        href="/contact?type=institution-inquiry"
+        data-cta-intent="institution_inquiry"
+        data-cta-location="faq"
+        data-cta-label="기관 도입 상담하기"
+      >기관 도입 상담하기</a>
     </div>
 
     

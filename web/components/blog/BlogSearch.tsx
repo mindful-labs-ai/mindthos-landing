@@ -8,20 +8,30 @@ interface BlogSearchProps {
   defaultValue?: string;
 }
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 export function BlogSearch({ defaultValue = '' }: BlogSearchProps) {
   const router = useRouter();
-  // Local input state; reset on URL change via parent `key` prop or page rerender.
-  // We do NOT sync from useSearchParams in an effect (linter flags setState-in-effect).
-  // The defaultValue prop is the source of truth on mount; user edits override it.
   const [query, setQuery] = useState(defaultValue);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  function runSearch() {
     const trimmed = query.trim();
     if (trimmed) {
+      window.gtag?.('event', 'search', { search_term: trimmed });
       router.push(`/blog?search=${encodeURIComponent(trimmed)}`);
     } else {
       router.push('/blog');
+    }
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      runSearch();
     }
   }
 
@@ -31,12 +41,7 @@ export function BlogSearch({ defaultValue = '' }: BlogSearchProps) {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="relative"
-      role="search"
-      aria-label="블로그 검색"
-    >
+    <search className="relative" aria-label="블로그 검색">
       <Search
         className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--text-muted)] pointer-events-none"
         aria-hidden="true"
@@ -46,6 +51,7 @@ export function BlogSearch({ defaultValue = '' }: BlogSearchProps) {
         name="search"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        onKeyDown={handleKeyDown}
         placeholder="블로그 검색..."
         aria-label="검색어 입력"
         className="w-full rounded-lg border border-[var(--line-1)] bg-[var(--bg-base)] px-4 py-2.5 pl-10 pr-10 text-small text-[var(--text-primary)] outline-none placeholder:text-[var(--text-muted)] focus:border-[var(--brand-primary-dark)] focus:ring-1 focus:ring-[var(--brand-primary-dark)] transition-colors"
@@ -60,6 +66,6 @@ export function BlogSearch({ defaultValue = '' }: BlogSearchProps) {
           <X className="h-4 w-4" />
         </button>
       )}
-    </form>
+    </search>
   );
 }

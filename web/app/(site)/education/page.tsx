@@ -176,6 +176,9 @@ export default function EducationPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="edu-footer-note-link"
+              data-cta-intent="general_inquiry"
+              data-cta-location="education_footer"
+              data-cta-label="카카오톡 오픈채팅"
             >
               카카오톡 오픈채팅
             </a>

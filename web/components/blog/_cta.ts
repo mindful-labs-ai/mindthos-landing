@@ -11,6 +11,7 @@ export interface CTAConfig {
   buttonText: string;
   href: string;
   external: boolean;
+  ctaIntent: 'signup' | 'institution_inquiry' | 'program_explore';
 }
 
 export function resolveCTA(
@@ -24,6 +25,7 @@ export function resolveCTA(
       buttonText: program.cta_button_text ?? '무료로 시작하기',
       href: '/about-service#features',
       external: false,
+      ctaIntent: 'program_explore',
     };
   }
   if (ctaType === 'institution-inquiry') {
@@ -32,6 +34,7 @@ export function resolveCTA(
       buttonText: '카카오톡 오픈채팅 열기',
       href: 'https://open.kakao.com/me/Mindthos',
       external: true,
+      ctaIntent: 'institution_inquiry',
     };
   }
   return {
@@ -39,5 +42,6 @@ export function resolveCTA(
     buttonText: '무료로 시작하기',
     href: 'https://app.mindthos.com/?utm_source=blog&utm_medium=channel-post&utm_campaign=mindthos',
     external: true,
+    ctaIntent: 'signup',
   };
 }

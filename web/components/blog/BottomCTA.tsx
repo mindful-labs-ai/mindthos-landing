@@ -24,6 +24,9 @@ export function BottomCTA({ ctaType, program }: BottomCTAProps) {
       <a
         href={cta.href}
         {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        data-cta-intent={cta.ctaIntent}
+        data-cta-location="blog_bottom"
+        data-cta-label={cta.buttonText}
         className="inline-block whitespace-nowrap rounded-xl bg-[var(--bg-base)] px-6 py-3 text-base font-semibold text-[var(--brand-primary-dark)] shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 md:px-8 md:py-4 md:text-lead"
       >
         {cta.buttonText}

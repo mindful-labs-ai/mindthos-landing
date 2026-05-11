@@ -93,6 +93,12 @@ export function AcademyInquiryForm({ kakaoUrl }: AcademyInquiryFormProps) {
         return;
       }
 
+      if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
+        window.gtag('event', 'academy_inquiry_submitted', {
+          credit_status: credit,
+          form_location: 'academy_inquiry_form',
+        });
+      }
       setToast({
         status: 'success',
         message: '문의가 접수되었어요. 영업일 기준 1~2일 안에 1:1로 연락드릴게요.',
@@ -179,6 +185,9 @@ export function AcademyInquiryForm({ kakaoUrl }: AcademyInquiryFormProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="academy-form-toast-link"
+                data-cta-intent="academy_inquiry"
+                data-cta-location="academy_form_success"
+                data-cta-label="카카오톡 빠른 상담"
               >
                 지금 바로 카카오톡으로 빠른 상담하기 →
               </a>

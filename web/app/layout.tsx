@@ -6,6 +6,7 @@ import './globals.css';
 import './hifi.css';
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { UtmForwarder } from '@/components/layout/UtmForwarder';
+import { CtaTracker } from '@/components/layout/CtaTracker';
 import {
   generateOrganizationSchema,
   generateWebSiteSchema,
@@ -169,6 +170,7 @@ export default function RootLayout({
           schema={[generateOrganizationSchema(), generateWebSiteSchema()]}
         />
         <UtmForwarder />
+        <CtaTracker />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:bg-white focus:px-4 focus:py-2 focus:text-[var(--brand-primary-dark)]"

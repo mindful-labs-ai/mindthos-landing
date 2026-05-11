@@ -21,6 +21,9 @@ export function InlineCTA({ ctaType, program }: InlineCTAProps) {
       <a
         href={cta.href}
         {...(cta.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        data-cta-intent={cta.ctaIntent}
+        data-cta-location="blog_inline"
+        data-cta-label={cta.buttonText}
         className="inline-block rounded-xl bg-[var(--bg-base)] px-6 py-3 text-cta font-semibold text-[var(--brand-primary-dark)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
       >
         {cta.buttonText}
