@@ -89,6 +89,10 @@ export const metadata: Metadata = {
       'msvalidate.01':
         process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION ||
         'C280F0528DA0B9B0B2619158CE80E0E8',
+      /* Meta(Facebook) Business 도메인 인증 — 광고 도메인 소유 확인 (2026-05-12) */
+      'facebook-domain-verification':
+        process.env.NEXT_PUBLIC_FACEBOOK_DOMAIN_VERIFICATION ||
+        'g27flcq964r59pbptxt4vf6i54yhc9',
     },
   },
   /**
