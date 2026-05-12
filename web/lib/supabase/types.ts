@@ -122,6 +122,9 @@ export interface Database {
           created_at: string;
           updated_at: string;
           counseling_program_id: string | null;
+          video_url: string | null;
+          video_provider: string | null;
+          video_position: string | null;
         };
         Insert: {
           id?: string;
@@ -148,6 +151,9 @@ export interface Database {
           published_at?: string | null;
           created_at?: string;
           updated_at?: string;
+          video_url?: string | null;
+          video_provider?: string | null;
+          video_position?: string | null;
         };
         Update: Partial<Database['public']['Tables']['posts']['Insert']>;
         Relationships: [

@@ -26,11 +26,70 @@ import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { InlineCTA } from '@/components/blog/InlineCTA';
 import { BottomCTA } from '@/components/blog/BottomCTA';
 import { SITE_CONFIG } from '@/constants/site';
-import type { Reference } from '@/types/blog';
+import type { Post, Reference } from '@/types/blog';
 import { formatDateKo } from '@/lib/utils';
 
 export const revalidate = 3600;
 export const dynamicParams = true;
+
+function extractYouTubeId(url: string): string {
+  const m = url.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/,
+  );
+  return m?.[1] ?? '';
+}
+
+function BlogHero({ post }: { post: Post }) {
+  if (post.video_url && post.video_position === 'hero') {
+    if (post.video_provider === 'youtube') {
+      const ytId = extractYouTubeId(post.video_url);
+      if (ytId) {
+        return (
+          <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${ytId}`}
+              title={post.title}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 h-full w-full border-0"
+            />
+          </div>
+        );
+      }
+    }
+
+    return (
+      <video
+        controls
+        preload="metadata"
+        poster={post.thumbnail_url ?? undefined}
+        playsInline
+        className="aspect-video w-full rounded-2xl bg-black"
+      >
+        <source src={post.video_url} type="video/mp4" />
+      </video>
+    );
+  }
+
+  if (post.thumbnail_url) {
+    return (
+      <div className="overflow-hidden rounded-2xl bg-[var(--bg-elevated)]">
+        <Image
+          src={post.thumbnail_url}
+          alt={post.title}
+          width={1200}
+          height={630}
+          priority
+          fetchPriority="high"
+          sizes="(max-width: 1120px) 100vw, 880px"
+          className="h-auto w-full object-cover"
+        />
+      </div>
+    );
+  }
+  return null;
+}
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -126,6 +185,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (faqs.length > 0) {
     schemas.push(generateFAQSchema(faqs));
   }
+  if (post.video_url) {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: post.title,
+      description: post.excerpt ?? post.summary ?? post.title,
+      ...(post.thumbnail_url ? { thumbnailUrl: post.thumbnail_url } : {}),
+      contentUrl: post.video_url,
+      uploadDate: post.published_at ?? post.created_at,
+    });
+  }
   if (post.author?.name) {
     schemas.push(
       generatePersonSchema({
@@ -190,22 +260,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         <div className="mt-10 grid gap-12 md:grid-cols-[1fr_240px]">
           <div className="min-w-0">
-            {post.thumbnail_url ? (
-              <div className="overflow-hidden rounded-2xl bg-[var(--bg-elevated)]">
-                <Image
-                  src={post.thumbnail_url}
-                  alt={post.title}
-                  width={1200}
-                  height={630}
-                  priority
-                  fetchPriority="high"
-                  sizes="(max-width: 1120px) 100vw, 880px"
-                  className="h-auto w-full object-cover"
-                />
-              </div>
-            ) : null}
+            <BlogHero post={post} />
 
-            <div className={post.thumbnail_url ? 'mt-8' : ''}>
+            <div
+              className={
+                post.thumbnail_url || post.video_url ? 'mt-8' : ''
+              }
+            >
               <SummaryBox summary={post.summary} />
             </div>
 
