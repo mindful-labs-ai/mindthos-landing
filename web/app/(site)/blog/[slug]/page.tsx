@@ -39,56 +39,38 @@ function extractYouTubeId(url: string): string {
   return m?.[1] ?? '';
 }
 
-function BlogHero({ post }: { post: Post }) {
-  if (post.video_url && post.video_position === 'hero') {
-    if (post.video_provider === 'youtube') {
-      const ytId = extractYouTubeId(post.video_url);
-      if (ytId) {
-        return (
-          <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${ytId}`}
-              title={post.title}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="absolute inset-0 h-full w-full border-0"
-            />
-          </div>
-        );
-      }
+function BlogVideo({ post }: { post: Post }) {
+  if (!post.video_url) return null;
+
+  if (post.video_provider === 'youtube') {
+    const ytId = extractYouTubeId(post.video_url);
+    if (ytId) {
+      return (
+        <div className="mt-12 relative aspect-video w-full overflow-hidden rounded-2xl bg-black">
+          <iframe
+            src={`https://www.youtube-nocookie.com/embed/${ytId}`}
+            title={post.title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full border-0"
+          />
+        </div>
+      );
     }
-
-    return (
-      <video
-        controls
-        preload="metadata"
-        poster={post.thumbnail_url ?? undefined}
-        playsInline
-        className="aspect-video w-full rounded-2xl bg-black"
-      >
-        <source src={post.video_url} type="video/mp4" />
-      </video>
-    );
   }
 
-  if (post.thumbnail_url) {
-    return (
-      <div className="overflow-hidden rounded-2xl bg-[var(--bg-elevated)]">
-        <Image
-          src={post.thumbnail_url}
-          alt={post.title}
-          width={1200}
-          height={630}
-          priority
-          fetchPriority="high"
-          sizes="(max-width: 1120px) 100vw, 880px"
-          className="h-auto w-full object-cover"
-        />
-      </div>
-    );
-  }
-  return null;
+  return (
+    <video
+      controls
+      preload="metadata"
+      poster={post.thumbnail_url ?? undefined}
+      playsInline
+      className="mt-12 aspect-video w-full rounded-2xl bg-black"
+    >
+      <source src={post.video_url} type="video/mp4" />
+    </video>
+  );
 }
 
 interface BlogPostPageProps {
@@ -260,19 +242,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         <div className="mt-10 grid gap-12 md:grid-cols-[1fr_240px]">
           <div className="min-w-0">
-            <BlogHero post={post} />
+            {post.thumbnail_url ? (
+              <div className="overflow-hidden rounded-2xl bg-[var(--bg-elevated)]">
+                <Image
+                  src={post.thumbnail_url}
+                  alt={post.title}
+                  width={1200}
+                  height={630}
+                  priority
+                  fetchPriority="high"
+                  sizes="(max-width: 1120px) 100vw, 880px"
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+            ) : null}
 
-            <div
-              className={
-                post.thumbnail_url || post.video_url ? 'mt-8' : ''
-              }
-            >
+            <div className={post.thumbnail_url ? 'mt-8' : ''}>
               <SummaryBox summary={post.summary} />
             </div>
 
             <div className="prose mt-10">
               <div dangerouslySetInnerHTML={{ __html: html }} />
             </div>
+
+            <BlogVideo post={post} />
 
             <InlineCTA ctaType={post.cta_type} program={program} />
 
