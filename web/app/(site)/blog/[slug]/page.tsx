@@ -63,6 +63,8 @@ function BlogVideo({ post }: { post: Post }) {
   return (
     <video
       controls
+      controlsList="nodownload"
+      onContextMenu={(e) => e.preventDefault()}
       preload="metadata"
       poster={post.thumbnail_url ?? undefined}
       playsInline
