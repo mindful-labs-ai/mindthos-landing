@@ -7,6 +7,11 @@ declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
+    wcs?: {
+      trans: (conv: Record<string, unknown>) => void;
+      inflow: (domain?: string) => void;
+    };
+    wcs_add?: Record<string, string>;
   }
 }
 
@@ -17,6 +22,20 @@ const APP_HOST = 'app.mindthos.com';
  * Google Ads 콘솔에서 변경 시 함께 업데이트.
  */
 const GOOGLE_ADS_SIGNUP_CONVERSION = 'AW-18147654629/bmg4CObehqscEOX3vM1D';
+
+/**
+ * Naver 전환 AccountId — layout.tsx 의 PV 스크립트와 동일 값.
+ *
+ * 이벤트 분리 (혼동 방지):
+ *   - `sign_up` (Naver 표준) → app.mindthos.com 측의 실제 가입 완료 콜백 전용 (예약).
+ *   - `custom001` ("signup_click" 라벨) → 랜딩 CTA 클릭 의도 (이 파일).
+ *
+ * 네이버 검색광고 콘솔의 전환 액션 설정에서 custom001 의 표시명을 "signup_click"
+ * 으로 rename 필요. wcs.inflow("mindthos.com") 가 layout 에서 호출되어 서브도메인
+ * 간 쿠키는 유지됨.
+ */
+const NAVER_WCS_ID =
+  process.env.NEXT_PUBLIC_NAVER_WCS_ID || 's_bfc366d6236';
 
 interface CtaPayload {
   cta_intent: string;
@@ -54,6 +73,17 @@ function emit(payload: CtaPayload, onSignupConversionDone?: () => void): void {
       content_name: payload.cta_label,
       content_category: payload.cta_location,
     });
+  }
+  if (
+    payload.cta_intent === 'signup' &&
+    typeof window.wcs?.trans === 'function'
+  ) {
+    /* Naver 전환 — custom001 ("signup_click" 라벨, 클릭 의도). 실제 가입 완료는
+       app.mindthos.com 측에서 type: 'sign_up' 으로 별도 발사 예정. wcs_add["wa"]
+       는 PV 스크립트에서 이미 설정되어 있지만, 가이드 패턴에 맞춰 한 번 더 보정. */
+    if (!window.wcs_add) window.wcs_add = {};
+    window.wcs_add['wa'] = NAVER_WCS_ID;
+    window.wcs.trans({ type: 'custom001' });
   }
 }
 

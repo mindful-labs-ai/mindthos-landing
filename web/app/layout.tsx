@@ -117,6 +117,8 @@ export default function RootLayout({
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
   const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
   const googleAdsId = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || 'AW-18147654629';
+  const naverWcsId =
+    process.env.NEXT_PUBLIC_NAVER_WCS_ID || 's_bfc366d6236';
 
   return (
     <html lang="ko" className={`${pretendard.variable} ${plexMono.variable}`}>
@@ -153,6 +155,25 @@ export default function RootLayout({
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
                 gtag('config', '${googleAdsId}');
+              `}
+            </Script>
+          </>
+        ) : null}
+        {naverWcsId ? (
+          <>
+            <Script
+              src="//wcs.naver.net/wcslog.js"
+              strategy="lazyOnload"
+            />
+            <Script id="naver-wcs-init" strategy="lazyOnload">
+              {`
+                if (!window.wcs_add) window.wcs_add = {};
+                window.wcs_add["wa"] = "${naverWcsId}";
+                if (!window._nasa) window._nasa = {};
+                if (window.wcs) {
+                  window.wcs.inflow("mindthos.com");
+                  window.wcs_do();
+                }
               `}
             </Script>
           </>
