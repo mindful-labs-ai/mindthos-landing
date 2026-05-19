@@ -25,6 +25,7 @@ import { ReferencesList } from '@/components/blog/ReferencesList';
 import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { InlineCTA } from '@/components/blog/InlineCTA';
 import { BottomCTA } from '@/components/blog/BottomCTA';
+import { BlogVideoPlayer } from '@/components/blog/BlogVideoPlayer';
 import { SITE_CONFIG } from '@/constants/site';
 import type { Post, Reference } from '@/types/blog';
 import { formatDateKo } from '@/lib/utils';
@@ -61,17 +62,10 @@ function BlogVideo({ post }: { post: Post }) {
   }
 
   return (
-    <video
-      controls
-      controlsList="nodownload"
-      onContextMenu={(e) => e.preventDefault()}
-      preload="metadata"
+    <BlogVideoPlayer
+      src={post.video_url}
       poster={post.thumbnail_url ?? undefined}
-      playsInline
-      className="mt-12 aspect-video w-full rounded-2xl bg-black"
-    >
-      <source src={post.video_url} type="video/mp4" />
-    </video>
+    />
   );
 }
 
