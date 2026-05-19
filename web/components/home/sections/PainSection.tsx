@@ -7,7 +7,7 @@ import Image from 'next/image';
    (this section) targets in a single shared IntersectionObserver group. */
 export function PainSection() {
   return (
-<section className="wf-section tone-light">
+<section className="wf-section tone-light" data-funnel-section="pain">
   <div className="container">
     <div className="pain-head pain-head--lean">
       <h2 className="t-h2">기록은 남았지만,<br/>해석은 여전히 흩어져 있어요</h2>

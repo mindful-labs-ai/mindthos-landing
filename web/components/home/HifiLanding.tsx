@@ -10,6 +10,7 @@ import { PricingSection } from './sections/PricingSection';
 import { FaqSection } from './sections/FaqSection';
 import { FinalCtaSection } from './sections/FinalCtaSection';
 import { HifiLandingEffects } from './HifiLandingEffects';
+import { LandingFunnelTracker } from './LandingFunnelTracker';
 
 /**
  * 홈 랜딩 컨테이너 — Server Component.
@@ -57,6 +58,7 @@ export function HifiLanding() {
       </div>
 
       <HifiLandingEffects />
+      <LandingFunnelTracker />
     </>
   );
 }

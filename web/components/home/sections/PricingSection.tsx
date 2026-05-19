@@ -2,7 +2,7 @@
 
 export function PricingSection() {
   return (
-<section className="wf-section">
+<section className="wf-section" data-funnel-section="pricing">
   <div className="container">
     <div className="wf-marker">
       <span className="num">09</span>

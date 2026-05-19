@@ -108,7 +108,7 @@ export function FeatureTabsSection() {
   }, []);
 
   return (
-<section className="wf-section alt">
+<section className="wf-section alt" data-funnel-section="features">
   <div className="container">
     <div className="wf-marker">
       <span className="num">04</span>

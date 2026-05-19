@@ -47,7 +47,7 @@ export function FaqSection() {
   }, []);
 
   return (
-<section className="wf-section alt">
+<section className="wf-section alt" data-funnel-section="faq">
   <div className="container">
     <div className="wf-marker">
       <span className="num">10</span>

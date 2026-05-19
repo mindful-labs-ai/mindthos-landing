@@ -6,7 +6,7 @@ export function HeroSection() {
      디코딩/재생은 브라우저가 idle 시점에 처리. 자산은 압축본 (모바일 2.6MB / 데스크톱 2.6MB). */
 
   return (
-<section className="hero" aria-label="마음토스 — 상담사를 위한 안전한 AI agent">
+<section className="hero" aria-label="마음토스 — 상담사를 위한 안전한 AI agent" data-funnel-section="hero">
 
 
   <div className="hero-bg" aria-hidden="true">

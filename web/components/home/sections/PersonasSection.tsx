@@ -157,7 +157,7 @@ export function PersonasSection() {
   }, []);
 
   return (
-    <section className="wf-section alt">
+    <section className="wf-section alt" data-funnel-section="personas">
       <div className="container">
         <div className="wf-marker">
           <span className="num">06</span>

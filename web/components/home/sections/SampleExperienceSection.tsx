@@ -276,7 +276,7 @@ export function SampleExperienceSection() {
   }, []);
 
   return (
-<section className="wf-section sample-section">
+<section className="wf-section sample-section" data-funnel-section="sample">
   {/* 슬라이드형 순차 핀 패턴
      두 개의 독립 슬롯이 차례로 viewport 에 핀.
      - .sample-pin-slot: 외곽 (200vh) — 핀 지속 스크롤 거리

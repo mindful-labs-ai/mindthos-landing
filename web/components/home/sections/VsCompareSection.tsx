@@ -36,7 +36,7 @@ export function VsCompareSection() {
   }, []);
 
   return (
-<section className="wf-section">
+<section className="wf-section" data-funnel-section="vs_compare">
   <div className="container">
     <div className="wf-marker">
       <span className="num">07</span>

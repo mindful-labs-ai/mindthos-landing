@@ -139,7 +139,7 @@ export function MetricsSection() {
   }, []);
 
   return (
-<section className="wf-section tone-dark">
+<section className="wf-section tone-dark" data-funnel-section="metrics">
   <div className="container">
     <div className="wf-marker">
       <span className="num">08</span>

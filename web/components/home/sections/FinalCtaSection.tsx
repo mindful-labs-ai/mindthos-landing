@@ -34,7 +34,7 @@ export function FinalCtaSection() {
   }, []);
 
   return (
-<section className="wf-section final-cta-section">
+<section className="wf-section final-cta-section" data-funnel-section="final_cta">
   <div className="container">
     <div className="wf-marker">
       <span className="num">11</span>
