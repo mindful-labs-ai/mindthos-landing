@@ -6,7 +6,6 @@ import { ArrowLeft } from 'lucide-react';
 import {
   getPostBySlug,
   getCounselingProgramById,
-  getPublishedPosts,
 } from '@/lib/supabase/queries';
 import { generatePostMetadata } from '@/lib/seo/metadata';
 import {
@@ -75,8 +74,17 @@ interface BlogPostPageProps {
 
 export async function generateStaticParams() {
   try {
-    const { posts } = await getPublishedPosts({ perPage: 100 });
-    return posts.map((post) => ({ slug: post.slug }));
+    // 발행글 전체를 빌드 타임에 정적 생성한다.
+    // perPage 제한을 두면 나머지 글이 첫 요청 시 콜드 SSR(3s+)로 렌더되어
+    // Googlebot 크롤 스로틀링 → "발견됨/크롤링됨 - 색인 안 됨" 대량 발생.
+    // sitemap.ts 와 동일한 경량 select('slug') 쿼리 사용.
+    const { createStaticClient } = await import('@/lib/supabase/static');
+    const supabase = createStaticClient();
+    const { data: posts } = await supabase
+      .from('posts')
+      .select('slug')
+      .eq('status', 'published');
+    return (posts ?? []).map((post) => ({ slug: post.slug }));
   } catch {
     return [];
   }
