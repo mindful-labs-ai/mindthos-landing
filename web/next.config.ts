@@ -86,9 +86,9 @@ const nextConfig: NextConfig = {
       { source: '/contact', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
       { source: '/contact/:path*', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
       { source: '/inquiry', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
-      // 제품 — 별도 /product 라우트 없음, 홈으로 흡수
-      { source: '/product', destination: '/', permanent: false },
-      { source: '/product/:slug*', destination: '/', permanent: false },
+      // 제품 — 별도 /product 라우트 없음, 홈으로 흡수 (영구 통합 → 301)
+      { source: '/product', destination: '/', permanent: true },
+      { source: '/product/:slug*', destination: '/', permanent: true },
       // 기관용 — 카카오톡 오픈채팅으로 직행 (내부 contact 폼 제거)
       {
         source: '/for-institutions',
@@ -98,7 +98,7 @@ const nextConfig: NextConfig = {
       },
       // 보안 — /security 는 실제 라우트(app/(site)/security/page.tsx). redirect 두면 라우트가 가려져 제거.
       // /security/* 하위 잔여 URL 만 흡수.
-      { source: '/security/how-we-protect', destination: '/security', permanent: false },
+      { source: '/security/how-we-protect', destination: '/security', permanent: true },
       {
         source: '/security/privacy-policy',
         destination: 'https://app.mindthos.com/terms?type=privacy',
@@ -111,21 +111,21 @@ const nextConfig: NextConfig = {
         permanent: false,
         basePath: false,
       },
-      // 가격 — 랜딩 §09 anchor
-      { source: '/pricing', destination: '/#pricing', permanent: false },
-      // 회사 — 별도 /about 라우트 없음, 홈으로
-      { source: '/about', destination: '/', permanent: false },
-      // 리소스 — /blog 통합
-      { source: '/resources', destination: '/blog', permanent: false },
+      // 가격 — 랜딩 §09 anchor (라우트 영구 제거 → 301)
+      { source: '/pricing', destination: '/#pricing', permanent: true },
+      // 회사 — 별도 /about 라우트 없음, 홈으로 (라우트 영구 제거 → 301)
+      { source: '/about', destination: '/', permanent: true },
+      // 리소스 — /blog 통합 (영구 이전 → 301)
+      { source: '/resources', destination: '/blog', permanent: true },
       {
         source: '/resources/blog',
         destination: '/blog',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/resources/tech-blog',
         destination: '/blog',
-        permanent: false,
+        permanent: true,
       },
       {
         source: '/resources/guides',
@@ -136,13 +136,13 @@ const nextConfig: NextConfig = {
       {
         source: '/resources/case-studies',
         destination: '/blog',
-        permanent: false,
+        permanent: true,
       },
-      // 리소스 글 상세 → /blog/[slug]
+      // 리소스 글 상세 → /blog/[slug] (영구 이전 → 301, 색인 신호 전달)
       {
         source: '/resources/:category/:slug',
         destination: '/blog/:slug',
-        permanent: false,
+        permanent: true,
       },
     ];
   },
