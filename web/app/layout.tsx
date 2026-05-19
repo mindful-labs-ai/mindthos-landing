@@ -124,17 +124,34 @@ export default function RootLayout({
     <html lang="ko" className={`${pretendard.variable} ${plexMono.variable}`}>
       <head />
       <body className="min-h-screen antialiased">
+        {/*
+          Consent Mode v2 — 동의 배너 미운영(A안). 기본값을 모두 granted 로
+          선언해 v2 파라미터(ad_user_data / ad_personalization) 형식만 충족.
+          gtag config 보다 반드시 먼저 실행돼야 하므로 beforeInteractive.
+        */}
+        <Script id="consent-mode-init" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('consent', 'default', {
+              ad_storage: 'granted',
+              ad_user_data: 'granted',
+              ad_personalization: 'granted',
+              analytics_storage: 'granted',
+            });
+            gtag('js', new Date());
+          `}
+        </Script>
         {gaId ? (
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="lazyOnload"
+              strategy="afterInteractive"
             />
-            <Script id="ga-init" strategy="lazyOnload">
+            <Script id="ga-init" strategy="afterInteractive">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
                 gtag('config', '${gaId}', {
                   linker: { domains: ['mindthos.com', 'app.mindthos.com'] },
                   send_page_view: true,
@@ -147,13 +164,12 @@ export default function RootLayout({
           <>
             <Script
               src={`https://www.googletagmanager.com/gtag/js?id=${googleAdsId}`}
-              strategy="lazyOnload"
+              strategy="afterInteractive"
             />
-            <Script id="google-ads-init" strategy="lazyOnload">
+            <Script id="google-ads-init" strategy="afterInteractive">
               {`
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
                 gtag('config', '${googleAdsId}');
               `}
             </Script>
@@ -163,9 +179,9 @@ export default function RootLayout({
           <>
             <Script
               src="//wcs.naver.net/wcslog.js"
-              strategy="lazyOnload"
+              strategy="afterInteractive"
             />
-            <Script id="naver-wcs-init" strategy="lazyOnload">
+            <Script id="naver-wcs-init" strategy="afterInteractive">
               {`
                 if (!window.wcs_add) window.wcs_add = {};
                 window.wcs_add["wa"] = "${naverWcsId}";
@@ -180,7 +196,7 @@ export default function RootLayout({
         ) : null}
         {pixelId ? (
           <>
-            <Script id="meta-pixel" strategy="lazyOnload">
+            <Script id="meta-pixel" strategy="afterInteractive">
               {`
                 !function(f,b,e,v,n,t,s)
                 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
