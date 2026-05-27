@@ -44,6 +44,8 @@ interface CtaPayload {
   cta_destination: string;
   cta_tier?: string;
   page_path: string;
+  blog_slug?: string;
+  blog_category?: string;
 }
 
 /**
@@ -129,16 +131,33 @@ export function CtaTracker() {
         anchor.dataset.ctaLabel ??
         (anchor.textContent ?? '').replace(/\s+/g, ' ').trim().slice(0, 80);
 
+      const resolvedPath =
+        pathname ??
+        (typeof window !== 'undefined' ? window.location.pathname : '');
+
       const payload: CtaPayload = {
         cta_intent: intent,
         cta_location: anchor.dataset.ctaLocation ?? 'unknown',
         cta_label: label,
         cta_destination: anchor.href || href,
-        page_path:
-          pathname ??
-          (typeof window !== 'undefined' ? window.location.pathname : ''),
+        page_path: resolvedPath,
       };
       if (anchor.dataset.ctaTier) payload.cta_tier = anchor.dataset.ctaTier;
+
+      /* 블로그 글에서의 클릭이면 GA4 커스텀 디멘션(blog_slug / blog_category)을 함께 전송.
+         CtaTracker 는 사이트 전역 listener 이므로 여기서 한 번에 보강한다.
+         slug 는 pathname `/blog/[slug]` 에서 추출, category 는 페이지가 `<article>`
+         또는 상위에 data-blog-category 를 노출했을 때만. */
+      if (resolvedPath.startsWith('/blog/')) {
+        const slug = resolvedPath.split('/')[2]?.split('?')[0];
+        if (slug) payload.blog_slug = slug;
+        const articleEl =
+          typeof document !== 'undefined'
+            ? document.querySelector<HTMLElement>('[data-blog-category]')
+            : null;
+        const category = articleEl?.dataset.blogCategory;
+        if (category) payload.blog_category = category;
+      }
 
       const isExternalSignup =
         intent === 'signup' && anchor.href.includes(APP_HOST);

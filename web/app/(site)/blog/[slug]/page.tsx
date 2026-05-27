@@ -25,6 +25,7 @@ import { RelatedPosts } from '@/components/blog/RelatedPosts';
 import { InlineCTA } from '@/components/blog/InlineCTA';
 import { BottomCTA } from '@/components/blog/BottomCTA';
 import { BlogVideoPlayer } from '@/components/blog/BlogVideoPlayer';
+import { BlogPageTracker } from '@/components/blog/BlogPageTracker';
 import { SITE_CONFIG } from '@/constants/site';
 import type { Post, Reference } from '@/types/blog';
 import { formatDateKo } from '@/lib/utils';
@@ -205,7 +206,18 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <>
       <SchemaMarkup schema={schemas} />
 
-      <article className="mx-auto max-w-container-wide px-gutter md:px-gutter-wide py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]">
+      <BlogPageTracker
+        slug={post.slug}
+        category={post.category?.slug ?? null}
+        author={post.author?.name ?? null}
+        publishedAt={post.published_at ?? null}
+      />
+
+      <article
+        data-blog-slug={post.slug}
+        data-blog-category={post.category?.slug ?? ''}
+        className="mx-auto max-w-container-wide px-gutter md:px-gutter-wide py-[var(--section-py-tablet)] md:py-[var(--section-py-desktop)]"
+      >
         <Link
           href="/blog"
           className="inline-flex min-h-[44px] items-center gap-1.5 text-small text-[var(--text-muted)] transition-colors hover:text-[var(--brand-primary-dark)]"
