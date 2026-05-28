@@ -144,7 +144,9 @@ DELETE FROM posts WHERE slug = '…';
 
 수정/삭제 후에도 위 §2 의 revalidate + indexnow 명령으로 캐시 갱신.
 
-## 4. SEO 발행 전 점검 (글 1개당)
+## 4. SEO / AEO 발행 전 점검 (글 1개당)
+
+### 4-1. 기본 SEO
 
 - [ ] meta_title 30-60자 + 키워드 앞쪽 30자 내
 - [ ] meta_description 120-155자 + 행동 유도
@@ -157,6 +159,20 @@ DELETE FROM posts WHERE slug = '…';
 - [ ] cta_type 적절 (`free-trial` / `institution-inquiry` / `newsletter`)
 - [ ] counseling_program_id 매칭 (없으면 카테고리 default 폴백)
 - [ ] FAQ 추가 시 `schema_markup` JSONB 에 FAQPage 객체 INSERT
+
+### 4-2. AEO/GEO 점검 (액션 플랜 §A3 — AI 인용 최적화)
+
+- [ ] **`summary` 첫 1-2 문장이 그 자체로 글 제목 질문의 답** — 인용 발췌 위치 (본문 첫 30%) 활용. "이 글에서는…", "최근 들어…" 같은 hook 시작 금지.
+- [ ] 각 H2 직후 첫 문장 = 그 H2 질문의 답 (passage-level self-contained)
+- [ ] 의학·통계·연구 주장은 본문 안 inline 링크 부착 (`[근거명](URL)`)
+- [ ] `references` 배열에 academic/government 출처 1개 이상 (정신건강 카테고리)
+- [ ] (예정) `medical_condition` 컬럼 — B1 MedicalWebPage 스키마 데이터
+
+### 4-3. 검수 점검 (액션 플랜 §A5)
+
+- [ ] Gemini 자동 검증 (publish.ts Step 2) factErrors / clinicalRisks 모두 통과
+- [ ] **정신건강·심리 카테고리는 사람 검수 필수** — `reviewed_by`, `reviewed_at` 채움
+- [ ] 검수자가 본 글 출처·자격 범위·임상 권고를 확인했음 (의료광고 사전심의 대상이면 별도 진행)
 
 ### FAQ 예시 (`schema_markup` 컬럼)
 
@@ -190,11 +206,79 @@ VALUES ('연구·논문', 'research', '연구 결과 요약', 'counselor', 'free
 
 ## 6. 발행 워크플로 요약
 
-1. Supabase Studio 에서 글 INSERT (status='published', published_at = KST NOW)
-2. (선택) 태그 연결, 썸네일 업로드
-3. `curl /api/revalidate` 로 ISR 즉시 갱신
-4. `curl /api/indexnow` 로 Bing/Yandex 인덱싱 trigger
-5. Google Search Console 에서는 sitemap 재제출 또는 자연 크롤 대기
+1. Supabase Studio 에서 글 INSERT (status='draft' 로 먼저)
+2. **사람 검수 — 정신건강·심리 카테고리 필수** (§7 참조)
+3. (선택) 태그 연결, 썸네일 업로드
+4. status='published' 로 전환, published_at = KST NOW
+5. `curl /api/revalidate` 로 ISR 즉시 갱신
+6. `curl /api/indexnow` 로 Bing/Yandex 인덱싱 trigger
+7. Google Search Console 에서는 sitemap 재제출 또는 자연 크롤 대기
+
+## 7. AI 다중 검수 워크플로 (사람 검수 ❌)
+
+마음토스 블로그는 **사람이 글마다 검수하지 않는다**. AI 가 다중 패스로 글을 검수한다.
+운영자는 **prompt 와 master doc 만 관리**하면 된다.
+
+상세 설계: [`aeo-geo-research/ai-review-workflow.md`](./aeo-geo-research/ai-review-workflow.md)
+Master doc 시스템: [`aeo-geo-research/master-docs-architecture.md`](./aeo-geo-research/master-docs-architecture.md)
+
+### 7-1. 6-stage 파이프라인 요약
+
+```
+Stage 0  Claude 초안 작성 (skill/script)
+Stage 1  Claude self-reflection — 자기 글 AEO 체크리스트 점검 + 1차 수정
+Stage 2  Gemini AEO/구조 검증 — passage 단독성, summary 직접답변, citations
+Stage 3  Gemini fact 검증 + master doc 대조 — 토픽 추론 → master 로드 → 모순 검출
+Stage 4  Gemini 임상·윤리 검증 — 자격 범위, 광고 표현, 스티그마, 유해 권고
+Stage 5  Claude 수정 패스 — Stage 2-4 critique 모두 반영해서 본문 수정
+Stage 6  Re-verify (1회 한정) — Stage 2-4 다시 → 통과 시 발행
+```
+
+### 7-2. 통과 / 실패 분기
+
+- 모두 통과 → status='published' 로 발행, `ai_review` JSONB 에 모든 stage 결과 기록
+- 1회 revise 후도 실패 → `status='draft'` + `auto_review_queue=true` 로 격리
+- `unsafeAdvice` (자살·자해·약물 자가조절 등) 1건 이상 → 즉시 큐 (revise 도 금지)
+
+### 7-3. DB 기록 (마이그레이션 008 신규 컬럼)
+
+```sql
+posts.ai_review            -- JSONB: 모든 stage 결과 통합
+posts.auto_review_queue    -- bool: AI 검수 실패로 격리
+posts.fact_check_topics    -- text[]: Stage 3 매칭된 master doc slug
+posts.review_iterations    -- int: revise 패스 횟수 (0 또는 1)
+posts.medical_condition    -- text: MedicalWebPage.about 용 (Phase 2)
+```
+
+### 7-4. 운영자의 책임 (글마다 검수 ❌, 시스템만 관리)
+
+- **Prompt 갱신** — Stage 1-5 각 프롬프트 (`.claude/skills/blog-enrich/prompts/`, publish.ts)
+- **Master doc 추가·갱신** — `docs/fact-master/{slug}.md` (master-docs-architecture.md 참조)
+- **Auto review queue 처리** — 주 1회 큐 글들의 `ai_review` JSON 확인 → 막힌 stage 원인 분석 → prompt/master 보완 → 재실행
+- **분기 master refresh** — 외부 가이드라인 변경 반영 (자동 스크립트)
+
+### 7-5. Auto review queue 조회
+
+```sql
+-- AI 검수 실패로 격리된 글
+SELECT id, slug, title, ai_review->'stages' AS stages, review_iterations
+FROM posts
+WHERE auto_review_queue = true
+ORDER BY updated_at DESC;
+
+-- 특정 master doc 가 fact-check 에서 자주 충돌하는지 (master 갱신 trigger)
+SELECT t.topic, COUNT(*) as contradicts
+FROM posts p,
+     unnest(p.fact_check_topics) t(topic)
+WHERE p.ai_review->'stages'->'fact_check'->'contradicts' != '[]'::jsonb
+GROUP BY t.topic
+ORDER BY contradicts DESC;
+```
+
+### 7-6. 토큰 비용 정책
+
+글 1편당 평균 $0.15-0.25 (revise 없으면), 최악 $0.5 (revise 1회). 일 5편 발행 시 월 ~$25-75.
+**토큰 비용보다 콘텐츠 신뢰성이 우선**. 마스터 doc 1개 작성에 $2-5 — 평생 자산이라 허용.
 
 ## 참고 — 환경 / 인프라
 
