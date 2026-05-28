@@ -32,6 +32,20 @@ export function generateOrganizationSchema() {
       ...SITE_CONFIG.address,
     },
     ...(sameAs.length > 0 ? { sameAs } : {}),
+    /* B2 — Generic 저자 라벨링: 마음토스가 다루는 전문 영역을 명시.
+     * (action-plan.md §B2 + ai-review-workflow.md) */
+    knowsAbout: [
+      '정신건강',
+      '심리상담',
+      '임상 심리',
+      '인지행동치료',
+      '상담 기록 및 축어록',
+      '사례개념화',
+      '슈퍼비전',
+      '상담사 자격 및 윤리',
+      '위기 상담',
+      '청소년 상담',
+    ],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'customer service',

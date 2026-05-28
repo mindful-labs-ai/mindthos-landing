@@ -290,6 +290,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             ) : null}
 
             <FAQSection schema_markup={post.schema_markup} />
+
+            {/* B2 — AI 작성·검수 disclosure. 액션 플랜 §B2 / ai-review-workflow.md */}
+            <p className="mt-12 border-t border-[var(--border-subtle)] pt-6 text-small italic text-[var(--text-muted)]">
+              본 글은 마음토스 임상 심리 가이드라인 기반 시스템으로 작성·검수되었습니다.
+              학회 가이드라인, 정신건강복지법, 임상 표준 절차를 master document 로
+              두고 다중 AI 검수를 거칩니다.
+            </p>
           </div>
 
           <aside className="hidden md:block">
