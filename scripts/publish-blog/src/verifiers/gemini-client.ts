@@ -4,7 +4,12 @@
  */
 
 const GEMINI_FLASH_MODEL = 'gemini-3-flash-preview';
-const GEMINI_PRO_MODEL = 'gemini-3-pro-preview';
+/**
+ * Pro tier 는 현재 fact-check 가 Flash 로 다운그레이드되어 사용되지 않지만,
+ * 향후 다른 verifier 가 Pro 가 필요할 때 사용. 모델 deprecation 빈번하므로
+ * 'latest' alias 사용해서 자동 라우팅.
+ */
+const GEMINI_PRO_MODEL = 'gemini-pro-latest';
 
 export type GeminiTier = 'flash' | 'pro';
 

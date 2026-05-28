@@ -30,6 +30,7 @@ import { execSync } from 'child_process';
 import { createClient } from '@supabase/supabase-js';
 import { verifyAeoStructure } from './verifiers/aeo-structure.js';
 import { verifyCounselorContent } from './verifiers/counselor-content.js';
+import { verifyFactCheck, extractMastersConsulted } from './verifiers/fact-check.js';
 import { buildReviewFeedback } from './verifiers/aggregate.js';
 import type { ReviewFeedbackV2, VerifierVerdict } from './verifiers/types.js';
 
@@ -97,6 +98,7 @@ async function main() {
   let reviewFeedback: ReviewFeedbackV2 | null = null;
   let autoReviewQueue = false;
   let reviewIterations = 0;
+  let factCheckTopics: string[] = [];
 
   if (!content?.title || !content?.slug || !content?.content) {
     console.error('❌ content.json 의 content 에 title, slug, content 필수');
@@ -147,7 +149,7 @@ async function main() {
   //              (운영자가 prompt/master doc 보완 후 수동 재실행)
   // ───────────────────────────────────────────────────────────────
   if (!contentJson.skipReview && process.env.NANOBANANA_API_KEY) {
-    console.log('🔍 AI 다중 검수 시작 (Stage 2 AEO + Stage 4 상담사 콘텐츠)...');
+    console.log('🔍 AI 다중 검수 시작 (Stage 2 AEO + Stage 3 Fact-check + Stage 4 상담사 콘텐츠)...');
 
     // 이전 review-feedback.json 이 있으면 iterations 증가 (fact-fix 루프 트래킹)
     if (existsSync(REVIEW_FEEDBACK_PATH)) {
@@ -177,11 +179,15 @@ async function main() {
       const settled = await Promise.allSettled([
         verifyAeoStructure(verifierInput),
         verifyCounselorContent(verifierInput),
+        verifyFactCheck(verifierInput),
       ]);
 
       for (const r of settled) {
         if (r.status === 'fulfilled') {
           verdicts.push(r.value);
+          if (r.value.stage === 'fact_check') {
+            factCheckTopics = extractMastersConsulted(r.value);
+          }
         } else {
           console.warn(`⚠️ verifier 실패: ${r.reason?.message ?? r.reason}`);
         }
@@ -533,6 +539,7 @@ async function main() {
     ...(reviewFeedback ? { ai_review: reviewFeedback } : {}),
     ...(autoReviewQueue ? { auto_review_queue: true } : {}),
     review_iterations: reviewIterations,
+    fact_check_topics: factCheckTopics,
   };
 
   // 영상 컬럼 — content.json 에 명시된 경우에만 전달
