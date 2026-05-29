@@ -339,6 +339,13 @@ d = json.load(sys.stdin); t = d.get('topics', [])
 print(t[$i].get('type', 'core') if $i < len(t) else 'core')
 " 2>/dev/null || echo "core")
 
+  format=$(echo "$topics_json" | python3 -c "
+import json, sys
+d = json.load(sys.stdin); t = d.get('topics', [])
+v = t[$i].get('format', 'article') if $i < len(t) else 'article'
+print(v if v in ('article', 'listicle', 'guide') else 'article')
+" 2>/dev/null || echo "article")
+
   if [[ -z "$keyword" ]]; then
     log_warn "주제 $((i+1)): 키워드 추출 실패, 스킵"
     continue
@@ -417,8 +424,53 @@ print(t[$i].get('type', 'core') if $i < len(t) else 'core')
 
   log_info ""
   log_info "------------------------------------------------------------"
-  log_info "주제 $((i+1))/$topic_count_actual: $keyword ($category / $audience, $kw_type)"
+  log_info "주제 $((i+1))/$topic_count_actual: $keyword ($category / $audience, $kw_type, format=$format)"
   log_info "------------------------------------------------------------"
+
+  # --------------------------------------------------------------
+  # Format-specific 콘텐츠 규칙 블록 — daily-topics.json 의 format 필드 기반
+  # 액션 플랜 §B4 (web/docs/aeo-geo-research/action-plan.md)
+  # AEO 인용 데이터(Evertune 25K URL): 전체 인용 63% / 상업 쿼리 40.86% 가 listicle
+  # 모든 다른 규칙(분량·인링크·FAQ·references·메타·임상 윤리)은 article 과 동일하게 적용됨
+  # --------------------------------------------------------------
+  case "$format" in
+    listicle)
+      FORMAT_BLOCK="## 포맷: LISTICLE (필수 준수)
+이 글은 **ranked Top-N listicle** 포맷으로 작성합니다. AEO 인용 풀(특히 추천·비교·상업 쿼리) 진입의 핵심.
+
+규칙:
+- H2 가 \"1. \", \"2. \", \"3. \" … 등 **번호로 시작** — 총 5-10개 항목.
+- 각 H2 항목은 **단독 인용 가능 self-contained passage** — 이전 항목 참조 표현(\"위에서 본 것처럼…\") 금지.
+- 각 H2 직후 첫 문장 = 그 항목의 핵심 요점·결론을 **단독으로** 제시.
+- summary 박스: 1-3위 미리보기 한 줄씩 + 선정 기준 1줄 (총 200-400자, 도입부 hook 금지).
+- 본문 마지막에 간단한 비교표 또는 결론 단락 (선택).
+- 본문 첫 30% 영역(첫 H2 위 도입 + 1번 항목)에 핵심 답이 들어가도록.
+- content.json 의 content.format = \"listicle\" 필수.
+
+다른 모든 규칙(분량·인링크·FAQ·references·메타·임상 윤리)은 article 과 동일."
+      log_info "  ▶ LISTICLE 포맷으로 생성 — 1. 2. 3. 번호 H2"
+      ;;
+    guide)
+      FORMAT_BLOCK="## 포맷: GUIDE (필수 준수)
+이 글은 **종합 정리 / 완벽 가이드** 포맷으로 작성합니다.
+
+규칙:
+- H2 5-8개 + 각 H2 아래 H3 다수 사용 (목차 깊이 있음).
+- 본문 **3,000자 이상** (article 표준보다 길게).
+- 단계·체크리스트·표 적극 활용 (실무 적용 가능한 절차·양식·기준).
+- 끝에 \"정리\" 또는 \"체크리스트\" 또는 \"다음 단계\" 섹션 권장.
+- summary 박스: 가이드 범위·대상 독자·다루는 핵심 항목 200-400자 (도입부 hook 금지, 단독 답변).
+- content.json 의 content.format = \"guide\" 필수.
+
+다른 모든 규칙(인링크·FAQ·references·메타·임상 윤리)은 article 과 동일."
+      log_info "  ▶ GUIDE 포맷으로 생성 — 종합 정리 + H3 다수 + 3000자+"
+      ;;
+    *)
+      FORMAT_BLOCK="## 포맷: ARTICLE (기본 정보성)
+이 글은 표준 article 포맷입니다. H2 5-8개 자연어 제목, summary 박스가 글 제목 질문의 단독 답변. content.json 의 content.format = \"article\" 명시."
+      log_info "  ▶ ARTICLE 포맷으로 생성 (기본)"
+      ;;
+  esac
 
   rm -f "$CONTENT_FILE"
 
@@ -510,11 +562,12 @@ print('[dry-run] content.json 생성 완료')
   "status": "published",
   "skipImage": false,
   "content": {
+    "format": "${format}",
     "title": "(30~60자 제목, 핵심 키워드 앞쪽 30자 안에)",
     "slug": "(영문 소문자 + 하이픈, 3~5단어)",
     "content": "## H2 섹션 1\\n\\n본문 마크다운...\\n\\n## H2 섹션 2\\n\\n...",
     "excerpt": "(155자 이내 발췌)",
-    "summary": "(200~400자, '이 글의 핵심' 박스용)",
+    "summary": "(200~400자, '이 글의 핵심' 박스용 — 단독 답변, 도입부 hook 금지)",
     "keywords": ["핵심키워드", "보조키워드1", "보조키워드2"],
     "meta_title": "(30~60자)",
     "meta_description": "(120~155자)",
@@ -531,8 +584,10 @@ print('[dry-run] content.json 생성 완료')
 
 체크리스트(저장 전 확인):
 - 최상위 키: categorySlug / targetAudience / authorSlug / status / skipImage / content (정확히 6개)
+- content.format 은 "${format}" 으로 고정 (변경 금지)
 - content.title / content.slug / content.content 는 모두 필수, 비워두지 마세요
 - content.content 는 **마크다운 본문** (H1 없이 H2 부터 시작)
+- LISTICLE 인 경우 H2 가 "1. ", "2. " ... 번호로 시작 / GUIDE 인 경우 H3 다수 활용 / ARTICLE 은 자연어 H2
 
 ## 콘텐츠 규칙
 - 분량/키워드 밀도/헤딩: 인라인 ### web/context/seo-guidelines.md 의 '${category}' 권장값을 따르세요. 수치를 임의로 덮어쓰지 마세요.
@@ -568,6 +623,8 @@ print('[dry-run] content.json 생성 완료')
 - 자살/자해 주제 시 본문에 위기상담 안내 필수 (정신건강 위기상담 1393, 자살예방 109) + 슈퍼바이저/전문가 슈퍼비전 권장.
 - 마음토스 제품 언급은 광고형 금지 — 도구 → 효과 흐름.
 - 통계/연구 인용은 출처(저자+연도 또는 기관+발행연도)를 references 에 명시.
+
+${FORMAT_BLOCK}
 
 ${FACT_CHECK_BLOCK}
 

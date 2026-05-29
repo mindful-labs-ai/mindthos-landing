@@ -540,6 +540,10 @@ async function main() {
     ...(autoReviewQueue ? { auto_review_queue: true } : {}),
     review_iterations: reviewIterations,
     fact_check_topics: factCheckTopics,
+    // 마이그레이션 010 — 글 포맷 (article / listicle / guide). 액션 플랜 §B4
+    format: content.format && ['article', 'listicle', 'guide'].includes(content.format)
+      ? content.format
+      : 'article',
   };
 
   // 영상 컬럼 — content.json 에 명시된 경우에만 전달
