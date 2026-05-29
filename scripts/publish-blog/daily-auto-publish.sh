@@ -57,8 +57,11 @@ MIN_DISK_MB=500
 # v2: 가이드 파일을 prompt 에 인라인 주입하므로 Read 호출이 사라짐 → 8~10턴이면 충분.
 # (이전 25턴도 초과하던 원인이 가이드 Read+검증 반복이었음)
 CLAUDE_MAX_TURNS=10
-# Gemini 사실 오류 발견 시 Claude 재호출하여 본문 수정하는 최대 횟수 (점수 무관 강제 반영)
-MAX_FACT_FIX=2
+# Verifier mustFix 발견 시 Claude 재호출하여 본문 수정하는 최대 횟수.
+# 1로 제한 — 운영 1회차(2026-05-29) 에서 2회 반복도 무한 루프였음. 한 번 수정 후
+# 그래도 mustFix 남으면 그대로 발행 (ai_review.revisionGuide 의 "후속 개선" 항목으로
+# 누적되어 운영자가 사후 처리). aggregate.ts 의 임계 완화와 짝.
+MAX_FACT_FIX=1
 # Slack 채널 override — 마음토스 자동 발행은 #blog 채널(C0ARUQ8F18U)로 전송
 # (env MINDTHOS_SLACK_CHANNEL 로 변경 가능)
 SLACK_CHANNEL_OVERRIDE="${MINDTHOS_SLACK_CHANNEL:-C0ARUQ8F18U}"
@@ -498,7 +501,7 @@ slug = re.sub(r'[^a-z0-9]+', '-', kw.lower()).strip('-')[:60]
 dummy = {
     'categorySlug': '$category',
     'targetAudience': '$audience',
-    'authorSlug': 'mindthos-team',
+    'authorSlug': 'mindthos',
     'status': 'draft',
     'skipImage': True,
     'content': {
@@ -558,7 +561,7 @@ print('[dry-run] content.json 생성 완료')
 {
   "categorySlug": "${category}",
   "targetAudience": "${audience}",
-  "authorSlug": "mindthos-team",
+  "authorSlug": "mindthos",
   "status": "published",
   "skipImage": false,
   "content": {
@@ -790,6 +793,7 @@ except Exception:
 3. revisionGuide 의 각 항목이 본문에서 어디에 해당하는지 찾고, 'fix' 가이드에 따라 수정하세요.
    - **AEO 항목** ([aeo_structure] 태그): summary 단독 답변·passage self-containment·inline citation·첫 30% 답변 밀도 같은 구조 issue. 본문 텍스트와 summary 를 수정.
    - **상담사 콘텐츠 항목** ([counselor_content] 태그): 자격·정책 최신성·윤리·위기 대응·전문 표현. 본문 문구를 정확한 사실로 교체.
+   - **출처 인용 항목** ([citation_check] 태그): 통계·수치 주장에 inline 출처 링크 누락. 신뢰할 공식 출처(정부·학회·논문)가 있으면 해당 주장 옆에 [출처명](URL) 형태로 inline 링크를 부착하고 references 에도 추가하세요. 출처를 확신할 수 없으면 구체 수치 단정을 완화하세요 (예: '유병률 5.7%' → '국내 조사에 따라 차이가 있으나 대체로 높게 보고됨').
    - 추측 금지. 정확한 정보를 모르면 안전한 일반 표현으로 대체하세요 (예: 구체 수치 → '관련 시행규칙 참고', 명확하지 않은 자격명 → '관련 자격 확인 필요').
    - 인용 가능한 공식 출처가 있으면 references 에도 추가하고 본문에 inline 링크 부착.
 4. Write 로 수정된 content.json 을 같은 형식·구조로 다시 저장하세요.
