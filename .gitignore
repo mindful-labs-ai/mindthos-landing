@@ -24,6 +24,24 @@ out/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+logs/
+
+# Blog auto-publish generated artifacts
+scripts/publish-blog/content.json
+scripts/publish-blog/daily-topics.json
+scripts/publish-blog/seo-opportunities.json
+scripts/publish-blog/seo-report.json
+scripts/publish-blog/review-feedback.json
+scripts/publish-blog/.data/
+
+# Syncthing artifacts
+*.sync-conflict-*
+.stfolder/
+.stignore
+
+# Python cache
+__pycache__/
+*.pyc
 
 # OMC state (root + nested)
 .omc/
