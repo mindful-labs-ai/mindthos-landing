@@ -31,8 +31,10 @@ import { createClient } from '@supabase/supabase-js';
 import { verifyAeoStructure } from './verifiers/aeo-structure.js';
 import { verifyCounselorContent } from './verifiers/counselor-content.js';
 import { verifyFactCheck, extractMastersConsulted } from './verifiers/fact-check.js';
+import { verifyCitations } from './verifiers/citation-check.js';
 import { buildReviewFeedback } from './verifiers/aggregate.js';
 import type { ReviewFeedbackV2, VerifierVerdict } from './verifiers/types.js';
+import { resolveSlugCollision } from './lib/slug-guard.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -47,7 +49,7 @@ const SEO_REPORT_PATH = resolve(__dirname, '..', 'seo-report.json');
 const REVIEW_FEEDBACK_PATH = resolve(__dirname, '..', 'review-feedback.json');
 
 const DEFAULT_CATEGORY_SLUG = 'counseling-skills';
-const DEFAULT_AUTHOR_SLUG = 'mindthos-team';
+const DEFAULT_AUTHOR_SLUG = 'mindthos';
 const DEFAULT_SITE_URL = 'https://mindthos.com';
 
 function createSupabase() {
@@ -139,18 +141,20 @@ async function main() {
   }
 
   // ───────────────────────────────────────────────────────────────
-  // Step 2: AI 다중 검수 (Stage 2 AEO + Stage 4 상담사 콘텐츠)
-  // 참조: web/docs/aeo-geo-research/ai-review-workflow.md
+  // Step 2: 검수 — 결정적 citation 게이트 + AI 다중 검수
+  // 참조: web/docs/aeo-geo-research/ai-review-workflow.md, action-plan.md §B3
   //
-  // 결정 규칙:
+  //   - citation 게이트(verifyCitations): 결정적·AI 비의존 → skipReview 아니면 항상 실행
+  //     (수치 통계 주장의 inline 출처 누락 검사. NANOBANANA_API_KEY 없어도 작동)
+  //   - AI 다중 검수(AEO/상담사/fact): NANOBANANA_API_KEY 있을 때만 추가 실행
+  //
+  // 결정 규칙 (aggregate.buildReviewFeedback):
   //   - pass   → 다음 단계 진행, ai_review JSONB 에 결과 저장
   //   - revise → exit 3 (daily-auto-publish.sh 의 fact-fix 루프가 revisionGuide 보고 Claude 호출 → 재발행)
   //   - queue  → status='draft' 강제 + auto_review_queue=true 로 DB 저장 + exit 0
   //              (운영자가 prompt/master doc 보완 후 수동 재실행)
   // ───────────────────────────────────────────────────────────────
-  if (!contentJson.skipReview && process.env.NANOBANANA_API_KEY) {
-    console.log('🔍 AI 다중 검수 시작 (Stage 2 AEO + Stage 3 Fact-check + Stage 4 상담사 콘텐츠)...');
-
+  if (!contentJson.skipReview) {
     // 이전 review-feedback.json 이 있으면 iterations 증가 (fact-fix 루프 트래킹)
     if (existsSync(REVIEW_FEEDBACK_PATH)) {
       try {
@@ -174,70 +178,88 @@ async function main() {
       references: content.references ?? [],
     };
 
+    const verdicts: VerifierVerdict[] = [];
+
+    // B3 — 결정적 inline citation 게이트 (AI 키 없이도 항상 실행)
     try {
-      const verdicts: VerifierVerdict[] = [];
-      const settled = await Promise.allSettled([
-        verifyAeoStructure(verifierInput),
-        verifyCounselorContent(verifierInput),
-        verifyFactCheck(verifierInput),
-      ]);
-
-      for (const r of settled) {
-        if (r.status === 'fulfilled') {
-          verdicts.push(r.value);
-          if (r.value.stage === 'fact_check') {
-            factCheckTopics = extractMastersConsulted(r.value);
-          }
-        } else {
-          console.warn(`⚠️ verifier 실패: ${r.reason?.message ?? r.reason}`);
-        }
-      }
-
-      if (verdicts.length === 0) {
-        console.warn('⚠️ 모든 verifier 실패 — 검수 스킵하고 발행 진행');
-      } else {
-        reviewFeedback = buildReviewFeedback(verdicts);
-        (reviewFeedback as ReviewFeedbackV2 & { iterations: number }).iterations =
-          reviewIterations;
-
-        // 콘솔 출력
-        console.log(`📊 검수 결정: ${reviewFeedback.overallDecision}`);
-        for (const v of verdicts) {
-          console.log(`  - ${v.stage}: score ${v.score} / mustFix ${v.mustFix.length} / mustBlock ${v.mustBlock.length}`);
-        }
-        console.log('');
-
-        // 통합 review-feedback.json 저장 (v2 구조)
-        writeFileSync(
-          REVIEW_FEEDBACK_PATH,
-          JSON.stringify(reviewFeedback, null, 2),
-          'utf-8',
-        );
-        console.log(`💾 ${REVIEW_FEEDBACK_PATH} (v2)\n`);
-
-        if (reviewFeedback.overallDecision === 'queue') {
-          // 즉시 큐 격리 — DB 저장은 진행하되 status='draft' + auto_review_queue=true
-          console.warn(
-            `⚠️ 검수 차단 사유 (mustBlock) — 격리 큐로 진입: ${reviewFeedback.queueReason}`,
-          );
-          autoReviewQueue = true;
-          // contentJson.status 를 'draft' 로 강제
-          contentJson.status = 'draft';
-        } else if (reviewFeedback.overallDecision === 'revise') {
-          // Claude 수정 → 재발행 패턴 (기존 fact-fix 루프 활용)
-          console.error(
-            `❌ 검수 mustFix 항목 — 본문 수정 후 재발행 필요. (exit 3)\n` +
-              reviewFeedback.revisionGuide.slice(0, 800),
-          );
-          process.exit(3);
-        }
-        // pass → 진행
-      }
+      const citationVerdict = verifyCitations(verifierInput);
+      verdicts.push(citationVerdict);
+      console.log(
+        `🔗 citation 게이트: score ${citationVerdict.score} / mustFix ${citationVerdict.mustFix.length} / notes ${citationVerdict.notes.length}`,
+      );
     } catch (err) {
-      console.warn('⚠️ AI 다중 검수 예외:', err);
+      console.warn(`⚠️ citation 검증 실패: ${err instanceof Error ? err.message : err}`);
+    }
+
+    // AI 다중 검수 (Gemini) — NANOBANANA_API_KEY 있을 때만
+    if (process.env.NANOBANANA_API_KEY) {
+      console.log('🔍 AI 다중 검수 시작 (Stage 2 AEO + Stage 3 Fact-check + Stage 4 상담사 콘텐츠)...');
+      try {
+        const settled = await Promise.allSettled([
+          verifyAeoStructure(verifierInput),
+          verifyCounselorContent(verifierInput),
+          verifyFactCheck(verifierInput),
+        ]);
+
+        for (const r of settled) {
+          if (r.status === 'fulfilled') {
+            verdicts.push(r.value);
+            if (r.value.stage === 'fact_check') {
+              factCheckTopics = extractMastersConsulted(r.value);
+            }
+          } else {
+            console.warn(`⚠️ verifier 실패: ${r.reason?.message ?? r.reason}`);
+          }
+        }
+      } catch (err) {
+        console.warn('⚠️ AI 다중 검수 예외:', err);
+      }
+    } else {
+      console.log('⏭️ AI(Gemini) 검수 스킵 (NANOBANANA_API_KEY 미설정) — citation 게이트만 적용\n');
+    }
+
+    if (verdicts.length === 0) {
+      console.warn('⚠️ 검수 결과 없음 — 발행 진행');
+    } else {
+      reviewFeedback = buildReviewFeedback(verdicts);
+      (reviewFeedback as ReviewFeedbackV2 & { iterations: number }).iterations =
+        reviewIterations;
+
+      // 콘솔 출력
+      console.log(`📊 검수 결정: ${reviewFeedback.overallDecision}`);
+      for (const v of verdicts) {
+        console.log(`  - ${v.stage}: score ${v.score} / mustFix ${v.mustFix.length} / mustBlock ${v.mustBlock.length}`);
+      }
+      console.log('');
+
+      // 통합 review-feedback.json 저장 (v2 구조)
+      writeFileSync(
+        REVIEW_FEEDBACK_PATH,
+        JSON.stringify(reviewFeedback, null, 2),
+        'utf-8',
+      );
+      console.log(`💾 ${REVIEW_FEEDBACK_PATH} (v2)\n`);
+
+      if (reviewFeedback.overallDecision === 'queue') {
+        // 즉시 큐 격리 — DB 저장은 진행하되 status='draft' + auto_review_queue=true
+        console.warn(
+          `⚠️ 검수 차단 사유 (mustBlock) — 격리 큐로 진입: ${reviewFeedback.queueReason}`,
+        );
+        autoReviewQueue = true;
+        // contentJson.status 를 'draft' 로 강제
+        contentJson.status = 'draft';
+      } else if (reviewFeedback.overallDecision === 'revise') {
+        // Claude 수정 → 재발행 패턴 (기존 fact-fix 루프 활용)
+        console.error(
+          `❌ 검수 mustFix 항목 — 본문 수정 후 재발행 필요. (exit 3)\n` +
+            reviewFeedback.revisionGuide.slice(0, 800),
+        );
+        process.exit(3);
+      }
+      // pass → 진행
     }
   } else {
-    console.log('⏭️ AI 다중 검수 스킵 (skipReview 또는 NANOBANANA_API_KEY 미설정)\n');
+    console.log('⏭️ 검수 스킵 (skipReview)\n');
   }
 
   // ───────────────────────────────────────────────────────────────
@@ -311,12 +333,43 @@ async function main() {
     process.exit(1);
   }
 
-  // 저자 조회 (기본: mindthos-team)
+  // 저자 조회 (기본: mindthos)
   const { data: author } = await supabase
     .from('authors')
     .select('id')
     .eq('slug', contentJson.authorSlug || DEFAULT_AUTHOR_SLUG)
     .maybeSingle();
+
+  // ───────────────────────────────────────────────────────────────
+  // 슬러그 충돌 가드 (이미지 생성·CTA 매칭 전에 먼저)
+  //   - 기존 글과 슬러그 겹치면 Claude 가 본질 중복 여부 판정
+  //   - 본질 중복: exit 4 로 종료 → 셸이 "다음 토픽" 으로 처리
+  //   - 차별점 있음: 새 슬러그 부여 후 정상 진행
+  // ───────────────────────────────────────────────────────────────
+  const SLUG_DUP_EXIT = 4;
+  try {
+    const guard = await resolveSlugCollision(supabase, {
+      slug: content.slug,
+      title: content.title,
+      summary: content.summary,
+      excerpt: content.excerpt,
+      metaDescription: content.meta_description,
+      keywords: content.keywords,
+      content: content.content,
+    });
+    if (guard.action === 'skip') {
+      console.error(`⏭️ 슬러그 중복(내용 중복) — 발행 스킵: ${guard.reason}`);
+      process.exit(SLUG_DUP_EXIT);
+    }
+    if (guard.slug !== content.slug) {
+      console.log(`🔁 슬러그 변경: "${content.slug}" → "${guard.slug}"`);
+      content.slug = guard.slug;
+    }
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error(`⏭️ 슬러그 가드 예외 — 안전하게 스킵: ${msg}`);
+    process.exit(SLUG_DUP_EXIT);
+  }
 
   // ───────────────────────────────────────────────────────────────
   // Step 4: 이미지 생성 (Gemini)
@@ -351,21 +404,30 @@ async function main() {
     try {
       const visualKeywords = content.visual_keywords || [];
       const topicPrompt = visualKeywords.join(', ');
-      // 마음토스 브랜드 톤: 신뢰감 있는 미니멀, 따뜻한 그린(#44ce4b)·웜그레이
+      // 마음토스 브랜드 톤: 따뜻한 에디토리얼 플랫 일러스트 (그림체 통일이 핵심)
+      // 렌더링 기법·팔레트·구도를 명문화하고, 인포그래픽/아이소메트릭/플로우차트 등으로
+      // 새는 것을 네거티브로 차단한다. 인물은 선택이며, 등장 시 얼굴은 단순하게 묘사한다.
       // CRITICAL: 어떤 문자(한글/영문/숫자/기호)도 이미지에 들어가면 안 됨 — 깨짐 방지
       const stylePrompt =
-        'Minimal professional illustration with warm green (#44ce4b) and neutral cream tones, ' +
-        'clean editorial composition, soft shadows, calm and trustworthy mood suitable for a counselor-facing platform. ' +
-        'STRICT REQUIREMENTS — TEXT-FREE ILLUSTRATION ONLY: ' +
-        'absolutely NO text of any language, NO Korean characters (한글), NO English letters (A-Z, a-z), NO numbers (0-9), ' +
-        'NO words, NO captions, NO labels, NO logos, NO watermarks, NO typography, NO signs with writing, ' +
-        'NO UI mockups containing text, NO chat bubbles with letters, NO book covers with titles, NO documents with readable content. ' +
-        'The image must be a pure visual / symbolic / abstract illustration. ' +
-        'If a scene normally contains writing (e.g., signboards, notebooks, screens), depict them blank or with abstract patterns only. ' +
+        'Warm editorial flat illustration in a soft painterly digital style. ' +
+        'RENDERING TECHNIQUE: smooth soft gradients, matte texture, gentle ambient soft shadows, ' +
+        'no hard outlines, soft diffused warm lighting from a single warm light source, subtle depth and perspective. ' +
+        'Cohesive, calm, trustworthy magazine-illustration mood. ' +
+        'COLOR PALETTE (strict): warm cream and soft beige background, muted earthy tones — warm terracotta, soft peach, warm wood brown, and sage green; ' +
+        'the brand green (#44ce4b) used ONLY as a small accent, never the dominant color. ' +
+        'Low-to-medium saturation, warm and harmonious — never neon, never flat-vivid, never pale or washed-out. ' +
+        'COMPOSITION: a single calm focal scene or object, generous negative space, balanced and uncluttered. ' +
+        'People are optional; if shown, depict 1–2 stylized figures with minimal, simplified faces — ' +
+        'do not render detailed or highly expressive facial features; keep faces soft and understated. ' +
+        'This is an ILLUSTRATION — it is NOT a flat geometric infographic, NOT an isometric diagram, NOT a flowchart or step/process chart, ' +
+        'NOT an icon grid; NO connecting arrows, NO maps, NO charts or graphs, NO server/tech icon clusters, NO UI panels or app screens, NO busy diagrammatic layouts. ' +
+        'TEXT-FREE ILLUSTRATION ONLY: absolutely NO text of any language, NO Korean (한글), NO English letters (A-Z, a-z), NO numbers (0-9), ' +
+        'NO words, captions, labels, logos, watermarks, or typography. ' +
+        'If a scene would contain writing (signs, notebooks, screens), render them blank or with abstract patterns only. ' +
         'Zero written language anywhere in the image.';
       const fullPrompt =
-        `${stylePrompt} Topic (visual concepts only — do not render as text): ${topicPrompt}. ` +
-        'Render purely visual illustration with no text or letters of any kind anywhere in the image.';
+        `${stylePrompt} Scene to depict (visual concepts only — do NOT render any of these words as text): ${topicPrompt}. ` +
+        'Render purely as a warm illustration with no text or letters of any kind anywhere.';
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${process.env.NANOBANANA_API_KEY}`,

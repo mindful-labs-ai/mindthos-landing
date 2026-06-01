@@ -3,7 +3,12 @@
  * 참조: web/docs/aeo-geo-research/ai-review-workflow.md
  */
 
-export type VerifierStage = 'aeo_structure' | 'counselor_content' | 'fact_check';
+export type VerifierStage =
+  | 'aeo_structure'
+  | 'counselor_content'
+  | 'fact_check'
+  /** B3 — 결정적(AI 비의존) inline 출처 게이트. action-plan.md §B3 */
+  | 'citation_check';
 
 export interface VerifierVerdict {
   stage: VerifierStage;

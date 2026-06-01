@@ -848,6 +848,12 @@ except Exception:
       break
     elif [[ $publish_exit -eq 3 ]]; then
       log_warn "  사실 오류 미해결 (코드: 3) — 이 글 포기, 다음 시도"
+    elif [[ $publish_exit -eq 4 ]]; then
+      # 슬러그+내용 중복으로 Claude 가 스킵 판정 → 재시도 무의미, 다음 토픽으로
+      log_warn "  슬러그+내용 중복 스킵 (코드: 4) — 이 글 포기, 다음 토픽"
+      failed=$((failed + 1))
+      failed_keywords+=("$keyword")
+      break
     else
       log_warn "  발행 실패 (코드: $publish_exit)"
     fi
