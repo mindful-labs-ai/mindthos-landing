@@ -13,6 +13,9 @@ import {
   generateBreadcrumbSchema,
   generateFAQSchema,
   generatePersonSchema,
+  generateMedicalWebPageSchema,
+  isMentalHealthCategory,
+  inferMedicalConditions,
 } from '@/lib/seo/schema';
 import { processMarkdown } from '@/lib/markdown/processor';
 import { extractToc } from '@/lib/markdown/toc';
@@ -26,7 +29,7 @@ import { InlineCTA } from '@/components/blog/InlineCTA';
 import { BottomCTA } from '@/components/blog/BottomCTA';
 import { BlogVideoPlayer } from '@/components/blog/BlogVideoPlayer';
 import { BlogPageTracker } from '@/components/blog/BlogPageTracker';
-import { SITE_CONFIG } from '@/constants/site';
+import { SITE_CONFIG, DEFAULT_AUTHOR } from '@/constants/site';
 import type { Post, Reference } from '@/types/blog';
 import { formatDateKo } from '@/lib/utils';
 
@@ -117,7 +120,7 @@ export async function generateMetadata({
     og_image_url: post.og_image_url,
     published_at: post.published_at,
     updated_at: post.updated_at,
-    author: post.author ? { name: post.author.name } : null,
+    author: { name: post.author?.name ?? DEFAULT_AUTHOR.name },
     keywords: post.keywords,
   });
 }
@@ -129,6 +132,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   const html = await processMarkdown(post.content);
   const toc = extractToc(post.content);
+
+  /* 저자 — author_id 가 null 이거나 join 이 비어도 DEFAULT_AUTHOR 로 fallback.
+   * byline·Person/Article/MedicalWebPage 스키마 모두 이 값을 사용 → 항상 표기. */
+  const author = {
+    name: post.author?.name ?? DEFAULT_AUTHOR.name,
+    title: post.author?.title ?? DEFAULT_AUTHOR.title,
+    slug: post.author?.slug ?? DEFAULT_AUTHOR.slug,
+    bio: post.author?.bio ?? DEFAULT_AUTHOR.bio,
+    profileImageUrl: post.author?.profile_image_url ?? DEFAULT_AUTHOR.profileImageUrl,
+    specialties: post.author?.specialties ?? DEFAULT_AUTHOR.specialties,
+  };
 
   let program = post.counseling_program_id
     ? await getCounselingProgramById(post.counseling_program_id)
@@ -145,9 +159,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     published_at: post.published_at,
     updated_at: post.updated_at,
     thumbnail_url: post.thumbnail_url,
-    author: post.author
-      ? { name: post.author.name, slug: post.author.slug ?? null }
-      : null,
+    author: { name: author.name, slug: author.slug },
     url: articleUrl,
   });
   const breadcrumbSchema = generateBreadcrumbSchema([
@@ -172,6 +184,24 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (faqs.length > 0) {
     schemas.push(generateFAQSchema(faqs));
   }
+
+  /* B1 — 정신건강/임상 카테고리 글에 MedicalWebPage 동시 주입 (YMYL 인용 신호).
+   * DB 컬럼 없이 카테고리·저자·updated_at·키워드로 파생. (action-plan.md §B1) */
+  if (isMentalHealthCategory(post.category?.slug)) {
+    const conditions = inferMedicalConditions(
+      `${post.title} ${(post.keywords ?? []).join(' ')}`,
+    );
+    schemas.push(
+      generateMedicalWebPageSchema({
+        title: post.title,
+        url: articleUrl,
+        excerpt: post.excerpt,
+        conditions,
+        reviewer: { name: author.name, jobTitle: author.title },
+        lastReviewed: post.updated_at,
+      }),
+    );
+  }
   if (post.video_url) {
     schemas.push({
       '@context': 'https://schema.org',
@@ -183,20 +213,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       uploadDate: post.published_at ?? post.created_at,
     });
   }
-  if (post.author?.name) {
-    schemas.push(
-      generatePersonSchema({
-        name: post.author.name,
-        jobTitle: post.author.title,
-        description: post.author.bio,
-        image: post.author.profile_image_url,
-        specialties: post.author.specialties,
-        url: post.author.slug
-          ? `${SITE_CONFIG.url}/blog/author/${post.author.slug}`
-          : null,
-      }),
-    );
-  }
+  schemas.push(
+    generatePersonSchema({
+      name: author.name,
+      jobTitle: author.title,
+      description: author.bio,
+      image: author.profileImageUrl,
+      specialties: author.specialties,
+      url: author.slug ? `${SITE_CONFIG.url}/blog/author/${author.slug}` : null,
+    }),
+  );
 
   const readingTime =
     post.reading_time ?? Math.ceil((post.content?.length ?? 0) / 500);
@@ -209,7 +235,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <BlogPageTracker
         slug={post.slug}
         category={post.category?.slug ?? null}
-        author={post.author?.name ?? null}
+        author={author.name}
         publishedAt={post.published_at ?? null}
       />
 
@@ -241,13 +267,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </p>
           ) : null}
           <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-[var(--text-muted)]">
-            {post.author?.name ? (
-              <span className="font-medium text-[var(--text-secondary)]">
-                {post.author.name}
-                {post.author.title ? ` · ${post.author.title}` : ''}
-              </span>
-            ) : null}
-            {post.author?.name ? <span aria-hidden>·</span> : null}
+            <span className="font-medium text-[var(--text-secondary)]">
+              {author.name}
+              {/* 이름에 직함이 이미 포함되면 중복 표기 생략 (generic 라벨 대응) */}
+              {author.title && !author.name.includes(author.title)
+                ? ` · ${author.title}`
+                : ''}
+            </span>
+            <span aria-hidden>·</span>
             <time dateTime={post.published_at ?? undefined}>
               {formatDateKo(post.published_at)}
             </time>

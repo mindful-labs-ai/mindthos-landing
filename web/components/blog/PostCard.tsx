@@ -48,12 +48,9 @@ export function PostCard({ post }: PostCardProps) {
           </p>
         )}
 
-        {/* Bottom row */}
+        {/* Bottom row — 저자명은 카드에 표기하지 않음(목록 그리드 정렬 유지).
+            저자/임상 라벨은 글 상세 페이지 byline + 스키마에서만 노출. */}
         <div className="flex items-center gap-2 text-small text-[var(--text-muted)] mt-auto pt-2 border-t border-[var(--line-2)]">
-          {post.author?.name && (
-            <span className="font-medium text-[var(--text-secondary)]">{post.author.name}</span>
-          )}
-          {post.author?.name && <span aria-hidden="true">·</span>}
           <time dateTime={post.published_at ?? undefined}>{formatDateKo(post.published_at)}</time>
           <span aria-hidden="true">·</span>
           <span>약 {readingTime}분</span>

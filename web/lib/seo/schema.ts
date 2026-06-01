@@ -239,6 +239,122 @@ export function generateArticleSchema(post: {
   };
 }
 
+/**
+ * B1 — MedicalWebPage 스키마.
+ * 참조: web/docs/aeo-geo-research/action-plan.md §B1
+ *       web/docs/aeo-geo-research/11-ymyl-health-mental-health-aeo.md
+ *
+ * 정신건강은 YMYL 중에서도 진입장벽이 가장 높아, "검수된 의료 정보" 임을 명시적으로
+ * 선언하는 MedicalWebPage 스키마가 AI 인용(AI Overviews·Perplexity 등) 진입의 핵심 신호.
+ * BlogPosting 과 함께 동시 주입한다(중복 아님 — 서로 다른 의미 레이어).
+ *
+ * DB 컬럼 추가 없이 기존 데이터(카테고리·저자·updated_at·키워드)로 파생한다.
+ * (B2 가 generic 저자 라벨링으로 단순화한 방향과 일치)
+ */
+
+/** MedicalWebPage 를 주입하는 임상/정신건강 카테고리. 비즈니스 카테고리(career/operations/trends/tech-blog) 제외. */
+const MENTAL_HEALTH_CATEGORY_SLUGS = new Set([
+  'case-conceptualization',
+  'counseling-skills',
+  'training',
+  'self-care',
+]);
+
+export function isMentalHealthCategory(slug?: string | null): boolean {
+  return !!slug && MENTAL_HEALTH_CATEGORY_SLUGS.has(slug);
+}
+
+/**
+ * 제목·키워드에서 다루는 정신건강 질환(MedicalCondition)을 결정적으로 추론.
+ * 보수적 매핑 — 명확히 매칭될 때만 about 으로 선언(YMYL 정확성 우선). 최대 3개.
+ */
+const CONDITION_PATTERNS: { pattern: RegExp; name: string }[] = [
+  { pattern: /주요우울장애|우울증|우울/, name: '우울장애' },
+  { pattern: /공황장애|공황/, name: '공황장애' },
+  { pattern: /범불안|불안장애|불안/, name: '불안장애' },
+  { pattern: /ADHD|주의력\s*결핍|과잉행동/i, name: '주의력결핍 과잉행동장애(ADHD)' },
+  { pattern: /외상\s*후\s*스트레스|PTSD|트라우마|외상/i, name: '외상후 스트레스장애(PTSD)' },
+  { pattern: /강박장애|강박/, name: '강박장애' },
+  { pattern: /양극성|조울/, name: '양극성장애' },
+  { pattern: /조현병|정신증/, name: '조현병' },
+  { pattern: /섭식장애|거식|폭식/, name: '섭식장애' },
+  { pattern: /번아웃|소진증후군/, name: '번아웃 증후군' },
+  { pattern: /불면|수면장애/, name: '수면장애' },
+];
+
+export function inferMedicalConditions(text: string): string[] {
+  const found: string[] = [];
+  for (const { pattern, name } of CONDITION_PATTERNS) {
+    if (pattern.test(text) && !found.includes(name)) {
+      found.push(name);
+      if (found.length >= 3) break;
+    }
+  }
+  return found;
+}
+
+export function generateMedicalWebPageSchema(page: {
+  title: string;
+  url: string;
+  excerpt?: string | null;
+  /** 다루는 질환명 — inferMedicalConditions() 결과 */
+  conditions?: string[];
+  /** 검수 주체(저자) — generic "마음토스 임상 심리 전문가" */
+  reviewer?: { name: string; jobTitle?: string | null } | null;
+  /** 마지막 검수일 — 자동 발행 시스템에선 updated_at(AI 다중 검수 시점) */
+  lastReviewed?: string | null;
+}) {
+  const conditions = (page.conditions ?? []).filter(Boolean);
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'MedicalWebPage',
+    name: page.title,
+    url: page.url,
+    ...(page.excerpt ? { description: page.excerpt } : {}),
+    inLanguage: 'ko-KR',
+    // 독자: 상담사(전문가) + 검색 유입 일반 독자 — 둘 다 명시
+    audience: [
+      { '@type': 'MedicalAudience', audienceType: 'Clinician' },
+      { '@type': 'MedicalAudience', audienceType: 'Patient' },
+    ],
+    medicalAudience: [
+      { '@type': 'MedicalAudience', audienceType: 'Clinician' },
+      { '@type': 'MedicalAudience', audienceType: 'Patient' },
+    ],
+    specialty: 'Psychiatric',
+    ...(page.reviewer?.name
+      ? {
+          reviewedBy: {
+            '@type': 'Person',
+            name: page.reviewer.name,
+            ...(page.reviewer.jobTitle ? { jobTitle: page.reviewer.jobTitle } : {}),
+            affiliation: {
+              '@type': 'Organization',
+              '@id': `${SITE_CONFIG.url}/#organization`,
+              name: SITE_CONFIG.legalName,
+              url: SITE_CONFIG.url,
+            },
+          },
+          ...(page.lastReviewed ? { lastReviewed: page.lastReviewed } : {}),
+        }
+      : {}),
+    ...(conditions.length > 0
+      ? {
+          about: conditions.map((name) => ({
+            '@type': 'MedicalCondition',
+            name,
+          })),
+        }
+      : {}),
+    publisher: {
+      '@type': 'Organization',
+      '@id': `${SITE_CONFIG.url}/#organization`,
+      name: SITE_CONFIG.legalName,
+      url: SITE_CONFIG.url,
+    },
+  };
+}
+
 export function generateFAQSchema(faqs: { question: string; answer: string }[]) {
   return {
     '@context': 'https://schema.org',

@@ -72,3 +72,28 @@ export const REVALIDATION = {
 export const PAGINATION = {
   postsPerPage: 12,
 } as const;
+
+/**
+ * 블로그 저자 fallback — posts.author_id 가 null 이거나 join 이 비어도
+ * 화면 byline·Person/Article/MedicalWebPage 스키마에서 항상 이 값으로 표기.
+ * DB authors row(slug='mindthos') 와 동일 라벨로 통일. (action-plan.md §B2)
+ */
+export const DEFAULT_AUTHOR = {
+  slug: 'mindthos',
+  name: '마음토스 상담·임상 심리 전문가',
+  title: '상담·임상 심리 전문가',
+  bio: '마음토스 콘텐츠는 상담·임상 심리 가이드라인 기반 시스템으로 작성·검수됩니다. 한국임상심리학회·한국상담심리학회·한국상담학회 윤리강령, 정신건강복지법, DSM-5-TR, 보건복지부 자료를 master document 로 두고 다중 AI 검수를 거쳐 발행됩니다.',
+  profileImageUrl: null as string | null,
+  specialties: [
+    '우울',
+    '불안',
+    '공황',
+    'ADHD',
+    '외상',
+    '인지행동치료',
+    '상담 기록 및 축어록',
+    '사례개념화',
+    '슈퍼비전',
+    '상담사 자격 및 윤리',
+  ] as string[],
+} as const;
