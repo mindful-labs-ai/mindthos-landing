@@ -1,0 +1,16 @@
+# SEO Analysis 모듈 의존성
+#
+# Python 3.8 이상 필요 (Python 3.8+)
+#
+# 이 모듈은 Python 표준 라이브러리만 사용합니다:
+#   - re       : 정규식 (문장 분리, 마크다운 파싱)
+#   - json     : JSON 입출력
+#   - sys      : 시스템 종료 코드
+#   - argparse : CLI 인자 파싱
+#   - datetime : 타임스탬프 생성
+#
+# 외부 pip 패키지 없음 — 별도 설치 불필요.
+# konlpy, nltk, mecab 등 NLP 라이브러리를 사용하지 않습니다.
+#
+# 실행 방법:
+#   python analyze.py [content.json 경로] [--output 보고서.json]
