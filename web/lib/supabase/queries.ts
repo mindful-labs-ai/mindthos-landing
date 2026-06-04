@@ -174,6 +174,39 @@ export async function searchPosts(
   return { posts: (data ?? []) as Post[], total: count ?? 0 };
 }
 
+export interface ArchivePost {
+  slug: string;
+  title: string;
+  category: { name: string; slug: string } | null;
+}
+
+// PostgREST 기본 max-rows(보통 1000)에 걸려 조용히 잘리는 것을 방지하는 명시적 상한.
+// 글 수가 이 값을 넘으면 아카이브가 일부 글을 누락하므로 상향 필요.
+const ARCHIVE_MAX_POSTS = 5000;
+
+/**
+ * 아카이브 페이지용 — 발행된 전체 글을 최소 필드로 1회 조회.
+ * 모든 글에 크롤 가능한 평면 내부 링크를 제공해 롱테일 글의 색인 발견을 돕는다.
+ */
+export async function getAllPostsForArchive(): Promise<ArchivePost[]> {
+  const supabase = createStaticClient();
+  const { data, error } = await supabase
+    .from('posts')
+    .select('slug, title, category:categories(name, slug)')
+    .eq('status', 'published')
+    .order('published_at', { ascending: false })
+    .range(0, ARCHIVE_MAX_POSTS - 1);
+  if (error) throw error;
+
+  // category 조인은 to-one 이지만 PostgREST 타입은 배열로 추론 → 단일 객체로 정규화.
+  type Row = { slug: string; title: string; category: { name: string; slug: string } | { name: string; slug: string }[] | null };
+  return (data ?? []).map((raw) => {
+    const row = raw as Row;
+    const category = Array.isArray(row.category) ? (row.category[0] ?? null) : row.category;
+    return { slug: row.slug, title: row.title, category };
+  });
+}
+
 export async function getPostsTotalForCategory(
   categorySlug?: string
 ): Promise<number> {
