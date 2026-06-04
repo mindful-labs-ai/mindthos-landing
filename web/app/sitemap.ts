@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { SITE_CONFIG } from '@/constants/site';
+import { BLOG_PAGE_SIZE } from '@/constants/blog';
 
 const SITE_URL = SITE_CONFIG.url;
 
@@ -31,13 +32,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   let postPages: MetadataRoute.Sitemap = [];
+  const paginationPages: MetadataRoute.Sitemap = [];
 
   try {
     const { createStaticClient } = await import('@/lib/supabase/static');
     const supabase = createStaticClient();
-    const { data: posts } = await supabase
+    const { data: posts, count } = await supabase
       .from('posts')
-      .select('slug, updated_at')
+      .select('slug, updated_at', { count: 'exact' })
       .eq('status', 'published');
 
     if (posts) {
@@ -48,9 +50,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.6,
       }));
     }
+
+    // 경로형 페이지네이션(/blog/page/N, 2페이지~) — 롱테일 글 발견용 크롤 경로.
+    const total = count ?? posts?.length ?? 0;
+    const totalPages = Math.max(1, Math.ceil(total / BLOG_PAGE_SIZE));
+    for (let p = 2; p <= totalPages; p++) {
+      paginationPages.push({
+        url: `${SITE_URL}/blog/page/${p}`,
+        lastModified: STATIC_PAGE_DATES.blog,
+        changeFrequency: 'daily',
+        priority: 0.4,
+      });
+    }
   } catch {
     // Supabase not yet configured — return static pages only.
   }
 
-  return [...staticPages, ...postPages];
+  // 전체 글 아카이브 — 모든 글에 평면 내부 링크를 제공하는 색인 허브.
+  const archivePage: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/blog/archive`,
+      lastModified: STATIC_PAGE_DATES.blog,
+      changeFrequency: 'daily',
+      priority: 0.5,
+    },
+  ];
+
+  return [...staticPages, ...archivePage, ...paginationPages, ...postPages];
 }

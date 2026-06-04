@@ -7,6 +7,12 @@ interface PaginationProps {
   totalPages: number;
   basePath: string;
   searchParams?: Record<string, string>;
+  /**
+   * true 면 필터 없는 기본 목록 → 경로형 페이지네이션 사용.
+   * 1페이지는 basePath(`/blog`), 2페이지 이상은 `${basePath}/page/N`.
+   * (각 페이지가 self-canonical 색인 가능한 크롤 경로가 되어 롱테일 글 발견에 기여)
+   */
+  pathBased?: boolean;
 }
 
 const btnStyle: CSSProperties = {
@@ -47,10 +53,13 @@ const disabledStyle: CSSProperties = {
   cursor: 'not-allowed',
 };
 
-export function Pagination({ currentPage, totalPages, basePath, searchParams = {} }: PaginationProps) {
+export function Pagination({ currentPage, totalPages, basePath, searchParams = {}, pathBased = false }: PaginationProps) {
   if (totalPages <= 1) return null;
 
   function pageHref(page: number): string {
+    if (pathBased) {
+      return page <= 1 ? basePath : `${basePath}/page/${page}`;
+    }
     const params = new URLSearchParams({ ...searchParams, page: String(page) });
     return `${basePath}?${params.toString()}`;
   }

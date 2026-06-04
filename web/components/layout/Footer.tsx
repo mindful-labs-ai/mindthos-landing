@@ -89,6 +89,7 @@ export function Footer() {
               <li><a href={NOTION_GUIDE_URL} target="_blank" rel="noopener noreferrer">사용 가이드</a></li>
               <li><a href={KAKAO_INQUIRY_URL} target="_blank" rel="noopener noreferrer">문의</a></li>
               <li><Link href="/blog">블로그</Link></li>
+              <li><Link href="/blog/archive">블로그 전체 글</Link></li>
               <li><Link href="/education">교육 프로그램</Link></li>
             </FooterColumn>
 
