@@ -19,6 +19,53 @@ const STATIC_PAGE_DATES = {
   security: new Date('2026-05-07'),
 } as const;
 
+type VideoMeta = NonNullable<MetadataRoute.Sitemap[number]['videos']>[number];
+
+interface PostRow {
+  slug: string;
+  updated_at: string;
+  title: string;
+  excerpt: string | null;
+  summary: string | null;
+  published_at: string | null;
+  video_url: string | null;
+  video_provider: string | null;
+  thumbnail_url: string | null;
+}
+
+function extractYouTubeId(url: string): string | null {
+  const m = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/,
+  );
+  return m ? m[1] : null;
+}
+
+/**
+ * 동영상 글의 sitemap-video 확장 메타. 필수(title·thumbnail_loc·description·
+ * content_loc|player_loc)를 못 채우면 null 반환 → 해당 글은 동영상 메타 없이 URL 만 색인.
+ */
+function buildVideoMeta(post: PostRow): VideoMeta | null {
+  if (!post.video_url || !post.thumbnail_url) return null;
+
+  const description = (post.excerpt || post.summary || post.title || '').slice(0, 2048);
+  if (!description) return null;
+
+  const base: Omit<VideoMeta, 'content_loc' | 'player_loc'> = {
+    title: post.title.slice(0, 100),
+    thumbnail_loc: post.thumbnail_url,
+    description,
+    ...(post.published_at ? { publication_date: post.published_at } : {}),
+  };
+
+  if (post.video_provider === 'youtube') {
+    const id = extractYouTubeId(post.video_url);
+    if (!id) return null;
+    return { ...base, player_loc: `https://www.youtube-nocookie.com/embed/${id}` };
+  }
+  // 자체 호스팅 mp4 등 — 미디어 파일을 직접 가리킨다.
+  return { ...base, content_loc: post.video_url };
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: STATIC_PAGE_DATES.home, changeFrequency: 'weekly', priority: 1.0 },
@@ -39,16 +86,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const supabase = createStaticClient();
     const { data: posts, count } = await supabase
       .from('posts')
-      .select('slug, updated_at', { count: 'exact' })
+      .select(
+        'slug, updated_at, title, excerpt, summary, published_at, video_url, video_provider, thumbnail_url',
+        { count: 'exact' },
+      )
       .eq('status', 'published');
 
     if (posts) {
-      postPages = (posts as { slug: string; updated_at: string }[]).map((post) => ({
-        url: `${SITE_URL}/blog/${post.slug}`,
-        lastModified: new Date(post.updated_at),
-        changeFrequency: 'monthly' as const,
-        priority: 0.6,
-      }));
+      postPages = (posts as PostRow[]).map((post) => {
+        const video = buildVideoMeta(post);
+        return {
+          url: `${SITE_URL}/blog/${post.slug}`,
+          lastModified: new Date(post.updated_at),
+          changeFrequency: 'monthly' as const,
+          priority: 0.6,
+          // 동영상 글이면 sitemap-video 확장 메타 첨부 (Next 16 네이티브 videos 필드).
+          ...(video ? { videos: [video] } : {}),
+        };
+      });
     }
 
     // 경로형 페이지네이션(/blog/page/N, 2페이지~) — 롱테일 글 발견용 크롤 경로.
