@@ -6,6 +6,10 @@ import { getPostsTotalForCategory } from '@/lib/supabase/queries';
 import type { Metadata } from 'next';
 
 export const revalidate = 3600;
+// 빌드 시 생성된 페이지(2~totalPages)만 유효 — 범위 초과/비정상 page 세그먼트는
+// 라우팅 레이어에서 진짜 404 처리(soft 404 방지). 새 글로 마지막 페이지가 늘어나면
+// 다음 배포 시 generateStaticParams 가 재실행되어 반영된다(최신 글은 page 1 이라 영향 없음).
+export const dynamicParams = false;
 
 interface BlogPagePaginatedProps {
   params: Promise<{ page: string }>;
