@@ -33,6 +33,20 @@ interface PostRow {
   thumbnail_url: string | null;
 }
 
+/**
+ * XML 특수문자 이스케이프. Next 16 의 sitemap 직렬화는 텍스트를 이스케이프 없이
+ * 그대로 보간하므로(<loc>/<video:title>/<video:description> 모두), 본문에서 온
+ * `&`(예: "Westra & Norouzian") 같은 문자가 그대로 들어가면 XML 파싱이 깨진다.
+ */
+function xmlEscape(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 function extractYouTubeId(url: string): string | null {
   const m = url.match(
     /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/,
@@ -51,9 +65,9 @@ function buildVideoMeta(post: PostRow): VideoMeta | null {
   if (!description) return null;
 
   const base: Omit<VideoMeta, 'content_loc' | 'player_loc'> = {
-    title: post.title.slice(0, 100),
+    title: xmlEscape(post.title.slice(0, 100)),
     thumbnail_loc: post.thumbnail_url,
-    description,
+    description: xmlEscape(description),
     ...(post.published_at ? { publication_date: post.published_at } : {}),
   };
 
