@@ -688,51 +688,85 @@ export function FeatureTabsSection() {
             <div className="pf-titlebar">
               <span className="pf-dots"><span></span><span></span><span></span></span>
               <span className="pf-app">마음토스 · 심리검사 해석</span>
-              <span className="pf-status"><span className="pulse"></span>준비 중</span>
+              <span className="pf-status"><span className="pulse"></span>검사 통합 해석</span>
             </div>
-            
-            
-            <div className="pf-body psych-test-mock-shell">
-              <div className="psych-test-placeholder">
-                <div className="psych-test-skeleton-row" aria-hidden="true">
-                  <div className="psych-test-skeleton-card">
-                    <span className="psych-test-skeleton-icon">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M14 3 H6 A1 1 0 0 0 5 4 V20 A1 1 0 0 0 6 21 H18 A1 1 0 0 0 19 20 V8 Z"/>
-                        <path d="M14 3 V8 H19"/>
-                        <line x1="8" y1="13" x2="16" y2="13"/>
-                        <line x1="8" y1="16" x2="14" y2="16"/>
-                      </svg>
-                    </span>
-                    <span className="psych-test-skeleton-label">검사 자료</span>
-                  </div>
-                  <div className="psych-test-skeleton-card">
-                    <span className="psych-test-skeleton-icon">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M4 5 H20 V17 H13 L9 21 V17 H4 Z"/>
-                      </svg>
-                    </span>
-                    <span className="psych-test-skeleton-label">면담 기록</span>
-                  </div>
-                  <div className="psych-test-skeleton-card">
-                    <span className="psych-test-skeleton-icon">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="4" y="3" width="16" height="18" rx="1.5"/>
-                        <line x1="8" y1="9" x2="16" y2="9"/>
-                        <line x1="8" y1="13" x2="16" y2="13"/>
-                        <line x1="8" y1="17" x2="13" y2="17"/>
-                      </svg>
-                    </span>
-                    <span className="psych-test-skeleton-label">해석 초안</span>
+
+            <div className="pf-body psy-chat-shell">
+              {/* 내담자 헤더 */}
+              <div className="psy-client">
+                <div className="psy-client-id">
+                  <span className="psy-client-avatar">홍</span>
+                  <div className="psy-client-meta">
+                    <span className="psy-client-name">홍길동</span>
+                    <span className="psy-client-sub">남성 · 42세 · 8회기 상담 기록 · 최근 검사일 2026-06-01</span>
                   </div>
                 </div>
-                <div className="psych-test-empty-state">
-                  <span className="psych-test-empty-title">심리검사 해석 기능 준비 중</span>
-                  <p className="psych-test-empty-sub">검사 자료와 면담 기록을 함께 검토할 수 있는 보조 도구를 준비하고 있습니다.</p>
+                <span className="psy-client-badge">
+                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 1.5 H3.5 A1 1 0 0 0 2.5 2.5 V11.5 A1 1 0 0 0 3.5 12.5 H10.5 A1 1 0 0 0 11.5 11.5 V5 Z"/>
+                    <path d="M8 1.5 V5 H11.5"/>
+                  </svg>
+                  결과지 등록됨
+                </span>
+              </div>
+
+              {/* 상담 키워드 */}
+              <div className="psy-keywords">
+                <span className="psy-keywords-lbl">상담 키워드</span>
+                <span className="psy-kw">#대인관계갈등</span>
+                <span className="psy-kw">#공허감</span>
+                <span className="psy-kw">#우울</span>
+              </div>
+
+              {/* 대화 스레드 */}
+              <div className="psy-thread">
+                <div className="psy-msg-user">
+                  <p className="psy-bubble">주요 상승 척도는 무엇이고, 어떻게 해석되나요?</p>
+                </div>
+
+                <div className="psy-msg-ai">
+                  <p className="psy-ai-text">현재 내담자의 MMPI-2 결과에서 임상적으로 유의미하게 상승한 척도는 다음과 같습니다.</p>
+                  <ul className="psy-scale-list">
+                    <li><strong>Scale 2 (우울, D) = T74</strong> — 주된 상승. 무력감·자기비난·낮은 에너지 수준과 관련됩니다.</li>
+                    <li><strong>Scale 4 (반사회성, Pd) = T71</strong> — 권위·규범과의 갈등보다는 정서적 단절, 가족 내 불화 경험과 관련된 상승으로 해석 여지가 높습니다.</li>
+                    <li><strong>Scale 7 (강박, Pt) = T69</strong> — 경계선 상승. 불안·반추·자기의심이 함께 나타납니다.</li>
+                  </ul>
+                  <p className="psy-ai-text">특히 D와 Pd가 함께 상승한 2-4/4-2 코드타입은, 우울감과 충동적·행동화 경향이 교차하며 나타나는 특징적 패턴입니다. 내담자가 보고한 ‘반복되는 대인관계 갈등’과 ‘공허감’이라는 주호소와 일관됩니다.</p>
+
+                  <div className="psy-ai-actions">
+                    <span className="psy-ai-act">
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><rect x="4.2" y="4.2" width="7" height="8" rx="1.3"/><path d="M2.5 9 V2.8 A1.3 1.3 0 0 1 3.8 1.5 H8.5"/></svg>
+                    </span>
+                    <span className="psy-ai-act is-active">
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.2 6.6 V12 H2.6 A0.6 0.6 0 0 1 2 11.4 V7.2 A0.6 0.6 0 0 1 2.6 6.6 Z"/><path d="M4.2 6.6 L6.7 1.7 A0.3 0.3 0 0 1 7.2 1.9 V5 H10.6 A1 1 0 0 1 11.55 6.3 L10.6 11 A1 1 0 0 1 9.6 12 H4.2"/></svg>
+                    </span>
+                    <span className="psy-ai-act">
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.8 7.4 V2 H11.4 A0.6 0.6 0 0 1 12 2.6 V6.8 A0.6 0.6 0 0 1 11.4 7.4 Z"/><path d="M9.8 7.4 L7.3 12.3 A0.3 0.3 0 0 1 6.8 12.1 V9 H3.4 A1 1 0 0 1 2.45 7.7 L3.4 3 A1 1 0 0 1 4.4 2 H9.8"/></svg>
+                    </span>
+                    <span className="psy-ai-act">
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M11.6 4.4 A5 5 0 1 0 12.1 7.2"/><path d="M11.9 1.6 V4.4 H9.1"/></svg>
+                    </span>
+                  </div>
+
+                  <span className="psy-ai-logo">
+                    <svg viewBox="0 0 125 125" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.2688 105.46C17.2079 105.46 17.1558 105.46 17.095 105.46C11.8723 105.364 7.71853 101.046 7.81412 95.8128L8.76132 44.1022C8.79608 29.1698 18.3203 19.5312 33.0323 19.5312C42.4609 19.5312 48.2137 23.5451 51.3768 26.906C56.5213 32.3653 58.1289 39.4701 57.929 44.4244V81.159C57.8595 82.3257 58.2332 84.4415 59.2412 85.5124C59.4758 85.7562 60.1884 86.5137 62.6564 86.5137C64.0467 86.5137 68.5655 86.0697 68.9566 80.3928V63.8583C68.9218 61.2027 69.3476 52.6176 75.8738 45.9481C78.9066 42.8397 84.3551 39.1393 93.0712 39.1393C101.787 39.1393 107.236 42.8397 110.269 45.9481C116.795 52.6176 117.221 61.194 117.186 63.8583V80.6714C117.186 85.9043 112.954 90.1445 107.731 90.1445C102.508 90.1445 98.2764 85.9043 98.2764 80.6714V63.5797C98.3025 62.4303 97.8506 60.3146 96.7644 59.2088C96.495 58.9302 95.6782 58.0943 93.0799 58.0943C90.4816 58.0943 89.6647 58.9302 89.3953 59.2088C88.3091 60.3146 87.8572 62.4303 87.8833 63.5797V63.7799L87.8746 81.159C87.2489 93.2355 78.3939 105.46 62.6737 105.46C53.923 105.46 48.5352 101.707 45.5459 98.5641C39.2196 91.8859 38.9241 83.3531 39.0284 80.4711L39.0458 43.6495C39.0718 43.1009 38.7764 41.1158 37.6293 39.9055C37.2991 39.5572 36.2824 38.4863 33.041 38.4863C30.2863 38.4863 27.6793 38.4863 27.6793 44.2067V44.3809L26.7321 96.1697C26.6365 101.342 22.4219 105.469 17.2775 105.469L17.2688 105.46Z" fill="var(--brand)"/></svg>
+                  </span>
                 </div>
               </div>
+
+              {/* 입력창 */}
+              <div className="psy-input">
+                <span className="psy-input-shield">
+                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 1.6 L11.4 3.1 V7 C11.4 9.6 9.4 11.5 7 12.4 C4.6 11.5 2.6 9.6 2.6 7 V3.1 Z"/></svg>
+                </span>
+                <span className="psy-input-ph">마음토스에게 질문해보세요</span>
+                <span className="psy-input-send">
+                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7 L12 2.2 L8.4 12 L7 8 Z"/></svg>
+                </span>
+              </div>
+
+              <p className="psy-disclaimer">마음토스가 제공하는 해석은 참고용입니다. 최종 해석은 자격을 갖춘 임상가가 수행해야 합니다.</p>
             </div>
-            
         </div>
       </div>
     </div>

@@ -6205,90 +6205,283 @@
     word-break: keep-all;
   }
 
-  /* === 사수 v26 (2026-04-29): 심리검사 해석 — 정식 출시 전 placeholder 빈 상태 (mock 교체용 구조) ===
-     실제 기능 출시 후 교체 지점:
-       - .psych-test-placeholder 통째로 교체
-       - feat-copy 톤 다시 단정형으로 복귀 가능 */
-  .pf-body.psych-test-mock-shell {
+  /* === 사수 v27 (2026-06-04): 심리검사 해석 — 정식 출시. 검사 결과 + 면담 맥락 통합 챗 mock ===
+     pf-body 를 세로 플렉스(헤더 → 키워드 → 스레드 → 입력창 → 고지)로 재구성.
+     데스크톱 고정 높이(620px) 안에서 스레드만 flex 로 늘어나고 하단이 자연 페이드된다. */
+  .pf-body.psy-chat-shell {
     grid-template-columns: 1fr;
-    padding: 18px 20px 18px;
-    gap: 0;
-  }
-  .psych-test-placeholder {
-    border: 1.5px dashed var(--line-strong);
-    border-radius: 12px;
-    background: var(--bg-2);
-    padding: 28px 24px 24px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 18px;
-    min-height: 230px;
+    gap: 12px;
+    padding: 16px 18px 14px;
+    height: 100%;
+    min-height: 0;
   }
-  .psych-test-empty-state {
+
+  /* 내담자 헤더 */
+  .psy-client {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 8px;
-    text-align: center;
-    max-width: 360px;
+    gap: 10px;
+    flex-shrink: 0;
   }
-  .psych-test-empty-title {
+  .psy-client-id {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+  .psy-client-avatar {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--brand-pale);
+    border: 1px solid var(--brand-tint);
+    color: var(--brand-hover);
     font-size: 13px;
     font-weight: 700;
-    color: var(--ink-2);
-    letter-spacing: -0.01em;
-  }
-  .psych-test-empty-sub {
-    font-size: 11.5px;
-    line-height: 1.55;
-    color: var(--ink-3);
-    letter-spacing: -0.005em;
-    word-break: keep-all;
-    margin: 0;
-  }
-  .psych-test-skeleton-row {
-    display: flex;
-    gap: 14px;
-    align-items: stretch;
-    width: 100%;
-    max-width: 460px;
-    opacity: 0.55;
-  }
-  .psych-test-skeleton-card {
-    flex: 1;
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 14px 12px 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .psych-test-skeleton-icon {
-    color: var(--ink-4);
-    width: 22px;
-    height: 22px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    letter-spacing: -0.01em;
   }
-  .psych-test-skeleton-icon svg { width: 100%; height: 100%; display: block; }
-  .psych-test-skeleton-label {
+  .psy-client-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+  }
+  .psy-client-name {
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink-strong);
+    letter-spacing: -0.012em;
+    line-height: 1.2;
+  }
+  .psy-client-sub {
+    font-size: 10.5px;
+    color: var(--ink-3);
+    letter-spacing: -0.006em;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .psy-client-badge {
+    margin-left: auto;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px 4px;
+    background: var(--white);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-pill);
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--ink-2);
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+  }
+  .psy-client-badge svg { width: 12px; height: 12px; color: var(--ink-3); }
+
+  /* 상담 키워드 */
+  .psy-keywords {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    padding: 9px 0 11px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .psy-keywords-lbl {
     font-family: var(--font-mono);
     font-size: 9.5px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--ink-3);
     font-weight: 600;
+    margin-right: 2px;
   }
+  .psy-kw {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--brand-hover);
+    letter-spacing: -0.004em;
+  }
+
+  /* 대화 스레드 — 남는 공간 채우고 하단 자연 페이드 */
+  .psy-thread {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 2px;
+  }
+  .psy-msg-user {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .psy-bubble {
+    max-width: 80%;
+    margin: 0;
+    padding: 9px 13px;
+    background: var(--bg-3);
+    border-radius: 14px 14px 3px 14px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--ink-2);
+    letter-spacing: -0.006em;
+    word-break: keep-all;
+  }
+  .psy-msg-ai {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .psy-ai-text {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--ink-2);
+    letter-spacing: -0.006em;
+    word-break: keep-all;
+  }
+  .psy-scale-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .psy-scale-list li {
+    position: relative;
+    padding-left: 14px;
+    font-size: 11.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    letter-spacing: -0.006em;
+    word-break: keep-all;
+  }
+  .psy-scale-list li::before {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 7px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--brand);
+  }
+  .psy-scale-list strong {
+    color: var(--ink-strong);
+    font-weight: 700;
+  }
+  .psy-ai-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 1px;
+  }
+  .psy-ai-act {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-4);
+    border: 1px solid transparent;
+  }
+  .psy-ai-act svg { width: 13px; height: 13px; }
+  .psy-ai-act.is-active {
+    color: var(--brand-hover);
+    background: var(--brand-pale);
+    border-color: var(--brand-tint);
+  }
+  .psy-ai-logo {
+    display: inline-flex;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+  }
+  .psy-ai-logo svg { width: 100%; height: 100%; display: block; }
+
+  /* 입력창 */
+  .psy-input {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 10px 9px 12px;
+    background: var(--white);
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    box-shadow: 0 1px 0 rgba(15, 23, 42, 0.02);
+  }
+  .psy-input-shield { color: var(--ink-4); display: inline-flex; flex-shrink: 0; }
+  .psy-input-shield svg { width: 14px; height: 14px; }
+  .psy-input-ph {
+    flex: 1;
+    font-size: 11.5px;
+    color: var(--ink-4);
+    letter-spacing: -0.006em;
+  }
+  .psy-input-send {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    color: var(--ink-3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .psy-input-send svg { width: 13px; height: 13px; }
+
+  .psy-disclaimer {
+    flex-shrink: 0;
+    margin: 0;
+    text-align: center;
+    font-size: 10px;
+    line-height: 1.45;
+    color: var(--ink-4);
+    letter-spacing: -0.004em;
+    word-break: keep-all;
+  }
+
+  /* 데스크톱 고정 높이에서만 스레드 하단 페이드 (모바일은 전체 노출) */
+  @media (min-width: 881px) {
+    .psy-thread {
+      -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 26px), transparent 100%);
+              mask-image: linear-gradient(180deg, #000 calc(100% - 26px), transparent 100%);
+    }
+  }
+
+  /* 진입 시 스레드 요소 순차 등장 */
+  .feat-panel[data-panel="psy"][data-active="true"] .psy-msg-user,
+  .feat-panel[data-panel="psy"][data-active="true"] .psy-msg-ai {
+    animation: feat-fade 0.5s ease both;
+  }
+  .feat-panel[data-panel="psy"][data-active="true"] .psy-msg-user { animation-delay: 120ms; }
+  .feat-panel[data-panel="psy"][data-active="true"] .psy-msg-ai { animation-delay: 360ms; }
+  @media (prefers-reduced-motion: reduce) {
+    .feat-panel[data-panel="psy"][data-active="true"] .psy-msg-user,
+    .feat-panel[data-panel="psy"][data-active="true"] .psy-msg-ai { animation: none; }
+  }
+
   @media (max-width: 720px) {
-    .pf-body.psych-test-mock-shell { padding: 18px 16px 20px; }
-    .psych-test-placeholder { padding: 24px 16px 22px; min-height: 220px; gap: 16px; }
-    .psych-test-skeleton-row { gap: 8px; }
-    .psych-test-skeleton-card { padding: 10px 8px 9px; }
+    .pf-body.psy-chat-shell { padding: 16px 14px 13px; gap: 11px; }
+    .psy-client-sub { font-size: 10px; white-space: normal; }
+    .psy-bubble { max-width: 88%; }
   }
 
   /* ============== §04 가계도 mock v8.1 — 단서 → AI 정리 → SVG 가계도 + 해석 (사수 v8.1 · 2026-04-28) ==============
