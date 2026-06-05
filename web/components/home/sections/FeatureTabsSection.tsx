@@ -15,7 +15,7 @@ export function FeatureTabsSection() {
         const featRoot = document.querySelector('.feat-tabs');
         const section = featRoot ? featRoot.closest('section') : null;
         const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const ROTATION_ORDER = ['note', 'cnc', 'geno', 'psy', 'trx'];
+        const ROTATION_ORDER = ['psy', 'trx', 'note', 'cnc', 'geno'];
         const ROTATE_MS = 5000;
         let autoTimer: ReturnType<typeof setInterval> | null = null;
         let hovering = false;
@@ -79,7 +79,7 @@ export function FeatureTabsSection() {
           cleanups.push(() => section.removeEventListener('mouseenter', enter));
           cleanups.push(() => section.removeEventListener('mouseleave', leave));
         }
-        activate('note');
+        activate('psy');
         if (section && 'IntersectionObserver' in window) {
           const io = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -125,8 +125,25 @@ export function FeatureTabsSection() {
     <div className="feat-tabs">
 
       <div className="feat-tablist" role="tablist" aria-label="핵심 기능 탭">
-        <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="trx">
+        <button type="button" className="feat-tab" role="tab" aria-selected="true" data-tab="psy">
           <span className="feat-tab-num">01</span>
+          <span className="feat-tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3.5" y="4" width="21" height="20" rx="2"/>
+              <line x1="3.5" y1="10" x2="24.5" y2="10"/>
+              <line x1="8" y1="20" x2="8" y2="16.5"/>
+              <line x1="12" y1="20" x2="12" y2="14"/>
+              <line x1="16" y1="20" x2="16" y2="15.5"/>
+              <line x1="20" y1="20" x2="20" y2="13"/>
+            </svg>
+          </span>
+          <span className="feat-tab-text">
+            <span className="feat-tab-label">심리검사 해석<span className="feat-tab-new">NEW</span></span>
+            <span className="feat-tab-sub">검사 통합</span>
+          </span>
+        </button>
+        <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="trx">
+          <span className="feat-tab-num">02</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <rect x="13" y="3" width="11" height="14" rx="1.5"/>
@@ -143,8 +160,8 @@ export function FeatureTabsSection() {
             <span className="feat-tab-sub">녹음 정리</span>
           </span>
         </button>
-        <button type="button" className="feat-tab" role="tab" aria-selected="true" data-tab="note">
-          <span className="feat-tab-num">02</span>
+        <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="note">
+          <span className="feat-tab-num">03</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <rect x="4" y="3.5" width="20" height="21" rx="2"/>
@@ -160,7 +177,7 @@ export function FeatureTabsSection() {
           </span>
         </button>
         <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="cnc">
-          <span className="feat-tab-num">03</span>
+          <span className="feat-tab-num">04</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <line x1="9" y1="9" x2="19" y2="9"/>
@@ -177,7 +194,7 @@ export function FeatureTabsSection() {
           </span>
         </button>
         <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="geno">
-          <span className="feat-tab-num">04</span>
+          <span className="feat-tab-num">05</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <rect x="11" y="3" width="6" height="6" rx="0.5"/>
@@ -194,30 +211,13 @@ export function FeatureTabsSection() {
             <span className="feat-tab-sub">관계 구조</span>
           </span>
         </button>
-        <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="psy">
-          <span className="feat-tab-num">05</span>
-          <span className="feat-tab-icon" aria-hidden="true">
-            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="3.5" y="4" width="21" height="20" rx="2"/>
-              <line x1="3.5" y1="10" x2="24.5" y2="10"/>
-              <line x1="8" y1="20" x2="8" y2="16.5"/>
-              <line x1="12" y1="20" x2="12" y2="14"/>
-              <line x1="16" y1="20" x2="16" y2="15.5"/>
-              <line x1="20" y1="20" x2="20" y2="13"/>
-            </svg>
-          </span>
-          <span className="feat-tab-text">
-            <span className="feat-tab-label">심리검사 해석<span className="feat-tab-new">NEW</span></span>
-            <span className="feat-tab-sub">검사 통합</span>
-          </span>
-        </button>
       </div>
 
       
       
       <div className="feat-panel" role="tabpanel" data-panel="trx" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">01</span>
+          <span className="feat-acc-num">02</span>
           <span className="feat-acc-label">축어록</span>
           <span className="feat-acc-icon">+</span>
         </button>
@@ -353,11 +353,11 @@ export function FeatureTabsSection() {
       </div>
 
       
-      <div className="feat-panel" role="tabpanel" data-panel="note" data-active="true">
-        <button type="button" className="feat-acc-trigger" aria-expanded="true">
-          <span className="feat-acc-num">02</span>
+      <div className="feat-panel" role="tabpanel" data-panel="note" data-active="false">
+        <button type="button" className="feat-acc-trigger" aria-expanded="false">
+          <span className="feat-acc-num">03</span>
           <span className="feat-acc-label">상담노트 · 20+ 템플릿</span>
-          <span className="feat-acc-icon">−</span>
+          <span className="feat-acc-icon">+</span>
         </button>
         <div className="feat-acc-body">
           <div className="feat-copy">
@@ -502,7 +502,7 @@ export function FeatureTabsSection() {
       
       <div className="feat-panel" role="tabpanel" data-panel="cnc" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">03</span>
+          <span className="feat-acc-num">04</span>
           <span className="feat-acc-label">사례개념화 + AI 피드백</span>
           <span className="feat-acc-icon">+</span>
         </button>
@@ -589,7 +589,7 @@ export function FeatureTabsSection() {
       
       <div className="feat-panel" role="tabpanel" data-panel="geno" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">04</span>
+          <span className="feat-acc-num">05</span>
           <span className="feat-acc-label">가계도</span>
           <span className="feat-acc-icon">+</span>
         </button>
@@ -665,11 +665,11 @@ export function FeatureTabsSection() {
       </div>
 
       
-      <div className="feat-panel" role="tabpanel" data-panel="psy" data-active="false">
-        <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">05</span>
+      <div className="feat-panel" role="tabpanel" data-panel="psy" data-active="true">
+        <button type="button" className="feat-acc-trigger" aria-expanded="true">
+          <span className="feat-acc-num">01</span>
           <span className="feat-acc-label">심리검사 해석</span>
-          <span className="feat-acc-icon">+</span>
+          <span className="feat-acc-icon">−</span>
         </button>
         <div className="feat-acc-body">
           <div className="feat-copy">
@@ -713,25 +713,29 @@ export function FeatureTabsSection() {
               {/* 상담 키워드 */}
               <div className="psy-keywords">
                 <span className="psy-keywords-lbl">상담 키워드</span>
-                <span className="psy-kw">#대인관계갈등</span>
-                <span className="psy-kw">#공허감</span>
-                <span className="psy-kw">#우울</span>
+                <span className="psy-kw">#관계단절</span>
+                <span className="psy-kw">#방어적고립</span>
+                <span className="psy-kw">#소진</span>
               </div>
 
               {/* 대화 스레드 */}
               <div className="psy-thread">
                 <div className="psy-msg-user">
-                  <p className="psy-bubble">주요 상승 척도는 무엇이고, 어떻게 해석되나요?</p>
+                  <p className="psy-bubble">이번 다면적 인성검사·기질검사 결과를 회기 기록과 함께 해석해주세요.</p>
                 </div>
 
                 <div className="psy-msg-ai">
-                  <p className="psy-ai-text">현재 내담자의 MMPI-2 결과에서 임상적으로 유의미하게 상승한 척도는 다음과 같습니다.</p>
+                  <p className="psy-ai-text">검사 결과(다면적 인성검사·기질검사)와 회기 기록을 종합하면, 핵심은 ‘완벽주의적 통제’와 ‘방어적 고립’으로 모입니다.</p>
                   <ul className="psy-scale-list">
-                    <li><strong>Scale 2 (우울, D) = T74</strong> — 주된 상승. 무력감·자기비난·낮은 에너지 수준과 관련됩니다.</li>
-                    <li><strong>Scale 4 (반사회성, Pd) = T71</strong> — 권위·규범과의 갈등보다는 정서적 단절, 가족 내 불화 경험과 관련된 상승으로 해석 여지가 높습니다.</li>
-                    <li><strong>Scale 7 (강박, Pt) = T69</strong> — 경계선 상승. 불안·반추·자기의심이 함께 나타납니다.</li>
+                    <li><strong>위험회피·인내력 ↑</strong> — 잠재적 위험에 예민하고, 시작한 일은 끝까지 밀어붙이는 강박적 끈기. 스스로를 가혹하게 채찍질하며 버티는 양상입니다.</li>
+                    <li><strong>자율성·자기수용 ↓</strong> — 삶의 목적의식과 자기수용이 저하되어, 소진에 가까운 상태로 보입니다.</li>
+                    <li><strong>사회적 내향성·불신 ↑</strong> — 타인을 냉소적으로 바라보고 관계에서 스스로를 고립시키는 패턴이 두드러집니다.</li>
                   </ul>
-                  <p className="psy-ai-text">특히 D와 Pd가 함께 상승한 2-4/4-2 코드타입은, 우울감과 충동적·행동화 경향이 교차하며 나타나는 특징적 패턴입니다. 내담자가 보고한 ‘반복되는 대인관계 갈등’과 ‘공허감’이라는 주호소와 일관됩니다.</p>
+                  <p className="psy-ai-text">이 특성은 회기에서 호소한 ‘가족 내 정서적 교류 부재’·‘단절 패턴’과 일관됩니다. 높은 인내력과 극단적 독립성은 상처받지 않기 위해 선택한 ‘방어적 고립’의 결과로 해석할 여지가 높습니다.</p>
+                  <div className="psy-flag">
+                    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 1.8 L12.8 12 H1.2 Z"/><line x1="7" y1="5.6" x2="7" y2="8.6"/><line x1="7" y1="10.4" x2="7" y2="10.5"/></svg>
+                    <p><strong>위기 신호 검토 필요</strong> — 표면적 우울 지표는 정상 범위이나, 방어적 응답 경향과 위기 관련 문항 반응을 함께 고려할 때 다음 회기에서 추가 위험 평가와 안전 계획 점검이 권장됩니다.</p>
+                  </div>
 
                   <div className="psy-ai-actions">
                     <span className="psy-ai-act">

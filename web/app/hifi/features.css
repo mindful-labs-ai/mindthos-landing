@@ -6383,6 +6383,35 @@
     color: var(--ink-strong);
     font-weight: 700;
   }
+  /* 위기 신호 callout — terracotta(--alert) 톤의 절제된 강조 박스 */
+  .psy-flag {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 9px 11px;
+    background: rgba(231, 144, 109, 0.10);
+    border: 1px solid rgba(231, 144, 109, 0.32);
+    border-radius: 9px;
+  }
+  .psy-flag svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    margin-top: 1.5px;
+    color: #c2643f;
+  }
+  .psy-flag p {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    letter-spacing: -0.006em;
+    word-break: keep-all;
+  }
+  .psy-flag strong {
+    color: #b8542f;
+    font-weight: 700;
+  }
   .psy-ai-actions {
     display: flex;
     align-items: center;
