@@ -167,7 +167,7 @@ export function PricingSection() {
             </svg>
           </div>
           <span className="price-name">기관</span>
-          <p className="price-target">센터 · 병원 · 공공기관 · 대학</p>
+          <p className="price-target">센터 · 병원 · 공공기관 · 학교</p>
         </div>
         <div className="price-money">
           <div className="price-amt-custom">문의</div>
