@@ -21,10 +21,10 @@ const cspReportOnly = [
   "img-src 'self' data: blob: https://*.supabase.co https://cdn.prod.website-files.com https://www.google-analytics.com https://*.facebook.com https://i.ytimg.com",
   "media-src 'self' https://*.supabase.co",
   "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.facebook.com https://vitals.vercel-insights.com",
-  "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com",
+  "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://td.doubleclick.net",
   "frame-ancestors 'none'",
   "base-uri 'self'",
-  "form-action 'self' https://app.mindthos.com",
+  "form-action 'self' https://app.mindthos.com https://www.facebook.com",
   "object-src 'none'",
 ].join('; ');
 
