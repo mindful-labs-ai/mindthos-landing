@@ -152,7 +152,7 @@ export function MetricsSection() {
     <div className="metrics-strip" aria-label="마음토스 정량 지표">
       <div className="metrics-grid">
         <div className="metric-card">
-          <div className="metric-val" data-count="1400" data-comma="true">1,400<span className="unit">+</span></div>
+          <div className="metric-val" data-count="2000" data-comma="true">2,000<span className="unit">+</span></div>
           <div className="metric-label">함께 쓰는 상담사</div>
         </div>
 
@@ -167,7 +167,7 @@ export function MetricsSection() {
         </div>
 
         <div className="metric-card">
-          <div className="metric-val" data-count="90">90<span className="unit">%</span></div>
+          <div className="metric-val" data-count="90">90<span className="unit">%+</span></div>
           <div className="metric-label">마음토스 재구독</div>
         </div>
       </div>
