@@ -177,12 +177,19 @@ export default function RootLayout({
         ) : null}
         {naverWcsId ? (
           <>
-            <Script
-              src="//wcs.naver.net/wcslog.js"
-              strategy="afterInteractive"
-            />
-            <Script id="naver-wcs-init" strategy="afterInteractive">
-              {`
+            {/*
+              네이버 전환/PV 스크립트 — next/script 의 `<Script>` 대신 일반
+              `<script>` 태그 사용. next/script 는 `data-nscript` 속성을 붙이는데,
+              이 속성 때문에 wcslog.js 로드 시점과 공통 스크립트 실행 시점이 어긋나
+              네이버 검수에서 전환이 수집되지 않음(검수실패). 표준 스니펫과 동일하게
+              wcslog.js 를 먼저 동기 로드한 뒤 공통 스크립트가 순서대로 실행되도록
+              일반 script 태그로 배치한다. (custom001 전환은 CtaTracker 가 발사)
+            */}
+            {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+            <script src="//wcs.naver.net/wcslog.js" />
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
                 if (!window.wcs_add) window.wcs_add = {};
                 window.wcs_add["wa"] = "${naverWcsId}";
                 if (!window._nasa) window._nasa = {};
@@ -190,8 +197,9 @@ export default function RootLayout({
                   window.wcs.inflow("mindthos.com");
                   window.wcs_do();
                 }
-              `}
-            </Script>
+              `,
+              }}
+            />
           </>
         ) : null}
         {pixelId ? (
