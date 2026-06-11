@@ -66,9 +66,9 @@ export function Footer() {
                   className="text-[15.5px] font-medium leading-[1.7] text-[var(--ink)]"
                   style={{ wordBreak: 'keep-all' }}
                 >
-                  서울특별시 성동구 뚝섬로13길 38,
+                  서울특별시 종로구 종로 6,
                   <br />
-                  4층 (성수동)
+                  5/6층 S.빌리지 (서린동, 광화문우체국)
                 </dd>
               </div>
             </dl>
@@ -129,7 +129,7 @@ export function Footer() {
             <br />
             마인드풀랩스 주식회사(Mindful Labs Inc.) | 대표: 강호남
             <br />
-            서울특별시 성동구 뚝섬로13길 38, 4층 (성수동)
+            서울특별시 종로구 종로 6, 5/6층 S.빌리지 (서린동, 광화문우체국)
           </p>
         </div>
       </div>

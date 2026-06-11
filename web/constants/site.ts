@@ -26,10 +26,10 @@ export const SITE_CONFIG = {
   },
   /** Organization JSON-LD address — 사업장 정보 (site-map-v2 §4-3) */
   address: {
-    streetAddress: '성동구 뚝섬로13길 38, 4층',
-    addressLocality: '성수동',
+    streetAddress: '종로구 종로 6, 5/6층 S.빌리지',
+    addressLocality: '서린동',
     addressRegion: '서울',
-    postalCode: '04782',
+    postalCode: '03187',
     addressCountry: 'KR',
   },
   /** 운영 사이트 색 — design-tokens.md v1.2 */
