@@ -7,6 +7,7 @@ import type { NextConfig } from 'next';
  *  - GA4 (선택) → www.google-analytics.com / www.googletagmanager.com
  *  - Meta Pixel (선택) → connect.facebook.net / *.facebook.com
  *  - Supabase Storage 이미지 → *.supabase.co
+ *  - Cloudflare R2 블로그 동영상 → media.mindthos.com (Supabase blog-videos 에서 이관)
  *  - cdn.prod.website-files.com (랜딩에 일부 외부 이미지)
  *  - app.mindthos.com (외부 redirect 대상이지만 frame 은 아님)
  *  - vercel insights (선택) → vitals.vercel-insights.com
@@ -19,7 +20,7 @@ const cspReportOnly = [
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
   "img-src 'self' data: blob: https://*.supabase.co https://cdn.prod.website-files.com https://www.google-analytics.com https://*.facebook.com https://i.ytimg.com",
-  "media-src 'self' https://*.supabase.co",
+  "media-src 'self' https://*.supabase.co https://media.mindthos.com",
   "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.facebook.com https://vitals.vercel-insights.com",
   "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://td.doubleclick.net",
   "frame-ancestors 'none'",

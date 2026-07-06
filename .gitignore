@@ -34,6 +34,9 @@ scripts/publish-blog/seo-report.json
 scripts/publish-blog/review-feedback.json
 scripts/publish-blog/.data/
 
+# R2 video migration artifacts (slug→URL 매핑 / video_url 백업)
+scripts/.data/
+
 # Syncthing artifacts
 *.sync-conflict-*
 .stfolder/
