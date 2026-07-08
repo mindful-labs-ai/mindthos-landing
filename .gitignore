@@ -1,3 +1,15 @@
+# ============================================================
+# 이 저장소는 Vercel 배포 대상인 web/ 만 git 으로 추적한다.
+# docs / scripts / blog-seo-template / .claude / global / ecosystem.config.js 등
+# 배포와 무관한 파일은 로컬에만 두고 추적하지 않는다.
+# 아래 whitelist 로 최상위(web/, .gitignore 제외) 전체를 무시한다.
+# ============================================================
+/*
+!/.gitignore
+!/web/
+
+# ── 아래 규칙들은 web/ 내부에도 적용되는 세부 무시 항목 ──
+
 # Environment variables
 .env
 .env.local
