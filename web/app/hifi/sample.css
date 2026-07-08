@@ -1681,9 +1681,20 @@
   .step-slide[data-step="3"]:not([hidden]) .sm-result-row:nth-of-type(6) {
     animation: sm-result-row-rise 0.5s cubic-bezier(.2,.7,.2,1) 0.54s both;
   }
+  /* 축어록 라인 stagger — 대화가 한 줄씩 채워지는 느낌 */
+  .step-slide[data-step="3"]:not([hidden]) .sm-tx-line {
+    animation: sm-result-row-rise 0.45s cubic-bezier(.2,.7,.2,1) both;
+  }
+  .step-slide[data-step="3"]:not([hidden]) .sm-tx-line:nth-child(1) { animation-delay: 0.10s; }
+  .step-slide[data-step="3"]:not([hidden]) .sm-tx-line:nth-child(2) { animation-delay: 0.18s; }
+  .step-slide[data-step="3"]:not([hidden]) .sm-tx-line:nth-child(3) { animation-delay: 0.26s; }
+  .step-slide[data-step="3"]:not([hidden]) .sm-tx-line:nth-child(4) { animation-delay: 0.34s; }
+  .step-slide[data-step="3"]:not([hidden]) .sm-tx-line:nth-child(5) { animation-delay: 0.42s; }
+  .step-slide[data-step="3"]:not([hidden]) .sm-tx-line:nth-child(6) { animation-delay: 0.50s; }
   @media (prefers-reduced-motion: reduce) {
     .step-slide[data-step="3"]:not([hidden]) .sm-result-context,
-    .step-slide[data-step="3"]:not([hidden]) .sm-result-row {
+    .step-slide[data-step="3"]:not([hidden]) .sm-result-row,
+    .step-slide[data-step="3"]:not([hidden]) .sm-tx-line {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
@@ -2253,8 +2264,9 @@
 
   /* Step 3 — 결과 화면: 실제 상담노트 초안처럼 시원하게 펼쳐짐 */
   .sample-section .sm-mock-result {
-    max-width: 920px;
+    max-width: 1040px;
     margin: 0 auto;
+    width: 100%;
   }
   .sample-section .sm-result-body {
     padding: 0 4px;
@@ -2271,7 +2283,13 @@
   .sample-section .step-slide:not([hidden]) {
     height: 100%;
   }
+  /* step-viewport(position:relative, 520px 고정)를 컨테이닝 블록 삼아 슬라이드를 절대 배치.
+     height:100% 는 flex 아이템(step-viewport, flex-basis:0%)의 percentage 높이가 해석되지 않아
+     콘텐츠 높이(≈581px)로 커지고, 그만큼 CTA 가 overflow:hidden 에 잘렸음.
+     inset:0 으로 슬라이드를 520px 에 확정 → sm-mock-result(flex:1)가 축소되며 CTA 는 하단 고정. */
   .sample-section .step-slide[data-step="3"]:not([hidden]) {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -2284,16 +2302,104 @@
     flex-direction: column;
     overflow: hidden;
   }
-  .sample-section .step-slide[data-step="3"] .sm-mock-result .sm-result-body {
+  /* Step 3 — 좌: 축어록(전사 대화) / 우: 상담노트(AI 정리) 2단 레이아웃.
+     가운데 → 화살표로 "대화 → 상담노트" 변환을 시각적으로 전달. */
+  .sample-section .step-slide[data-step="3"] .sm-result-split {
     flex: 1 1 auto;
     min-height: 0;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: 1fr 26px 1fr;
+    align-items: stretch;
+    gap: 4px;
   }
-  .sample-section .step-slide[data-step="3"] .sm-mock-result .sm-result-body.sm-result-body-fade {
-    max-height: none;
+  .sample-section .sm-col {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 14px;
+    padding: 12px 14px 2px;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 10px 26px -20px rgba(15, 23, 42, 0.3);
+  }
+  .sample-section .sm-col-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    flex-shrink: 0;
+    padding-bottom: 9px;
+    margin-bottom: 9px;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  }
+  .sample-section .sm-col-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink-strong);
+  }
+  .sample-section .sm-col-note .sm-col-title { color: var(--brand-hover); }
+  .sample-section .sm-col-sub {
+    font-family: var(--font-mono, monospace);
+    font-size: 10px;
+    letter-spacing: 0.03em;
+    color: rgba(15, 23, 42, 0.42);
+    text-transform: uppercase;
+  }
+  .sample-section .sm-col-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
     overflow: hidden;
-    -webkit-mask-image: linear-gradient(to bottom, #000 66%, rgba(0,0,0,0.4) 90%, transparent 100%);
-            mask-image: linear-gradient(to bottom, #000 66%, rgba(0,0,0,0.4) 90%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-right: 2px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 74%, rgba(0,0,0,0.35) 92%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 74%, rgba(0,0,0,0.35) 92%, transparent 100%);
+  }
+  /* 가운데 변환 화살표 */
+  .sample-section .sm-col-arrow {
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--brand);
+  }
+  /* 축어록 대화 라인 — 상담자/내담자 톤 구분 */
+  .sample-section .sm-tx-line {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: rgba(15, 23, 42, 0.028);
+  }
+  .sample-section .sm-tx-counselor {
+    background: var(--brand-pale);
+    border: 1px solid rgba(22, 138, 53, 0.16);
+  }
+  .sample-section .sm-tx-speaker {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: rgba(15, 23, 42, 0.5);
+  }
+  .sample-section .sm-tx-counselor .sm-tx-speaker { color: var(--brand-hover); }
+  .sample-section .sm-tx-text {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-2);
+    letter-spacing: -0.005em;
+    word-break: keep-all;
+  }
+  /* 노트 컬럼 안의 row 는 카드 그림자 제거 (컬럼 자체가 패널) */
+  .sample-section .sm-col-note .sm-result-row {
+    box-shadow: none;
+    border-radius: 9px;
   }
   /* Step 3 내부 카드 padding/gap 축소 — 패널에 더 많은 항목 깔끔하게 들어가도록 */
   .sample-section .step-slide[data-step="3"] .sm-result-row {
@@ -2370,8 +2476,11 @@
       min-height: 0;
       padding: 4px 2px 8px; /* mask edge 와 콘텐츠 사이 약간의 호흡 */
     }
-    /* Step 3: PC 의 flex-column + mask 패턴은 모바일에선 풀고 — viewport 자체가 스크롤 컨테이너 */
+    /* Step 3: PC 의 flex-column + mask 패턴은 모바일에선 풀고 — viewport 자체가 스크롤 컨테이너.
+       PC 에서 준 position:absolute/inset 을 되돌려 자연 흐름 + viewport 스크롤로 복귀. */
     .sample-section .step-slide[data-step="3"]:not([hidden]) {
+      position: static;
+      inset: auto;
       display: flex;
       flex-direction: column;
       height: auto;
@@ -2381,8 +2490,16 @@
       overflow: visible;
       flex: 0 0 auto;
     }
-    .sample-section .step-slide[data-step="3"] .sm-mock-result .sm-result-body.sm-result-body-fade {
-      max-height: none;
+    /* 모바일: 2단 → 세로 스택, viewport 자체가 스크롤하므로 컬럼 페이드/클립 해제 */
+    .sample-section .step-slide[data-step="3"] .sm-result-split {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .sample-section .step-slide[data-step="3"] .sm-col-arrow {
+      transform: rotate(90deg);
+    }
+    .sample-section .step-slide[data-step="3"] .sm-col-scroll {
       overflow: visible;
       -webkit-mask-image: none;
               mask-image: none;

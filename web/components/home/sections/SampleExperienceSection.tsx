@@ -3,11 +3,20 @@
 import { useEffect } from 'react';
 
 type Row = { label: string; type: string; value?: string };
-type CaseEntry = { name: string; rows: Row[] };
+type TxTurn = { speaker: string; role: 'counselor' | 'client'; text: string };
+type CaseEntry = { name: string; transcript: TxTurn[]; rows: Row[] };
 
 const CASE_DATA: Record<string, CaseEntry> = {
   '01': {
     name: '불안·우울 — 20대 직장인, 자기비난',
+    transcript: [
+      { speaker: '내담자', role: 'client', text: '이번 주에도 회의만 끝나면 "내가 또 망쳤구나" 하는 생각이 자동으로 떠올랐어요.' },
+      { speaker: '상담자', role: 'counselor', text: '회의 직후에 그 생각이 먼저 올라오는군요. 그다음에는 어떻게 이어지나요?' },
+      { speaker: '내담자', role: 'client', text: '밤에 잠들기 전까지 그 장면을 계속 되짚어요. 그러다 잠을 설치고요.' },
+      { speaker: '상담자', role: 'counselor', text: '생각 → 자기비난 → 반추 → 수면 저하로 이어지는 흐름처럼 들려요.' },
+      { speaker: '내담자', role: 'client', text: '맞아요. 사실 누가 뭐라 한 것도 아닌데 "다들 알아챘을 거야" 싶어요.' },
+      { speaker: '상담자', role: 'counselor', text: '오늘은 잘한 일 한 가지를 함께 떠올려보는 것부터 해볼까요?' },
+    ],
     rows: [
       { label: '상담 주제', type: 'text', value: '업무 평가 상황에서 반복되는 예기 불안과 자기비난, 수면 저하와 일상 기능 위축까지 이어지는 패턴을 호소함.' },
       { label: '당회기 상담 목표', type: 'text', value: '업무 상황에서 반복되는 자동사고 흐름을 구체화하고, 수면 전 반추를 줄이기 위한 인지 분리 작업의 출발점을 마련합니다.' },
@@ -18,6 +27,14 @@ const CASE_DATA: Record<string, CaseEntry> = {
   },
   '02': {
     name: '부부 갈등 — 대화 단절·양육 갈등',
+    transcript: [
+      { speaker: '아내', role: 'client', text: '요즘은 대화를 시작하면 늘 아이 문제로 부딪혀요.' },
+      { speaker: '남편', role: 'client', text: '저는 그냥 입을 닫게 돼요. 말해봤자 싸움이 되니까요.' },
+      { speaker: '상담자', role: 'counselor', text: '한 분은 다가가려 하고, 한 분은 물러서게 되는 상황이군요.' },
+      { speaker: '아내', role: 'client', text: '제가 말하면 저 사람은 피하고, 그럼 저는 더 몰아붙이게 되고요.' },
+      { speaker: '상담자', role: 'counselor', text: '비난 → 방어 → 회피가 반복되는 패턴처럼 보여요.' },
+      { speaker: '남편', role: 'client', text: '그 말이 맞는 것 같아요. 어느 순간 대화 자체가 사라졌어요.' },
+    ],
     rows: [
       { label: '상담 주제', type: 'text', value: '반복되는 대화 단절과 양육 방식 차이로 인한 부부 갈등' },
       { label: '당회기 상담 목표', type: 'text', value: '갈등 상황에서 반복되는 상호작용 패턴을 확인하고, 각자의 정서 반응을 분리해 살펴봅니다.' },
@@ -28,6 +45,14 @@ const CASE_DATA: Record<string, CaseEntry> = {
   },
   '03': {
     name: '청소년 적응 — 또래 관계 어려움',
+    transcript: [
+      { speaker: '내담자', role: 'client', text: '쉬는 시간이 제일 힘들어요. 애들이 절 싫어하는 것 같아서요.' },
+      { speaker: '상담자', role: 'counselor', text: '친구들의 어떤 모습에서 그런 느낌이 드나요?' },
+      { speaker: '내담자', role: 'client', text: '표정이 조금만 안 좋아도 "나 때문인가" 하는 생각부터 들어요.' },
+      { speaker: '상담자', role: 'counselor', text: '작은 신호도 먼저 "거절"로 해석되는 거네요.' },
+      { speaker: '내담자', role: 'client', text: '그래서 그냥 이어폰 끼고 자리를 피해버려요.' },
+      { speaker: '상담자', role: 'counselor', text: '피하고 나면 잠깐은 편해지지만, 다시 반복되는 것 같아요.' },
+    ],
     rows: [
       { label: '상담 주제', type: 'text', value: '또래 관계 불안과 학교생활 위축감. 친구의 작은 표정 변화에도 "나를 싫어하는 것 같다"는 해석이 자동으로 떠오르는 패턴을 호소함.' },
       { label: '당회기 상담 목표', type: 'text', value: '쉬는 시간과 점심시간에 커지는 위축감을 살펴보고, 또래 관계에서 반복되는 회피 패턴과 작은 접근 시도의 가능성을 함께 모색합니다.' },
@@ -38,6 +63,14 @@ const CASE_DATA: Record<string, CaseEntry> = {
   },
   '04': {
     name: '가족 관계 — 3대 가족 소통',
+    transcript: [
+      { speaker: '내담자', role: 'client', text: '할머니 말씀을 제가 부모님께 대신 전달하는 역할을 늘 맡아요.' },
+      { speaker: '상담자', role: 'counselor', text: '가족 사이에서 통역사 같은 자리에 계시는군요.' },
+      { speaker: '내담자', role: 'client', text: '제가 빠지면 바로 큰소리가 나요. 그래서 못 빠져요.' },
+      { speaker: '상담자', role: 'counselor', text: '"내가 해야만 한다"는 마음이 강하게 느껴지네요.' },
+      { speaker: '내담자', role: 'client', text: '네... 그런데 요즘은 저도 너무 지쳐요.' },
+      { speaker: '상담자', role: 'counselor', text: '그 역할을 잠시 내려놓으면 어떤 마음이 드실 것 같아요?' },
+    ],
     rows: [
       { label: '상담 주제', type: 'text', value: '3대 가족 안에서 반복되는 중재자 역할과 세대 간 소통 갈등. 부모–조부모 사이 감정 통역사 역할로 인한 정서적 소진과 죄책감을 호소함.' },
       { label: '당회기 상담 목표', type: 'text', value: '가족 안에서 내담자가 맡은 중재자 역할을 함께 확인하고, 책임의 경계를 다시 그어볼 수 있는 첫 단서를 마련합니다.' },
@@ -48,6 +81,14 @@ const CASE_DATA: Record<string, CaseEntry> = {
   },
   '05': {
     name: '접수면접 — 신규 심층 평가',
+    transcript: [
+      { speaker: '상담자', role: 'counselor', text: '요즘 가장 힘든 부분부터 편하게 말씀해 주세요.' },
+      { speaker: '내담자', role: 'client', text: '6개월 전 부서를 옮기고 나서 잠도 안 오고 입맛도 없어요.' },
+      { speaker: '상담자', role: 'counselor', text: '그 이후로 여러 영역에 스트레스가 쌓여온 것 같네요.' },
+      { speaker: '내담자', role: 'client', text: '사람 만나는 것도 점점 피하게 되고요.' },
+      { speaker: '상담자', role: 'counselor', text: '수면·식욕·대인관계까지 함께 살펴봐야겠어요.' },
+      { speaker: '내담자', role: 'client', text: '그래도 이렇게라도 도움을 받고 싶어서 왔어요.' },
+    ],
     rows: [
       { label: '상담 주제', type: 'text', value: '최근 불안과 대인관계 스트레스를 중심으로 한 초기 심층 평가. 6개월 전 직무 변경 이후 수면·식욕·정서 조절 영역까지 누적된 스트레스 양상.' },
       { label: '당회기 상담 목표', type: 'text', value: '주호소와 생활 맥락을 정리하고, 정서 조절·대인관계·가족력 영역에서 확인이 필요한 지점을 파악합니다.' },
@@ -128,6 +169,17 @@ export function SampleExperienceSection() {
         const renderResult = (): void => {
           const d = CASE_DATA[currentCase] || CASE_DATA['01'];
           card.querySelectorAll<HTMLElement>('[data-sm-case-name]').forEach(el => { el.textContent = d.name; });
+
+          const txContainer = card.querySelector('[data-sm-transcript]');
+          if (txContainer && d.transcript) {
+            txContainer.innerHTML = d.transcript.map(t =>
+              '<div class="sm-tx-line sm-tx-' + t.role + '">' +
+                '<span class="sm-tx-speaker">' + escapeHtml(t.speaker) + '</span>' +
+                '<span class="sm-tx-text">' + escapeHtml(t.text) + '</span>' +
+              '</div>'
+            ).join('');
+          }
+
           const rowsContainer = card.querySelector('[data-sm-result-rows]');
           if (!rowsContainer || !d.rows) return;
           const html = d.rows.map(row =>
@@ -462,7 +514,7 @@ export function SampleExperienceSection() {
         
         <div className="step-slide" data-step="3" hidden>
           <span className="step-label">Step 3 / 3 — 상담노트 결과</span>
-          <p className="step-lead-big">상담노트 초안이 이렇게 정리됩니다</p>
+          <p className="step-lead-big">대화 기록이 상담노트 초안으로 정리됩니다</p>
 
           <div className="sm-mock sm-mock-result">
             <div className="sm-mock-head">
@@ -470,10 +522,27 @@ export function SampleExperienceSection() {
               <span className="pf-app">Mindthos AI · 상담노트</span>
               <span className="pf-status pf-status-done"><span className="check"></span>생성 완료</span>
             </div>
-            
-            <div className="sm-mock-body sm-result-body sm-result-body-fade">
-              <p className="sm-result-context">선택한 사례 · <strong data-sm-case-name>—</strong></p>
-              <div data-sm-result-rows></div>
+
+            <p className="sm-result-context">선택한 사례 · <strong data-sm-case-name>—</strong></p>
+
+            <div className="sm-result-split">
+              <section className="sm-col sm-col-transcript">
+                <header className="sm-col-head">
+                  <span className="sm-col-title">축어록</span>
+                  <span className="sm-col-sub">전사된 대화</span>
+                </header>
+                <div className="sm-col-scroll" data-sm-transcript></div>
+              </section>
+
+              <span className="sm-col-arrow" aria-hidden="true">→</span>
+
+              <section className="sm-col sm-col-note">
+                <header className="sm-col-head">
+                  <span className="sm-col-title">상담노트</span>
+                  <span className="sm-col-sub">AI 정리 초안</span>
+                </header>
+                <div className="sm-col-scroll" data-sm-result-rows></div>
+              </section>
             </div>
           </div>
 
