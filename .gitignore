@@ -10,6 +10,9 @@
 
 # ── 아래 규칙들은 web/ 내부에도 적용되는 세부 무시 항목 ──
 
+# 문서는 로컬 전용 (배포 무관)
+web/docs/
+
 # Environment variables
 .env
 .env.local
