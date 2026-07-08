@@ -1,4 +1,5 @@
 import { cache } from 'react';
+import { createClient } from '@supabase/supabase-js';
 import { createStaticClient } from './static';
 import type { Database } from './types';
 import type { Post } from '@/types/blog';
@@ -55,6 +56,33 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   if (error) return null;
   return data as Post;
 }
+
+export interface GlobalTranslation {
+  locale: string;
+  slug: string;
+}
+
+/**
+ * 이 KR 글의 글로벌 번역본(global.mindthos.com) 목록 — hreflang reciprocity 용.
+ * 같은 Supabase 의 `global_posts` 에서 source_post_id 가 이 글 id 인 발행 행을 읽는다.
+ * 번역을 발행/수정해도 KR 측은 별도 동기화 없이 렌더 시 이 읽기 1번으로 자동 반영된다.
+ * `global_posts` 는 KR `Database` 타입에 없으므로 비타입 클라이언트로 조회한다.
+ */
+export const getGlobalTranslations = cache(
+  async (sourcePostId: string): Promise<GlobalTranslation[]> => {
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    );
+    const { data, error } = await supabase
+      .from('global_posts')
+      .select('locale, slug')
+      .eq('source_post_id', sourcePostId)
+      .eq('status', 'published');
+    if (error || !data) return [];
+    return data as GlobalTranslation[];
+  },
+);
 
 export const getCategories = cache(async (): Promise<Category[]> => {
   const supabase = createStaticClient();

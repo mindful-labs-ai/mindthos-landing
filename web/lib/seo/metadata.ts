@@ -57,6 +57,8 @@ interface PostMetadataInput {
   updated_at: string;
   author?: { name: string } | null;
   keywords?: string[];
+  /** hreflang alternates (ko self + global locales + x-default). Omitted → canonical only. */
+  alternateLanguages?: Record<string, string>;
 }
 
 export function generatePostMetadata(post: PostMetadataInput): Metadata {
@@ -69,7 +71,12 @@ export function generatePostMetadata(post: PostMetadataInput): Metadata {
     title,
     description,
     keywords: post.keywords?.join(', '),
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      ...(post.alternateLanguages && Object.keys(post.alternateLanguages).length
+        ? { languages: post.alternateLanguages }
+        : {}),
+    },
     openGraph: {
       title,
       description,

@@ -6,6 +6,8 @@ export const SITE_CONFIG = {
   legalNameEn: 'Mindful Labs Inc.',
   legalUrl: 'https://www.mindfullabs.ai/',
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://mindthos.com',
+  /** 글로벌 사이트(Modalia AI, modalia.ai) — KR 글의 hreflang reciprocity 링크에 사용 */
+  globalUrl: process.env.NEXT_PUBLIC_GLOBAL_SITE_URL || 'https://modalia.ai',
   email: process.env.NEXT_PUBLIC_SITE_EMAIL || 'business@mindfullabs.ai',
   phone: process.env.NEXT_PUBLIC_SITE_PHONE || '',
   description:

@@ -6,6 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import {
   getPostBySlug,
   getCounselingProgramById,
+  getGlobalTranslations,
 } from '@/lib/supabase/queries';
 import { generatePostMetadata } from '@/lib/seo/metadata';
 import {
@@ -107,6 +108,21 @@ export async function generateMetadata({
       robots: { index: false, follow: true },
     };
   }
+  // hreflang reciprocity: 이 글의 글로벌 번역본이 있으면 양방향 alternate 를 emit.
+  // (번역 발행 시 별도 동기화 없이, KR 글이 렌더될 때 읽기 1번으로 자동 반영)
+  const translations = await getGlobalTranslations(post.id);
+  let alternateLanguages: Record<string, string> | undefined;
+  if (translations.length > 0) {
+    const langs: Record<string, string> = {
+      ko: `${SITE_CONFIG.url}/blog/${post.slug}`,
+    };
+    for (const t of translations) {
+      langs[t.locale] = `${SITE_CONFIG.globalUrl}/${t.locale}/blog/${t.slug}`;
+    }
+    langs['x-default'] = langs.en ?? langs.ko;
+    alternateLanguages = langs;
+  }
+
   return generatePostMetadata({
     title: post.title,
     meta_title: post.meta_title,
@@ -122,6 +138,7 @@ export async function generateMetadata({
     updated_at: post.updated_at,
     author: { name: post.author?.name ?? DEFAULT_AUTHOR.name },
     keywords: post.keywords,
+    alternateLanguages,
   });
 }
 
