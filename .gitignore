@@ -32,6 +32,7 @@ scripts/publish-blog/daily-topics.json
 scripts/publish-blog/seo-opportunities.json
 scripts/publish-blog/seo-report.json
 scripts/publish-blog/review-feedback.json
+scripts/publish-blog/deleted-posts-backup.json
 scripts/publish-blog/.data/
 
 # R2 video migration artifacts (slug→URL 매핑 / video_url 백업)
@@ -68,6 +69,10 @@ web/.qa/*-audit.json
 
 # Embedded sub-projects (have their own remote)
 andotherlife-web/
+
+# Global site (Modalia AI, modalia.ai) — separate project + planning workspace.
+# KR 랜딩 저장소에 함께 두되 git 추적에서는 분리 (자체 remote/배포로 관리).
+global/
 
 # Internal design / planning workspace (not part of public landing)
 mindthos-landing-design/
