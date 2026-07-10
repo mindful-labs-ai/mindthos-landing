@@ -3,7 +3,17 @@
 import Image from 'next/image';
 import { useEffect } from 'react';
 
-export function FeatureTabsSection() {
+export type FeatureTabKey = 'psy' | 'trx' | 'note' | 'cnc' | 'geno';
+
+export interface FeatureTabsSectionProps {
+  /**
+   * 초기 활성 + 자동 회전 시작 탭. variant 유입 시 해당 기능을 먼저 노출.
+   * 미지정(홈) → 'psy' 현행 그대로 → 회귀 0.
+   */
+  priorityTab?: FeatureTabKey;
+}
+
+export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionProps = {}) {
   useEffect(() => {
     const cleanups: Array<() => void> = [];
 
@@ -79,7 +89,8 @@ export function FeatureTabsSection() {
           cleanups.push(() => section.removeEventListener('mouseenter', enter));
           cleanups.push(() => section.removeEventListener('mouseleave', leave));
         }
-        activate('psy');
+        /* 초기 활성 탭 — variant 우선 탭으로 시작(회전 시작 인덱스도 activate 내부에서 함께 세팅). */
+        activate(priorityTab);
         if (section && 'IntersectionObserver' in window) {
           const io = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -105,7 +116,7 @@ export function FeatureTabsSection() {
     return () => {
       cleanups.forEach(fn => fn());
     };
-  }, []);
+  }, [priorityTab]);
 
   return (
 <section className="wf-section alt" data-funnel-section="features">

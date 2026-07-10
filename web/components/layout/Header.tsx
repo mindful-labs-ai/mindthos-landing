@@ -29,9 +29,12 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // 홈(/)에서 스크롤 0 일 때만 헤더를 투명 배경 + 화이트 톤으로 — Hero 영상이 GNB 뒤로 보이도록.
+  // 다크 Hero 를 렌더하는 페이지(홈 / 유입 경로별 랜딩 /start/*)에서 스크롤 0 일 때만
+  // 헤더를 투명 배경 + 화이트 톤으로 — Hero 영상이 GNB 뒤로 보이도록.
   // 햄버거 메뉴가 열려도 헤더 디자인은 그대로 유지 — 그 아래 흰 panel 만 떠올리는 디자인.
-  const transparent = pathname === '/' && !scrolled;
+  const hasDarkHero =
+    pathname === '/' || (pathname?.startsWith('/start/') ?? false);
+  const transparent = hasDarkHero && !scrolled;
 
   // Esc closes mobile menu; first link receives focus when opened.
   useEffect(() => {

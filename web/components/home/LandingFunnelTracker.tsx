@@ -14,12 +14,24 @@ import { gtagEvent } from '@/lib/analytics';
  * 별도 커스텀 이벤트로 50·90 을 모두 명시 발사한다. S0.3(cta_click) 은 기존
  * CtaTracker 가 이미 정상 수집 중이므로 여기서 다루지 않는다.
  */
-export function LandingFunnelTracker() {
+export interface LandingFunnelTrackerProps {
+  /**
+   * 유입 경로 variant 식별자(genogram·transcribe·psy-test·resource 등).
+   * 지정 시 landing_view·section_view·scroll_depth payload 에 동봉 → GA4 에서
+   * variant 별 유입→가입 분해(T6). 미지정(홈) → 차원 없음.
+   */
+  variant?: string;
+}
+
+export function LandingFunnelTracker({ variant }: LandingFunnelTrackerProps = {}) {
   // React strict-mode 이중 실행 / 재마운트 시 중복 발사 방지.
   const firedView = useRef(false);
 
   useEffect(() => {
     const cleanups: Array<() => void> = [];
+
+    /* variant 가 있으면 모든 퍼널 이벤트에 공통으로 실어 보낼 차원. */
+    const dim = variant ? { variant } : {};
 
     /* ── S0. landing_view ─────────────────────────────────────────── */
     if (!firedView.current) {
@@ -27,6 +39,7 @@ export function LandingFunnelTracker() {
       gtagEvent('landing_view', {
         page_path:
           typeof window !== 'undefined' ? window.location.pathname : '/',
+        ...dim,
       });
     }
 
@@ -45,6 +58,7 @@ export function LandingFunnelTracker() {
             gtagEvent('landing_section_view', {
               section_id: id,
               section_index: index >= 0 ? index : undefined,
+              ...dim,
             });
             io.unobserve(el); // 섹션당 1회
           }
@@ -69,7 +83,7 @@ export function LandingFunnelTracker() {
       for (const t of thresholds) {
         if (pct >= t && !sent.has(t)) {
           sent.add(t);
-          gtagEvent('landing_scroll_depth', { percent_scrolled: t });
+          gtagEvent('landing_scroll_depth', { percent_scrolled: t, ...dim });
         }
       }
       if (sent.size === thresholds.length) detach();
@@ -86,7 +100,7 @@ export function LandingFunnelTracker() {
     requestAnimationFrame(measure);
 
     return () => cleanups.forEach((fn) => fn());
-  }, []);
+  }, [variant]);
 
   return null;
 }

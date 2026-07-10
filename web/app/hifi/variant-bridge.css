@@ -1,0 +1,180 @@
+/* =============================================================================
+   Variant Bridge (§3-4) — 유입 경로별 hero 다음 pain→solution 요약 섹션.
+   홈에는 렌더되지 않음(variant 라우트 전용). 기존 토큰만 사용, 신규 컬러 없음.
+   ============================================================================= */
+
+.vbridge {
+  background: var(--bg-section-light, #f8fafc);
+}
+
+.vbridge-head {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto clamp(28px, 4vw, 48px);
+}
+
+.vbridge-title {
+  margin: 0;
+  color: var(--text-primary, #1f1f1f);
+  word-break: keep-all;
+  text-wrap: balance;
+}
+
+/* 2단 대비 + 중앙 화살표 */
+.vbridge-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: stretch;
+  gap: clamp(14px, 2.4vw, 28px);
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.vbridge-col {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-2xl, 20px);
+  padding: clamp(20px, 2.6vw, 30px);
+  background: #ffffff;
+  border: 1px solid var(--line, #e2e8f0);
+  box-shadow: var(--shadow-card, 0 6px 24px -16px rgba(15, 23, 42, 0.18));
+}
+
+.vbridge-col--sol {
+  background: var(--brand-pale, #e2f6e6);
+  border-color: var(--brand-tint, #b5e2bf);
+}
+
+.vbridge-col-label {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: #64748b;
+}
+
+.vbridge-col-label--sol {
+  color: var(--brand-hover, #40a755);
+}
+
+.vbridge-list {
+  list-style: none;
+  /* 리스트 아래 고정 간격 — 텍스트와 이미지 슬롯이 붙지 않도록. */
+  margin: 0 0 clamp(24px, 3.5vw, 40px);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vbridge-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: clamp(14.5px, 1.05vw, 16px);
+  line-height: 1.5;
+  color: var(--text-primary, #1f1f1f);
+  word-break: keep-all;
+}
+
+.vbridge-col--pain .vbridge-item {
+  color: #475569;
+}
+
+.vbridge-ico {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.vbridge-ico--pain {
+  color: #94a3b8;
+}
+
+.vbridge-ico--sol {
+  color: var(--brand, #44ce4b);
+}
+
+/* 중앙 화살표 (문제 → 해결) */
+.vbridge-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--brand-soft, #65c377);
+}
+
+.vbridge-arrow svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* 카드 이미지 슬롯 — pain·solution 카드 공용. 리스트 아래, 카드 하단에 정렬. */
+.vbridge-media {
+  margin: auto 0 0; /* 리스트 길이가 달라도 두 카드 이미지 상단선을 맞춤 */
+  border-radius: var(--radius-xl, 12px);
+  overflow: hidden;
+  line-height: 0;
+  aspect-ratio: 16 / 10;
+}
+
+.vbridge-media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: var(--radius-lg, 8px);
+}
+
+/* 이미지 미확보 시 — 공간만 예약한 플레이스홀더 */
+.vbridge-media--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin-top: auto;
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(148, 163, 184, 0.06),
+    rgba(148, 163, 184, 0.06) 8px,
+    rgba(148, 163, 184, 0.12) 8px,
+    rgba(148, 163, 184, 0.12) 16px
+  );
+  border: 1px dashed var(--line-strong, #cbd5e1);
+  color: #94a3b8;
+}
+
+.vbridge-col--sol .vbridge-media--empty {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(68, 206, 75, 0.05),
+    rgba(68, 206, 75, 0.05) 8px,
+    rgba(68, 206, 75, 0.1) 8px,
+    rgba(68, 206, 75, 0.1) 16px
+  );
+  border-color: var(--brand-tint, #b5e2bf);
+  color: var(--brand-soft, #65c377);
+}
+
+.vbridge-media--empty svg {
+  width: 44px;
+  height: 44px;
+}
+
+.vbridge-cta {
+  margin: clamp(28px, 4vw, 44px) auto 0;
+  text-align: center;
+}
+
+/* 모바일 — 세로 스택 + 화살표 회전 */
+@media (max-width: 768px) {
+  .vbridge-grid {
+    grid-template-columns: 1fr;
+  }
+  .vbridge-arrow {
+    padding: 2px 0;
+  }
+  .vbridge-arrow svg {
+    transform: rotate(90deg);
+  }
+}

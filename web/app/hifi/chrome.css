@@ -508,6 +508,20 @@
     flex-shrink: 0;
   }
 
+  /* eyebrow(kicker) — variant hero 에서만 노출. headline 을 소구로 교체해도
+     브랜드 포지셔닝("상담사를 위한 안전한 AI 에이전트, 마음토스")을 상단에 유지.
+     홈(default)은 eyebrow 미지정 → 렌더 안 됨 → 현행 무변화. */
+  .hero .hero-eyebrow {
+    margin: 0 0 12px;
+    color: var(--brand-primary-soft, #65c377);
+    font-size: clamp(12.5px, 1vw, 14px);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.4;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.3);
+    word-break: keep-all;
+  }
+
   /* H1 — 가장 먼저 눈에 들어오게 */
   /* 사수 v71 (2026-05-04): H1→sub 간격 추가 압축 (20→16). 묶음 결속 강화 */
   .hero .hero-h1 {
