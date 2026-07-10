@@ -171,9 +171,10 @@ const PSY_TEST: LandingVariant = {
       '해석을 문장으로 쓰는 데 오래 걸려요',
     ],
     solutions: [
-      '여러 검사 결과를 통합 해석',
-      '사례개념화 가설로 자연스럽게 연결',
-      '해석 초안 문장을 자동 생성',
+      '여러 검사 결과를 하나의 사례로 통합 해석',
+      '축어록·상담 기록과 결합해 맥락까지 반영한 해석',
+      '해석 보고서 초안을 바로 생성',
+      'AI 재학습에 쓰지 않아 검사 데이터도 안전하게',
     ],
     painImage: {
       src: '/psy-test-manual-report.webp',
@@ -196,10 +197,55 @@ const PSY_TEST: LandingVariant = {
   noindex: true,
 };
 
+const CONCEPTUALIZATION: LandingVariant = {
+  key: 'conceptualization',
+  hero: {
+    headline: ['상담 기록을,', '근거 있는 사례개념화로'],
+    sub: [
+      '축어록·상담노트를 올리면, 이론에 근거한',
+      '사례개념화 가설을 마음토스가 정리해 드립니다.',
+    ],
+    ctaLabel: '무료로 사례개념화 체험',
+  },
+  bridge: {
+    title: ['사례개념화, 어디서부터', '풀어야 할지 막막하죠'],
+    pains: [
+      '무엇을 근거로 가설을 세울지 막막해요',
+      '이론과 사례를 연결하기 어려워요',
+      '매번 백지에서 다시 시작해요',
+    ],
+    solutions: [
+      '상담 기록을 근거로 사례개념화 초안 자동 생성',
+      '주 호소·촉발요인·유지요인을 구조화해 정리',
+      '이론(CBT·정신역동 등)에 맞춘 해석 가설 제시',
+      '여러 회기를 통합 분석한 AI 슈퍼비전 제공',
+    ],
+    painImage: {
+      src: '/conceptualization-manual-desk.webp',
+      alt: '이론서를 뒤적이며 사례개념화 가설을 손으로 짜내는 어려운 수작업 예시',
+      width: 1536,
+      height: 1024,
+    },
+    solutionImage: {
+      src: '/conceptualization-mindthos-app.webp',
+      alt: '마음토스가 상담 기록에서 이론을 감지해 사례개념화를 정리한 예시',
+      width: 1600,
+      height: 1000,
+    },
+  },
+  priorityTab: 'cnc',
+  cohortHint: null,
+  metaTitle: '사례개념화 — 상담 기록을 근거 있는 해석 가설로 | 마음토스',
+  metaDescription:
+    '축어록·상담노트를 올리면 주 호소·촉발·유지요인을 구조화하고 이론에 근거한 사례개념화 가설까지. 상담사를 위한 안전한 AI 에이전트 마음토스에서 무료로 시작하세요.',
+  noindex: true,
+};
+
 export const LANDING_VARIANTS: Record<string, LandingVariant> = {
   genogram: GENOGRAM,
   transcribe: TRANSCRIBE,
   'psy-test': PSY_TEST,
+  conceptualization: CONCEPTUALIZATION,
 };
 
 export const VARIANT_KEYS: string[] = Object.keys(LANDING_VARIANTS);
