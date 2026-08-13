@@ -45,12 +45,11 @@ app/                  Next.js App Router
     ├─ page.tsx       홈 (HifiLanding monolith)
     ├─ layout.tsx     <PromoBanner /> + <Header /> + <Footer />
     ├─ blog/          블로그 시스템 (목록 / 상세 / OG 이미지)
-    ├─ education/     교육 프로그램
     └─ security/      보안 / 데이터 처리 안내
   api/
     ├─ revalidate/    POST: REVALIDATION_SECRET 검증 후 ISR 갱신
     └─ indexnow/      Bing/Yandex 즉시 인덱싱
-  sitemap.ts          / · /blog · /education · /security + 발행된 블로그 글
+  sitemap.ts          / · /blog · /security + 발행된 블로그 글
   robots.ts           User-agent + Disallow + Sitemap
 
 components/
@@ -86,7 +85,7 @@ docs/                 운영 가이드 + Phase 2 백로그 + 차후 리팩토링
 - **본문 배경**: `--bg-base: #ffffff`
 - **다크 영역**: `--bg-deep: #181819`
 - **컨테이너**: `--container-wide: 1280px` / `--gutter-wide: 40px` (홈/블로그) ·
-  `--container-max: 1120px` (security/education) · `--container-prose: 640px`
+  `--container-max: 1120px` (security) · `--container-prose: 640px`
 - **폰트**: Pretendard local (5 weight: 400/500/600/700/800) + IBM Plex Mono (caption)
 
 `hifi/tokens.css` 의 짧은 alias(`--brand`/`--ink-*`/`--line-*`)는 globals canonical 토큰의

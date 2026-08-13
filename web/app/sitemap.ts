@@ -15,7 +15,6 @@ const SITE_URL = SITE_CONFIG.url;
 const STATIC_PAGE_DATES = {
   home: new Date('2026-05-07'),
   blog: new Date('2026-05-07'),
-  education: new Date('2026-05-07'),
   security: new Date('2026-05-07'),
 } as const;
 
@@ -86,7 +85,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     /* "서비스 소개"는 별도 페이지 없이 랜딩으로 연결 — /about-service 제거됨 (2026-05-04) */
     /* /guide 는 외부 Notion 문서로 대체 (constants/nav.ts NOTION_GUIDE_URL) — sitemap 제외 */
     { url: `${SITE_URL}/blog`, lastModified: STATIC_PAGE_DATES.blog, changeFrequency: 'daily', priority: 0.8 },
-    { url: `${SITE_URL}/education`, lastModified: STATIC_PAGE_DATES.education, changeFrequency: 'monthly', priority: 0.7 },
+    /* /education 은 당분간 미운영 — 라우트 제거 + next.config.ts 에서 / 로 임시 redirect (2026-08-13) */
     { url: `${SITE_URL}/security`, lastModified: STATIC_PAGE_DATES.security, changeFrequency: 'monthly', priority: 0.6 },
     /* /contact 는 next.config.ts redirects 가 카카오톡 오픈채팅으로 외부 redirect — 사이트맵 제외 */
     /* 서비스 이용약관 / 개인정보처리방침은 app.mindthos.com/terms 외부 라우트 — 사이트맵 제외 */

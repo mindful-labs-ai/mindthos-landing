@@ -73,7 +73,7 @@ export async function BlogIndexView({
     <>
       <SchemaMarkup schema={buildBlogSchema(SITE_CONFIG.url)} />
 
-      {/* HERO — globals.css 공통 .page-hero (서브 페이지 공유 / education 과 동일) */}
+      {/* HERO — globals.css 공통 .page-hero (서브 페이지 공유) */}
       <section className="page-hero" aria-label="마음토스 블로그 — 페이지 헤더">
         <div className="container">
           <div className="page-hero-content">

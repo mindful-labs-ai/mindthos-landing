@@ -97,6 +97,8 @@ const nextConfig: NextConfig = {
         permanent: false,
         basePath: false,
       },
+      // 교육 프로그램 — 당분간 미운영 (2026-08-13 라우트 제거). 재개 가능성 있어 임시(302) redirect.
+      { source: '/education', destination: '/', permanent: false },
       // 보안 — /security 는 실제 라우트(app/(site)/security/page.tsx). redirect 두면 라우트가 가려져 제거.
       // /security/* 하위 잔여 URL 만 흡수.
       { source: '/security/how-we-protect', destination: '/security', permanent: true },
