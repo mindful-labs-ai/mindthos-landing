@@ -16,7 +16,7 @@ export function HifiLandingEffects() {
 
     /* 하단 모바일 sticky CTA dismiss — sessionStorage 1회 닫기 */
     {
-      const KEY = 'mt-promo-1month-dismissed';
+      const KEY = 'mt-promo-1week-dismissed';
       const html = document.documentElement;
       const bottom = document.querySelector<HTMLElement>('[data-promo-bottom]');
       const isDismissed = (): boolean => {

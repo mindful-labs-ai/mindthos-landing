@@ -43,7 +43,7 @@ export function HifiLanding() {
       >
         <div className="promo-bottom-msg">
           <span className="promo-tag">NEW</span>
-          <span className="promo-bottom-text">신규 가입 시 첫 1개월 무료</span>
+          <span className="promo-bottom-text">신규 가입 시 첫 1주일 무료</span>
         </div>
         <a
           className="btn primary"

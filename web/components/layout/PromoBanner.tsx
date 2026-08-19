@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-const STORAGE_KEY = 'mt-promo-1month-dismissed';
+const STORAGE_KEY = 'mt-promo-1week-dismissed';
 const APP_URL = 'https://app.mindthos.com/?utm_source=landing&utm_medium=display&utm_campaign=banner';
 
 export function PromoBanner() {
@@ -52,7 +52,7 @@ export function PromoBanner() {
         <p className="promo-top-msg">
           <span className="promo-tag">NEW</span>
           <span>
-            신규 가입 상담사님께 첫 1개월 무료 제공 ·{' '}
+            신규 가입 상담사님께 첫 1주일 무료 제공 ·{' '}
             <a
               href={APP_URL}
               data-promo-cta
