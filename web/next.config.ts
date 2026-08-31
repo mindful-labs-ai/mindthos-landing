@@ -46,6 +46,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  /* 센터 소개서 덱(content/center/*.html)을 라우트 핸들러가 fs 로 읽으므로
+     서버 번들에 강제 포함 (정적 프리렌더 실패 시 런타임 폴백 대비) */
+  outputFileTracingIncludes: {
+    '/center/[version]': ['./content/center/*.html'],
+  },
   images: {
     unoptimized: true,
     formats: ['image/avif', 'image/webp'],
@@ -82,6 +87,8 @@ const nextConfig: NextConfig = {
        단일 진실 원본: web/constants/nav.ts KAKAO_INQUIRY_URL */
     const KAKAO_INQUIRY_URL = 'https://open.kakao.com/me/Mindthos';
     return [
+      // 센터 도입 소개서 — 버전 미지정 진입은 v1 으로 (쿼리스트링은 자동 보존)
+      { source: '/center', destination: '/center/v1', permanent: false },
       { source: '/guide', destination: NOTION_GUIDE_URL, permanent: false, basePath: false },
       // 문의 — 내부 contact 페이지 제거됨, 카카오톡 오픈채팅으로 직행
       { source: '/contact', destination: KAKAO_INQUIRY_URL, permanent: false, basePath: false },
