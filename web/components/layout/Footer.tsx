@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { KAKAO_INQUIRY_URL, NOTION_GUIDE_URL } from '@/constants/nav';
+import { DOCS_GUIDE_URL, KAKAO_INQUIRY_URL } from '@/constants/nav';
 import { MindthosLogo } from './MindthosLogo';
 
 export function Footer() {
@@ -86,7 +86,7 @@ export function Footer() {
 
             <FooterColumn heading="마음토스">
               <li><Link href="/">서비스 소개</Link></li>
-              <li><a href={NOTION_GUIDE_URL} target="_blank" rel="noopener noreferrer">사용 가이드</a></li>
+              <li><a href={DOCS_GUIDE_URL} target="_blank" rel="noopener noreferrer">사용 가이드</a></li>
               <li><a href={KAKAO_INQUIRY_URL} target="_blank" rel="noopener noreferrer">문의</a></li>
               <li><Link href="/blog">블로그</Link></li>
               <li><Link href="/blog/archive">블로그 전체 글</Link></li>

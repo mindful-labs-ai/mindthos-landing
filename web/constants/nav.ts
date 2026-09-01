@@ -16,11 +16,10 @@ export interface NavItem {
 }
 
 /**
- * 사용 가이드는 외부 Notion 문서로 운영 (사내 자료 → 노션 한 곳에서 관리).
+ * 사용 가이드는 문서 사이트(docs.mindthos.com)로 운영 (구 Notion 가이드에서 이전, 2026-09-01).
  * 단일 진실 원본: 본 상수.
  */
-export const NOTION_GUIDE_URL =
-  'https://rare-puppy-06f.notion.site/v2-2cfdd162832d801bae95f67269c062c7';
+export const DOCS_GUIDE_URL = 'https://docs.mindthos.com';
 
 /**
  * 문의 채널은 카카오톡 오픈채팅으로 운영.
@@ -38,7 +37,7 @@ export const KAKAO_ACADEMY_INQUIRY_URL = 'https://open.kakao.com/o/sgSKbDqi';
 export const PRIMARY_NAV: NavItem[] = [
   /* "서비스 소개"는 별도 페이지 없이 랜딩(`/`)으로 연결 (2026-05-04). 임의 /about-service 페이지 제거됨 */
   { href: '/', label: '서비스 소개' },
-  { href: NOTION_GUIDE_URL, label: '사용 가이드', external: true },
+  { href: DOCS_GUIDE_URL, label: '사용 가이드', external: true },
   { href: '/blog', label: '블로그' },
   /* "교육 프로그램"(/education)은 당분간 미운영으로 제거 (2026-08-13).
      라우트 삭제 + next.config.ts 에서 / 로 임시 redirect. 재개 시 git 히스토리에서 복원. */

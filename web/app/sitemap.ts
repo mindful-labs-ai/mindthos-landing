@@ -83,7 +83,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, lastModified: STATIC_PAGE_DATES.home, changeFrequency: 'weekly', priority: 1.0 },
     /* "서비스 소개"는 별도 페이지 없이 랜딩으로 연결 — /about-service 제거됨 (2026-05-04) */
-    /* /guide 는 외부 Notion 문서로 대체 (constants/nav.ts NOTION_GUIDE_URL) — sitemap 제외 */
+    /* /guide 는 외부 문서 사이트(docs.mindthos.com)로 대체 (constants/nav.ts DOCS_GUIDE_URL) — sitemap 제외 */
     { url: `${SITE_URL}/blog`, lastModified: STATIC_PAGE_DATES.blog, changeFrequency: 'daily', priority: 0.8 },
     /* /education 은 당분간 미운영 — 라우트 제거 + next.config.ts 에서 / 로 임시 redirect (2026-08-13) */
     { url: `${SITE_URL}/security`, lastModified: STATIC_PAGE_DATES.security, changeFrequency: 'monthly', priority: 0.6 },
