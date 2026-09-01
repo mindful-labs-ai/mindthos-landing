@@ -31,8 +31,8 @@ export function resolveCTA(
   if (ctaType === 'institution-inquiry') {
     return {
       heading: '기관 도입 문의하기',
-      buttonText: '카카오톡 오픈채팅 열기',
-      href: 'https://open.kakao.com/me/Mindthos',
+      buttonText: '카카오톡 문의하기',
+      href: 'https://pf.kakao.com/_GYyxdX',
       external: true,
       ctaIntent: 'institution_inquiry',
     };

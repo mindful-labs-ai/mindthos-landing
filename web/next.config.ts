@@ -82,9 +82,9 @@ const nextConfig: NextConfig = {
     /* 사용 가이드는 문서 사이트(docs.mindthos.com)로 운영 — /guide 또는 /resources/guides 진입 시
        모두 문서 사이트로 직행. 단일 진실 원본: web/constants/nav.ts DOCS_GUIDE_URL */
     const DOCS_GUIDE_URL = 'https://docs.mindthos.com';
-    /* 문의 채널은 카카오톡 오픈채팅으로 운영 (내부 contact 페이지 제거).
+    /* 문의 채널은 카카오톡 채널(pf.kakao.com)로 운영 (내부 contact 페이지 제거).
        단일 진실 원본: web/constants/nav.ts KAKAO_INQUIRY_URL */
-    const KAKAO_INQUIRY_URL = 'https://open.kakao.com/me/Mindthos';
+    const KAKAO_INQUIRY_URL = 'https://pf.kakao.com/_GYyxdX';
     return [
       // 센터 도입 소개서 — 버전 미지정 진입은 v1 으로 (쿼리스트링은 자동 보존)
       { source: '/center', destination: '/center/v1', permanent: false },

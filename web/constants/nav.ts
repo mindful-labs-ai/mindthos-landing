@@ -22,11 +22,11 @@ export interface NavItem {
 export const DOCS_GUIDE_URL = 'https://docs.mindthos.com';
 
 /**
- * 문의 채널은 카카오톡 오픈채팅으로 운영.
+ * 문의 채널은 카카오톡 채널(pf.kakao.com)로 운영 (구 오픈채팅에서 이전, 2026-09-01).
  * 내부 임의 contact 페이지는 제거됨 (2026-05-04). 모든 "문의" 진입점은 본 URL 사용.
  * 단일 진실 원본: 본 상수.
  */
-export const KAKAO_INQUIRY_URL = 'https://open.kakao.com/me/Mindthos';
+export const KAKAO_INQUIRY_URL = 'https://pf.kakao.com/_GYyxdX';
 
 /**
  * 아카데미(`/academy`) 전용 카카오톡 오픈채팅 링크.

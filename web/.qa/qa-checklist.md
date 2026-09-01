@@ -25,7 +25,7 @@
 - [x] `GET /api/indexnow` → 200, INDEXNOW_KEY 평문 응답
 
 ## C. Redirect (307)
-- [x] `/contact` → `https://open.kakao.com/me/Mindthos`
+- [x] `/contact` → `https://pf.kakao.com/_GYyxdX`
 - [x] `/about` → `/`
 - [x] `/product` → `/`
 - [x] `/security/privacy-policy` → `https://app.mindthos.com/terms?type=privacy`
