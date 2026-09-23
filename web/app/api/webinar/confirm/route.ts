@@ -86,8 +86,8 @@ async function notifySmsToRegistrant(phone: string): Promise<void> {
     '[마음토스] 웨비나 신청이 완료되었습니다.',
     '',
     `▶ ${w.title}`,
-    `- 일시: ${dateLabel}`,
-    `- 진행: ${w.platformLabel}`,
+    `▶ 일시: ${dateLabel}`,
+    `▶ 진행: ${w.platformLabel}`,
     '',
     '참여 링크는 웨비나 전에 문자와 이메일로 보내드립니다.',
   ].join('\n');
