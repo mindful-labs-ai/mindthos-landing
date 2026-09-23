@@ -1,7 +1,10 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendSolapiSms } from '@/lib/solapi';
-import { CASE_CONCEPTUALIZATION_WEBINAR } from '@/constants/webinar';
+import {
+  CASE_CONCEPTUALIZATION_WEBINAR,
+  webinarOfferBySlug,
+} from '@/constants/webinar';
 
 const TOSS_CONFIRM_URL = 'https://api.tosspayments.com/v1/payments/confirm';
 
@@ -20,11 +23,15 @@ async function notifySlack(payload: {
   email: string;
   orderId: string;
   amount: number;
+  memberLabel: string | null;
 }): Promise<void> {
+  const webinarLabel = payload.memberLabel
+    ? `${CASE_CONCEPTUALIZATION_WEBINAR.orderName} (${payload.memberLabel})`
+    : CASE_CONCEPTUALIZATION_WEBINAR.orderName;
   const text = [
     '웨비나 신청 결제가 완료되었습니다.',
     '',
-    `웨비나 : ${CASE_CONCEPTUALIZATION_WEBINAR.orderName}`,
+    `웨비나 : ${webinarLabel}`,
     `이름 : ${payload.name}`,
     `연락처 : ${payload.phone}`,
     `이메일 : ${payload.email}`,
@@ -135,7 +142,7 @@ export async function POST(req: Request) {
 
   const { data: registration, error: selectError } = await supabase
     .from('webinar_registrations')
-    .select('id, name, email, phone, amount, status')
+    .select('id, webinar_slug, name, email, phone, amount, status')
     .eq('order_id', orderId)
     .maybeSingle();
 
@@ -152,11 +159,17 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, alreadyConfirmed: true });
   }
 
-  /* 금액 위·변조 검증: 클라이언트가 보낸 금액이 아니라 서버 기록과 상수를 기준으로 승인 */
-  if (
-    amount !== registration.amount ||
-    amount !== CASE_CONCEPTUALIZATION_WEBINAR.price
-  ) {
+  /* 금액 위·변조 검증: 클라이언트가 보낸 금액이 아니라 서버 기록과
+     해당 오퍼(기본가/회원 할인가)의 상수 가격을 기준으로 승인 */
+  const offer = webinarOfferBySlug(registration.webinar_slug);
+  if (!offer) {
+    console.error('[webinar/confirm] unknown webinar slug', {
+      orderId,
+      slug: registration.webinar_slug,
+    });
+    return NextResponse.json({ ok: false, error: 'UNKNOWN_OFFER' }, { status: 400 });
+  }
+  if (amount !== registration.amount || amount !== offer.price) {
     console.error('[webinar/confirm] amount mismatch', {
       orderId,
       requested: amount,
@@ -231,6 +244,7 @@ export async function POST(req: Request) {
       email: registration.email,
       orderId,
       amount,
+      memberLabel: offer.memberLabel,
     }),
     notifySmsToRegistrant(registration.phone),
   ]);

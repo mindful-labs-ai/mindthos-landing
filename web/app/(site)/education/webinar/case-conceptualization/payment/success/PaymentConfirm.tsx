@@ -9,11 +9,13 @@ interface PaymentConfirmProps {
   paymentKey: string;
   orderId: string;
   amount: string;
+  /** 돌아가기 링크 대상 — 결제한 오퍼(기본/회원 전용)의 페이지 경로 */
+  backPath: string;
 }
 
 type ConfirmStatus = 'confirming' | 'success' | 'error';
 
-export function PaymentConfirm({ paymentKey, orderId, amount }: PaymentConfirmProps) {
+export function PaymentConfirm({ paymentKey, orderId, amount, backPath }: PaymentConfirmProps) {
   const paramsValid = Boolean(paymentKey && orderId && amount);
   const [status, setStatus] = useState<ConfirmStatus>(
     paramsValid ? 'confirming' : 'error',
@@ -83,7 +85,7 @@ export function PaymentConfirm({ paymentKey, orderId, amount }: PaymentConfirmPr
         <h1 className="webinar-result-title">결제를 완료하지 못했어요</h1>
         <p className="webinar-result-body">{message}</p>
         <div className="webinar-result-actions">
-          <Link href={`${WEBINAR.path}#apply`} className="btn primary">
+          <Link href={`${backPath}#apply`} className="btn primary">
             다시 신청하기
           </Link>
         </div>
@@ -100,7 +102,7 @@ export function PaymentConfirm({ paymentKey, orderId, amount }: PaymentConfirmPr
         신청 시 입력하신 이메일과 문자로 보내드립니다.
       </p>
       <div className="webinar-result-actions">
-        <Link href={WEBINAR.path} className="btn ghost">
+        <Link href={backPath} className="btn ghost">
           웨비나 안내 페이지로
         </Link>
       </div>

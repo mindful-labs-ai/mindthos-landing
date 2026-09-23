@@ -7,7 +7,10 @@ import {
   ANONYMOUS,
   type TossPaymentsWidgets,
 } from '@tosspayments/tosspayments-sdk';
-import { CASE_CONCEPTUALIZATION_WEBINAR as WEBINAR } from '@/constants/webinar';
+import {
+  CASE_CONCEPTUALIZATION_WEBINAR as WEBINAR,
+  type WebinarOffer,
+} from '@/constants/webinar';
 
 const UTM_STORAGE_KEY = 'mt-utm-params';
 
@@ -47,7 +50,11 @@ interface Cleanupable {
   destroy: () => Promise<void>;
 }
 
-export function WebinarApplyForm() {
+interface WebinarApplyFormProps {
+  offer: WebinarOffer;
+}
+
+export function WebinarApplyForm({ offer }: WebinarApplyFormProps) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -65,7 +72,7 @@ export function WebinarApplyForm() {
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
   const isSubmitting = toast.status === 'submitting';
-  const priceLabel = `${WEBINAR.price.toLocaleString('ko-KR')}원`;
+  const priceLabel = `${offer.price.toLocaleString('ko-KR')}원`;
 
   const closeModal = useCallback(() => {
     setModalOpen(false);
@@ -110,7 +117,7 @@ export function WebinarApplyForm() {
         const widgets = tossPayments.widgets({ customerKey: ANONYMOUS });
         widgetsRef.current = widgets;
 
-        await widgets.setAmount({ currency: 'KRW', value: WEBINAR.price });
+        await widgets.setAmount({ currency: 'KRW', value: offer.price });
         const [paymentMethodWidget, agreementWidget] = await Promise.all([
           widgets.renderPaymentMethods({
             selector: '#toss-payment-method',
@@ -144,7 +151,7 @@ export function WebinarApplyForm() {
     return () => {
       cancelled = true;
     };
-  }, [modalOpen, orderId]);
+  }, [modalOpen, orderId, offer.price]);
 
   /* 1단계: 신청 정보 접수 → orderId 발급 → 결제 모달 오픈 */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -170,6 +177,7 @@ export function WebinarApplyForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          variant: offer.variant,
           name,
           email,
           phone,
@@ -198,7 +206,7 @@ export function WebinarApplyForm() {
 
       if (typeof window !== 'undefined' && typeof window.gtag === 'function') {
         window.gtag('event', 'webinar_apply_submitted', {
-          webinar_slug: WEBINAR.slug,
+          webinar_slug: offer.slug,
           form_location: 'webinar_apply_form',
         });
       }
@@ -226,8 +234,10 @@ export function WebinarApplyForm() {
       await widgets.requestPayment({
         orderId,
         orderName: WEBINAR.orderName,
-        successUrl: `${origin}${WEBINAR.path}/payment/success`,
-        failUrl: `${origin}${WEBINAR.path}/payment/fail`,
+        /* 변형(v)을 넘겨 결과 페이지의 '다시 신청하기' 링크가 같은 오퍼로 돌아오게 한다.
+           토스는 자체 파라미터(paymentKey 등)를 & 로 이어 붙인다. */
+        successUrl: `${origin}${WEBINAR.path}/payment/success?v=${offer.variant}`,
+        failUrl: `${origin}${WEBINAR.path}/payment/fail?v=${offer.variant}`,
         customerName: name,
         customerEmail: email,
         customerMobilePhone: phone.replace(/[^0-9]/g, ''),

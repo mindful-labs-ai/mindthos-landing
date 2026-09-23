@@ -2,7 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { AlertCircle } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo/metadata';
-import { CASE_CONCEPTUALIZATION_WEBINAR as WEBINAR } from '@/constants/webinar';
+import {
+  CASE_CONCEPTUALIZATION_WEBINAR as WEBINAR,
+  WEBINAR_OFFERS,
+  isWebinarVariant,
+} from '@/constants/webinar';
 import '../../webinar.css';
 
 export const metadata: Metadata = generatePageMetadata({
@@ -16,11 +20,14 @@ interface FailPageProps {
   searchParams: Promise<{
     code?: string;
     message?: string;
+    /* 판매 오퍼 변형 — 다시 신청하기 링크가 같은 오퍼 페이지를 가리키게 한다 */
+    v?: string;
   }>;
 }
 
 export default async function WebinarPaymentFailPage({ searchParams }: FailPageProps) {
-  const { code, message } = await searchParams;
+  const { code, message, v } = await searchParams;
+  const offer = isWebinarVariant(v) ? WEBINAR_OFFERS[v] : WEBINAR_OFFERS.default;
 
   return (
     <section className="wf-section webinar-result" aria-label="결제 실패">
@@ -33,7 +40,7 @@ export default async function WebinarPaymentFailPage({ searchParams }: FailPageP
           </p>
           {code ? <p className="webinar-result-meta">오류 코드 {code}</p> : null}
           <div className="webinar-result-actions">
-            <Link href={`${WEBINAR.path}#apply`} className="btn primary">
+            <Link href={`${offer.path}#apply`} className="btn primary">
               다시 신청하기
             </Link>
           </div>

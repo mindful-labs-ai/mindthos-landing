@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { createClient } from '@/lib/supabase/server';
-import { CASE_CONCEPTUALIZATION_WEBINAR } from '@/constants/webinar';
+import {
+  CASE_CONCEPTUALIZATION_WEBINAR,
+  WEBINAR_OFFERS,
+  isWebinarVariant,
+} from '@/constants/webinar';
 
 const MAX_NAME_LEN = 80;
 const MAX_EMAIL_LEN = 254;
@@ -14,6 +18,7 @@ const PHONE_RE = /^[0-9+\-\s()]{8,}$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 interface RegisterBody {
+  variant?: unknown;
   name?: unknown;
   email?: unknown;
   phone?: unknown;
@@ -42,6 +47,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'INVALID_JSON' }, { status: 400 });
   }
 
+  /* 판매 오퍼(기본가/회원 할인가) — 금액은 클라이언트가 아니라 서버 상수에서 결정한다. */
+  const variantRaw = body.variant ?? 'default';
+  if (!isWebinarVariant(variantRaw)) {
+    return NextResponse.json({ ok: false, error: 'INVALID_VARIANT' }, { status: 400 });
+  }
+  const offer = WEBINAR_OFFERS[variantRaw];
+
   const name = trimmedString(body.name, MAX_NAME_LEN);
   if (!name) {
     return NextResponse.json({ ok: false, error: 'INVALID_NAME' }, { status: 400 });
@@ -68,12 +80,12 @@ export async function POST(req: Request) {
 
   const supabase = await createClient();
   const { error } = await supabase.from('webinar_registrations').insert({
-    webinar_slug: CASE_CONCEPTUALIZATION_WEBINAR.slug,
+    webinar_slug: offer.slug,
     order_id: orderId,
     name,
     email,
     phone,
-    amount: CASE_CONCEPTUALIZATION_WEBINAR.price,
+    amount: offer.price,
     source_url: sourceUrl,
     utm_source: utmSource,
     utm_medium: utmMedium,
@@ -92,7 +104,7 @@ export async function POST(req: Request) {
   return NextResponse.json({
     ok: true,
     orderId,
-    amount: CASE_CONCEPTUALIZATION_WEBINAR.price,
+    amount: offer.price,
     orderName: CASE_CONCEPTUALIZATION_WEBINAR.orderName,
   });
 }

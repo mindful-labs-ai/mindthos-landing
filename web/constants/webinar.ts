@@ -15,7 +15,7 @@ export const CASE_CONCEPTUALIZATION_WEBINAR = {
   path: '/education/webinar/case-conceptualization',
   title: '초심 상담사를 위한 사례개념화',
   orderName: '초심 상담사를 위한 사례개념화 웨비나',
-  /** KRW. 서버(/api/webinar/confirm)가 결제 금액 검증에 사용 — 변경 시 배포 필수 */
+  /** KRW 정가. 회원 전용 할인가는 아래 WEBINAR_OFFERS 참조 */
   price: 10000,
   /** 토스페이먼츠 결제위젯 variantKey (결제 어드민에서 설정한 커스텀 결제 UI) */
   widgetVariantKey: 'mindwebi',
@@ -32,3 +32,52 @@ export const CASE_CONCEPTUALIZATION_WEBINAR = {
     { time: '20:25–20:30', part: '2부 Q&A', content: '질의응답', host: '마음토스 팀' },
   ] satisfies WebinarTimelineRow[],
 } as const;
+
+export type WebinarVariant = 'default' | 'mindthos' | 'damdam';
+
+export interface WebinarOffer {
+  variant: WebinarVariant;
+  /** DB webinar_registrations.webinar_slug 에 저장되는 값 — 변형별 신청 집계 구분용 */
+  slug: string;
+  /** 상세 페이지 경로. 회원 전용 변형은 sitemap·프로그램 페이지에 노출하지 않는다(링크 공유 전용). */
+  path: string;
+  /** KRW. 서버(/api/webinar/confirm)가 결제 금액 검증에 사용 — 변경 시 배포 필수 */
+  price: number;
+  /** 회원 전용 표기 (기본 오퍼는 null) */
+  memberLabel: string | null;
+}
+
+/** 판매 오퍼 — 기본(공개) + 회원 전용 할인 링크 2종 */
+export const WEBINAR_OFFERS: Record<WebinarVariant, WebinarOffer> = {
+  default: {
+    variant: 'default',
+    slug: CASE_CONCEPTUALIZATION_WEBINAR.slug,
+    path: CASE_CONCEPTUALIZATION_WEBINAR.path,
+    price: CASE_CONCEPTUALIZATION_WEBINAR.price,
+    memberLabel: null,
+  },
+  mindthos: {
+    variant: 'mindthos',
+    slug: 'case-conceptualization-mindthos',
+    path: `${CASE_CONCEPTUALIZATION_WEBINAR.path}/mindthos`,
+    price: 5000,
+    memberLabel: '마음토스 회원 전용',
+  },
+  damdam: {
+    variant: 'damdam',
+    slug: 'case-conceptualization-damdam',
+    path: `${CASE_CONCEPTUALIZATION_WEBINAR.path}/damdam`,
+    price: 5000,
+    memberLabel: '담앤담 회원 전용',
+  },
+};
+
+export function isWebinarVariant(v: unknown): v is WebinarVariant {
+  return v === 'default' || v === 'mindthos' || v === 'damdam';
+}
+
+export function webinarOfferBySlug(slug: string): WebinarOffer | null {
+  return (
+    Object.values(WEBINAR_OFFERS).find((offer) => offer.slug === slug) ?? null
+  );
+}
