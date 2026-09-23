@@ -92,19 +92,27 @@ const OUTCOMES = [
   },
 ];
 
-/* 1부 세부 목차는 확정 시 교체 (기획 문서 TBD 항목) */
 const SESSIONS = [
   {
     part: '1부 · 19:05–19:55',
     title: '초심 상담사를 위한 사례개념화',
     host: '이헌주 교수',
-    body: '이론을 실전으로 연결하는 사례개념화의 사고 틀을 다룹니다. 접수면접 정보에서 핵심 가설을 세우고 상담 목표로 이어가는 과정을 실제 사례로 풀어내고, 초심 상담사가 자주 빠지는 함정도 함께 짚습니다. 강연 후 5분 질의응답이 이어집니다.',
+    body: '이론을 실전으로 연결하는 사례개념화의 사고 틀을, 실제 사례를 바탕으로 초심 상담사의 눈높이에서 풀어냅니다. 강연 후 5분 질의응답이 이어집니다.',
+    agenda: [
+      'AI 시대에 상담은 어떤 역할을 할 것인가?',
+      '사례개념화의 3대 요소',
+      '사례개념화의 네 가지 축',
+    ],
   },
   {
     part: '2부 · 20:00–20:25',
     title: 'AI와 함께하는 사례개념화 실무',
     host: '마음토스 팀',
-    body: '1부에서 배운 사고 틀을 실무에 붙이는 시간입니다. 마음토스 AI로 상담 기록에서 개념화 초안을 만들고, 슈퍼비전 준비로 연결하는 과정을 라이브로 시연합니다. 세션 후 5분 질의응답으로 마무리합니다.',
+    body: '1부에서 배운 틀을 실무에 붙이는 시간입니다. 대화형 AI로 사례개념화 보조를 받는 과정을 라이브로 시연하고, 세션 후 5분 질의응답으로 마무리합니다.',
+    agenda: [
+      '마음토스 소개',
+      '대화형 AI를 활용하여 이론별 사례개념화 보조를 받는 법',
+    ],
   },
 ];
 
@@ -413,6 +421,11 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
                 <h3 className="webinar-session-title">{s.title}</h3>
                 <span className="webinar-session-host">{s.host}</span>
                 <p className="webinar-session-body">{s.body}</p>
+                <ol className="webinar-session-agenda">
+                  {s.agenda.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ol>
               </li>
             ))}
           </ul>
