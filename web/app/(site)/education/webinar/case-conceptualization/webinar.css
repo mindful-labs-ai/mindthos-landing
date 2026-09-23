@@ -67,6 +67,20 @@
   color: var(--ink-2);
 }
 
+/* ============== PRICE (정가 → 할인가) ============== */
+.webinar-price-strike {
+  color: var(--ink-3);
+  font-weight: 500;
+  font-size: 0.88em;
+  text-decoration: line-through;
+  text-decoration-color: rgba(31, 31, 31, 0.35);
+  margin-right: 2px;
+}
+.webinar-price-strike--dark {
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+}
+
 /* ============== KEY INFO ============== */
 .webinar-info-grid {
   list-style: none;

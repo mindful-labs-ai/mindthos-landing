@@ -153,8 +153,17 @@ interface WebinarDetailProps {
 
 export function WebinarDetail({ offer }: WebinarDetailProps) {
   const priceLabel = `${offer.price.toLocaleString('ko-KR')}원`;
+  const regularPriceLabel = `${WEBINAR.price.toLocaleString('ko-KR')}원`;
   const isMember = offer.memberLabel !== null;
   const coffeeLabel = offer.price <= 5000 ? '커피 한 잔 값' : '커피 두 잔 값';
+  /* 회원 전용 오퍼는 "정가 → 할인가" 형태로 표기 */
+  const priceDisplay = isMember ? (
+    <>
+      <s className="webinar-price-strike">{regularPriceLabel}</s> {priceLabel}
+    </>
+  ) : (
+    priceLabel
+  );
   const KEY_INFO = [
     {
       icon: CalendarDays,
@@ -171,10 +180,8 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
     {
       icon: Ticket,
       label: '참가비',
-      value: priceLabel,
-      note: isMember
-        ? `${offer.memberLabel} 특별가 (정가 ${WEBINAR.price.toLocaleString('ko-KR')}원)`
-        : '토스페이먼츠 간편 결제',
+      value: priceDisplay,
+      note: isMember ? `${offer.memberLabel} 할인가` : '토스페이먼츠 간편 결제',
     },
   ];
 
@@ -245,8 +252,8 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
               </a>
             </div>
             <p className="webinar-hero-note">
-              구글 밋 온라인 라이브 · 참가비 {priceLabel}
-              {isMember ? ' (회원 특별가)' : ''} ·
+              구글 밋 온라인 라이브 · 참가비 {priceDisplay}
+              {isMember ? ' (회원 할인가)' : ''} ·
               참여 링크는 신청 이메일·문자로 보내드려요.
             </p>
           </div>
@@ -562,7 +569,16 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
             </h2>
             <p className="webinar-apply-sub">
               양학회 1급 수퍼바이저의 라이브 강연과 AI 실무 세션이
-              참가비 {priceLabel}{isMember ? ` — ${offer.memberLabel} 특별가` : ''}. 신청 정보를 입력하고
+              참가비{' '}
+              {isMember ? (
+                <>
+                  정가 <s className="webinar-price-strike webinar-price-strike--dark">{regularPriceLabel}</s>{' '}
+                  → {offer.memberLabel} 할인가 <strong>{priceLabel}</strong>
+                </>
+              ) : (
+                priceLabel
+              )}
+              . 신청 정보를 입력하고
               결제하시면 신청이 완료됩니다.
             </p>
             <ul className="webinar-apply-points">
