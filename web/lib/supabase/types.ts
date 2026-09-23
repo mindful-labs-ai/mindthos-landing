@@ -343,6 +343,48 @@ export interface Database {
         Update: Partial<Database['public']['Tables']['academy_inquiries']['Insert']>;
         Relationships: [];
       };
+      webinar_registrations: {
+        Row: {
+          id: string;
+          webinar_slug: string;
+          order_id: string;
+          name: string;
+          email: string;
+          phone: string;
+          amount: number;
+          status: 'pending' | 'paid' | 'failed' | 'canceled';
+          payment_key: string | null;
+          paid_at: string | null;
+          fail_reason: string | null;
+          source_url: string | null;
+          utm_source: string | null;
+          utm_medium: string | null;
+          utm_campaign: string | null;
+          user_agent: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          webinar_slug: string;
+          order_id: string;
+          name: string;
+          email: string;
+          phone: string;
+          amount: number;
+          status?: 'pending' | 'paid' | 'failed' | 'canceled';
+          payment_key?: string | null;
+          paid_at?: string | null;
+          fail_reason?: string | null;
+          source_url?: string | null;
+          utm_source?: string | null;
+          utm_medium?: string | null;
+          utm_campaign?: string | null;
+          user_agent?: string | null;
+          created_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['webinar_registrations']['Insert']>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;

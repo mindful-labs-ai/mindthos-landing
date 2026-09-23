@@ -445,3 +445,45 @@ export function generateCourseSchema(course: {
       : {}),
   };
 }
+
+export function generateEducationEventSchema(event: {
+  name: string;
+  description: string;
+  url: string;
+  startDate: string;
+  endDate: string;
+  price: number;
+  imageUrl?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'EducationEvent',
+    name: event.name,
+    description: event.description,
+    url: event.url,
+    startDate: event.startDate,
+    endDate: event.endDate,
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: {
+      '@type': 'VirtualLocation',
+      url: event.url,
+    },
+    organizer: {
+      '@type': 'Organization',
+      '@id': `${SITE_CONFIG.url}/#organization`,
+      name: SITE_CONFIG.legalName,
+      url: SITE_CONFIG.url,
+    },
+    offers: {
+      '@type': 'Offer',
+      price: event.price,
+      priceCurrency: 'KRW',
+      availability: 'https://schema.org/InStock',
+      url: event.url,
+      validFrom: new Date().toISOString().slice(0, 10),
+    },
+    inLanguage: 'ko-KR',
+    ...(event.imageUrl ? { image: [event.imageUrl] } : {}),
+  };
+}

@@ -39,8 +39,8 @@ export const PRIMARY_NAV: NavItem[] = [
   { href: '/', label: '서비스 소개' },
   { href: DOCS_GUIDE_URL, label: '사용 가이드', external: true },
   { href: '/blog', label: '블로그' },
-  /* "교육 프로그램"(/education)은 당분간 미운영으로 제거 (2026-08-13).
-     라우트 삭제 + next.config.ts 에서 / 로 임시 redirect. 재개 시 git 히스토리에서 복원. */
+  /* "교육 프로그램"(/education) 운영 재개 (2026-09-22) — 웨비나 추가와 함께 라우트·GNB 복원 */
+  { href: '/education', label: '교육 프로그램' },
   { href: KAKAO_INQUIRY_URL, label: '문의', external: true },
 ];
 

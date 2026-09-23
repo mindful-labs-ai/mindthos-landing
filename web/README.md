@@ -45,11 +45,12 @@ app/                  Next.js App Router
     ├─ page.tsx       홈 (HifiLanding monolith)
     ├─ layout.tsx     <PromoBanner /> + <Header /> + <Footer />
     ├─ blog/          블로그 시스템 (목록 / 상세 / OG 이미지)
+    ├─ education/     교육 프로그램 (+ webinar/ 웨비나 상세)
     └─ security/      보안 / 데이터 처리 안내
   api/
     ├─ revalidate/    POST: REVALIDATION_SECRET 검증 후 ISR 갱신
     └─ indexnow/      Bing/Yandex 즉시 인덱싱
-  sitemap.ts          / · /blog · /security + 발행된 블로그 글
+  sitemap.ts          / · /blog · /education · /security + 발행된 블로그 글
   robots.ts           User-agent + Disallow + Sitemap
 
 components/

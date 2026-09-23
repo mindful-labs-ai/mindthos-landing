@@ -11,18 +11,19 @@ import type { NextConfig } from 'next';
  *  - cdn.prod.website-files.com (랜딩에 일부 외부 이미지)
  *  - app.mindthos.com (외부 redirect 대상이지만 frame 은 아님)
  *  - vercel insights (선택) → vitals.vercel-insights.com
+ *  - 토스페이먼츠 결제창 (웨비나 신청) → js.tosspayments.com / *.tosspayments.com
  * inline script 가 (GA/Pixel/JSON-LD) 존재하므로 unsafe-inline 허용.
  * Report-only 로 시작 — 1주 모니터링 후 enforce 로 전환.
  */
 const cspReportOnly = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net",
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net https://js.tosspayments.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
-  "img-src 'self' data: blob: https://*.supabase.co https://cdn.prod.website-files.com https://www.google-analytics.com https://*.facebook.com https://i.ytimg.com",
+  "img-src 'self' data: blob: https://*.supabase.co https://cdn.prod.website-files.com https://www.google-analytics.com https://*.facebook.com https://i.ytimg.com https://static.toss.im",
   "media-src 'self' https://*.supabase.co https://media.mindthos.com",
-  "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.facebook.com https://vitals.vercel-insights.com",
-  "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://td.doubleclick.net",
+  "connect-src 'self' https://*.supabase.co https://www.google-analytics.com https://*.facebook.com https://vitals.vercel-insights.com https://*.tosspayments.com",
+  "frame-src 'self' https://www.youtube.com https://www.youtube-nocookie.com https://player.vimeo.com https://www.facebook.com https://td.doubleclick.net https://*.tosspayments.com",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self' https://app.mindthos.com https://www.facebook.com",
@@ -103,8 +104,7 @@ const nextConfig: NextConfig = {
         permanent: false,
         basePath: false,
       },
-      // 교육 프로그램 — 당분간 미운영 (2026-08-13 라우트 제거). 재개 가능성 있어 임시(302) redirect.
-      { source: '/education', destination: '/', permanent: false },
+      // 교육 프로그램 — 운영 재개 (2026-09-22). redirect 를 두면 라우트가 가려지므로 제거.
       // 보안 — /security 는 실제 라우트(app/(site)/security/page.tsx). redirect 두면 라우트가 가려져 제거.
       // /security/* 하위 잔여 URL 만 흡수.
       { source: '/security/how-we-protect', destination: '/security', permanent: true },
