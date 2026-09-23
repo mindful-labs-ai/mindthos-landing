@@ -80,14 +80,16 @@ async function notifySlack(payload: {
  */
 async function notifySmsToRegistrant(phone: string): Promise<void> {
   const w = CASE_CONCEPTUALIZATION_WEBINAR;
+  /* 문자망(EUC-KR)에서 en-dash(–)가 유실돼 "19:0020:30"처럼 보이므로 ~ 로 치환 */
+  const dateLabel = w.dateLabel.replace(/–/g, '~');
   const text = [
     '[마음토스] 웨비나 신청이 완료되었습니다.',
     '',
-    `· ${w.title}`,
-    `· ${w.dateLabel}`,
-    `· ${w.platformLabel}`,
+    `▶ ${w.title}`,
+    `- 일시: ${dateLabel}`,
+    `- 진행: ${w.platformLabel}`,
     '',
-    '구글 밋 참여 링크는 웨비나 전에 문자와 이메일로 보내드립니다.',
+    '참여 링크는 웨비나 전에 문자와 이메일로 보내드립니다.',
   ].join('\n');
 
   const result = await sendSolapiSms({ to: phone, text, subject: '마음토스 웨비나' });
