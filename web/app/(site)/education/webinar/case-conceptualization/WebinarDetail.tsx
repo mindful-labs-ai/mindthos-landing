@@ -143,7 +143,7 @@ const FAQS = [
   },
   {
     q: '결제 취소·환불은 어떻게 하나요?',
-    a: '웨비나 시작 전까지 카카오톡 채널로 문의해 주시면 취소·환불을 도와드립니다.',
+    a: '환불은 웨비나 시작 3일 전까지 가능합니다. 그 이후에는 환불이 어려운 점 양해 부탁드립니다. 취소·환불 요청은 카카오톡 채널로 남겨주세요.',
   },
 ];
 
@@ -581,11 +581,6 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
               . 신청 정보를 입력하고
               결제하시면 신청이 완료됩니다.
             </p>
-            <ul className="webinar-apply-points">
-              <li>라이브 Q&A로 내 사례 고민을 직접 질문</li>
-              <li>구글 밋 — 전국 어디서든 링크 하나로 참여</li>
-              <li>참여 링크는 이메일·문자로 자동 발송</li>
-            </ul>
           </div>
           <WebinarApplyForm offer={offer} />
         </div>
