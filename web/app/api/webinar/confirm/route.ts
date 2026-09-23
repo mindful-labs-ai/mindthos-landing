@@ -220,14 +220,18 @@ export async function POST(req: Request) {
     });
   }
 
-  void notifySlack({
-    name: registration.name,
-    phone: registration.phone,
-    email: registration.email,
-    orderId,
-    amount,
-  });
-  void notifySmsToRegistrant(registration.phone);
+  /* Vercel 서버리스는 응답 반환 즉시 실행을 동결하므로 fire-and-forget(void)은 유실된다.
+     알림 실패가 응답을 깨지는 않지만(각자 내부에서 오류를 삼킴), 완료까지는 반드시 await. */
+  await Promise.allSettled([
+    notifySlack({
+      name: registration.name,
+      phone: registration.phone,
+      email: registration.email,
+      orderId,
+      amount,
+    }),
+    notifySmsToRegistrant(registration.phone),
+  ]);
 
   return NextResponse.json({ ok: true });
 }
