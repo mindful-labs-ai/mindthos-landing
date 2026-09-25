@@ -163,7 +163,7 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
   const priceLabel = `${offer.price.toLocaleString('ko-KR')}원`;
   const regularPriceLabel = `${WEBINAR.price.toLocaleString('ko-KR')}원`;
   const isMember = offer.memberLabel !== null;
-  const coffeeLabel = offer.price <= 10000 ? '커피 두 잔 값' : '점심 두 끼 값';
+  const coffeeLabel = offer.price <= 10000 ? '커피 두 잔 값' : '저녁 한 끼 값';
   /* 회원 전용 오퍼는 "정가 → 할인가" 형태로 표기 */
   const priceDisplay = isMember ? (
     <>
