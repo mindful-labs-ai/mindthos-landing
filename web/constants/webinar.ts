@@ -16,7 +16,7 @@ export const CASE_CONCEPTUALIZATION_WEBINAR = {
   title: '초심 상담사를 위한 사례개념화',
   orderName: '초심 상담사를 위한 사례개념화 웨비나',
   /** KRW 정가. 회원 전용 할인가는 아래 WEBINAR_OFFERS 참조 */
-  price: 10000,
+  price: 20000,
   /** 토스페이먼츠 결제위젯 variantKey (결제 어드민에서 설정한 커스텀 결제 UI) */
   widgetVariantKey: 'mindwebi',
   /** KST 기준 일시 */
@@ -60,14 +60,14 @@ export const WEBINAR_OFFERS: Record<WebinarVariant, WebinarOffer> = {
     variant: 'mindthos',
     slug: 'case-conceptualization-mindthos',
     path: `${CASE_CONCEPTUALIZATION_WEBINAR.path}/mindthos`,
-    price: 5000,
+    price: 10000,
     memberLabel: '마음토스 회원 전용',
   },
   damdam: {
     variant: 'damdam',
     slug: 'case-conceptualization-damdam',
     path: `${CASE_CONCEPTUALIZATION_WEBINAR.path}/damdam`,
-    price: 5000,
+    price: 10000,
     memberLabel: '담앤담 회원 전용',
   },
 };
