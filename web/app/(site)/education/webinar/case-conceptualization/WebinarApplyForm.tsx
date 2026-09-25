@@ -280,7 +280,7 @@ export function WebinarApplyForm({ offer }: WebinarApplyFormProps) {
             />
           </label>
           <label className="webinar-form-field">
-            <span className="webinar-form-label">이메일 (구글 밋 링크 발송)</span>
+            <span className="webinar-form-label">이메일 (Google Meet 링크 발송)</span>
             <input
               type="email"
               className="webinar-form-input"
@@ -331,7 +331,7 @@ export function WebinarApplyForm({ offer }: WebinarApplyFormProps) {
           </p>
         )}
         <p className="webinar-apply-note">
-          결제 완료 시 신청이 확정되며, 구글 밋 참여 링크는 웨비나 전에 입력하신
+          결제 완료 시 신청이 확정되며, Google Meet 참여 링크는 웨비나 전에 입력하신
           이메일과 문자로 보내드립니다. 결제·환불 문의는 카카오톡 채널을 이용해 주세요.
         </p>
       </form>

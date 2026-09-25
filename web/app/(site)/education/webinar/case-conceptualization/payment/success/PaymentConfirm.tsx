@@ -98,7 +98,7 @@ export function PaymentConfirm({ paymentKey, orderId, amount, backPath }: Paymen
       <CheckCircle2 className="webinar-result-icon" width={40} height={40} aria-hidden />
       <h1 className="webinar-result-title">웨비나 신청이 완료되었어요!</h1>
       <p className="webinar-result-body">
-        {WEBINAR.dateLabel}에 만나요. 구글 밋 참여 링크는 웨비나 전에
+        {WEBINAR.dateLabel}에 만나요. Google Meet 참여 링크는 웨비나 전에
         신청 시 입력하신 이메일과 문자로 보내드립니다.
       </p>
       <div className="webinar-result-actions">

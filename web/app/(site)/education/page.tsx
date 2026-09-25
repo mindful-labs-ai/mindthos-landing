@@ -37,7 +37,7 @@ const PROGRAMS: Program[] = [
     title: '[웨비나] 초심 상담사를 위한 사례개념화',
     lead: '이헌주 교수(양학회 1급)의 사례개념화 강연과 마음토스 AI 실무 세션 — 이론을 실전으로 연결하는 90분입니다.',
     details: [
-      { label: '진행 형식', value: '구글 밋 온라인 라이브 · 90분' },
+      { label: '진행 형식', value: 'Google Meet 온라인 라이브 · 90분' },
       { label: '대상', value: '초심 상담사 · 수련생' },
     ],
     status: '모집 중 — 10월 6일 (화) 19:00',

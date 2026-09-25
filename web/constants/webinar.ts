@@ -23,7 +23,7 @@ export const CASE_CONCEPTUALIZATION_WEBINAR = {
   dateLabel: '2026년 10월 6일 (화) 19:00–20:30',
   startsAt: '2026-10-06T19:00:00+09:00',
   endsAt: '2026-10-06T20:30:00+09:00',
-  platformLabel: '구글 밋(Google Meet) 온라인 라이브',
+  platformLabel: 'Google Meet 온라인 라이브',
   timeline: [
     { time: '19:00–19:05', part: '오프닝', content: '웨비나 소개', host: '마음토스' },
     { time: '19:05–19:55', part: '1부', content: '초청 강연 — 초심 상담사를 위한 사례개념화', host: '이헌주 교수' },

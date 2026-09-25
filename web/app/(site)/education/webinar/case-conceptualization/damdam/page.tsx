@@ -7,7 +7,7 @@ import { WebinarDetail } from '../WebinarDetail';
 export const metadata: Metadata = generatePageMetadata({
   title: '[담앤담 회원 전용] 초심 상담사를 위한 사례개념화 웨비나 — 10월 6일 (화)',
   description:
-    '담앤담 회원 전용 특별가 10,000원. 10월 6일 화요일 저녁 7시, 구글 밋 온라인 라이브. 이헌주 교수(양학회 1급)의 사례개념화 강연과 마음토스 AI 실무 세션.',
+    '담앤담 회원 전용 특별가 10,000원. 10월 6일 화요일 저녁 7시, Google Meet 온라인 라이브. 이헌주 교수(양학회 1급)의 사례개념화 강연과 마음토스 AI 실무 세션.',
   path: WEBINAR_OFFERS.damdam.path,
   noindex: true,
 });

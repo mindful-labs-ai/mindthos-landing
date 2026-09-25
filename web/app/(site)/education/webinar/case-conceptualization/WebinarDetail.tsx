@@ -139,7 +139,7 @@ const FAQS = [
   },
   {
     q: '참여 방법은 어떻게 되나요?',
-    a: '신청 정보를 입력하고 결제를 완료하시면 신청이 확정됩니다. 구글 밋 참여 링크는 웨비나 전에 입력하신 이메일과 문자로 보내드립니다. 별도 프로그램 설치 없이 링크만 누르면 참여할 수 있어요.',
+    a: '신청 정보를 입력하고 결제를 완료하시면 신청이 확정됩니다. Google Meet 참여 링크는 웨비나 전에 입력하신 이메일과 문자로 보내드립니다. 별도 프로그램 설치 없이 링크만 누르면 참여할 수 있어요.',
   },
   {
     q: '카메라나 마이크를 켜야 하나요?',
@@ -182,7 +182,7 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
     {
       icon: MonitorPlay,
       label: '진행 방식',
-      value: '구글 밋 온라인 라이브',
+      value: 'Google Meet 온라인 라이브',
       note: '참여 링크는 신청 이메일·문자로 발송',
     },
     {
@@ -260,7 +260,7 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
               </a>
             </div>
             <p className="webinar-hero-note">
-              구글 밋 온라인 라이브 · 참가비 {priceDisplay}
+              Google Meet 온라인 라이브 · 참가비 {priceDisplay}
               {isMember ? ' (회원 할인가)' : ''} ·
               참여 링크는 신청 이메일·문자로 보내드려요.
             </p>
@@ -544,7 +544,7 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
               <span className="webinar-step-no">STEP 02</span>
               <h3 className="webinar-step-title">참여 링크 수신</h3>
               <p className="webinar-step-body">
-                웨비나 전, 입력하신 이메일과 문자로 구글 밋
+                웨비나 전, 입력하신 이메일과 문자로 Google Meet
                 참여 링크를 보내드립니다.
               </p>
             </li>
