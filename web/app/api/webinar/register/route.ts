@@ -40,6 +40,13 @@ function trimmedString(v: unknown, max: number): string | null {
  * 결제 승인(status='paid')은 /api/webinar/confirm 에서 처리.
  */
 export async function POST(req: Request) {
+  if (CASE_CONCEPTUALIZATION_WEBINAR.registrationClosed) {
+    return NextResponse.json(
+      { ok: false, error: 'REGISTRATION_CLOSED' },
+      { status: 410 },
+    );
+  }
+
   let body: RegisterBody;
   try {
     body = (await req.json()) as RegisterBody;

@@ -33,6 +33,15 @@
   color: var(--ink-2);
 }
 
+/* 마감 — hero CTA 비활성 (클릭·호버 없음) */
+.webinar-hero-cta .btn.is-disabled {
+  pointer-events: none;
+  cursor: default;
+  background: var(--bg-3);
+  border-color: var(--line);
+  color: var(--ink-3);
+}
+
 /* ============== Section Head ============== */
 .webinar-section-head {
   display: flex;
@@ -706,6 +715,26 @@
   font-size: 15.5px;
   line-height: 1.72;
   color: rgba(255, 255, 255, 0.78);
+}
+
+/* 마감 안내 블록 — 신청 폼 자리를 대체 */
+.webinar-closed {
+  margin-bottom: 0;
+}
+.webinar-closed-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.webinar-closed-ghost {
+  border-color: rgba(255, 255, 255, 0.32);
+  color: var(--white);
+}
+.webinar-closed-ghost:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  color: var(--white);
 }
 
 /* 신청 폼 — academy-form 패턴을 webinar 네임스페이스로 이식 */

@@ -454,6 +454,8 @@ export function generateEducationEventSchema(event: {
   endDate: string;
   price: number;
   imageUrl?: string;
+  /** 신청 마감 — offers.availability 를 SoldOut 으로 표기 */
+  soldOut?: boolean;
 }) {
   return {
     '@context': 'https://schema.org',
@@ -479,7 +481,9 @@ export function generateEducationEventSchema(event: {
       '@type': 'Offer',
       price: event.price,
       priceCurrency: 'KRW',
-      availability: 'https://schema.org/InStock',
+      availability: event.soldOut
+        ? 'https://schema.org/SoldOut'
+        : 'https://schema.org/InStock',
       url: event.url,
       validFrom: new Date().toISOString().slice(0, 10),
     },

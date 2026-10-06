@@ -17,6 +17,12 @@ export const CASE_CONCEPTUALIZATION_WEBINAR = {
   orderName: '초심 상담사를 위한 사례개념화 웨비나',
   /** KRW 정가. 회원 전용 할인가는 아래 WEBINAR_OFFERS 참조 */
   price: 20000,
+  /**
+   * 신청 마감 여부 — true 면 공개·회원 전용 페이지 모두 신청 폼/결제 CTA 를 닫고
+   * /api/webinar/register 가 REGISTRATION_CLOSED 로 거절한다.
+   * (이미 발급된 orderId 의 결제 승인 /api/webinar/confirm 은 그대로 동작)
+   */
+  registrationClosed: true as boolean,
   /** 토스페이먼츠 결제위젯 variantKey (결제 어드민에서 설정한 커스텀 결제 UI) */
   widgetVariantKey: 'mindwebi',
   /** KST 기준 일시 */

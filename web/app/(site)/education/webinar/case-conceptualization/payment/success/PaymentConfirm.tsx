@@ -85,9 +85,15 @@ export function PaymentConfirm({ paymentKey, orderId, amount, backPath }: Paymen
         <h1 className="webinar-result-title">결제를 완료하지 못했어요</h1>
         <p className="webinar-result-body">{message}</p>
         <div className="webinar-result-actions">
-          <Link href={`${backPath}#apply`} className="btn primary">
-            다시 신청하기
-          </Link>
+          {WEBINAR.registrationClosed ? (
+            <Link href={backPath} className="btn primary">
+              웨비나 안내 페이지로
+            </Link>
+          ) : (
+            <Link href={`${backPath}#apply`} className="btn primary">
+              다시 신청하기
+            </Link>
+          )}
         </div>
       </div>
     );

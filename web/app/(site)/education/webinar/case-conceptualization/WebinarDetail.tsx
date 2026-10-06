@@ -20,6 +20,7 @@ import {
 } from '@/lib/seo/schema';
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { SITE_CONFIG } from '@/constants/site';
+import { KAKAO_INQUIRY_URL } from '@/constants/nav';
 import {
   CASE_CONCEPTUALIZATION_WEBINAR as WEBINAR,
   type WebinarOffer,
@@ -163,6 +164,7 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
   const priceLabel = `${offer.price.toLocaleString('ko-KR')}원`;
   const regularPriceLabel = `${WEBINAR.price.toLocaleString('ko-KR')}원`;
   const isMember = offer.memberLabel !== null;
+  const isClosed = WEBINAR.registrationClosed;
   const coffeeLabel = offer.price <= 10000 ? '커피 두 잔 값' : '저녁 한 끼 값';
   /* 회원 전용 오퍼는 "정가 → 할인가" 형태로 표기 */
   const priceDisplay = isMember ? (
@@ -189,7 +191,11 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
       icon: Ticket,
       label: '참가비',
       value: priceDisplay,
-      note: isMember ? `${offer.memberLabel} 할인가` : '토스페이먼츠 간편 결제',
+      note: isClosed
+        ? '신청 마감'
+        : isMember
+          ? `${offer.memberLabel} 할인가`
+          : '토스페이먼츠 간편 결제',
     },
   ];
 
@@ -210,6 +216,7 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
     endDate: WEBINAR.endsAt,
     price: offer.price,
     imageUrl: `${SITE_CONFIG.url}/webinar-lee-heonju-lecture.webp`,
+    soldOut: isClosed,
   });
   const faqSchema = generateFAQSchema(
     FAQS.map((f) => ({ question: f.q, answer: f.a })),
@@ -227,7 +234,12 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
         <div className="container">
           <div className="page-hero-content webinar-hero-content">
             <span className="section-pill">
-              {isMember ? `${offer.memberLabel} · ` : '마음토스 웨비나 · '}10월 6일 (화) 19:00
+              {isClosed
+                ? '신청 마감 · '
+                : isMember
+                  ? `${offer.memberLabel} · `
+                  : '마음토스 웨비나 · '}
+              10월 6일 (화) 19:00
             </span>
             <h1 className="page-hero-h1">
               초심 상담사를 위한<br />
@@ -239,16 +251,22 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
               마음토스 AI 실무 세션으로, 사례개념화의 실전 감각을 잡아드립니다.
             </p>
             <div className="webinar-hero-cta">
-              <a
-                className="btn primary lg"
-                href="#apply"
-                data-cta-intent="webinar_payment"
-                data-cta-location="webinar_hero"
-                data-cta-label="신청하기"
-              >
-                신청하기
-                <ArrowRight className="arr" width={18} height={18} aria-hidden />
-              </a>
+              {isClosed ? (
+                <span className="btn primary lg is-disabled" aria-disabled="true">
+                  신청 마감
+                </span>
+              ) : (
+                <a
+                  className="btn primary lg"
+                  href="#apply"
+                  data-cta-intent="webinar_payment"
+                  data-cta-location="webinar_hero"
+                  data-cta-label="신청하기"
+                >
+                  신청하기
+                  <ArrowRight className="arr" width={18} height={18} aria-hidden />
+                </a>
+              )}
               <a
                 className="btn ghost lg"
                 href="#program"
@@ -260,9 +278,18 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
               </a>
             </div>
             <p className="webinar-hero-note">
-              Google Meet 온라인 라이브 · 참가비 {priceDisplay}
-              {isMember ? ' (회원 할인가)' : ''} ·
-              참여 링크는 신청 이메일·문자로 보내드려요.
+              {isClosed ? (
+                <>
+                  신청이 마감되었습니다. 신청하신 분께는 Google Meet 참여 링크를
+                  이메일·문자로 보내드렸어요.
+                </>
+              ) : (
+                <>
+                  Google Meet 온라인 라이브 · 참가비 {priceDisplay}
+                  {isMember ? ' (회원 할인가)' : ''} ·
+                  참여 링크는 신청 이메일·문자로 보내드려요.
+                </>
+              )}
             </p>
           </div>
         </div>
@@ -524,41 +551,43 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
         </div>
       </section>
 
-      {/* STEPS */}
-      <section className="wf-section webinar-steps" aria-label="참여 방법">
-        <div className="container">
-          <header className="webinar-section-head">
-            <span className="t-tag">HOW TO JOIN</span>
-            <h2 className="t-h2">참여 방법은 간단합니다</h2>
-          </header>
-          <ol className="webinar-step-list">
-            <li className="webinar-step-card">
-              <span className="webinar-step-no">STEP 01</span>
-              <h3 className="webinar-step-title">신청 · 결제</h3>
-              <p className="webinar-step-body">
-                아래 신청 폼에 이름·이메일·연락처를 입력하고
-                토스페이먼츠로 결제하면 신청이 확정됩니다.
-              </p>
-            </li>
-            <li className="webinar-step-card">
-              <span className="webinar-step-no">STEP 02</span>
-              <h3 className="webinar-step-title">참여 링크 수신</h3>
-              <p className="webinar-step-body">
-                웨비나 전, 입력하신 이메일과 문자로 Google Meet
-                참여 링크를 보내드립니다.
-              </p>
-            </li>
-            <li className="webinar-step-card">
-              <span className="webinar-step-no">STEP 03</span>
-              <h3 className="webinar-step-title">10월 6일 저녁 7시, 접속</h3>
-              <p className="webinar-step-body">
-                별도 설치 없이 링크만 누르면 참여 완료.
-                카메라를 켜지 않아도 괜찮습니다.
-              </p>
-            </li>
-          </ol>
-        </div>
-      </section>
+      {/* STEPS — 마감 후에는 신청 안내가 무의미하므로 숨긴다 */}
+      {!isClosed && (
+        <section className="wf-section webinar-steps" aria-label="참여 방법">
+          <div className="container">
+            <header className="webinar-section-head">
+              <span className="t-tag">HOW TO JOIN</span>
+              <h2 className="t-h2">참여 방법은 간단합니다</h2>
+            </header>
+            <ol className="webinar-step-list">
+              <li className="webinar-step-card">
+                <span className="webinar-step-no">STEP 01</span>
+                <h3 className="webinar-step-title">신청 · 결제</h3>
+                <p className="webinar-step-body">
+                  아래 신청 폼에 이름·이메일·연락처를 입력하고
+                  토스페이먼츠로 결제하면 신청이 확정됩니다.
+                </p>
+              </li>
+              <li className="webinar-step-card">
+                <span className="webinar-step-no">STEP 02</span>
+                <h3 className="webinar-step-title">참여 링크 수신</h3>
+                <p className="webinar-step-body">
+                  웨비나 전, 입력하신 이메일과 문자로 Google Meet
+                  참여 링크를 보내드립니다.
+                </p>
+              </li>
+              <li className="webinar-step-card">
+                <span className="webinar-step-no">STEP 03</span>
+                <h3 className="webinar-step-title">10월 6일 저녁 7시, 접속</h3>
+                <p className="webinar-step-body">
+                  별도 설치 없이 링크만 누르면 참여 완료.
+                  카메라를 켜지 않아도 괜찮습니다.
+                </p>
+              </li>
+            </ol>
+          </div>
+        </section>
+      )}
 
       {/* FAQ */}
       <section className="wf-section alt webinar-faq-section" aria-label="자주 묻는 질문">
@@ -571,31 +600,65 @@ export function WebinarDetail({ offer }: WebinarDetailProps) {
         </div>
       </section>
 
-      {/* APPLY */}
+      {/* APPLY — 마감 시 폼 대신 안내 블록 */}
       <section id="apply" className="webinar-apply" aria-label="웨비나 신청">
         <div className="container">
-          <div className="webinar-apply-head">
-            <span className="webinar-apply-pill">{WEBINAR.dateLabel}</span>
-            <h2 className="webinar-apply-h2">
-              {coffeeLabel}으로,<br />
-              사례개념화의 막막함을 끝내세요.
-            </h2>
-            <p className="webinar-apply-sub">
-              양학회 1급 수퍼바이저의 라이브 강연과 AI 실무 세션이
-              참가비{' '}
-              {isMember ? (
-                <>
-                  정가 <s className="webinar-price-strike webinar-price-strike--dark">{regularPriceLabel}</s>{' '}
-                  → {offer.memberLabel} 할인가 <strong>{priceLabel}</strong>
-                </>
-              ) : (
-                priceLabel
-              )}
-              . 신청 정보를 입력하고
-              결제하시면 신청이 완료됩니다.
-            </p>
-          </div>
-          <WebinarApplyForm offer={offer} />
+          {isClosed ? (
+            <div className="webinar-apply-head webinar-closed">
+              <span className="webinar-apply-pill">{WEBINAR.dateLabel}</span>
+              <h2 className="webinar-apply-h2">
+                웨비나 신청이<br />
+                마감되었습니다.
+              </h2>
+              <p className="webinar-apply-sub">
+                관심 가져주셔서 감사합니다. 신청하신 분께는 입력하신 이메일과 문자로
+                Google Meet 참여 링크를 보내드렸어요. 링크를 받지 못하셨거나
+                결제·환불 관련 문의는 카카오톡 채널로 남겨주세요.
+              </p>
+              <div className="webinar-closed-actions">
+                <a
+                  href={KAKAO_INQUIRY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn primary lg"
+                  data-cta-intent="general_inquiry"
+                  data-cta-location="webinar_closed"
+                  data-cta-label="카카오톡 채널 문의"
+                >
+                  카카오톡 채널 문의
+                  <ArrowRight className="arr" width={18} height={18} aria-hidden />
+                </a>
+                <Link href="/education" className="btn ghost lg webinar-closed-ghost">
+                  다른 교육 프로그램 보기
+                </Link>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="webinar-apply-head">
+                <span className="webinar-apply-pill">{WEBINAR.dateLabel}</span>
+                <h2 className="webinar-apply-h2">
+                  {coffeeLabel}으로,<br />
+                  사례개념화의 막막함을 끝내세요.
+                </h2>
+                <p className="webinar-apply-sub">
+                  양학회 1급 수퍼바이저의 라이브 강연과 AI 실무 세션이
+                  참가비{' '}
+                  {isMember ? (
+                    <>
+                      정가 <s className="webinar-price-strike webinar-price-strike--dark">{regularPriceLabel}</s>{' '}
+                      → {offer.memberLabel} 할인가 <strong>{priceLabel}</strong>
+                    </>
+                  ) : (
+                    priceLabel
+                  )}
+                  . 신청 정보를 입력하고
+                  결제하시면 신청이 완료됩니다.
+                </p>
+              </div>
+              <WebinarApplyForm offer={offer} />
+            </>
+          )}
         </div>
       </section>
 

@@ -40,9 +40,15 @@ export default async function WebinarPaymentFailPage({ searchParams }: FailPageP
           </p>
           {code ? <p className="webinar-result-meta">오류 코드 {code}</p> : null}
           <div className="webinar-result-actions">
-            <Link href={`${offer.path}#apply`} className="btn primary">
-              다시 신청하기
-            </Link>
+            {WEBINAR.registrationClosed ? (
+              <Link href={offer.path} className="btn primary">
+                웨비나 안내 페이지로
+              </Link>
+            ) : (
+              <Link href={`${offer.path}#apply`} className="btn primary">
+                다시 신청하기
+              </Link>
+            )}
           </div>
         </div>
       </div>

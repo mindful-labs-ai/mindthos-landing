@@ -10,6 +10,7 @@ import {
 import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { SITE_CONFIG } from '@/constants/site';
 import { KAKAO_INQUIRY_URL } from '@/constants/nav';
+import { CASE_CONCEPTUALIZATION_WEBINAR } from '@/constants/webinar';
 import './education.css';
 
 export const metadata: Metadata = generatePageMetadata({
@@ -40,9 +41,12 @@ const PROGRAMS: Program[] = [
       { label: '진행 형식', value: 'Google Meet 온라인 라이브 · 90분' },
       { label: '대상', value: '초심 상담사 · 수련생' },
     ],
-    status: '모집 중 — 10월 6일 (화) 19:00',
-    href: '/education/webinar/case-conceptualization',
+    status: CASE_CONCEPTUALIZATION_WEBINAR.registrationClosed
+      ? '신청 마감 — 10월 6일 (화) 19:00'
+      : '모집 중 — 10월 6일 (화) 19:00',
+    href: CASE_CONCEPTUALIZATION_WEBINAR.path,
     cta: '웨비나 신청하기',
+    closed: CASE_CONCEPTUALIZATION_WEBINAR.registrationClosed,
     image: {
       src: '/webinar-lee-heonju-lecture.webp',
       alt: '이헌주 교수 강연 현장',

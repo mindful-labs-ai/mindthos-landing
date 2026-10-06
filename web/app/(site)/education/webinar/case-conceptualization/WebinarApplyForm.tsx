@@ -44,6 +44,7 @@ const ERROR_MESSAGES: Record<string, string> = {
   INVALID_PHONE: '연락처 형식을 다시 확인해 주세요.',
   INVALID_JSON: '요청 형식이 올바르지 않아요. 잠시 후 다시 시도해 주세요.',
   DB_ERROR: '일시적인 오류가 발생했어요. 잠시 후 다시 시도해 주세요.',
+  REGISTRATION_CLOSED: '웨비나 신청이 마감되었어요. 문의는 카카오톡 채널을 이용해 주세요.',
 };
 
 interface Cleanupable {
