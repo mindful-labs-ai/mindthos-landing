@@ -125,7 +125,7 @@ export function Footer() {
             className="max-w-[760px] text-[13px] leading-[1.7] tracking-[0.005em] text-[var(--ink-3)]"
             style={{ wordBreak: 'keep-all' }}
           >
-            사업자등록번호 786-88-03152 | 통신판매신고번호 제2025-서울마포-0943호 |
+            사업자등록번호 786-88-03152 | 통신판매신고번호 제2026-서울종로-1378호 |
             <br />
             마인드풀랩스 주식회사(Mindful Labs Inc.) | 대표: 강호남
             <br />
