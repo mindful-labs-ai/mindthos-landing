@@ -25,7 +25,7 @@ const DEFAULT_HEADLINE: ReactNode = (
         <circle cx="10" cy="8" r="2" fill="currentColor" />
         <path d="M10 8V13" stroke="currentColor" strokeWidth="1.5" />
       </svg>
-      안전한 AI 에이전트,
+      안전한 AI 파트너,
     </span>
     <br />
     마음토스
@@ -43,7 +43,7 @@ const DEFAULT_SUB: ReactNode = (
 export interface HeroSectionProps {
   /**
    * 브랜드 포지셔닝 kicker. variant 에서만 노출 — CLAUDE.md 변경 금지 포지셔닝
-   * ("상담사를 위한 안전한 AI 에이전트, 마음토스") 을 headline 교체 시에도 유지.
+   * ("상담사를 위한 안전한 AI 파트너, 마음토스") 을 headline 교체 시에도 유지.
    * 홈(default) 은 미지정 → 렌더 안 함 → 현행과 동일.
    */
   eyebrow?: string;
@@ -72,7 +72,7 @@ export function HeroSection({
      디코딩/재생은 브라우저가 idle 시점에 처리. 자산은 압축본 (모바일 2.6MB / 데스크톱 2.6MB). */
 
   return (
-<section className="hero" aria-label="마음토스 — 상담사를 위한 안전한 AI agent" data-funnel-section="hero">
+<section className="hero" aria-label="마음토스 — 상담사를 위한 안전한 AI 파트너" data-funnel-section="hero">
 
 
   <div className="hero-bg" aria-hidden="true">

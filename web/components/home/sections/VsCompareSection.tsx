@@ -94,7 +94,7 @@ export function VsCompareSection() {
           <div className="vs-side-title">
             <MindthosLogo className="vs-side-logo-img" aria-label="마음토스" />
           </div>
-          <p className="vs-side-sub">상담사를 위한 전문 AI agent</p>
+          <p className="vs-side-sub">상담사를 위한 안전한 AI 파트너</p>
         </header>
         <ol className="vs-rows">
           <li className="vs-row" data-num="01">
