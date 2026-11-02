@@ -10,6 +10,21 @@ export interface WebinarTimelineRow {
   host: string;
 }
 
+/** 웨비나 공통 정보 — 신청 폼·결제·알림이 오퍼를 통해 참조한다 */
+export interface WebinarEvent {
+  slug: string;
+  path: string;
+  title: string;
+  orderName: string;
+  price: number;
+  registrationClosed: boolean;
+  widgetVariantKey: string;
+  dateLabel: string;
+  startsAt: string;
+  endsAt: string;
+  platformLabel: string;
+}
+
 export const CASE_CONCEPTUALIZATION_WEBINAR = {
   slug: 'case-conceptualization',
   path: '/education/webinar/case-conceptualization',
@@ -39,10 +54,32 @@ export const CASE_CONCEPTUALIZATION_WEBINAR = {
   ] satisfies WebinarTimelineRow[],
 } as const;
 
-export type WebinarVariant = 'default' | 'mindthos' | 'damdam';
+export const CBT_CASE_CONCEPTUALIZATION_WEBINAR: WebinarEvent = {
+  slug: 'cbt-case-conceptualization',
+  path: '/education/webinar/cbt-case-conceptualization',
+  title: 'CBT로 사례개념화하기',
+  orderName: 'CBT로 사례개념화하기 웨비나',
+  /** KRW 일반 참가비. 회원 참가비는 아래 WEBINAR_OFFERS 참조 */
+  price: 20000,
+  registrationClosed: false,
+  widgetVariantKey: 'mindwebi',
+  dateLabel: '2026년 11월 17일 (화) 19:00–20:30',
+  startsAt: '2026-11-17T19:00:00+09:00',
+  endsAt: '2026-11-17T20:30:00+09:00',
+  platformLabel: 'Google Meet 온라인 라이브',
+};
+
+export type WebinarVariant =
+  | 'default'
+  | 'mindthos'
+  | 'damdam'
+  | 'cbt'
+  | 'cbt-mindthos';
 
 export interface WebinarOffer {
   variant: WebinarVariant;
+  /** 이 오퍼가 판매하는 웨비나 */
+  webinar: WebinarEvent;
   /** DB webinar_registrations.webinar_slug 에 저장되는 값 — 변형별 신청 집계 구분용 */
   slug: string;
   /** 상세 페이지 경로. 회원 전용 변형은 sitemap·프로그램 페이지에 노출하지 않는다(링크 공유 전용). */
@@ -53,10 +90,11 @@ export interface WebinarOffer {
   memberLabel: string | null;
 }
 
-/** 판매 오퍼 — 기본(공개) + 회원 전용 할인 링크 2종 */
+/** 판매 오퍼 — 웨비나별 기본(공개) + 회원 전용 할인 링크 */
 export const WEBINAR_OFFERS: Record<WebinarVariant, WebinarOffer> = {
   default: {
     variant: 'default',
+    webinar: CASE_CONCEPTUALIZATION_WEBINAR,
     slug: CASE_CONCEPTUALIZATION_WEBINAR.slug,
     path: CASE_CONCEPTUALIZATION_WEBINAR.path,
     price: CASE_CONCEPTUALIZATION_WEBINAR.price,
@@ -64,6 +102,7 @@ export const WEBINAR_OFFERS: Record<WebinarVariant, WebinarOffer> = {
   },
   mindthos: {
     variant: 'mindthos',
+    webinar: CASE_CONCEPTUALIZATION_WEBINAR,
     slug: 'case-conceptualization-mindthos',
     path: `${CASE_CONCEPTUALIZATION_WEBINAR.path}/mindthos`,
     price: 10000,
@@ -71,15 +110,34 @@ export const WEBINAR_OFFERS: Record<WebinarVariant, WebinarOffer> = {
   },
   damdam: {
     variant: 'damdam',
+    webinar: CASE_CONCEPTUALIZATION_WEBINAR,
     slug: 'case-conceptualization-damdam',
     path: `${CASE_CONCEPTUALIZATION_WEBINAR.path}/damdam`,
     price: 10000,
     memberLabel: '담앤담 회원 전용',
   },
+  cbt: {
+    variant: 'cbt',
+    webinar: CBT_CASE_CONCEPTUALIZATION_WEBINAR,
+    slug: CBT_CASE_CONCEPTUALIZATION_WEBINAR.slug,
+    path: CBT_CASE_CONCEPTUALIZATION_WEBINAR.path,
+    price: CBT_CASE_CONCEPTUALIZATION_WEBINAR.price,
+    memberLabel: null,
+  },
+  'cbt-mindthos': {
+    variant: 'cbt-mindthos',
+    webinar: CBT_CASE_CONCEPTUALIZATION_WEBINAR,
+    slug: 'cbt-case-conceptualization-mindthos',
+    path: `${CBT_CASE_CONCEPTUALIZATION_WEBINAR.path}/mindthos`,
+    price: 10000,
+    memberLabel: '마음토스 회원 전용',
+  },
 };
 
 export function isWebinarVariant(v: unknown): v is WebinarVariant {
-  return v === 'default' || v === 'mindthos' || v === 'damdam';
+  return (
+    typeof v === 'string' && Object.prototype.hasOwnProperty.call(WEBINAR_OFFERS, v)
+  );
 }
 
 export function webinarOfferBySlug(slug: string): WebinarOffer | null {

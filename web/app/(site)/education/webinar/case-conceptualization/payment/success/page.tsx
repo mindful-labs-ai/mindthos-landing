@@ -5,8 +5,8 @@ import {
   WEBINAR_OFFERS,
   isWebinarVariant,
 } from '@/constants/webinar';
-import { PaymentConfirm } from './PaymentConfirm';
-import '../../webinar.css';
+import { PaymentConfirm } from '../../../_shared/PaymentConfirm';
+import '../../../_shared/webinar.css';
 
 export const metadata: Metadata = generatePageMetadata({
   title: '웨비나 신청 완료 — 마음토스',
@@ -36,7 +36,7 @@ export default async function WebinarPaymentSuccessPage({ searchParams }: Succes
           paymentKey={paymentKey}
           orderId={orderId}
           amount={amount}
-          backPath={offer.path}
+          offer={offer}
         />
       </div>
     </section>

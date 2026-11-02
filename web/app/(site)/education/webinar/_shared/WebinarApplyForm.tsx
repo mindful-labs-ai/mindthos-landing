@@ -7,10 +7,7 @@ import {
   ANONYMOUS,
   type TossPaymentsWidgets,
 } from '@tosspayments/tosspayments-sdk';
-import {
-  CASE_CONCEPTUALIZATION_WEBINAR as WEBINAR,
-  type WebinarOffer,
-} from '@/constants/webinar';
+import type { WebinarOffer } from '@/constants/webinar';
 
 const UTM_STORAGE_KEY = 'mt-utm-params';
 
@@ -72,6 +69,7 @@ export function WebinarApplyForm({ offer }: WebinarApplyFormProps) {
   const renderedWidgetsRef = useRef<Cleanupable[]>([]);
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
+  const WEBINAR = offer.webinar;
   const isSubmitting = toast.status === 'submitting';
   const priceLabel = `${offer.price.toLocaleString('ko-KR')}원`;
 
@@ -152,7 +150,7 @@ export function WebinarApplyForm({ offer }: WebinarApplyFormProps) {
     return () => {
       cancelled = true;
     };
-  }, [modalOpen, orderId, offer.price]);
+  }, [modalOpen, orderId, offer.price, WEBINAR.widgetVariantKey]);
 
   /* 1단계: 신청 정보 접수 → orderId 발급 → 결제 모달 오픈 */
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

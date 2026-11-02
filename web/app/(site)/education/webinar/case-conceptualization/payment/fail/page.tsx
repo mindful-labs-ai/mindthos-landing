@@ -7,7 +7,7 @@ import {
   WEBINAR_OFFERS,
   isWebinarVariant,
 } from '@/constants/webinar';
-import '../../webinar.css';
+import '../../../_shared/webinar.css';
 
 export const metadata: Metadata = generatePageMetadata({
   title: '웨비나 결제 실패 — 마음토스',

@@ -25,9 +25,9 @@ import {
   CASE_CONCEPTUALIZATION_WEBINAR as WEBINAR,
   type WebinarOffer,
 } from '@/constants/webinar';
-import { WebinarApplyForm } from './WebinarApplyForm';
-import { WebinarFaq } from './WebinarFaq';
-import './webinar.css';
+import { WebinarApplyForm } from '../_shared/WebinarApplyForm';
+import { WebinarFaq } from '../_shared/WebinarFaq';
+import '../_shared/webinar.css';
 
 const PAIN_POINTS = [
   {

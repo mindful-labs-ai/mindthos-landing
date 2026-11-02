@@ -1,10 +1,7 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/lib/supabase/admin';
 import { sendSolapiSms } from '@/lib/solapi';
-import {
-  CASE_CONCEPTUALIZATION_WEBINAR,
-  webinarOfferBySlug,
-} from '@/constants/webinar';
+import { webinarOfferBySlug, type WebinarEvent } from '@/constants/webinar';
 
 const TOSS_CONFIRM_URL = 'https://api.tosspayments.com/v1/payments/confirm';
 
@@ -18,6 +15,7 @@ interface ConfirmBody {
 }
 
 async function notifySlack(payload: {
+  orderName: string;
   name: string;
   phone: string;
   email: string;
@@ -26,8 +24,8 @@ async function notifySlack(payload: {
   memberLabel: string | null;
 }): Promise<void> {
   const webinarLabel = payload.memberLabel
-    ? `${CASE_CONCEPTUALIZATION_WEBINAR.orderName} (${payload.memberLabel})`
-    : CASE_CONCEPTUALIZATION_WEBINAR.orderName;
+    ? `${payload.orderName} (${payload.memberLabel})`
+    : payload.orderName;
   const text = [
     '웨비나 신청 결제가 완료되었습니다.',
     '',
@@ -85,8 +83,7 @@ async function notifySlack(payload: {
  * 신청 확정 문자 (SOLAPI LMS). 실패해도 결제 승인 응답에는 영향 없음(fire-and-forget).
  * 🔒 수신번호/본문은 로그에 남기지 않는다.
  */
-async function notifySmsToRegistrant(phone: string): Promise<void> {
-  const w = CASE_CONCEPTUALIZATION_WEBINAR;
+async function notifySmsToRegistrant(phone: string, w: WebinarEvent): Promise<void> {
   /* 문자망(EUC-KR)에서 en-dash(–)가 유실돼 "19:0020:30"처럼 보이므로 ~ 로 치환 */
   const dateLabel = w.dateLabel.replace(/–/g, '~');
   const text = [
@@ -239,6 +236,7 @@ export async function POST(req: Request) {
      알림 실패가 응답을 깨지는 않지만(각자 내부에서 오류를 삼킴), 완료까지는 반드시 await. */
   await Promise.allSettled([
     notifySlack({
+      orderName: offer.webinar.orderName,
       name: registration.name,
       phone: registration.phone,
       email: registration.email,
@@ -246,7 +244,7 @@ export async function POST(req: Request) {
       amount,
       memberLabel: offer.memberLabel,
     }),
-    notifySmsToRegistrant(registration.phone),
+    notifySmsToRegistrant(registration.phone, offer.webinar),
   ]);
 
   return NextResponse.json({ ok: true });
