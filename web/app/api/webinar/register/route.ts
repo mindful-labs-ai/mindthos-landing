@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server';
 import { randomUUID } from 'crypto';
 import { createClient } from '@/lib/supabase/server';
-import {
-  CASE_CONCEPTUALIZATION_WEBINAR,
-  WEBINAR_OFFERS,
-  isWebinarVariant,
-} from '@/constants/webinar';
+import { WEBINAR_OFFERS, isWebinarVariant } from '@/constants/webinar';
 
 const MAX_NAME_LEN = 80;
 const MAX_EMAIL_LEN = 254;
@@ -40,13 +36,6 @@ function trimmedString(v: unknown, max: number): string | null {
  * 결제 승인(status='paid')은 /api/webinar/confirm 에서 처리.
  */
 export async function POST(req: Request) {
-  if (CASE_CONCEPTUALIZATION_WEBINAR.registrationClosed) {
-    return NextResponse.json(
-      { ok: false, error: 'REGISTRATION_CLOSED' },
-      { status: 410 },
-    );
-  }
-
   let body: RegisterBody;
   try {
     body = (await req.json()) as RegisterBody;
@@ -60,6 +49,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'INVALID_VARIANT' }, { status: 400 });
   }
   const offer = WEBINAR_OFFERS[variantRaw];
+
+  if (offer.webinar.registrationClosed) {
+    return NextResponse.json(
+      { ok: false, error: 'REGISTRATION_CLOSED' },
+      { status: 410 },
+    );
+  }
 
   const name = trimmedString(body.name, MAX_NAME_LEN);
   if (!name) {
@@ -112,6 +108,6 @@ export async function POST(req: Request) {
     ok: true,
     orderId,
     amount: offer.price,
-    orderName: CASE_CONCEPTUALIZATION_WEBINAR.orderName,
+    orderName: offer.webinar.orderName,
   });
 }

@@ -3,19 +3,21 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { CheckCircle2, AlertCircle, LoaderCircle } from 'lucide-react';
-import { CASE_CONCEPTUALIZATION_WEBINAR as WEBINAR } from '@/constants/webinar';
+import type { WebinarOffer } from '@/constants/webinar';
 
 interface PaymentConfirmProps {
   paymentKey: string;
   orderId: string;
   amount: string;
-  /** 돌아가기 링크 대상 — 결제한 오퍼(기본/회원 전용)의 페이지 경로 */
-  backPath: string;
+  /** 결제한 오퍼(기본/회원 전용) — 일정 안내와 돌아가기 링크에 사용 */
+  offer: WebinarOffer;
 }
 
 type ConfirmStatus = 'confirming' | 'success' | 'error';
 
-export function PaymentConfirm({ paymentKey, orderId, amount, backPath }: PaymentConfirmProps) {
+export function PaymentConfirm({ paymentKey, orderId, amount, offer }: PaymentConfirmProps) {
+  const WEBINAR = offer.webinar;
+  const backPath = offer.path;
   const paramsValid = Boolean(paymentKey && orderId && amount);
   const [status, setStatus] = useState<ConfirmStatus>(
     paramsValid ? 'confirming' : 'error',
@@ -66,7 +68,7 @@ export function PaymentConfirm({ paymentKey, orderId, amount, backPath }: Paymen
         setMessage('네트워크 오류로 결제 승인을 확인하지 못했어요. 카카오톡 채널로 문의해 주세요.');
       }
     })();
-  }, [paramsValid, paymentKey, orderId, amount]);
+  }, [paramsValid, paymentKey, orderId, amount, WEBINAR.slug]);
 
   if (status === 'confirming') {
     return (

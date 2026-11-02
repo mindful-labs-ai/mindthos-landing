@@ -88,6 +88,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/blog`, lastModified: STATIC_PAGE_DATES.blog, changeFrequency: 'daily', priority: 0.8 },
     /* /education 운영 재개 (2026-09-22) */
     { url: `${SITE_URL}/education`, lastModified: STATIC_PAGE_DATES.education, changeFrequency: 'weekly', priority: 0.7 },
+    /* CBT 사례개념화 웨비나 (2026-11-17 개최) — 종료 후 페이지 정리 시 제거 */
+    { url: `${SITE_URL}/education/webinar/cbt-case-conceptualization`, lastModified: new Date('2026-11-02'), changeFrequency: 'weekly', priority: 0.7 },
     /* 사례개념화 웨비나 (2026-10-06 개최) — 종료 후 페이지 정리 시 제거 */
     { url: `${SITE_URL}/education/webinar/case-conceptualization`, lastModified: STATIC_PAGE_DATES.education, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE_URL}/security`, lastModified: STATIC_PAGE_DATES.security, changeFrequency: 'monthly', priority: 0.6 },
