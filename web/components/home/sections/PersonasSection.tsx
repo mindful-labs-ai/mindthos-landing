@@ -10,10 +10,43 @@ const PERSONAS: Array<{
   scene: React.ReactNode;
   quote: string;
   desc: string;
-  tags: [string, string];
+  tags: string[];
+  /** 2026-11 개편에서 추가한 채팅 장면 카드 — 실제 웹 채팅 화면을 그림 대신 쓴다. */
+  isNew?: boolean;
 }> = [
   {
-    slot: -2,
+    slot: 0,
+    src: '/personas/persona-3-supervision-prep.webp',
+    cat: '수퍼비전 준비 중인 상담사',
+    scene: (
+      <>
+        수퍼비전 전날,
+        <br />
+        사례를 어떻게 가져가야 할지 막막할 때
+      </>
+    ),
+    quote: '무엇을 핵심 사례로 가져가야 할지 정리가 안 돼요.',
+    desc: '“1~3회기 인지행동 관점으로 사례개념화하고 발표용 PPT로 만들어줘” — 발표 자료까지 한 번에 받습니다.',
+    tags: ['AI 채팅', '사례개념화', 'PPT'],
+  },
+  {
+    slot: 1,
+    src: '/images/home-v2/chat-prep.png',
+    cat: '상담 직전인 상담사',
+    scene: (
+      <>
+        10분 뒤 상담인데,
+        <br />
+        지난 회기가 가물가물할 때
+      </>
+    ),
+    quote: '지난번에 어디까지 이야기했는지 노트를 다시 뒤져요.',
+    desc: '“홍길동 님 다음 회기 준비해줘” — 지난 흐름·이어갈 지점·질문 3개가 한 화면에.',
+    tags: ['AI 채팅', '다음 회기 준비'],
+    isNew: true,
+  },
+  {
+    slot: 2,
     src: '/personas/persona-1-late-night-notes.webp',
     cat: '기록이 밀리는 상담사',
     scene: (
@@ -24,11 +57,11 @@ const PERSONAS: Array<{
       </>
     ),
     quote: '상담은 끝났는데, 기록은 자꾸 하루씩 밀려요.',
-    desc: '회기 녹음과 메모를 바로 쓸 수 있는 상담노트 초안으로 정리합니다.',
-    tags: ['축어록', '상담노트'],
+    desc: '녹음은 상담 직후 앱에서 올려 두고, 퇴근길에 휴대폰으로 초안을 확인만 하면 됩니다.',
+    tags: ['모바일 앱', '축어록', '상담노트'],
   },
   {
-    slot: -1,
+    slot: 3,
     src: '/personas/persona-2-test-and-interview.webp',
     cat: '통합 해석이 막히는 상담사',
     scene: (
@@ -39,26 +72,11 @@ const PERSONAS: Array<{
       </>
     ),
     quote: '검사 결과는 있는데, 실제 면담 흐름과 어떻게 연결해야 할지 막막해요.',
-    desc: '검사 결과와 회기 기록을 함께 보며 통합 해석 초안을 정리합니다.',
-    tags: ['심리검사 해석', '사례개념화'],
+    desc: '“검사 결과와 회기 기록 같이 봐줘” — 통합 해석 초안과 확인할 질문을 정리합니다.',
+    tags: ['AI 채팅', '심리검사 해석'],
   },
   {
-    slot: 0,
-    src: '/personas/persona-3-supervision-prep.webp',
-    cat: '슈퍼비전 준비 중인 상담사',
-    scene: (
-      <>
-        슈퍼비전 전날,
-        <br />
-        사례를 어떻게 가져가야 할지 막막할 때
-      </>
-    ),
-    quote: '무엇을 핵심 사례로 가져가야 할지 정리가 안 돼요.',
-    desc: '회기 흐름과 반복 단서를 바탕으로 사례개념화와 질문거리를 정리합니다.',
-    tags: ['사례개념화', 'AI 피드백'],
-  },
-  {
-    slot: 1,
+    slot: -3,
     src: '/personas/persona-4-multi-format.webp',
     cat: '기관 양식에 묶인 상담사',
     scene: (
@@ -69,11 +87,27 @@ const PERSONAS: Array<{
       </>
     ),
     quote: '상담 내용은 같은데, 제출 양식은 매번 달라요.',
-    desc: '상담 기록을 기관·보고용 양식에 맞춰 정리합니다.',
-    tags: ['상담노트', '기관 양식'],
+    desc: '“학회 양식으로 보고서 써줘” — 내 양식을 저장해 두면 다음부터 이름만 부르면 됩니다.',
+    tags: ['AI 채팅', '내 양식'],
   },
   {
-    slot: 2,
+    slot: -2,
+    src: '/images/home-v2/chat-questionnaire.png',
+    cat: '첫 회기를 앞둔 상담사',
+    scene: (
+      <>
+        첫 회기 전에
+        <br />
+        보낼 서류를 만들어야 할 때
+      </>
+    ),
+    quote: '사전 질문지를 매번 처음부터 만들어요.',
+    desc: '“취업 불안으로 오는 내담자용 사전 질문지 만들어줘” — 바로 보낼 수 있는 질문지로.',
+    tags: ['AI 채팅', '질문지·동의서'],
+    isNew: true,
+  },
+  {
+    slot: -1,
     src: '/personas/persona-5-genogram.webp',
     cat: '가족 관계를 구조화해야 하는 상담사',
     scene: (
@@ -194,7 +228,7 @@ export function PersonasSection() {
           <div className="persona-rail" data-persona-rail aria-label="상담사 사용 상황 카드 rail">
             {PERSONAS.map((p) => (
               <article key={p.src} className="persona-card" data-slot={p.slot}>
-                <div className="persona-card-art" aria-hidden="true">
+                <div className={p.isNew ? 'persona-card-art v2-art' : 'persona-card-art'} aria-hidden="true">
                   <Image
                     className="persona-card-art-img"
                     src={p.src}
@@ -205,7 +239,10 @@ export function PersonasSection() {
                     sizes="(max-width: 880px) 90vw, 360px"
                   />
                 </div>
-                <p className="persona-card-cat">{p.cat}</p>
+                <p className="persona-card-cat">
+                  {p.cat}
+                  {p.isNew ? <em className="v2-new">NEW</em> : null}
+                </p>
                 <h3 className="persona-card-scene">{p.scene}</h3>
                 <blockquote className="persona-card-quote">{p.quote}</blockquote>
                 <p className="persona-card-desc">{p.desc}</p>

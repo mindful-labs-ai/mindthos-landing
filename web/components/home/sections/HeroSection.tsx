@@ -1,6 +1,45 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { HeroAppPhone } from './AppFirstClient';
+import { StoreBadges } from './AppFirstSections';
+
+const SHIELD_ICON = (
+<svg
+  className="hero-h1-accent-icon"
+  viewBox="0 0 20 20"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+>
+  <path
+    d="M9.9987 18.3346C9.9987 18.3346 16.6654 15.0013 16.6654 10.0013V4.16797L9.9987 1.66797L3.33203 4.16797V10.0013C3.33203 15.0013 9.9987 18.3346 9.9987 18.3346Z"
+    stroke="currentColor"
+    strokeWidth="1.57"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  />
+  <circle cx="10" cy="8" r="2" fill="currentColor" />
+  <path d="M10 8V13" stroke="currentColor" strokeWidth="1.5" />
+</svg>
+);
+
+/* 홈 개편(2026-11, appFirst): 채팅·앱을 앞세운 카피 + 실제 앱 화면 휴대폰. */
+const APP_FIRST_HEADLINE: ReactNode = (
+  <>
+    채팅 한 번으로 끝나는
+    <br />
+    <span className="hero-h1-accent">상담 업무,</span> 마음토스
+  </>
+);
+
+const APP_FIRST_SUB: ReactNode = (
+  <>
+    내담자 기록을 아는 상담사 전용 AI.
+    <br />
+    웹과 휴대폰 앱에서 한 줄만 적으면 요약·보고서·질문지까지 만들어 드립니다.
+  </>
+);
 
 /* 홈(default) hero 의 현행 카피 — 기본값으로 고정해 variant 미지정 시 무변화(회귀 0). */
 const DEFAULT_HEADLINE: ReactNode = (
@@ -8,23 +47,7 @@ const DEFAULT_HEADLINE: ReactNode = (
     상담사를 위한
     <br />
     <span className="hero-h1-accent">
-      <svg
-        className="hero-h1-accent-icon"
-        viewBox="0 0 20 20"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <path
-          d="M9.9987 18.3346C9.9987 18.3346 16.6654 15.0013 16.6654 10.0013V4.16797L9.9987 1.66797L3.33203 4.16797V10.0013C3.33203 15.0013 9.9987 18.3346 9.9987 18.3346Z"
-          stroke="currentColor"
-          strokeWidth="1.57"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <circle cx="10" cy="8" r="2" fill="currentColor" />
-        <path d="M10 8V13" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
+      {SHIELD_ICON}
       안전한 AI 에이전트,
     </span>
     <br />
@@ -51,28 +74,35 @@ export interface HeroSectionProps {
   headline?: ReactNode;
   /** 소구 특화 서브카피. 미지정 시 현행 홈 카피. */
   sub?: ReactNode;
-  /** 1차 CTA 라벨. 미지정 시 "무료로 시작하기". */
+  /** 1차 CTA 라벨. 미지정 시 "무료로 써 보기". */
   ctaLabel?: string;
   /** 1차 CTA 목적지. cohort 힌트 포함 가능(예: app URL?cohort=genogram). */
   ctaHref?: string;
   /** 계측용 data-cta-location. variant 식별자(hero_genogram 등). */
   ctaLocation?: string;
+  /** 홈 개편 레이아웃: 슬로건 배지 + 채팅 카피 + 스토어 배지 + 실제 앱 휴대폰. 변형 랜딩은 미지정(현행 유지). */
+  appFirst?: boolean;
 }
 
 export function HeroSection({
   eyebrow,
   headline = DEFAULT_HEADLINE,
   sub = DEFAULT_SUB,
-  ctaLabel = '무료로 시작하기',
+  ctaLabel = '무료로 써 보기',
   ctaHref = 'https://app.mindthos.com',
   ctaLocation = 'hero',
+  appFirst = false,
 }: HeroSectionProps = {}) {
+  if (appFirst) {
+    headline = APP_FIRST_HEADLINE;
+    sub = APP_FIRST_SUB;
+  }
   /* Hero 비디오 (2026-05-08):
      SSR/CSR 모두 렌더 — preload="metadata" + fetchpriority="low" 로 첫 프레임만 가볍게 받고,
      디코딩/재생은 브라우저가 idle 시점에 처리. 자산은 압축본 (모바일 2.6MB / 데스크톱 2.6MB). */
 
   return (
-<section className="hero" aria-label="마음토스 — 상담사를 위한 안전한 AI agent" data-funnel-section="hero">
+<section className="hero" aria-label="마음토스 — 상담사를 위한 안전한 AI 파트너" data-funnel-section="hero">
 
 
   <div className="hero-bg" aria-hidden="true">
@@ -114,7 +144,14 @@ export function HeroSection({
 
   <div className="container hero-content-wrap">
     <div className="hero-content">
-      {eyebrow ? <p className="hero-eyebrow">{eyebrow}</p> : null}
+      {appFirst ? (
+        <p className="v2-eyebrow">
+          {SHIELD_ICON}
+          상담사를 위한 안전한 AI 파트너
+        </p>
+      ) : eyebrow ? (
+        <p className="hero-eyebrow">{eyebrow}</p>
+      ) : null}
       <h1 className="hero-h1">{headline}</h1>
       <p className="hero-sub">{sub}</p>
       <div className="hero-ctas">
@@ -125,9 +162,15 @@ export function HeroSection({
           data-cta-location={ctaLocation}
           data-cta-label={ctaLabel}
         >{ctaLabel}</a>
-        <a className="btn lg ghost on-dark" href="/security">기록은 어떻게 보호되나요? →</a>
+        {appFirst ? (
+          <a className="btn lg ghost on-dark" href="#new">새로 나온 기능 보기 →</a>
+        ) : (
+          <a className="btn lg ghost on-dark" href="/security">기록은 어떻게 보호되나요? →</a>
+        )}
       </div>
+      {appFirst ? <StoreBadges onDark location="hero" /> : null}
     </div>
+    {appFirst ? <HeroAppPhone /> : null}
   </div>
 
 

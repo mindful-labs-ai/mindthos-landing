@@ -149,26 +149,24 @@ export function MetricsSection() {
 
     
     <div className="metrics-screen">
-    <div className="metrics-strip" aria-label="마음토스 정량 지표">
-      <div className="metrics-grid">
+    <div className="metrics-strip" aria-label="마음토스 보호 원칙과 제공 범위">
+      {/* 2026-11: 출처 확인 전 숫자(상담사 수·재구독률 등) 대신 확인된 사실만 노출 */}
+      <div className="metrics-grid v2-facts">
         <div className="metric-card">
-          <div className="metric-val" data-count="2000" data-comma="true">2,000<span className="unit">+</span></div>
-          <div className="metric-label">함께 쓰는 상담사</div>
+          <div className="metric-val">학습 금지</div>
+          <div className="metric-label">내담자 기록 AI 학습 미사용</div>
         </div>
-
         <div className="metric-card">
-          <div className="metric-val" data-count="10000" data-comma="true">10,000<span className="unit">+</span></div>
-          <div className="metric-label">정리된 상담 기록</div>
+          <div className="metric-val">암호화</div>
+          <div className="metric-label">저장 전 암호화 보관</div>
         </div>
-
         <div className="metric-card">
-          <div className="metric-val" data-count="12">12<span className="unit">시간+</span></div>
-          <div className="metric-label">월 기록 시간 절감</div>
+          <div className="metric-val">20<span className="unit">+</span></div>
+          <div className="metric-label">상담노트 양식</div>
         </div>
-
         <div className="metric-card">
-          <div className="metric-val" data-count="90">90<span className="unit">%+</span></div>
-          <div className="metric-label">마음토스 재구독</div>
+          <div className="metric-val">iOS·Android</div>
+          <div className="metric-label">모바일 앱 출시</div>
         </div>
       </div>
     </div>
@@ -180,7 +178,7 @@ export function MetricsSection() {
     
     <div className="reviews-screen">
     
-    <p className="tm-bridge">숫자로 보이는 변화 뒤에는,<br/>상담사들이 <span className="tm-bridge-mark">계속 찾게 된 이유</span>가 있습니다.</p>
+    <p className="tm-bridge">안전한 기준 위에서,<br/>상담사들이 <span className="tm-bridge-mark">계속 찾게 된 이유</span>가 있습니다.</p>
 
     <div className="tm-section-label">실제 상담사들이 남긴 이야기</div>
 
@@ -200,7 +198,7 @@ export function MetricsSection() {
 
         <article className="tm-card">
           <span className="tm-reason">사례 정리 도움</span>
-          <h3 className="tm-card-title">슈퍼비전 전에 정리가 쉬워졌어요</h3>
+          <h3 className="tm-card-title">수퍼비전 전에 정리가 쉬워졌어요</h3>
           <blockquote className="tm-text">무엇을 가져가야 할지 막막할 때, 회기 핵심과 질문거리가 먼저 정리되어 도움이 됩니다. 교수님이나 슈퍼바이저에게 가져갈 자료를 준비하는 부담이 줄었어요.</blockquote>
           <div className="tm-author">
             <span className="tm-avatar"><Image src="/testimonial-05.webp" alt="" width={400} height={400} loading="lazy" /></span>
@@ -280,7 +278,7 @@ export function MetricsSection() {
         </article>
         <article className="tm-card" aria-hidden="true">
           <span className="tm-reason">사례 정리 도움</span>
-          <h3 className="tm-card-title">슈퍼비전 전에 정리가 쉬워졌어요</h3>
+          <h3 className="tm-card-title">수퍼비전 전에 정리가 쉬워졌어요</h3>
           <blockquote className="tm-text">무엇을 가져가야 할지 막막할 때, 회기 핵심과 질문거리가 먼저 정리되어 도움이 됩니다. 교수님이나 슈퍼바이저에게 가져갈 자료를 준비하는 부담이 줄었어요.</blockquote>
           <div className="tm-author">
             <span className="tm-avatar"><Image src="/testimonial-05.webp" alt="" width={400} height={400} loading="lazy" /></span>

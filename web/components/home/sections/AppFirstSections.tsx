@@ -1,0 +1,194 @@
+import Image from 'next/image';
+
+/* 앱·신기능을 앞세운 홈 개편(2026-11) 섹션 모음.
+   화면은 모두 실제 Android 앱 캡처(가명 홍길동, 2026-10 촬영) — public/images/home-v2/ */
+
+const IMG = '/images/home-v2';
+const STORE_IOS = 'https://apps.apple.com/kr/app/id6814934565';
+const STORE_ANDROID = 'https://play.google.com/store/apps/details?id=com.mindthos';
+const SIGNUP = 'https://app.mindthos.com';
+
+export function StoreBadges({ onDark = false, location }: { onDark?: boolean; location: string }) {
+  return (
+    <div className={onDark ? 'v2-stores on-dark' : 'v2-stores'}>
+      <a
+        className="v2-store"
+        href={STORE_IOS}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cta-intent="app_download"
+        data-cta-location={location}
+        data-cta-label="App Store"
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true">
+          <path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z" />
+        </svg>
+        <span>
+          <small>Download on the</small>App Store
+        </span>
+      </a>
+      <a
+        className="v2-store"
+        href={STORE_ANDROID}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-cta-intent="app_download"
+        data-cta-location={location}
+        data-cta-label="Google Play"
+      >
+        <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+          <path fill="#34a853" d="M3.6 2.3 13.4 12l-9.8 9.7c-.4-.2-.6-.6-.6-1.1V3.4c0-.5.2-.9.6-1.1z" />
+          <path fill="#fbbc04" d="m16.7 15.3-3.3-3.3 3.3-3.3 3.8 2.2c1 .6 1 1.6 0 2.2z" />
+          <path fill="#4285f4" d="M16.7 15.3 13.4 12l-9.8 9.7c.4.2.9.2 1.4-.1z" />
+          <path fill="#ea4335" d="M16.7 8.7 4.9 2.4c-.5-.3-1-.3-1.4-.1L13.4 12z" />
+        </svg>
+        <span>
+          <small>GET IT ON</small>Google Play
+        </span>
+      </a>
+    </div>
+  );
+}
+
+const SHOWCASE = [
+  ['AI 채팅', '“홍길동 주호소와 회기 흐름 요약해줘” — 기록을 찾아 읽고 표로 정리합니다', 'app-08-client-summary.png'],
+  ['모바일 녹음', '상담실에서 바로 녹음합니다. 알림을 허용하면 화면이 잠겨도 녹음이 이어집니다', 'app-32-audio-record.png'],
+  ['축어록 → 상담노트', '녹음 파일 하나로 축어록과 상담노트가 함께 만들어집니다', 'app-63-transcript-result.png'],
+  ['내 양식 그대로 보고서', '쓰던 워드 양식을 올리면 그 항목대로 채운 DOCX를 돌려드립니다', 'app-74-custom-template-result.png'],
+  ['한글(HWPX) 파일', '학회·기관 제출용 보고서를 한글 파일로 바로 받습니다', 'app-65-hwp-file-final.png'],
+  ['사전 질문지', '첫 회기 전에 보낼 질문지를 문항까지 채워 만듭니다', 'app-47-questionnaire-create.png'],
+  ['심리검사 해석', 'PHQ-9 점수를 넣으면 문항별 해석과 확인할 점을 정리합니다', 'app-14-assessment-interpretation.png'],
+  ['AI 모델 선택', 'GPT·Claude·Gemini도 마음토스 안에서 골라 씁니다', 'app-05-model-sheet.png'],
+] as const;
+
+export function NewFeaturesSection() {
+  return (
+    <section className="wf-section v2-show" id="new" data-funnel-section="new_features">
+      <div className="container">
+        <div className="v2-head">
+          <p className="v2-kicker dark">NEW · 새로 나온 마음토스</p>
+          <h2 className="t-h2">
+            이제 마음토스는
+            <br />
+            시키면 해냅니다
+          </h2>
+          <p className="v2-lead">
+            AI 채팅부터 휴대폰 앱, 파일 만들기까지. 새로 생긴 것만 모았습니다.
+            <br />
+            아래 화면은 모두 실제 앱 화면입니다.
+          </p>
+        </div>
+        <ul className="v2-show-grid">
+          {SHOWCASE.map(([title, desc, img]) => (
+            <li key={title}>
+              <div className="v2-show-shot">
+                <Image
+                  src={`${IMG}/${img}`}
+                  alt={`${title} 실제 앱 화면`}
+                  width={540}
+                  height={1200}
+                  sizes="(max-width: 1023px) 50vw, 280px"
+                />
+              </div>
+              <p>
+                <em>NEW</em>
+                <b>{title}</b>
+              </p>
+              <span>{desc}</span>
+            </li>
+          ))}
+        </ul>
+        <div className="v2-show-cta">
+          <a
+            className="btn primary lg"
+            href={SIGNUP}
+            data-cta-intent="signup"
+            data-cta-location="new_features"
+            data-cta-label="무료로 써 보기"
+          >
+            무료로 써 보기
+          </a>
+          <StoreBadges onDark location="new_features" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const APP_STEPS = [
+  ['상담실에서 바로 녹음', '앱의 녹음 버튼 하나. 알림을 허용하면 화면이 잠기거나 다른 앱을 써도 녹음이 이어집니다.', 'app-32-audio-record.png'],
+  ['이동하는 사이 정리 끝', '녹음이 올라가면 축어록과 상담노트가 만들어지고, 다 되면 알림이 옵니다.', 'app-63-transcript-result.png'],
+  ['퇴근길엔 채팅으로', '“다음 회기 준비해줘” 한 줄이면 이어갈 지점과 질문이 정리됩니다.', 'app-01-summary-result.png'],
+] as const;
+
+export function MobileAppSection() {
+  return (
+    <section className="wf-section v2-app" id="app-flow" data-funnel-section="mobile_app">
+      <div className="container">
+        <div className="v2-head">
+          <p className="v2-kicker dark">NEW · 모바일 앱</p>
+          <h2 className="t-h2">
+            상담이 끝나면,
+            <br />
+            휴대폰에서 정리가 시작됩니다
+          </h2>
+          <p className="v2-lead">PC를 켜지 않아도 됩니다. 웹에서 하던 일을 휴대폰에서 그대로 이어서 합니다.</p>
+        </div>
+        <ol className="v2-app-steps">
+          {APP_STEPS.map(([title, desc, img], i) => (
+            <li key={title}>
+              <div className="v2-phone sm">
+                <Image
+                  className="on"
+                  src={`${IMG}/${img}`}
+                  alt={`${title} 실제 앱 화면`}
+                  width={840}
+                  height={1866}
+                  sizes="300px"
+                />
+              </div>
+              <p className="v2-step-n">{String(i + 1).padStart(2, '0')}</p>
+              <b>{title}</b>
+              <span>{desc}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="v2-app-cta" id="app-install">
+          <StoreBadges onDark location="mobile_app" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const UPDATES = [
+  ['모바일 앱 + 녹음 카드', '상담이 끝나도 PC를 켜야 정리를 시작했습니다', '상담실을 나서며 휴대폰으로 녹음을 올리면, 이동하는 사이 축어록이 준비됩니다'],
+  ['진행 상황 알림', '축어록이 됐는지 몇 번씩 새로고침했습니다', '다 되면 벨이 알려 드립니다. 기다리지 말고 다른 일을 하세요'],
+  ['알림 설정', '원치 않는 알림까지 모두 왔습니다', '받고 싶은 알림만 골라 받습니다'],
+  ['중복 업로드 차단', '같은 녹음을 두 번 올려 크레딧이 나갔습니다', '이미 올린 파일이면 미리 알려 드려 크레딧을 지킵니다'],
+  ['내담자 합치기', '같은 사람이 둘로 갈라져 기록이 흩어졌습니다', '흩어진 내담자를 하나로 합쳐 회기 흐름을 되살립니다'],
+  ['회기 번호 지정', '회기 순서가 꼬이면 고칠 방법이 없었습니다', '회기 번호를 직접 정하고 고칠 수 있습니다'],
+  ['단계별 가계도', '한 번에 완성돼 고치기 어려웠습니다', '구성원 → 관계 → 분석 순서로 확인하며 완성합니다'],
+] as const;
+
+export function UpdatesSection() {
+  return (
+    <section className="wf-section v2-updates" data-funnel-section="updates">
+      <div className="container">
+        <div className="v2-head">
+          <p className="v2-kicker">상담사 의견으로 고친 것들</p>
+          <h2 className="t-h2">최근 이렇게 바뀌었습니다</h2>
+        </div>
+        <ol className="v2-upd">
+          {UPDATES.map(([title, before, after]) => (
+            <li key={title}>
+              <b>{title}</b>
+              <s>{before}</s>
+              <span>{after}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { StoreBadges } from './AppFirstSections';
 
 export function FinalCtaSection() {
   useEffect(() => {
@@ -44,15 +45,16 @@ export function FinalCtaSection() {
 
     
     <div className="final-cta-inner">
-      <h2 className="final-cta-h2">상담 기록 정리,<br/>이제 더 가볍게</h2>
+      <p className="v2-eyebrow center">상담사를 위한 안전한 AI 파트너</p>
+      <h2 className="final-cta-h2">월요일 밤 10시, 노트 6개.<br/>채팅 한 번이면 오늘 끝납니다</h2>
       <div className="final-cta-btns">
         <a
           className="btn lg primary"
           href="https://app.mindthos.com"
           data-cta-intent="signup"
           data-cta-location="final_cta"
-          data-cta-label="무료로 시작하기"
-        >무료로 시작하기 <span className="arr" aria-hidden="true">→</span></a>
+          data-cta-label="무료로 써 보기"
+        >무료로 써 보기 <span className="arr" aria-hidden="true">→</span></a>
         <a
           className="final-cta-link"
           href="/contact?type=institution-inquiry"
@@ -60,6 +62,10 @@ export function FinalCtaSection() {
           data-cta-location="final_cta"
           data-cta-label="기관 도입 상담"
         >기관 도입 상담</a>
+      </div>
+      <div id="app" className="v2-final-app">
+        <p>상담 직후 휴대폰으로 녹음을 올려 보세요</p>
+        <StoreBadges location="final_cta" />
       </div>
     </div>
   </div>

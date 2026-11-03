@@ -102,9 +102,9 @@ export function Header() {
             href={APP_URL}
             data-cta-intent="signup"
             data-cta-location="header"
-            data-cta-label="무료로 시작하기"
+            data-cta-label="무료로 써 보기"
           >
-            무료로 시작하기
+            무료로 써 보기
           </a>
           <button
             ref={toggleRef}
@@ -166,10 +166,10 @@ export function Header() {
               href={APP_URL}
               data-cta-intent="signup"
               data-cta-location="header_mobile"
-              data-cta-label="무료로 시작하기"
+              data-cta-label="무료로 써 보기"
               onClick={() => setMobileOpen(false)}
             >
-              무료로 시작하기
+              무료로 써 보기
             </a>
           </div>
         </div>
