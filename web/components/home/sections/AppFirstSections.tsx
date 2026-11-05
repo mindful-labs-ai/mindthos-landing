@@ -6,7 +6,6 @@ import Image from 'next/image';
 const IMG = '/images/home-v2';
 const STORE_IOS = 'https://apps.apple.com/kr/app/id6814934565';
 const STORE_ANDROID = 'https://play.google.com/store/apps/details?id=com.mindthos';
-const SIGNUP = 'https://app.mindthos.com';
 
 export function StoreBadges({ onDark = false, location }: { onDark?: boolean; location: string }) {
   return (
@@ -140,12 +139,12 @@ export function NewFeaturesSection() {
         <div className="v2-show-cta">
           <a
             className="btn primary lg"
-            href={SIGNUP}
-            data-cta-intent="signup"
+            href="#app-flow"
+            data-cta-intent="app_download"
             data-cta-location="new_features"
-            data-cta-label="무료로 써 보기"
+            data-cta-label="앱 다운로드해 보기"
           >
-            무료로 써 보기
+            앱 다운로드해 보기
           </a>
           <StoreBadges onDark location="new_features" />
         </div>
