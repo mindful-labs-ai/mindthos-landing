@@ -137,15 +137,6 @@ export function NewFeaturesSection() {
           ))}
         </ul>
         <div className="v2-show-cta">
-          <a
-            className="btn primary lg"
-            href="#app-flow"
-            data-cta-intent="app_download"
-            data-cta-location="new_features"
-            data-cta-label="앱 다운로드해 보기"
-          >
-            앱 다운로드해 보기
-          </a>
           <StoreBadges onDark location="new_features" />
         </div>
       </div>
