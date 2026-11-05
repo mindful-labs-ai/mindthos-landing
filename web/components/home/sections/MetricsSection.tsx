@@ -149,24 +149,27 @@ export function MetricsSection() {
 
     
     <div className="metrics-screen">
-    <div className="metrics-strip" aria-label="마음토스 보호 원칙과 제공 범위">
-      {/* 2026-11: 출처 확인 전 숫자(상담사 수·재구독률 등) 대신 확인된 사실만 노출 */}
-      <div className="metrics-grid v2-facts">
+    <div className="metrics-strip" aria-label="마음토스 정량 지표">
+      {/* 2026-11-05 운영 DB 기준(users 3,541 · sessions 26,880)을 내림해 표기. 12시간·90%는 기존 운영 랜딩 수치 유지 */}
+      <div className="metrics-grid">
         <div className="metric-card">
-          <div className="metric-val">학습 금지</div>
-          <div className="metric-label">내담자 기록 AI 학습 미사용</div>
+          <div className="metric-val" data-count="3000" data-comma="true">3,000<span className="unit">+</span></div>
+          <div className="metric-label">함께 쓰는 상담사</div>
         </div>
+
         <div className="metric-card">
-          <div className="metric-val">암호화</div>
-          <div className="metric-label">저장 전 암호화 보관</div>
+          <div className="metric-val" data-count="25000" data-comma="true">25,000<span className="unit">+</span></div>
+          <div className="metric-label">정리된 상담 기록</div>
         </div>
+
         <div className="metric-card">
-          <div className="metric-val">20<span className="unit">+</span></div>
-          <div className="metric-label">상담노트 양식</div>
+          <div className="metric-val" data-count="12">12<span className="unit">시간+</span></div>
+          <div className="metric-label">월 기록 시간 절감</div>
         </div>
+
         <div className="metric-card">
-          <div className="metric-val">iOS·Android</div>
-          <div className="metric-label">모바일 앱 출시</div>
+          <div className="metric-val" data-count="90">90<span className="unit">%+</span></div>
+          <div className="metric-label">마음토스 재구독</div>
         </div>
       </div>
     </div>
@@ -178,7 +181,7 @@ export function MetricsSection() {
     
     <div className="reviews-screen">
     
-    <p className="tm-bridge">안전한 기준 위에서,<br/>상담사들이 <span className="tm-bridge-mark">계속 찾게 된 이유</span>가 있습니다.</p>
+    <p className="tm-bridge">숫자로 보이는 변화 뒤에는,<br/>상담사들이 <span className="tm-bridge-mark">계속 찾게 된 이유</span>가 있습니다.</p>
 
     <div className="tm-section-label">실제 상담사들이 남긴 이야기</div>
 

@@ -143,3 +143,12 @@
 .rpt-chip{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;background:#fff;color:#334155;border:1px solid #d5dbe2;box-shadow:0 4px 10px -6px #0f172a44}
 .rpt-chip.is-on{background:#44ce4b;border-color:#44ce4b;color:#0f2a22}
 @media (prefers-reduced-motion:reduce){.rpt-page-a,.rpt-page-b,.rpt-name::before{animation:none}}
+
+/* 스크롤 등장: HifiLandingEffects가 v2-rise를 붙이고 화면에 들어오면 is-in-view */
+.v2-rise{opacity:0}
+.v2-rise.is-in-view{opacity:1;animation:v2-rise .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes v2-rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.v2-show-grid > li.v2-rise:nth-child(4n+2),.v2-app-steps > li.v2-rise:nth-child(2){animation-delay:.1s}
+.v2-show-grid > li.v2-rise:nth-child(4n+3),.v2-app-steps > li.v2-rise:nth-child(3){animation-delay:.2s}
+.v2-show-grid > li.v2-rise:nth-child(4n+4){animation-delay:.3s}
+@media (prefers-reduced-motion:reduce){.v2-rise{opacity:1!important;animation:none!important}}

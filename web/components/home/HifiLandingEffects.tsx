@@ -70,6 +70,13 @@ export function HifiLandingEffects() {
         threshold: 0.12,
         rootMargin: '0px 0px -8% 0px',
       },
+      {
+        // 2026-11 개편 구간도 기존 섹션처럼 스크롤 때 차례로 떠오르게 한다
+        sel: '.v2-head, .v2-show-grid > li, .v2-app-steps > li, .v2-dev-stage, .feat-head',
+        cls: 'v2-rise',
+        threshold: 0.12,
+        rootMargin: '0px 0px -8% 0px',
+      },
     ];
     for (const g of fadeUpGroups) {
       const targets = document.querySelectorAll<HTMLElement>(g.sel);
