@@ -55,13 +55,13 @@ const SHOWCASE = [
   ['모바일 녹음', '상담실에서 바로 녹음합니다. 알림을 허용하면 화면이 잠겨도 녹음이 이어집니다', 'app-32-audio-record.png'],
   ['축어록 → 상담노트', '녹음 파일 하나로 축어록과 상담노트가 함께 만들어집니다', 'app-63-transcript-result.png'],
   ['내 양식 그대로 보고서', '쓰던 워드 양식을 올리면 그 항목대로 채운 DOCX를 돌려드립니다', 'app-74-custom-template-result.png'],
-  ['한글(HWPX) 파일', '학회·기관 제출용 보고서를 한글 파일로 바로 받습니다', 'app-65-hwp-file-final.png'],
+  ['일정 관리', '“이번 주 상담 일정 보여줘” 한 줄이면 한 주 상담이 한눈에 정리됩니다. 예약·반복 일정도 채팅으로 잡습니다', 'chat-calendar-week.png'],
   ['사전 질문지', '첫 회기 전에 보낼 질문지를 문항까지 채워 만듭니다', 'app-47-questionnaire-create.png'],
   ['심리검사 해석', 'PHQ-9 점수를 넣으면 문항별 해석과 확인할 점을 정리합니다', 'app-14-assessment-interpretation.png'],
   ['AI 모델 선택', 'GPT·Claude·Gemini도 마음토스 안에서 골라 씁니다', 'app-05-model-sheet.png'],
 ] as const;
 
-/** 히어로 바로 아래: 같은 마음토스를 PC·태블릿·휴대폰에서. 화면은 실제 웹·앱 캡처(가명 홍길동). */
+/** 히어로 바로 아래: 같은 '홍길동 회기 요약' 채팅을 PC·태블릿·휴대폰에서. 화면은 실제 웹·앱 캡처(가명 홍길동). */
 export function DevicesSection() {
   return (
     <section className="wf-section v2-devices" id="devices" data-funnel-section="devices">
@@ -73,29 +73,29 @@ export function DevicesSection() {
             <br />
             같은 마음토스
           </h2>
-          <p className="v2-lead">상담실 PC에서 쓰던 기록을 태블릿과 휴대폰에서 그대로 이어서 씁니다.</p>
+          <p className="v2-lead">PC에서 시작한 채팅을 태블릿과 휴대폰에서 그대로 이어서 씁니다. 기록도, 대화도 한곳에 있습니다.</p>
         </div>
         <div className="v2-dev-stage">
           <figure className="v2-dev v2-dev-tablet">
             <div className="v2-tablet">
-              <Image src={`${IMG}/chat-prep.png`} alt="태블릿에서 본 마음토스 AI 채팅 화면" width={1040} height={1080} sizes="(max-width: 860px) 45vw, 260px" />
+              <Image src={`${IMG}/tablet-chat-summary.png`} alt="태블릿에서 본 마음토스 AI 채팅 — 홍길동 회기 요약" width={1200} height={1097} sizes="(max-width: 860px) 45vw, 260px" />
             </div>
             <figcaption>태블릿<span>AI 채팅</span></figcaption>
           </figure>
           <figure className="v2-dev v2-dev-laptop">
             <div className="v2-laptop">
               <div className="v2-laptop-screen">
-                <Image src="/transcribe-mindthos-app.webp" alt="PC 웹에서 본 마음토스 축어록과 상담 노트 화면" width={1600} height={1000} sizes="(max-width: 860px) 92vw, 620px" />
+                <Image src={`${IMG}/web-chat-summary.png`} alt="PC 웹에서 본 마음토스 AI 채팅 — 홍길동 회기 요약" width={1600} height={1187} sizes="(max-width: 860px) 92vw, 620px" />
               </div>
               <div className="v2-laptop-base" aria-hidden="true" />
             </div>
-            <figcaption>PC 웹<span>축어록 · 상담 노트</span></figcaption>
+            <figcaption>PC 웹<span>AI 채팅</span></figcaption>
           </figure>
           <figure className="v2-dev v2-dev-phone">
             <div className="v2-phone sm">
-              <Image className="on" src={`${IMG}/app-01-summary-result.png`} alt="휴대폰 앱에서 본 마음토스 회기 요약 화면" width={840} height={1866} sizes="(max-width: 860px) 30vw, 200px" />
+              <Image className="on" src={`${IMG}/app-01-summary-result.png`} alt="휴대폰 앱에서 본 마음토스 AI 채팅 — 홍길동 회기 요약" width={840} height={1866} sizes="(max-width: 860px) 30vw, 200px" />
             </div>
-            <figcaption>모바일 앱<span>iOS · Android</span></figcaption>
+            <figcaption>모바일 앱<span>AI 채팅 · iOS · Android</span></figcaption>
           </figure>
         </div>
         <div className="v2-dev-cta">
