@@ -112,7 +112,7 @@ export function NewFeaturesSection() {
       <div className="container">
         <div className="v2-head">
           <h2 className="t-h2">
-            이제 <span className="brand-word">마음토스</span>는
+            <span className="brand-word">마음토스</span>는
             <br />
             시키면 해냅니다
           </h2>
