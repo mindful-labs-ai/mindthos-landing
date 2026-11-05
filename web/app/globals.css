@@ -399,3 +399,6 @@
     }
   }
 }
+
+/* 제목 속 브랜드명 "마음토스" — 키컬러 */
+.brand-word { color: var(--brand-primary, #44ce4b); }

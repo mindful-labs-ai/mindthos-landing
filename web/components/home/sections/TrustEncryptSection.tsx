@@ -3,7 +3,8 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 
-export function TrustEncryptSection() {
+/** kicker: 홈 개편처럼 앞 섹션에서 이어받는 한 줄. 변형 랜딩은 미지정. */
+export function TrustEncryptSection({ kicker }: { kicker?: string } = {}) {
   useEffect(() => {
     const cleanups: Array<() => void> = [];
 
@@ -74,6 +75,7 @@ export function TrustEncryptSection() {
     </div>
 
     <div className="trust-head trust-head--lean">
+      {kicker ? <p className="v2-kicker">{kicker}</p> : null}
       <h2 className="t-h2">상담 기록은 AI보다 먼저,<br/>안전하게 다뤄져야 하니까요</h2>
     </div>
 

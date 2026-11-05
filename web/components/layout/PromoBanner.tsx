@@ -58,9 +58,9 @@ export function PromoBanner() {
               data-promo-cta
               data-cta-intent="signup"
               data-cta-location="promo_banner_top"
-              data-cta-label="무료로 시작하기"
+              data-cta-label="무료로 써 보기"
             >
-              무료로 시작하기 →
+              무료로 써 보기 →
             </a>
           </span>
         </p>

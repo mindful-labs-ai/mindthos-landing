@@ -1,0 +1,158 @@
+/* 홈 개편(2026-11): 앱·신기능 우선 섹션 — Devices, NewFeatures, Chat, MobileApp.
+   components/home/sections/AppFirst*.tsx 와 짝. */
+.v2-eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--brand-primary-tint-2);font-weight:700;font-size:15px;letter-spacing:-.01em;margin:0 0 14px;padding:6px 12px;border:1px solid #98dba555;border-radius:999px;background:#0f2a2299}
+.v2-eyebrow svg{width:16px;height:16px}
+.v2-eyebrow.center{display:flex;width:max-content;margin:0 auto 14px;color:var(--brand-text-on-light);background:var(--brand-pale);border-color:var(--brand-tint)}
+.v2-stores{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.v2-store{display:inline-flex;align-items:center;gap:8px;padding:7px 14px 7px 11px;border-radius:10px;background:#0b0f0d;color:#fff;border:1px solid #ffffff38;text-decoration:none;line-height:1.05;font-weight:600;font-size:15px}
+.v2-store small{display:block;font-size:9.5px;font-weight:500;opacity:.8}
+.v2-stores:not(.on-dark) {justify-content:center}
+.hero-content-wrap{display:flex;align-items:center;gap:48px}
+@media (max-width:1023px){.hero-content-wrap{flex-direction:column;align-items:stretch}}
+/* 공통 섹션 머리 */
+.v2-head{text-align:center;margin-bottom:36px}
+.v2-kicker{display:inline-block;font-weight:700;font-size:13px;letter-spacing:.04em;color:var(--brand-text-on-light);background:var(--brand-pale);padding:5px 12px;border-radius:999px;margin-bottom:14px}
+.v2-lead{color:var(--ink-3);font-size:17px;line-height:1.65;margin-top:14px}
+.v2-lead.dark{text-align:center;margin:-10px 0 28px}
+/* 채팅 섹션 */
+.v2-chat{background:linear-gradient(180deg,#fff, #f3faf4)}
+.v2-chat .t-h2{color:var(--ink)}
+.v2-cp-verb{font-weight:800;color:var(--brand-text-on-light);font-size:15px}
+.v2-cp-q{font-size:22px;font-weight:700;line-height:1.45;color:var(--ink);margin:8px 0 14px;letter-spacing:-.02em}
+.v2-cp-brag{color:var(--ink-2);font-size:16px;line-height:1.7}
+.v2-trust3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px;padding:0;list-style:none}
+.v2-trust3 li{padding:18px 20px;border-radius:16px;background:#0f2a22;color:#e2f6e6}
+.v2-trust3 b{font-size:16px;color:#98dba5}
+.v2-trust3 p{margin-top:6px;font-size:14px;line-height:1.6;color:#d6e9dc}
+/* AI 채팅 영상 캐러셀: 슬라이드 하나 = 요청 문구 + 실제 채팅 녹화, 영상이 끝나면 다음으로 */
+.v2-car{position:relative;overflow:hidden}
+.v2-car-track{display:flex;transition:transform .7s cubic-bezier(.65,0,.35,1)}
+.v2-car-slide{flex:0 0 100%;min-width:0;display:grid;grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr);gap:36px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px}
+.v2-car-screen{border-radius:14px;overflow:hidden;border:1px solid var(--line);box-shadow:0 18px 40px -24px #0f2a2266;background:#fff}
+.v2-car-bar{display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--line);background:#f7f8fa}
+.v2-car-bar span{width:9px;height:9px;border-radius:50%;background:#e5e7eb}
+.v2-car-bar span:nth-child(1){background:#f87171}.v2-car-bar span:nth-child(2){background:#fbbf24}.v2-car-bar span:nth-child(3){background:#4ade80}
+.v2-car-bar b{margin-left:8px;font-size:12px;font-weight:600;color:var(--ink-3)}
+.v2-car-screen video{display:block;width:100%;aspect-ratio:990/800;object-fit:cover;background:#fff}
+.v2-car-dots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.v2-car-dot{position:relative;display:flex;flex-direction:column;gap:8px;padding:0;border:0;background:none;cursor:pointer;font:inherit;text-align:left;color:var(--ink-3)}
+.v2-car-dot::before{content:"";display:block;height:4px;border-radius:4px;background:var(--line)}
+.v2-car-dot i{position:absolute;left:0;right:0;top:0;height:4px;border-radius:4px;background:var(--brand);transform-origin:left;transition:transform .25s linear}
+.v2-car-dot span{font-size:14px;font-weight:700}
+.v2-car-dot[aria-selected=true] span{color:var(--brand-text-on-light)}
+@media (max-width:860px){.v2-car-slide{grid-template-columns:1fr;padding:18px;gap:16px}.v2-trust3{grid-template-columns:1fr}.v2-cp-q{font-size:19px}.v2-car-dot span{font-size:12.5px}}
+@media (prefers-reduced-motion:reduce){.v2-car-track{transition:none}}
+/* 편의 개선 띠 */
+/* 장면 카드 */
+.persona-rail .persona-card[data-slot="-3"],.persona-rail .persona-card[data-slot="3"]{opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(.8);z-index:0}
+.v2-art{background:#fff}
+.v2-art img{object-fit:cover;object-position:top}
+.v2-new{font-style:normal;margin-left:6px;font-size:10px;font-weight:800;color:#0f2a22;background:var(--brand);padding:1px 6px;border-radius:999px;vertical-align:2px}
+/* 사실 지표 */
+.v2-facts .metric-val{font-size:clamp(30px,4.2vw,52px)!important}
+/* 마지막 CTA 아래 앱 다운로드 줄 */
+.v2-final-app{margin-top:26px;text-align:center}
+.v2-final-app p{color:var(--ink-3);font-size:14px}
+.v2-final-app .v2-stores{justify-content:center;margin-top:10px}
+.hero-content .v2-eyebrow{align-self:flex-start;width:max-content}
+.hero-content{min-width:0}
+@media (max-width:1023px){.hero-content{max-width:100%}.hero-ctas{flex-wrap:wrap}}
+@media (max-width:720px){.hero-h1{font-size:clamp(28px,8.4vw,44px)!important;line-height:1.25!important}.hero-ctas .btn{flex:1 1 100%;justify-content:center}}
+/* ---- 2차: 앱·신기능 앞세우기 ---- */
+/* 기기 테두리는 고정 px 대신 기기 크기 대비 %로 — 작게 보여도 실제 기기처럼 얇은 베젤 유지 */
+.v2-phone{position:relative;aspect-ratio:1080/2400;width:100%;border-radius:15%/6.8%;background:#0b0f0d;box-shadow:0 40px 80px -24px #000a,0 0 0 1.5px #3b413e,0 0 0 1px #ffffff1f inset;overflow:hidden}
+.v2-phone:after{content:"";position:absolute;top:1.6%;left:50%;transform:translateX(-50%);width:26%;height:2.9%;border-radius:999px;background:#0b0f0d;z-index:1}
+.v2-phone img{position:absolute;inset:.63% 1.4%;width:97.2%;height:98.74%;object-fit:cover;object-position:top;border-radius:14%/6.2%;opacity:0;transition:opacity .6s}
+.v2-phone img.on{opacity:1}
+#app-install{scroll-margin-top:120px}
+.v2-kicker.dark{background:#0f2a22;color:#98dba5}
+/* 신기능 쇼케이스 */
+.v2-show{background:radial-gradient(1200px 500px at 50% -10%,#e2f6e6 0%,#fff 60%)}
+.v2-show .t-h2{color:var(--ink)}
+.v2-show-grid{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.v2-show-grid li{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 14px 18px;display:flex;flex-direction:column;gap:8px;transition:transform .2s,box-shadow .2s}
+.v2-show-grid li:hover{transform:translateY(-4px);box-shadow:0 18px 36px -20px #0f2a2266}
+.v2-show-shot{height:300px;border-radius:12px;overflow:hidden;background:#f4f6f5;border:1px solid var(--line)}
+.v2-show-shot img{width:100%;height:auto;display:block}
+.v2-show-grid p{margin:4px 0 0;display:flex;align-items:center;gap:6px;font-size:17px;color:var(--ink)}
+.v2-show-grid em{font-style:normal;font-size:10px;font-weight:800;background:#44ce4b;color:#0f2a22;border-radius:999px;padding:1px 7px}
+.v2-show-grid span{font-size:14px;line-height:1.55;color:var(--ink-3)}
+.v2-show-cta{display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;margin-top:30px}
+.v2-show-cta .v2-stores{margin-top:0}
+@media (max-width:1023px){.v2-show-grid{grid-template-columns:repeat(2,1fr)}.v2-show-shot{height:240px}}
+@media (max-width:520px){.v2-show-grid{gap:10px}.v2-show-shot{height:200px}.v2-show-grid p{font-size:15px}.v2-show-grid span{font-size:13px}}
+/* 모바일 앱 흐름 */
+.v2-app{background:linear-gradient(180deg,#0f2a22,#0a1d17);color:#e2f6e6}
+.v2-app .t-h2{color:#fff}
+.v2-app .v2-lead{color:#b9d3c2}
+.v2-app-steps{list-style:none;padding:0;margin:0 auto;max-width:980px;display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.v2-app-steps li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.v2-app-steps .v2-phone{max-width:300px;margin-bottom:14px}
+.v2-step-n{font-size:13px;font-weight:800;color:#44ce4b;margin:0}
+.v2-app-steps b{font-size:19px;color:#fff}
+.v2-app-steps span{font-size:14.5px;line-height:1.6;color:#b9d3c2;max-width:270px}
+.v2-app-cta{display:flex;justify-content:center;margin-top:30px}
+.v2-app-cta .v2-stores{margin-top:0}
+@media (max-width:860px){.v2-app-steps{grid-template-columns:1fr;gap:40px}.v2-app-steps .v2-phone{max-width:300px}}
+.v2-lead.v2-lead-tight{margin-top:6px}
+/* 기기 쇼케이스: 히어로 바로 아래, PC·태블릿·휴대폰 한 줄 */
+.v2-devices{background:linear-gradient(180deg,#0f2a22 0,#fff 62%);padding-top:56px}
+.v2-devices .t-h2{color:#fff}
+.v2-devices .v2-lead{color:#cfe7d6}
+.v2-dev-stage{position:relative;display:grid;grid-template-columns:1fr 2.4fr 1fr;align-items:end;gap:0;max-width:1080px;margin:0 auto}
+.v2-dev{margin:0;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0}
+.v2-dev figcaption{font-weight:700;font-size:15px;color:var(--ink)}
+.v2-dev figcaption span{display:block;font-weight:500;font-size:13px;color:var(--ink-3);text-align:center}
+.v2-laptop{width:100%;position:relative;z-index:1}
+.v2-laptop-screen{border-radius:14px 14px 0 0;background:#0b0f0d;padding:8px 8px 10px;box-shadow:0 30px 70px -30px #000a,0 0 0 1.5px #3b413e}
+.v2-laptop-screen img{display:block;width:100%;height:auto;border-radius:7px 7px 2px 2px}
+.v2-laptop-base{position:relative;aspect-ratio:60/1;margin:0 -7%;background:linear-gradient(#e4e8e5,#a9b1ac);border-radius:0 0 40% 40%/0 0 100% 100%}
+.v2-laptop-base:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:15%;height:45%;border-radius:0 0 8px 8px;background:#c3c9c5}
+.v2-tablet{width:112%;margin-right:-10%;z-index:2;position:relative;border-radius:6%/6.5%;background:#0b0f0d;aspect-ratio:1200/1097;box-shadow:0 30px 60px -24px #000a,0 0 0 1.5px #3b413e}
+.v2-tablet img,.v2-dev .v2-phone img{object-fit:cover;object-position:top}
+.v2-tablet img{position:absolute;inset:1.97% 1.8%;width:96.4%;height:96.06%;border-radius:4.36%/4.78%;background:#fff}
+.v2-dev-phone .v2-phone{width:74%;margin-left:-6%;z-index:2}
+.v2-dev-tablet{z-index:2}.v2-dev-phone{z-index:2}
+.v2-dev-cta{display:flex;justify-content:center;margin-top:28px}
+@media (max-width:860px){.v2-dev-stage{grid-template-columns:1fr 1fr;gap:28px 16px}.v2-dev-laptop{grid-column:1/-1;order:-1}.v2-tablet{width:100%;margin:0}.v2-dev-phone .v2-phone{width:62%;margin:0}}
+
+/* 2026-11 기능 탭 06 보고서: 한글 창 모양 틀 안에 실제 양식으로 만든 보고서 쪽을 넣고, 두 보고서를 번갈아 보여 준다 */
+.rpt-mock{position:relative;background:#eef1f4;padding:14px}
+.rpt-win{display:flex;flex-direction:column;height:100%;min-height:440px;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 14px 30px -18px #0f172a55;border:1px solid #d5dbe2}
+.rpt-titlebar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#f7f8fa;border-bottom:1px solid #e3e7ec;font-size:12px;color:#334155}
+.rpt-title{display:flex;align-items:center;gap:6px;margin:0 auto;font-weight:600}
+.rpt-hwp{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:4px;background:#1f6fd1;color:#fff;font-size:10px;font-weight:800}
+.rpt-name::before{content:attr(data-a);animation:rpt-name 10s steps(1) infinite}
+@keyframes rpt-name{0%,49.99%{content:attr(data-a)}50%,100%{content:attr(data-b)}}
+.rpt-menu{display:flex;gap:14px;padding:5px 14px;font-size:11.5px;color:#475569;border-bottom:1px solid #eef1f4}
+.rpt-ribbon{display:flex;align-items:center;gap:6px;padding:6px 12px;background:#fbfcfd;border-bottom:1px solid #e3e7ec}
+.rpt-font,.rpt-size{font-size:11px;border:1px solid #d5dbe2;border-radius:4px;padding:2px 8px;background:#fff;color:#334155}
+.rpt-font{min-width:86px}
+.rpt-btn{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:4px;font-size:12px;color:#334155}
+.rpt-btn:hover{background:#eef1f4}
+.rpt-al{background:repeating-linear-gradient(#64748b 0 1.5px,transparent 1.5px 4px) left 5px top 6px/12px 10px no-repeat}
+.rpt-al.c{background-position:center 6px}.rpt-al.r{background-position:right 5px top 6px}
+.rpt-tbl{background:linear-gradient(#64748b,#64748b) center/12px 1.5px no-repeat,linear-gradient(90deg,#64748b,#64748b) center/1.5px 12px no-repeat;outline:1.5px solid #64748b;outline-offset:-6px}
+.rpt-sep{width:1px;height:16px;background:#e3e7ec;margin:0 4px}
+.rpt-canvas{flex:1;position:relative;overflow:hidden;background:#e5e8ec;padding:18px 18px 0}
+.rpt-pages{position:relative;max-width:420px;margin:0 auto}
+.rpt-page{display:block;width:100%;height:auto;background:#fff;box-shadow:0 6px 18px -8px #0f172a55}
+.rpt-page-b{position:absolute;inset:0 0 auto 0;opacity:0;animation:rpt-swap 10s ease-in-out infinite}
+.rpt-page-a{animation:rpt-scroll 10s ease-in-out infinite}
+@keyframes rpt-swap{0%,45%{opacity:0;transform:translateY(12px)}52%,95%{opacity:1;transform:none}100%{opacity:0}}
+@keyframes rpt-scroll{0%,8%{transform:none;opacity:1}40%,46%{transform:translateY(-22%);opacity:1}52%,95%{transform:translateY(-22%);opacity:0}100%{transform:none;opacity:1}}
+.rpt-status{display:flex;gap:16px;padding:4px 12px;font-size:10.5px;color:#64748b;background:#f7f8fa;border-top:1px solid #e3e7ec}
+.rpt-zoom{margin-left:auto}
+.rpt-formats{position:absolute;right:26px;bottom:38px;display:flex;gap:6px}
+.rpt-chip{font-size:11px;font-weight:800;padding:4px 10px;border-radius:999px;background:#fff;color:#334155;border:1px solid #d5dbe2;box-shadow:0 4px 10px -6px #0f172a44}
+.rpt-chip.is-on{background:#44ce4b;border-color:#44ce4b;color:#0f2a22}
+@media (prefers-reduced-motion:reduce){.rpt-page-a,.rpt-page-b,.rpt-name::before{animation:none}}
+
+/* 스크롤 등장: HifiLandingEffects가 v2-rise를 붙이고 화면에 들어오면 is-in-view */
+.v2-rise{opacity:0}
+.v2-rise.is-in-view{opacity:1;animation:v2-rise .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes v2-rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.v2-show-grid > li.v2-rise:nth-child(4n+2),.v2-app-steps > li.v2-rise:nth-child(2){animation-delay:.1s}
+.v2-show-grid > li.v2-rise:nth-child(4n+3),.v2-app-steps > li.v2-rise:nth-child(3){animation-delay:.2s}
+.v2-show-grid > li.v2-rise:nth-child(4n+4){animation-delay:.3s}
+@media (prefers-reduced-motion:reduce){.v2-rise{opacity:1!important;animation:none!important}}

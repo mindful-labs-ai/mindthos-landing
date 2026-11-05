@@ -92,7 +92,7 @@ export function FaqSection() {
         </button>
         <div className="faq-answer" id="faq-a-3" role="region">
           <div className="faq-answer-inner">
-            <p className="a-text">네. 상담사는 필요에 따라 기록 삭제를 요청하거나 직접 관리할 수 있도록 준비 중입니다. 기관 도입 시에는 보관 기간과 삭제 정책, 권한 관리 기준을 함께 협의할 수 있습니다.</p>
+            <p className="a-text">네. 상담사가 내담자·회기 기록을 직접 삭제할 수 있습니다. 기관 도입 시에는 보관 기간과 삭제 정책, 권한 관리 기준을 함께 협의합니다.</p>
           </div>
         </div>
       </article>
@@ -104,7 +104,7 @@ export function FaqSection() {
         </button>
         <div className="faq-answer" id="faq-a-4" role="region">
           <div className="faq-answer-inner">
-            <p className="a-text">무료 시작 시 기본 크레딧 제공 여부와 수량은 운영 정책 확정 후 안내됩니다. 현재는 샘플 체험과 일부 기능을 통해 결과 흐름을 먼저 확인할 수 있도록 준비 중입니다.</p>
+            <p className="a-text">신규 가입하시면 첫 1주일을 무료로 써 보실 수 있습니다. 무료 기간에 제공되는 크레딧과 범위는 가입 화면에서 안내합니다.</p>
           </div>
         </div>
       </article>
@@ -130,7 +130,7 @@ export function FaqSection() {
         </button>
         <div className="faq-answer" id="faq-a-6" role="region">
           <div className="faq-answer-inner">
-            <p className="a-text">플랜 변경과 해지는 사용자가 직접 관리할 수 있도록 준비 중입니다. 기관 플랜은 계약 조건에 따라 별도 협의가 필요할 수 있습니다.</p>
+            <p className="a-text">플랜 변경과 해지는 설정의 구독 관리에서 직접 할 수 있습니다. 앱에서 구독하셨다면 App Store·Google Play 구독 관리에서 해지합니다. 기관 플랜은 계약 조건에 따라 협의합니다.</p>
           </div>
         </div>
       </article>
@@ -142,7 +142,7 @@ export function FaqSection() {
         </button>
         <div className="faq-answer" id="faq-a-7" role="region">
           <div className="faq-answer-inner">
-            <p className="a-text">기본 상담노트뿐 아니라 SOAP, 사례개념화, 기관 양식, 슈퍼비전 준비 등 상담 업무에 맞춘 템플릿을 제공하는 방향으로 준비하고 있습니다. 추후 기관별 양식도 확장할 수 있습니다.</p>
+            <p className="a-text">기본 상담노트, SOAP, 가족센터, 사례개념화, 기관 제출용, 수퍼비전 준비 등 20가지가 넘는 양식을 제공합니다. 자주 쓰는 내 양식을 저장해 두고 채팅에서 이름으로 불러 쓸 수도 있습니다.</p>
           </div>
         </div>
       </article>
@@ -155,6 +155,42 @@ export function FaqSection() {
         <div className="faq-answer" id="faq-a-8" role="region">
           <div className="faq-answer-inner">
             <p className="a-text">네. 녹음이나 축어록이 없어도 상담사 메모, 면담 기록, 검사 결과 등을 바탕으로 일부 기능을 사용할 수 있습니다. 단, 입력 자료가 많고 구체적일수록 결과 초안이 더 풍부해질 수 있습니다.</p>
+          </div>
+        </div>
+      </article>
+
+      <article className="faq-item" data-faq-item>
+        <button type="button" className="faq-q" data-faq-trigger aria-expanded="false" aria-controls="faq-a-9">
+          <h3 className="q-text">AI 채팅에 입력한 내용도 학습에 쓰이나요?</h3>
+          <span className="toggle" aria-hidden="true">+</span>
+        </button>
+        <div className="faq-answer" id="faq-a-9" role="region">
+          <div className="faq-answer-inner">
+            <p className="a-text">아니요. 채팅에 적은 내용과 채팅이 참고한 상담 기록 모두 AI 학습에 사용되지 않습니다. 다른 기록과 같은 보호 원칙(저장 전 암호화·학습 금지)을 따릅니다.</p>
+          </div>
+        </div>
+      </article>
+
+      <article className="faq-item" data-faq-item>
+        <button type="button" className="faq-q" data-faq-trigger aria-expanded="false" aria-controls="faq-a-10">
+          <h3 className="q-text">채팅이 제 기록이나 일정을 마음대로 바꾸나요?</h3>
+          <span className="toggle" aria-hidden="true">+</span>
+        </button>
+        <div className="faq-answer" id="faq-a-10" role="region">
+          <div className="faq-answer-inner">
+            <p className="a-text">아니요. 일정처럼 바뀌는 작업은 결과를 카드로 먼저 보여 드리고, 이름이 같은 내담자가 있으면 추측하지 않고 먼저 되묻습니다.</p>
+          </div>
+        </div>
+      </article>
+
+      <article className="faq-item" data-faq-item>
+        <button type="button" className="faq-q" data-faq-trigger aria-expanded="false" aria-controls="faq-a-11">
+          <h3 className="q-text">휴대폰에서도 쓸 수 있나요?</h3>
+          <span className="toggle" aria-hidden="true">+</span>
+        </button>
+        <div className="faq-answer" id="faq-a-11" role="region">
+          <div className="faq-answer-inner">
+            <p className="a-text">네. iOS·Android 앱에서 녹음을 올리고, 축어록·상담노트를 확인하고, 채팅을 쓸 수 있습니다. 웹과 같은 계정으로 이어집니다.</p>
           </div>
         </div>
       </article>

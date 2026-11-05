@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useEffect } from 'react';
 
-export type FeatureTabKey = 'psy' | 'trx' | 'note' | 'cnc' | 'geno';
+export type FeatureTabKey = 'psy' | 'trx' | 'note' | 'cnc' | 'geno' | 'rpt';
 
 export interface FeatureTabsSectionProps {
   /**
@@ -25,7 +25,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
         const featRoot = document.querySelector('.feat-tabs');
         const section = featRoot ? featRoot.closest('section') : null;
         const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const ROTATION_ORDER = ['psy', 'trx', 'note', 'cnc', 'geno'];
+        const ROTATION_ORDER = ['psy', 'trx', 'note', 'cnc', 'geno', 'rpt'];
         const ROTATE_MS = 5000;
         let autoTimer: ReturnType<typeof setInterval> | null = null;
         let hovering = false;
@@ -128,7 +128,8 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
     </div>
 
     <div className="feat-head feat-head--lean">
-      <h2 className="t-h2">필요한 순간에,<br/>필요한 기능만 꺼내 쓰세요</h2>
+      <h2 className="t-h2">축어록부터 심리검사 해석까지,<br/>상담에 필요한 기능 그대로</h2>
+      <p className="v2-lead dark">메뉴에서 골라 쓰거나, 채팅에 “사례개념화해줘”라고 적으면 됩니다.</p>
     </div>
 
     {/* aria-required-children: role="tablist"는 role="tab" 자식만 허용 — 패널이 형제로 같은 컨테이너에 있으면 위반.
@@ -220,6 +221,22 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
           <span className="feat-tab-text">
             <span className="feat-tab-label">가계도</span>
             <span className="feat-tab-sub">관계 구조</span>
+          </span>
+        </button>
+        <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="rpt">
+          <span className="feat-tab-num">06</span>
+          <span className="feat-tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 3.5 H17 L22 8.5 V24.5 H7 z"/>
+              <path d="M17 3.5 V8.5 H22"/>
+              <line x1="10.5" y1="13" x2="18.5" y2="13"/>
+              <line x1="10.5" y1="16.5" x2="18.5" y2="16.5"/>
+              <line x1="10.5" y1="20" x2="15.5" y2="20"/>
+            </svg>
+          </span>
+          <span className="feat-tab-text">
+            <span className="feat-tab-label">보고서</span>
+            <span className="feat-tab-sub">한글 파일</span>
           </span>
         </button>
       </div>
@@ -676,6 +693,58 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
       </div>
 
       
+      <div className="feat-panel" role="tabpanel" data-panel="rpt" data-active="false">
+        <button type="button" className="feat-acc-trigger" aria-expanded="false">
+          <span className="feat-acc-num">06</span>
+          <span className="feat-acc-label">보고서 생성</span>
+          <span className="feat-acc-icon">+</span>
+        </button>
+        <div className="feat-acc-body">
+          <div className="feat-copy">
+            <span className="feat-cat">보고서 생성</span>
+            <h3 className="feat-msg">사례개념화·슈퍼비전 보고서를 한글 파일로</h3>
+            <div className="feat-when">학회·기관에 낼 보고서를 써야 할 때</div>
+            <p className="feat-desc">상담 기록을 바탕으로 보고서를 채워 바로 열어 고칠 수 있는 한글(HWPX) 파일로 드려요. 워드(DOCX)·PDF로도 받을 수 있고, 쓰던 기관 양식을 올리면 그 칸에 맞춰 채워요.</p>
+            <div className="feat-pain-row">
+              <span className="feat-pain-lbl">받을 수 있는 형식</span>
+              <div className="feat-pain-tags">
+                <span className="pain-tag">한글 HWPX</span>
+                <span className="pain-tag">워드 DOCX</span>
+                <span className="pain-tag">PDF</span>
+                <span className="pain-tag">내 기관 양식</span>
+              </div>
+            </div>
+          </div>
+          <div className="feat-mock rpt-mock" aria-hidden="true">
+            <div className="rpt-win">
+              <div className="rpt-titlebar">
+                <span className="pf-dots"><span></span><span></span><span></span></span>
+                <span className="rpt-title"><b className="rpt-hwp">한</b><span className="rpt-name" data-a="김철수_슈퍼비전 보고서.hwpx" data-b="홍길동_사례개념화 보고서.hwpx"></span> — 한글</span>
+              </div>
+              <div className="rpt-menu"><span>파일</span><span>편집</span><span>보기</span><span>입력</span><span>서식</span><span>쪽</span><span>표</span><span>검토</span></div>
+              <div className="rpt-ribbon">
+                <span className="rpt-font">맑은 고딕</span><span className="rpt-size">10.0</span>
+                <span className="rpt-btn"><b>가</b></span><span className="rpt-btn"><i>가</i></span><span className="rpt-btn"><u>가</u></span>
+                <span className="rpt-sep"></span>
+                <span className="rpt-btn rpt-al"></span><span className="rpt-btn rpt-al c"></span><span className="rpt-btn rpt-al r"></span>
+                <span className="rpt-sep"></span>
+                <span className="rpt-btn rpt-tbl"></span>
+              </div>
+              <div className="rpt-canvas">
+                <div className="rpt-pages">
+                  <Image className="rpt-page rpt-page-a" src="/images/home-v2/report-supervision-hwp.webp" alt="" width={1100} height={1557} sizes="(max-width: 768px) 90vw, 40vw" />
+                  <Image className="rpt-page rpt-page-b" src="/images/home-v2/report-case-hwp.webp" alt="" width={1100} height={1557} sizes="(max-width: 768px) 90vw, 40vw" />
+                </div>
+              </div>
+              <div className="rpt-status"><span>1/2쪽</span><span>구역: 1/1</span><span className="rpt-zoom">100%</span></div>
+            </div>
+            <div className="rpt-formats">
+              <span className="rpt-chip is-on">HWPX</span><span className="rpt-chip">DOCX</span><span className="rpt-chip">PDF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="feat-panel" role="tabpanel" data-panel="psy" data-active="true">
         <button type="button" className="feat-acc-trigger" aria-expanded="true">
           <span className="feat-acc-num">01</span>

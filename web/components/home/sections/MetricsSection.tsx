@@ -150,14 +150,15 @@ export function MetricsSection() {
     
     <div className="metrics-screen">
     <div className="metrics-strip" aria-label="마음토스 정량 지표">
+      {/* 2026-11-05 운영 DB 기준(users 3,541 · sessions 26,880)을 내림해 표기. 12시간·90%는 기존 운영 랜딩 수치 유지 */}
       <div className="metrics-grid">
         <div className="metric-card">
-          <div className="metric-val" data-count="2000" data-comma="true">2,000<span className="unit">+</span></div>
+          <div className="metric-val" data-count="3000" data-comma="true">3,000<span className="unit">+</span></div>
           <div className="metric-label">함께 쓰는 상담사</div>
         </div>
 
         <div className="metric-card">
-          <div className="metric-val" data-count="10000" data-comma="true">10,000<span className="unit">+</span></div>
+          <div className="metric-val" data-count="25000" data-comma="true">25,000<span className="unit">+</span></div>
           <div className="metric-label">정리된 상담 기록</div>
         </div>
 
@@ -200,7 +201,7 @@ export function MetricsSection() {
 
         <article className="tm-card">
           <span className="tm-reason">사례 정리 도움</span>
-          <h3 className="tm-card-title">슈퍼비전 전에 정리가 쉬워졌어요</h3>
+          <h3 className="tm-card-title">수퍼비전 전에 정리가 쉬워졌어요</h3>
           <blockquote className="tm-text">무엇을 가져가야 할지 막막할 때, 회기 핵심과 질문거리가 먼저 정리되어 도움이 됩니다. 교수님이나 슈퍼바이저에게 가져갈 자료를 준비하는 부담이 줄었어요.</blockquote>
           <div className="tm-author">
             <span className="tm-avatar"><Image src="/testimonial-05.webp" alt="" width={400} height={400} loading="lazy" /></span>
@@ -280,7 +281,7 @@ export function MetricsSection() {
         </article>
         <article className="tm-card" aria-hidden="true">
           <span className="tm-reason">사례 정리 도움</span>
-          <h3 className="tm-card-title">슈퍼비전 전에 정리가 쉬워졌어요</h3>
+          <h3 className="tm-card-title">수퍼비전 전에 정리가 쉬워졌어요</h3>
           <blockquote className="tm-text">무엇을 가져가야 할지 막막할 때, 회기 핵심과 질문거리가 먼저 정리되어 도움이 됩니다. 교수님이나 슈퍼바이저에게 가져갈 자료를 준비하는 부담이 줄었어요.</blockquote>
           <div className="tm-author">
             <span className="tm-avatar"><Image src="/testimonial-05.webp" alt="" width={400} height={400} loading="lazy" /></span>

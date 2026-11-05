@@ -31,7 +31,7 @@ export function PricingSection() {
           <p className="price-target">마음토스를 처음 써보는 개인 상담사</p>
         </div>
         <div className="price-money">
-          <div className="price-amt">8,900<span className="per">원/월</span></div>
+          <div className="price-amt">13,900<span className="per">원/월</span></div>
           <div className="price-credits">
             <strong>500 크레딧 / 월</strong>
           </div>
@@ -47,8 +47,9 @@ export function PricingSection() {
         </div>
         <ul className="price-ul">
           <li>일반 / 고급 축어록</li>
-          <li>상담노트</li>
-          <li>AI 슈퍼비전</li>
+          <li>상담노트 · AI 슈퍼비전</li>
+          <li>AI 채팅 (마음토스 모델)</li>
+          <li>보고서 한글·워드·PDF 파일</li>
         </ul>
         <a
           className="btn ghost"
@@ -95,6 +96,8 @@ export function PricingSection() {
           <li>스타터의 모든 기능 포함</li>
           <li>모든 사례개념화 노트 사용 가능</li>
           <li>모든 이론 AI 슈퍼비전 사용 가능</li>
+          <li>최신 외부 AI 모델 · 이미지 생성</li>
+          <li>워터마크 없는 보고서 파일</li>
         </ul>
         <a
           className="btn primary"
