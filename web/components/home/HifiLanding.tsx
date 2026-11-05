@@ -9,7 +9,7 @@ import { MetricsSection } from './sections/MetricsSection';
 import { PricingSection } from './sections/PricingSection';
 import { FaqSection } from './sections/FaqSection';
 import { FinalCtaSection } from './sections/FinalCtaSection';
-import { NewFeaturesSection, MobileAppSection, UpdatesSection } from './sections/AppFirstSections';
+import { DevicesSection, NewFeaturesSection, MobileAppSection, UpdatesSection } from './sections/AppFirstSections';
 import { ChatSection } from './sections/AppFirstClient';
 import { HifiLandingEffects } from './HifiLandingEffects';
 import { LandingFunnelTracker } from './LandingFunnelTracker';
@@ -26,6 +26,7 @@ export function HifiLanding() {
     <>
       {/* GNB + 상단 promo 배너는 app/(site)/layout.tsx 가 <Header /> + <PromoBanner /> 로 통일 렌더. */}
       <HeroSection appFirst />
+      <DevicesSection />
       {/* 2026-11 개편: 신기능·채팅·앱을 먼저 자랑하고, 보안은 그 뒤에서 받친다. */}
       <NewFeaturesSection />
       <ChatSection />

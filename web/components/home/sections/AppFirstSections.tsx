@@ -61,6 +61,51 @@ const SHOWCASE = [
   ['AI 모델 선택', 'GPT·Claude·Gemini도 마음토스 안에서 골라 씁니다', 'app-05-model-sheet.png'],
 ] as const;
 
+/** 히어로 바로 아래: 같은 마음토스를 PC·태블릿·휴대폰에서. 화면은 실제 웹·앱 캡처(가명 홍길동). */
+export function DevicesSection() {
+  return (
+    <section className="wf-section v2-devices" id="devices" data-funnel-section="devices">
+      <div className="container">
+        <div className="v2-head">
+          <p className="v2-kicker dark">PC · 태블릿 · 휴대폰</p>
+          <h2 className="t-h2">
+            어디서 열어도,
+            <br />
+            같은 마음토스
+          </h2>
+          <p className="v2-lead">상담실 PC에서 쓰던 기록을 태블릿과 휴대폰에서 그대로 이어서 씁니다.</p>
+        </div>
+        <div className="v2-dev-stage">
+          <figure className="v2-dev v2-dev-tablet">
+            <div className="v2-tablet">
+              <Image src={`${IMG}/chat-prep.png`} alt="태블릿에서 본 마음토스 AI 채팅 화면" width={1040} height={1080} sizes="(max-width: 860px) 45vw, 260px" />
+            </div>
+            <figcaption>태블릿<span>AI 채팅</span></figcaption>
+          </figure>
+          <figure className="v2-dev v2-dev-laptop">
+            <div className="v2-laptop">
+              <div className="v2-laptop-screen">
+                <Image src="/transcribe-mindthos-app.webp" alt="PC 웹에서 본 마음토스 축어록과 상담 노트 화면" width={1600} height={1000} sizes="(max-width: 860px) 92vw, 620px" />
+              </div>
+              <div className="v2-laptop-base" aria-hidden="true" />
+            </div>
+            <figcaption>PC 웹<span>축어록 · 상담 노트</span></figcaption>
+          </figure>
+          <figure className="v2-dev v2-dev-phone">
+            <div className="v2-phone sm">
+              <Image className="on" src={`${IMG}/app-01-summary-result.png`} alt="휴대폰 앱에서 본 마음토스 회기 요약 화면" width={840} height={1866} sizes="(max-width: 860px) 30vw, 200px" />
+            </div>
+            <figcaption>모바일 앱<span>iOS · Android</span></figcaption>
+          </figure>
+        </div>
+        <div className="v2-dev-cta">
+          <StoreBadges location="devices" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function NewFeaturesSection() {
   return (
     <section className="wf-section v2-show" id="new" data-funnel-section="new_features">

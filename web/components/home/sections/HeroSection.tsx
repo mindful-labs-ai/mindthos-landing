@@ -1,7 +1,6 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import { HeroAppPhone } from './AppFirstClient';
 import { StoreBadges } from './AppFirstSections';
 
 const SHIELD_ICON = (
@@ -24,15 +23,7 @@ const SHIELD_ICON = (
 </svg>
 );
 
-/* 홈 개편(2026-11, appFirst): 채팅·앱을 앞세운 카피 + 실제 앱 화면 휴대폰. */
-const APP_FIRST_HEADLINE: ReactNode = (
-  <>
-    채팅 한 번으로 끝나는
-    <br />
-    <span className="hero-h1-accent">상담 업무,</span> 마음토스
-  </>
-);
-
+/* 홈 개편(2026-11, appFirst): 헤드라인은 슬로건 그대로, 서브만 웹·앱을 말한다. */
 const APP_FIRST_SUB: ReactNode = (
   <>
     내담자 기록을 아는 상담사 전용 AI.
@@ -80,7 +71,7 @@ export interface HeroSectionProps {
   ctaHref?: string;
   /** 계측용 data-cta-location. variant 식별자(hero_genogram 등). */
   ctaLocation?: string;
-  /** 홈 개편 레이아웃: 슬로건 배지 + 채팅 카피 + 스토어 배지 + 실제 앱 휴대폰. 변형 랜딩은 미지정(현행 유지). */
+  /** 홈 개편 레이아웃: 슬로건 헤드라인 + 웹·앱 서브카피 + 스토어 배지. 변형 랜딩은 미지정(현행 유지). */
   appFirst?: boolean;
 }
 
@@ -93,10 +84,7 @@ export function HeroSection({
   ctaLocation = 'hero',
   appFirst = false,
 }: HeroSectionProps = {}) {
-  if (appFirst) {
-    headline = APP_FIRST_HEADLINE;
-    sub = APP_FIRST_SUB;
-  }
+  if (appFirst) sub = APP_FIRST_SUB;
   /* Hero 비디오 (2026-05-08):
      SSR/CSR 모두 렌더 — preload="metadata" + fetchpriority="low" 로 첫 프레임만 가볍게 받고,
      디코딩/재생은 브라우저가 idle 시점에 처리. 자산은 압축본 (모바일 2.6MB / 데스크톱 2.6MB). */
@@ -144,12 +132,7 @@ export function HeroSection({
 
   <div className="container hero-content-wrap">
     <div className="hero-content">
-      {appFirst ? (
-        <p className="v2-eyebrow">
-          {SHIELD_ICON}
-          상담사를 위한 안전한 AI 파트너
-        </p>
-      ) : eyebrow ? (
+      {eyebrow ? (
         <p className="hero-eyebrow">{eyebrow}</p>
       ) : null}
       <h1 className="hero-h1">{headline}</h1>
@@ -170,7 +153,6 @@ export function HeroSection({
       </div>
       {appFirst ? <StoreBadges onDark location="hero" /> : null}
     </div>
-    {appFirst ? <HeroAppPhone /> : null}
   </div>
 
 

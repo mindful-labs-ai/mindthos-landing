@@ -1,55 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const IMG = '/images/home-v2';
-
-const HERO_SCREENS = [
-  ['app-01-summary-result.png', '다음 회기 준비'],
-  ['app-12-supervision-report.png', '수퍼비전 보고서 한글 파일'],
-  ['app-47-questionnaire-create.png', '사전 질문지'],
-  ['app-09-note-writing.png', 'SOAP 상담노트'],
-] as const;
-
-/** 히어로 오른쪽: 실제 앱 화면이 3.2초마다 넘어가는 휴대폰. 태그는 설치 버튼(#app-install)으로 보낸다. */
-export function HeroAppPhone() {
-  const [cur, setCur] = useState(0);
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const id = window.setInterval(() => setCur((i) => (i + 1) % HERO_SCREENS.length), 3200);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <div className="v2-hero-phone" aria-label="마음토스 앱 실제 화면">
-      <div className="v2-cap" aria-live="polite">
-        {HERO_SCREENS[cur][1]}
-      </div>
-      <div className="v2-phone">
-        {HERO_SCREENS.map(([file, cap], i) => (
-          <Image
-            key={file}
-            className={i === cur ? 'on' : undefined}
-            src={`${IMG}/${file}`}
-            alt={`마음토스 앱 실제 화면 — ${cap}`}
-            width={840}
-            height={1866}
-            sizes="(max-width: 1023px) 320px, 370px"
-            priority={i === 0}
-          />
-        ))}
-      </div>
-      <a className="v2-float f1" href="#app-install" data-cta-intent="app_download" data-cta-location="hero_phone">
-        NEW 모바일 앱 →
-      </a>
-      <a className="v2-float f2" href="#app-install" data-cta-intent="app_download" data-cta-location="hero_phone">
-        iOS · Android 설치
-      </a>
-    </div>
-  );
-}
 
 const CHAT_GROUPS = [
   {
