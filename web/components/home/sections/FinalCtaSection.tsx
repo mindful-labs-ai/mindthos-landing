@@ -53,8 +53,8 @@ export function FinalCtaSection() {
           href="https://app.mindthos.com"
           data-cta-intent="signup"
           data-cta-location="final_cta"
-          data-cta-label="무료로 시작하기"
-        >무료로 시작하기 <span className="arr" aria-hidden="true">→</span></a>
+          data-cta-label="지금 시작하기"
+        >지금 시작하기 <span className="arr" aria-hidden="true">→</span></a>
         <a
           className="final-cta-link"
           href="/contact?type=institution-inquiry"
