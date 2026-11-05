@@ -113,7 +113,7 @@ export function NewFeaturesSection() {
           <h2 className="t-h2">
             회기 요약부터 일정 관리까지,
             <br />
-            새로워진 <span className="brand-word">마음토스</span>
+            다재다능한 <span className="brand-word">마음토스</span>
           </h2>
           <p className="v2-lead">모두 실제 앱 화면입니다.</p>
         </div>
