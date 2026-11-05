@@ -12,7 +12,7 @@ import type { FeatureTabKey } from '@/components/home/sections/FeatureTabsSectio
  */
 
 /** headline 을 소구로 교체해도 유지하는 브랜드 포지셔닝 kicker (CLAUDE.md 변경 금지). */
-export const DEFAULT_EYEBROW = '상담사를 위한 안전한 AI 에이전트 · 마음토스';
+export const DEFAULT_EYEBROW = '상담사를 위한 안전한 AI 파트너 · 마음토스';
 
 const APP_BASE = 'https://app.mindthos.com';
 
@@ -105,7 +105,7 @@ const GENOGRAM: LandingVariant = {
   cohortHint: 'genogram',
   metaTitle: '가계도 자동 생성 — 상담 기록으로 3세대 가계도까지 | 마음토스',
   metaDescription:
-    '축어록·상담 기록만 올리면 3세대 가계도와 관계 역동을 자동 초안으로. 상담사를 위한 안전한 AI 에이전트 마음토스에서 무료로 시작하세요.',
+    '축어록·상담 기록만 올리면 3세대 가계도와 관계 역동을 자동 초안으로. 상담사를 위한 안전한 AI 파트너 마음토스에서 무료로 시작하세요.',
   noindex: true,
 };
 
@@ -149,7 +149,7 @@ const TRANSCRIBE: LandingVariant = {
   cohortHint: null,
   metaTitle: '축어록 자동 생성 — 녹음에서 상담노트까지 | 마음토스',
   metaDescription:
-    '회기 녹음을 안전하게 축어록으로 풀고 상담노트 초안까지 자동으로. 상담사를 위한 안전한 AI 에이전트 마음토스에서 무료로 시작하세요.',
+    '회기 녹음을 안전하게 축어록으로 풀고 상담노트 초안까지 자동으로. 상담사를 위한 안전한 AI 파트너 마음토스에서 무료로 시작하세요.',
   noindex: true,
 };
 
@@ -193,7 +193,7 @@ const PSY_TEST: LandingVariant = {
   cohortHint: 'psy_test',
   metaTitle: '심리검사 해석 — 흩어진 검사를 하나의 사례로 | 마음토스',
   metaDescription:
-    '여러 심리검사 결과를 한 내담자의 이야기로 통합 해석하고 사례개념화 가설까지. 상담사를 위한 안전한 AI 에이전트 마음토스에서 무료로 시작하세요.',
+    '여러 심리검사 결과를 한 내담자의 이야기로 통합 해석하고 사례개념화 가설까지. 상담사를 위한 안전한 AI 파트너 마음토스에서 무료로 시작하세요.',
   noindex: true,
 };
 
@@ -237,7 +237,7 @@ const CONCEPTUALIZATION: LandingVariant = {
   cohortHint: null,
   metaTitle: '사례개념화 — 상담 기록을 근거 있는 해석 가설로 | 마음토스',
   metaDescription:
-    '축어록·상담노트를 올리면 주 호소·촉발·유지요인을 구조화하고 이론에 근거한 사례개념화 가설까지. 상담사를 위한 안전한 AI 에이전트 마음토스에서 무료로 시작하세요.',
+    '축어록·상담노트를 올리면 주 호소·촉발·유지요인을 구조화하고 이론에 근거한 사례개념화 가설까지. 상담사를 위한 안전한 AI 파트너 마음토스에서 무료로 시작하세요.',
   noindex: true,
 };
 

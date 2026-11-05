@@ -12,8 +12,8 @@ export const SITE_CONFIG = {
   phone: process.env.NEXT_PUBLIC_SITE_PHONE || '',
   description:
     '상담사를 위한 안전한 AI 파트너. 축어록부터 사례개념화·가계도까지 상담 업무 전반을 한 곳에서.',
-  tagline: '안심하고 맡길 수 있는 상담사의 AI 파트너',
-  mission: '상담사를 위한 안전한 AI agent',
+  tagline: '상담사를 위한 안전한 AI 파트너',
+  mission: '상담사를 위한 안전한 AI 파트너',
   locale: 'ko_KR',
   language: 'ko',
   timezone: 'Asia/Seoul',

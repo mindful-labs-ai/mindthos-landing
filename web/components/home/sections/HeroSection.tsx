@@ -48,7 +48,7 @@ const DEFAULT_HEADLINE: ReactNode = (
     <br />
     <span className="hero-h1-accent">
       {SHIELD_ICON}
-      안전한 AI 에이전트,
+      안전한 AI 파트너,
     </span>
     <br />
     마음토스
@@ -66,7 +66,7 @@ const DEFAULT_SUB: ReactNode = (
 export interface HeroSectionProps {
   /**
    * 브랜드 포지셔닝 kicker. variant 에서만 노출 — CLAUDE.md 변경 금지 포지셔닝
-   * ("상담사를 위한 안전한 AI 에이전트, 마음토스") 을 headline 교체 시에도 유지.
+   * ("상담사를 위한 안전한 AI 파트너, 마음토스") 을 headline 교체 시에도 유지.
    * 홈(default) 은 미지정 → 렌더 안 함 → 현행과 동일.
    */
   eyebrow?: string;
