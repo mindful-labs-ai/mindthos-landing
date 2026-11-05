@@ -128,7 +128,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
     </div>
 
     <div className="feat-head feat-head--lean">
-      <h2 className="t-h2">채팅이 꺼내 쓰는<br/>다섯 가지 상담 전문 기능</h2>
+      <h2 className="t-h2">채팅이 꺼내 쓰는<br/>상담 전문 기능</h2>
       <p className="v2-lead dark">메뉴에서 골라 써도 되고, 채팅에 “사례개념화해줘”라고 적어도 됩니다.</p>
     </div>
 
