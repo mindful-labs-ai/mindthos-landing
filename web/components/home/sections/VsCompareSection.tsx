@@ -45,7 +45,7 @@ export function VsCompareSection() {
     </div>
 
     <div className="vs-head">
-      <h2 className="t-h2"><span className="brand-word">마음토스</span>가<br/>다른 AI와 다른 이유</h2>
+      <h2 className="t-h2">상담 기록은 안전하게,<br/><span className="brand-word">마음토스</span>에서</h2>
     </div>
 
     <div className="vs-compare" aria-label="범용 AI와 마음토스 비교">
