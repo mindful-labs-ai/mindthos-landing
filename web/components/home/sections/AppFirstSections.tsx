@@ -175,7 +175,7 @@ export function MobileAppSection() {
           <h2 className="t-h2">
             녹음부터 다음 회기 준비까지,
             <br />
-            휴대폰 하나로
+            <span className="brand-word">마음토스</span> 하나로
           </h2>
           <p className="v2-lead">상담실에서 녹음을 올리고, 이동하는 사이 축어록을 받고, 퇴근길에 다음 회기를 준비합니다.</p>
         </div>
