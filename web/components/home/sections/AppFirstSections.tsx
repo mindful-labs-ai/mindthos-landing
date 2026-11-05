@@ -68,11 +68,11 @@ export function DevicesSection() {
       <div className="container">
         <div className="v2-head">
           <h2 className="t-h2">
-            PC부터 태블릿, 휴대폰까지,
+            언제 어디서든,
             <br />
-            어디서든 같은 <span className="brand-word">마음토스</span>
+            <span className="brand-word">마음토스</span>
           </h2>
-          <p className="v2-lead">상담실 PC에서 시작한 대화를 태블릿과 휴대폰에서 그대로 이어 갑니다.</p>
+          <p className="v2-lead">PC, 태블릿, 휴대폰 어디서나 같은 기록과 대화를 이어 갑니다.</p>
         </div>
         <div className="v2-dev-stage">
           <figure className="v2-dev v2-dev-tablet">
