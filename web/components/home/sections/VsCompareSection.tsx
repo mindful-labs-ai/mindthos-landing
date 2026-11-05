@@ -45,7 +45,7 @@ export function VsCompareSection() {
     </div>
 
     <div className="vs-head">
-      <h2 className="t-h2">같은 채팅이어도,<br/>마음토스는 내 내담자를 압니다</h2>
+      <h2 className="t-h2">같은 채팅이어도,<br/><span className="brand-word">마음토스</span>는 내 내담자를 압니다</h2>
     </div>
 
     <div className="vs-compare" aria-label="범용 AI와 마음토스 비교">

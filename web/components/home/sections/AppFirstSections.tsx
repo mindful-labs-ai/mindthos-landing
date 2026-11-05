@@ -111,7 +111,6 @@ export function NewFeaturesSection() {
     <section className="wf-section v2-show" id="new" data-funnel-section="new_features">
       <div className="container">
         <div className="v2-head">
-          <p className="v2-kicker dark">NEW · 새로 나온 마음토스</p>
           <h2 className="t-h2">
             이제 <span className="brand-word">마음토스</span>는
             <br />
