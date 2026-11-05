@@ -71,7 +71,7 @@ export function DevicesSection() {
           <h2 className="t-h2">
             어디서 열어도,
             <br />
-            같은 마음토스
+            같은 <span className="brand-word">마음토스</span>
           </h2>
           <p className="v2-lead">PC에서 시작한 채팅을 태블릿과 휴대폰에서 그대로 이어서 씁니다. 기록도, 대화도 한곳에 있습니다.</p>
         </div>
@@ -113,7 +113,7 @@ export function NewFeaturesSection() {
         <div className="v2-head">
           <p className="v2-kicker dark">NEW · 새로 나온 마음토스</p>
           <h2 className="t-h2">
-            이제 마음토스는
+            이제 <span className="brand-word">마음토스</span>는
             <br />
             시키면 해냅니다
           </h2>
@@ -173,11 +173,11 @@ export function MobileAppSection() {
         <div className="v2-head">
           <p className="v2-kicker dark">NEW · 모바일 앱</p>
           <h2 className="t-h2">
-            상담이 끝나면,
+            녹음부터 다음 회기 준비까지,
             <br />
-            휴대폰에서 정리가 시작됩니다
+            휴대폰 하나로
           </h2>
-          <p className="v2-lead">PC를 켜지 않아도 됩니다. 웹에서 하던 일을 휴대폰에서 그대로 이어서 합니다.</p>
+          <p className="v2-lead">상담실에서 녹음을 올리고, 이동하는 사이 축어록을 받고, 퇴근길에 다음 회기를 준비합니다.</p>
         </div>
         <ol className="v2-app-steps">
           {APP_STEPS.map(([title, desc, img], i) => (

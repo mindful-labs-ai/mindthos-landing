@@ -42,7 +42,7 @@ const DEFAULT_HEADLINE: ReactNode = (
       안전한 AI 파트너,
     </span>
     <br />
-    마음토스
+    <span className="brand-word">마음토스</span>
   </>
 );
 

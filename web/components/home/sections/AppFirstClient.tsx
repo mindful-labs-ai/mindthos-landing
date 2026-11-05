@@ -61,11 +61,8 @@ export function ChatSection() {
           <h2 className="t-h2">
             채팅 한 번이면,
             <br />
-            나머지는 마음토스가 합니다
+            나머지는 <span className="brand-word">마음토스</span>가 합니다
           </h2>
-          <p className="v2-lead v2-lead-tight">
-            <b>웹에서도, 앱에서도 같은 채팅입니다.</b>
-          </p>
           <p className="v2-lead">
             범용 AI는 내 내담자를 모르지만, 마음토스 채팅은 압니다.
             <br />
