@@ -128,8 +128,8 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
     </div>
 
     <div className="feat-head feat-head--lean">
-      <h2 className="t-h2">채팅이 꺼내 쓰는<br/>상담 전문 기능</h2>
-      <p className="v2-lead dark">메뉴에서 골라 써도 되고, 채팅에 “사례개념화해줘”라고 적어도 됩니다.</p>
+      <h2 className="t-h2">축어록부터 심리검사 해석까지,<br/>상담에 필요한 기능 그대로</h2>
+      <p className="v2-lead dark">메뉴에서 골라 쓰거나, 채팅에 “사례개념화해줘”라고 적으면 됩니다.</p>
     </div>
 
     {/* aria-required-children: role="tablist"는 role="tab" 자식만 허용 — 패널이 형제로 같은 컨테이너에 있으면 위반.

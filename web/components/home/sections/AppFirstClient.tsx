@@ -59,15 +59,11 @@ export function ChatSection() {
         <div className="v2-head">
           <p className="v2-kicker">NEW · AI 채팅</p>
           <h2 className="t-h2">
-            채팅 한 번이면,
+            기록 찾기부터 발표 자료까지,
             <br />
-            나머지는 <span className="brand-word">마음토스</span>가 합니다
+            채팅 한 줄로 <span className="brand-word">마음토스</span>에게
           </h2>
-          <p className="v2-lead">
-            범용 AI는 내 내담자를 모르지만, 마음토스 채팅은 압니다.
-            <br />
-            기록을 복사해 붙여 넣을 필요 없이 이름만 적으면 됩니다.
-          </p>
+          <p className="v2-lead">내담자 기록을 이미 알고 있어, 이름만 적으면 찾아 읽고 정리합니다.</p>
         </div>
         <div className="v2-ctabs" role="tablist" aria-label="채팅으로 맡기는 일">
           {CHAT_GROUPS.map((g) => (

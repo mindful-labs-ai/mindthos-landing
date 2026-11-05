@@ -51,14 +51,14 @@ export function StoreBadges({ onDark = false, location }: { onDark?: boolean; lo
 }
 
 const SHOWCASE = [
-  ['AI 채팅', '“홍길동 주호소와 회기 흐름 요약해줘” — 기록을 찾아 읽고 표로 정리합니다', 'app-08-client-summary.png'],
-  ['모바일 녹음', '상담실에서 바로 녹음합니다. 알림을 허용하면 화면이 잠겨도 녹음이 이어집니다', 'app-32-audio-record.png'],
-  ['축어록 → 상담노트', '녹음 파일 하나로 축어록과 상담노트가 함께 만들어집니다', 'app-63-transcript-result.png'],
-  ['내 양식 그대로 보고서', '쓰던 워드 양식을 올리면 그 항목대로 채운 DOCX를 돌려드립니다', 'app-74-custom-template-result.png'],
-  ['일정 관리', '“이번 주 상담 일정 보여줘” 한 줄이면 한 주 상담이 한눈에 정리됩니다. 예약·반복 일정도 채팅으로 잡습니다', 'chat-calendar-week.png'],
-  ['사전 질문지', '첫 회기 전에 보낼 질문지를 문항까지 채워 만듭니다', 'app-47-questionnaire-create.png'],
-  ['심리검사 해석', 'PHQ-9 점수를 넣으면 문항별 해석과 확인할 점을 정리합니다', 'app-14-assessment-interpretation.png'],
-  ['AI 모델 선택', 'GPT·Claude·Gemini도 마음토스 안에서 골라 씁니다', 'app-05-model-sheet.png'],
+  ['AI 채팅', '기록을 찾아 읽고 표로 정리합니다', 'app-08-client-summary.png'],
+  ['모바일 녹음', '화면이 잠겨도 녹음이 이어집니다', 'app-32-audio-record.png'],
+  ['축어록 → 상담노트', '녹음 하나로 둘 다 만듭니다', 'app-63-transcript-result.png'],
+  ['내 양식 그대로 보고서', '쓰던 워드 양식 그대로 채웁니다', 'app-74-custom-template-result.png'],
+  ['일정 관리', '한 줄로 일정을 보고, 잡습니다', 'chat-calendar-week.png'],
+  ['사전 질문지', '첫 회기 전 질문지, 문항까지', 'app-47-questionnaire-create.png'],
+  ['심리검사 해석', 'PHQ-9 점수로 문항별 해석까지', 'app-14-assessment-interpretation.png'],
+  ['AI 모델 선택', 'GPT·Claude·Gemini를 한곳에서', 'app-05-model-sheet.png'],
 ] as const;
 
 /** 히어로 바로 아래: 같은 '홍길동 회기 요약' 채팅을 PC·태블릿·휴대폰에서. 화면은 실제 웹·앱 캡처(가명 홍길동). */
@@ -67,13 +67,12 @@ export function DevicesSection() {
     <section className="wf-section v2-devices" id="devices" data-funnel-section="devices">
       <div className="container">
         <div className="v2-head">
-          <p className="v2-kicker dark">PC · 태블릿 · 휴대폰</p>
           <h2 className="t-h2">
-            어디서 열어도,
+            PC부터 태블릿, 휴대폰까지,
             <br />
-            같은 <span className="brand-word">마음토스</span>
+            어디서든 같은 <span className="brand-word">마음토스</span>
           </h2>
-          <p className="v2-lead">PC에서 시작한 채팅을 태블릿과 휴대폰에서 그대로 이어서 씁니다. 기록도, 대화도 한곳에 있습니다.</p>
+          <p className="v2-lead">상담실 PC에서 시작한 대화를 태블릿과 휴대폰에서 그대로 이어 갑니다.</p>
         </div>
         <div className="v2-dev-stage">
           <figure className="v2-dev v2-dev-tablet">
@@ -112,15 +111,11 @@ export function NewFeaturesSection() {
       <div className="container">
         <div className="v2-head">
           <h2 className="t-h2">
-            <span className="brand-word">마음토스</span>는
+            회기 요약부터 일정 관리까지,
             <br />
-            시키면 해냅니다
+            새로워진 <span className="brand-word">마음토스</span>
           </h2>
-          <p className="v2-lead">
-            AI 채팅부터 휴대폰 앱, 파일 만들기까지. 새로 생긴 것만 모았습니다.
-            <br />
-            아래 화면은 모두 실제 앱 화면입니다.
-          </p>
+          <p className="v2-lead">모두 실제 앱 화면입니다.</p>
         </div>
         <ul className="v2-show-grid">
           {SHOWCASE.map(([title, desc, img]) => (

@@ -46,7 +46,7 @@ export function FinalCtaSection() {
     
     <div className="final-cta-inner">
       <p className="v2-eyebrow center">상담사를 위한 안전한 AI 파트너</p>
-      <h2 className="final-cta-h2">월요일 밤 10시, 노트 6개.<br/>채팅 한 번이면 오늘 끝납니다</h2>
+      <h2 className="final-cta-h2">오늘 남은 상담 기록까지,<br/><span className="brand-word">마음토스</span>에 맡기세요</h2>
       <div className="final-cta-btns">
         <a
           className="btn lg primary"
