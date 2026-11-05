@@ -26,14 +26,14 @@ export function HifiLanding() {
     <>
       {/* GNB + 상단 promo 배너는 app/(site)/layout.tsx 가 <Header /> + <PromoBanner /> 로 통일 렌더. */}
       <HeroSection appFirst />
-      <DevicesSection />
-      {/* 2026-11 개편: 신기능·채팅·앱을 먼저 자랑하고, 보안은 그 뒤에서 받친다. */}
+      {/* 2026-11 개편: 핵심 기능 → 채팅(새 기능·AI 채팅) → 모바일(기기·앱) 순으로 묶고, 보안은 그 뒤에서 받친다. */}
+      <FeatureTabsSection />
       <NewFeaturesSection />
       <ChatSection />
+      <DevicesSection />
       <MobileAppSection />
       <TrustEncryptSection kicker="그리고, 이 모든 걸 안전하게" />
       <PainSection />
-      <FeatureTabsSection />
       <SampleExperienceSection />
       <PersonasSection />
       <VsCompareSection />
