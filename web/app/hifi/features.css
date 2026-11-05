@@ -4096,7 +4096,7 @@
   /* tablist — pill card 형태로 격상 (5 columns) */
   .feat-tablist {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 8px;
     border: none;
     margin-bottom: 8px;
