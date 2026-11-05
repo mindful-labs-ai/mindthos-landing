@@ -31,9 +31,9 @@ export function HifiLanding() {
       {/* 2026-11 개편: 기기·앱 다음에 신기능·채팅을 자랑하고, 보안은 그 뒤에서 받친다. */}
       <NewFeaturesSection />
       <ChatSection />
+      <FeatureTabsSection />
       <TrustEncryptSection kicker="그리고, 이 모든 걸 안전하게" />
       <PainSection />
-      <FeatureTabsSection />
       <SampleExperienceSection />
       <PersonasSection />
       <VsCompareSection />
