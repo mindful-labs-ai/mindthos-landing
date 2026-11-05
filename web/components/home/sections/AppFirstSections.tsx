@@ -173,11 +173,11 @@ export function MobileAppSection() {
         <div className="v2-head">
           <p className="v2-kicker dark">NEW · 모바일 앱</p>
           <h2 className="t-h2">
-            녹음부터 다음 회기 준비까지,
+            녹음부터 다음 상담 준비까지,
             <br />
             <span className="brand-word">마음토스</span> 하나로
           </h2>
-          <p className="v2-lead">상담실에서 녹음을 올리고, 이동하는 사이 축어록을 받고, 퇴근길에 다음 회기를 준비합니다.</p>
+          <p className="v2-lead">상담실에서 녹음을 올리고, 이동하는 사이 축어록을 받고, 퇴근길에 다음 상담을 준비합니다.</p>
         </div>
         <ol className="v2-app-steps">
           {APP_STEPS.map(([title, desc, img], i) => (
