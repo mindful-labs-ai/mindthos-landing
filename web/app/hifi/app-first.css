@@ -1,4 +1,4 @@
-/* 홈 개편(2026-11): 앱·신기능 우선 섹션 — HeroAppPhone, NewFeatures, Chat, MobileApp, Updates.
+/* 홈 개편(2026-11): 앱·신기능 우선 섹션 — Devices, NewFeatures, Chat, MobileApp.
    components/home/sections/AppFirst*.tsx 와 짝. */
 .v2-eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--brand-primary-tint-2);font-weight:700;font-size:15px;letter-spacing:-.01em;margin:0 0 14px;padding:6px 12px;border:1px solid #98dba555;border-radius:999px;background:#0f2a2299}
 .v2-eyebrow svg{width:16px;height:16px}
@@ -16,7 +16,7 @@
 .v2-lead.dark{text-align:center;margin:-10px 0 28px}
 /* 채팅 섹션 */
 .v2-chat{background:linear-gradient(180deg,#fff, #f3faf4)}
-.v2-chat .t-h2,.v2-updates .t-h2{color:var(--ink)}
+.v2-chat .t-h2{color:var(--ink)}
 .v2-ctabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
 .v2-ct{text-align:left;padding:14px 16px;border-radius:14px;border:1px solid var(--line);background:#fff;cursor:pointer;display:flex;flex-direction:column;gap:4px;font:inherit;color:var(--ink-3)}
 .v2-ct b{font-size:18px;color:var(--ink)}
@@ -39,14 +39,6 @@
 .v2-trust3 p{margin-top:6px;font-size:14px;line-height:1.6;color:#d6e9dc}
 @media (max-width:860px){.v2-ctabs{grid-template-columns:1fr 1fr}.v2-cp{grid-template-columns:1fr;padding:18px;gap:18px}.v2-trust3{grid-template-columns:1fr}.v2-cp-q{font-size:19px}}
 /* 편의 개선 띠 */
-.v2-updates{padding-top:56px;padding-bottom:56px}
-.v2-upd{list-style:none;padding:0;margin:0 auto;max-width:960px;display:grid;gap:8px}
-.v2-upd li{display:grid;grid-template-columns:160px 1fr 1.25fr;gap:16px;align-items:center;padding:14px 18px;border-radius:14px;background:#fff;border:1px solid var(--line)}
-.v2-upd b{font-size:15px;color:var(--ink)}
-.v2-upd s{text-decoration:line-through;text-decoration-color:#94a3b8;color:var(--ink-4);font-size:14px}
-.v2-upd span{font-size:14.5px;color:var(--ink-2);font-weight:500;display:flex;gap:8px}
-.v2-upd span:before{content:"→";color:var(--brand);font-weight:800}
-@media (max-width:760px){.v2-upd li{grid-template-columns:1fr;gap:4px}}
 /* 장면 카드 */
 .persona-rail .persona-card[data-slot="-3"],.persona-rail .persona-card[data-slot="3"]{opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(.8);z-index:0}
 .v2-art{background:#fff}

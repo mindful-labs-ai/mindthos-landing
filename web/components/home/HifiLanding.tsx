@@ -9,7 +9,7 @@ import { MetricsSection } from './sections/MetricsSection';
 import { PricingSection } from './sections/PricingSection';
 import { FaqSection } from './sections/FaqSection';
 import { FinalCtaSection } from './sections/FinalCtaSection';
-import { DevicesSection, NewFeaturesSection, MobileAppSection, UpdatesSection } from './sections/AppFirstSections';
+import { DevicesSection, NewFeaturesSection, MobileAppSection } from './sections/AppFirstSections';
 import { ChatSection } from './sections/AppFirstClient';
 import { HifiLandingEffects } from './HifiLandingEffects';
 import { LandingFunnelTracker } from './LandingFunnelTracker';
@@ -31,7 +31,6 @@ export function HifiLanding() {
       <NewFeaturesSection />
       <ChatSection />
       <MobileAppSection />
-      <UpdatesSection />
       <TrustEncryptSection kicker="그리고, 이 모든 걸 안전하게" />
       <PainSection />
       <FeatureTabsSection />

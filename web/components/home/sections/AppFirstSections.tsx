@@ -205,35 +205,3 @@ export function MobileAppSection() {
     </section>
   );
 }
-
-const UPDATES = [
-  ['모바일 앱 + 녹음 카드', '상담이 끝나도 PC를 켜야 정리를 시작했습니다', '상담실을 나서며 휴대폰으로 녹음을 올리면, 이동하는 사이 축어록이 준비됩니다'],
-  ['진행 상황 알림', '축어록이 됐는지 몇 번씩 새로고침했습니다', '다 되면 벨이 알려 드립니다. 기다리지 말고 다른 일을 하세요'],
-  ['알림 설정', '원치 않는 알림까지 모두 왔습니다', '받고 싶은 알림만 골라 받습니다'],
-  ['중복 업로드 차단', '같은 녹음을 두 번 올려 크레딧이 나갔습니다', '이미 올린 파일이면 미리 알려 드려 크레딧을 지킵니다'],
-  ['내담자 합치기', '같은 사람이 둘로 갈라져 기록이 흩어졌습니다', '흩어진 내담자를 하나로 합쳐 회기 흐름을 되살립니다'],
-  ['회기 번호 지정', '회기 순서가 꼬이면 고칠 방법이 없었습니다', '회기 번호를 직접 정하고 고칠 수 있습니다'],
-  ['단계별 가계도', '한 번에 완성돼 고치기 어려웠습니다', '구성원 → 관계 → 분석 순서로 확인하며 완성합니다'],
-] as const;
-
-export function UpdatesSection() {
-  return (
-    <section className="wf-section v2-updates" data-funnel-section="updates">
-      <div className="container">
-        <div className="v2-head">
-          <p className="v2-kicker">상담사 의견으로 고친 것들</p>
-          <h2 className="t-h2">최근 이렇게 바뀌었습니다</h2>
-        </div>
-        <ol className="v2-upd">
-          {UPDATES.map(([title, before, after]) => (
-            <li key={title}>
-              <b>{title}</b>
-              <s>{before}</s>
-              <span>{after}</span>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
-  );
-}
