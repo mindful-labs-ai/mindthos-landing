@@ -55,11 +55,11 @@
 @media (max-width:1023px){.hero-content{max-width:100%}.hero-ctas{flex-wrap:wrap}}
 @media (max-width:720px){.hero-h1{font-size:clamp(28px,8.4vw,44px)!important;line-height:1.25!important}.hero-ctas .btn{flex:1 1 100%;justify-content:center}}
 /* ---- 2차: 앱·신기능 앞세우기 ---- */
-.v2-phone{position:relative;aspect-ratio:1080/2400;width:100%;border-radius:34px;background:#0b0f0d;padding:9px;box-shadow:0 40px 80px -24px #000c,0 0 0 1px #ffffff26 inset;overflow:hidden}
-.v2-phone img{position:absolute;inset:9px;width:calc(100% - 18px);height:calc(100% - 18px);object-fit:cover;object-position:top;border-radius:26px;opacity:0;transition:opacity .6s}
+/* 기기 테두리는 고정 px 대신 기기 크기 대비 %로 — 작게 보여도 실제 기기처럼 얇은 베젤 유지 */
+.v2-phone{position:relative;aspect-ratio:1080/2400;width:100%;border-radius:15%/6.8%;background:#0b0f0d;box-shadow:0 40px 80px -24px #000a,0 0 0 1.5px #3b413e,0 0 0 1px #ffffff1f inset;overflow:hidden}
+.v2-phone:after{content:"";position:absolute;top:2.2%;left:50%;transform:translateX(-50%);width:26%;height:2.9%;border-radius:999px;background:#0b0f0d;z-index:1}
+.v2-phone img{position:absolute;inset:1.1% 2.5%;width:95%;height:97.8%;object-fit:cover;object-position:top;border-radius:13%/5.9%;opacity:0;transition:opacity .6s}
 .v2-phone img.on{opacity:1}
-.v2-phone.sm{border-radius:26px;padding:7px}
-.v2-phone.sm img{inset:7px;width:calc(100% - 14px);height:calc(100% - 14px);border-radius:20px}
 #app-install{scroll-margin-top:120px}
 .v2-kicker.dark{background:#0f2a22;color:#98dba5}
 /* 신기능 쇼케이스 */
@@ -100,12 +100,13 @@
 .v2-dev figcaption{font-weight:700;font-size:15px;color:var(--ink)}
 .v2-dev figcaption span{display:block;font-weight:500;font-size:13px;color:var(--ink-3);text-align:center}
 .v2-laptop{width:100%;position:relative;z-index:1}
-.v2-laptop-screen{border-radius:14px 14px 0 0;background:#0b0f0d;padding:10px 10px 12px;box-shadow:0 30px 70px -30px #000a}
-.v2-laptop-screen img{display:block;width:100%;height:auto;border-radius:4px}
-.v2-laptop-base{height:14px;margin:0 -6%;background:linear-gradient(#d8ddda,#aeb6b1);border-radius:0 0 14px 14px}
-.v2-tablet{width:112%;margin-right:-10%;z-index:2;position:relative;border-radius:22px;background:#0b0f0d;padding:10px;aspect-ratio:1200/1097;box-shadow:0 30px 60px -24px #000b}
+.v2-laptop-screen{border-radius:3.2% 3.2% 0 0/4.6% 4.6% 0 0;background:#0b0f0d;padding:1.5% 1.5% 2.2%;box-shadow:0 30px 70px -30px #000a,0 0 0 1.5px #3b413e}
+.v2-laptop-screen img{display:block;width:100%;height:auto;border-radius:.6%}
+.v2-laptop-base{position:relative;aspect-ratio:60/1;margin:0 -7%;background:linear-gradient(#e4e8e5,#a9b1ac);border-radius:0 0 40% 40%/0 0 100% 100%}
+.v2-laptop-base:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:15%;height:45%;border-radius:0 0 8px 8px;background:#c3c9c5}
+.v2-tablet{width:112%;margin-right:-10%;z-index:2;position:relative;border-radius:6%/6.5%;background:#0b0f0d;aspect-ratio:1200/1097;box-shadow:0 30px 60px -24px #000a,0 0 0 1.5px #3b413e}
 .v2-tablet img,.v2-dev .v2-phone img{object-fit:cover;object-position:top}
-.v2-tablet img{display:block;width:100%;height:100%;border-radius:13px;background:#fff}
+.v2-tablet img{position:absolute;inset:3.4% 3.1%;width:93.8%;height:93.2%;border-radius:3.2%/3.5%;background:#fff}
 .v2-dev-phone .v2-phone{width:74%;margin-left:-6%;z-index:2}
 .v2-dev-tablet{z-index:2}.v2-dev-phone{z-index:2}
 .v2-dev-cta{display:flex;justify-content:center;margin-top:28px}
