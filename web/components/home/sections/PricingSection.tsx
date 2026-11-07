@@ -4,17 +4,29 @@ import { useState } from 'react';
 
 /* 연간가 출처: mindthos-server docs/runbooks/annual-plan-launch.md (월 정가 10개월 값, 크레딧 12개월분 한 번에 지급) */
 const PLANS = {
-  starter: { m: '13,900', mc: '500', y: '139,000', yc: '6,000', ym: '11,583' },
-  plus: { m: '29,900', mc: '2,500', y: '299,000', yc: '30,000', ym: '24,917' },
-  pro: { m: '49,900', mc: '5,000', y: '499,000', yc: '60,000', ym: '41,583' },
+  starter: { m: '13,900', mc: '500', y: '139,000', yc: '6,000', ym: '11,583', full: '166,800', save: '27,800' },
+  plus: { m: '29,900', mc: '2,500', y: '299,000', yc: '30,000', ym: '24,917', full: '358,800', save: '59,800' },
+  pro: { m: '49,900', mc: '5,000', y: '499,000', yc: '60,000', ym: '41,583', full: '598,800', save: '99,800' },
 } as const;
+/* 연간가 = 월 정가 10개월 값 → 월간 12개월(full) 대비 16.7% ≒ 17% 할인 */
+const YEARLY_OFF = '17%';
 
 function PriceMoney({ plan, yearly }: { plan: keyof typeof PLANS; yearly: boolean }) {
   const p = PLANS[plan];
   return (
     <div className="price-money">
+      {yearly ? (
+        <p className="price-was">
+          <s>{p.full}원</s>
+          <span className="price-off">{YEARLY_OFF} 할인</span>
+        </p>
+      ) : null}
       <div className="price-amt">{yearly ? p.y : p.m}<span className="per">{yearly ? '원/년' : '원/월'}</span></div>
-      {yearly ? <p className="price-year-note">월 {p.ym}원꼴</p> : null}
+      {yearly ? (
+        <p className="price-year-note">
+          월간보다 <b>{p.save}원</b> 아껴요 · 월 {p.ym}원꼴
+        </p>
+      ) : null}
       <div className="price-credits">
         <strong>{yearly ? `${p.yc} 크레딧 / 년` : `${p.mc} 크레딧 / 월`}</strong>
       </div>
@@ -36,7 +48,7 @@ export function PricingSection() {
       <h2 className="t-h2">내 상담 규모에 맞게,<br/>필요한 만큼 시작할 수 있습니다</h2>
       <div className="price-period" role="group" aria-label="결제 주기">
         <button type="button" aria-pressed={!yearly} onClick={() => setYearly(false)}>월간</button>
-        <button type="button" aria-pressed={yearly} onClick={() => setYearly(true)}>연간</button>
+        <button type="button" aria-pressed={yearly} onClick={() => setYearly(true)}>연간<span className="price-period-off">{YEARLY_OFF} 할인</span></button>
       </div>
     </div>
 
