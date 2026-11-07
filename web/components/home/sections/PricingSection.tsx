@@ -1,6 +1,29 @@
 'use client';
 
+import { useState } from 'react';
+
+/* 연간가 출처: mindthos-server docs/runbooks/annual-plan-launch.md (월 정가 10개월 값, 크레딧 12개월분 한 번에 지급) */
+const PLANS = {
+  starter: { m: '13,900', mc: '500', y: '139,000', yc: '6,000', ym: '11,583' },
+  plus: { m: '29,900', mc: '2,500', y: '299,000', yc: '30,000', ym: '24,917' },
+  pro: { m: '49,900', mc: '5,000', y: '499,000', yc: '60,000', ym: '41,583' },
+} as const;
+
+function PriceMoney({ plan, yearly }: { plan: keyof typeof PLANS; yearly: boolean }) {
+  const p = PLANS[plan];
+  return (
+    <div className="price-money">
+      <div className="price-amt">{yearly ? p.y : p.m}<span className="per">{yearly ? '원/년' : '원/월'}</span></div>
+      {yearly ? <p className="price-year-note">월 {p.ym}원꼴</p> : null}
+      <div className="price-credits">
+        <strong>{yearly ? `${p.yc} 크레딧 / 년` : `${p.mc} 크레딧 / 월`}</strong>
+      </div>
+    </div>
+  );
+}
+
 export function PricingSection() {
+  const [yearly, setYearly] = useState(false);
   return (
 <section className="wf-section" data-funnel-section="pricing">
   <div className="container">
@@ -11,6 +34,10 @@ export function PricingSection() {
     </div>
     <div className="pricing-head pricing-head--lean">
       <h2 className="t-h2">내 상담 규모에 맞게,<br/>필요한 만큼 시작할 수 있습니다</h2>
+      <div className="price-period" role="group" aria-label="결제 주기">
+        <button type="button" aria-pressed={!yearly} onClick={() => setYearly(false)}>월간</button>
+        <button type="button" aria-pressed={yearly} onClick={() => setYearly(true)}>연간</button>
+      </div>
     </div>
 
     
@@ -30,12 +57,7 @@ export function PricingSection() {
           <span className="price-name">스타터</span>
           <p className="price-target">마음토스를 처음 써보는 개인 상담사</p>
         </div>
-        <div className="price-money">
-          <div className="price-amt">13,900<span className="per">원/월</span></div>
-          <div className="price-credits">
-            <strong>500 크레딧 / 월</strong>
-          </div>
-        </div>
+        <PriceMoney plan="starter" yearly={yearly} />
         <div className="price-feel">
           <span className="price-feel-label">체감 사용량</span>
           <div className="price-feel-summary">
@@ -77,12 +99,7 @@ export function PricingSection() {
           <span className="price-name">플러스</span>
           <p className="price-target">꾸준히 운영하는 개인 상담사</p>
         </div>
-        <div className="price-money">
-          <div className="price-amt">29,900<span className="per">원/월</span></div>
-          <div className="price-credits">
-            <strong>2,500 크레딧 / 월</strong>
-          </div>
-        </div>
+        <PriceMoney plan="plus" yearly={yearly} />
         <div className="price-feel">
           <span className="price-feel-label">체감 사용량</span>
           <div className="price-feel-summary">
@@ -124,12 +141,7 @@ export function PricingSection() {
           <span className="price-name">프로</span>
           <p className="price-target">풀타임 상담사 또는 소규모 팀</p>
         </div>
-        <div className="price-money">
-          <div className="price-amt">49,900<span className="per">원/월</span></div>
-          <div className="price-credits">
-            <strong>5,000 크레딧 / 월</strong>
-          </div>
-        </div>
+        <PriceMoney plan="pro" yearly={yearly} />
         <div className="price-feel">
           <span className="price-feel-label">체감 사용량</span>
           <div className="price-feel-summary">

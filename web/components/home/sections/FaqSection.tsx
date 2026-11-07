@@ -118,7 +118,6 @@ export function FaqSection() {
           <div className="faq-answer-inner">
             <p className="a-text">크레딧은 작업 종류와 기록 길이에 따라 다르게 사용됩니다. 예를 들어 축어록, 상담노트, 사례개념화, 심리검사 해석처럼 처리 범위가 다른 작업은 사용량이 달라질 수 있습니다.</p>
             <p className="a-text">월 구독 플랜의 크레딧은 매월 새로 제공되며, 해당 월 안에서 사용하는 방식입니다. 사용하지 않은 크레딧은 다음 달로 이월되지 않고, 다음 결제 주기에 다시 갱신됩니다.</p>
-            <p className="a-text">정확한 차감 기준은 운영 정책 확정 후 안내됩니다.</p>
           </div>
         </div>
       </article>

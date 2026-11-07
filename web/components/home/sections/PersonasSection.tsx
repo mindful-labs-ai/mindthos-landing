@@ -241,7 +241,6 @@ export function PersonasSection() {
                 </div>
                 <p className="persona-card-cat">
                   {p.cat}
-                  {p.isNew ? <em className="v2-new">NEW</em> : null}
                 </p>
                 <h3 className="persona-card-scene">{p.scene}</h3>
                 <blockquote className="persona-card-quote">{p.quote}</blockquote>

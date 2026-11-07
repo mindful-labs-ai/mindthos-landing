@@ -30,7 +30,7 @@ export function HifiLandingEffects() {
         if (dismissed) {
           if (bottom) bottom.style.display = 'none';
           html.classList.remove('has-promo-bottom');
-        } else {
+        } else if (bottom) {
           html.classList.add('has-promo-bottom');
         }
       };
@@ -72,7 +72,7 @@ export function HifiLandingEffects() {
       },
       {
         // 2026-11 개편 구간도 기존 섹션처럼 스크롤 때 차례로 떠오르게 한다
-        sel: '.v2-head, .v2-show-grid > li, .v2-app-steps > li, .v2-dev-stage, .feat-head',
+        sel: '.v2-head, .v2-show-grid > li, .v2-app-steps > li, .v2-dev-stage, .feat-head, .v2-car, .feat-tabs, .pricing-head, .price-grid > .price-card',
         cls: 'v2-rise',
         threshold: 0.12,
         rootMargin: '0px 0px -8% 0px',

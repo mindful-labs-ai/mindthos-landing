@@ -20,10 +20,6 @@
 .v2-cp-verb{font-weight:800;color:var(--brand-text-on-light);font-size:15px}
 .v2-cp-q{font-size:22px;font-weight:700;line-height:1.45;color:var(--ink);margin:8px 0 14px;letter-spacing:-.02em}
 .v2-cp-brag{color:var(--ink-2);font-size:16px;line-height:1.7}
-.v2-trust3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:22px;padding:0;list-style:none}
-.v2-trust3 li{padding:18px 20px;border-radius:16px;background:#0f2a22;color:#e2f6e6}
-.v2-trust3 b{font-size:16px;color:#98dba5}
-.v2-trust3 p{margin-top:6px;font-size:14px;line-height:1.6;color:#d6e9dc}
 /* AI 채팅 영상 캐러셀: 슬라이드 하나 = 요청 문구 + 실제 채팅 녹화, 영상이 끝나면 다음으로 */
 .v2-car{position:relative;overflow:hidden}
 .v2-car-track{display:flex;transition:transform .7s cubic-bezier(.65,0,.35,1)}
@@ -34,13 +30,15 @@
 .v2-car-bar span:nth-child(1){background:#f87171}.v2-car-bar span:nth-child(2){background:#fbbf24}.v2-car-bar span:nth-child(3){background:#4ade80}
 .v2-car-bar b{margin-left:8px;font-size:12px;font-weight:600;color:var(--ink-3)}
 .v2-car-screen video{display:block;width:100%;aspect-ratio:990/800;object-fit:cover;background:#fff}
-.v2-car-dots{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
-.v2-car-dot{position:relative;display:flex;flex-direction:column;gap:8px;padding:0;border:0;background:none;cursor:pointer;font:inherit;text-align:left;color:var(--ink-3)}
-.v2-car-dot::before{content:"";display:block;height:4px;border-radius:4px;background:var(--line)}
-.v2-car-dot i{position:absolute;left:0;right:0;top:0;height:4px;border-radius:4px;background:var(--brand);transform-origin:left;transition:transform .25s linear}
-.v2-car-dot span{font-size:14px;font-weight:700}
+.v2-car-dots{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.v2-car-dot{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:16px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;cursor:pointer;font:inherit;color:var(--ink-2);transition:background .2s,border-color .2s,box-shadow .2s}
+.v2-car-dot::before{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:#e7ece9}
+.v2-car-dot i{position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--brand);transform-origin:left;transition:transform .25s linear}
+.v2-car-dot span{position:relative;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.v2-car-dot:hover{border-color:var(--brand-tint)}
+.v2-car-dot[aria-selected=true]{background:var(--brand-pale);border-color:var(--brand);box-shadow:0 12px 26px -16px #16a34a88}
 .v2-car-dot[aria-selected=true] span{color:var(--brand-text-on-light)}
-@media (max-width:860px){.v2-car-slide{grid-template-columns:1fr;padding:18px;gap:16px}.v2-trust3{grid-template-columns:1fr}.v2-cp-q{font-size:19px}.v2-car-dot span{font-size:12.5px}}
+@media (max-width:860px){.v2-car-slide{grid-template-columns:1fr;padding:18px;gap:16px}.v2-cp-q{font-size:19px}.v2-car-dots{gap:6px}.v2-car-dot{padding:12px 4px}.v2-car-dot span{font-size:14px}}
 @media (prefers-reduced-motion:reduce){.v2-car-track{transition:none}}
 /* 편의 개선 띠 */
 /* 장면 카드 */
@@ -53,7 +51,7 @@
 /* 마지막 CTA 아래 앱 다운로드 줄 */
 .v2-final-app{margin-top:26px;text-align:center}
 .v2-final-app p{color:var(--ink-3);font-size:14px}
-.v2-final-app .v2-stores{justify-content:center;margin-top:10px}
+.v2-final-app .v2-stores{justify-content:center;margin-top:0}
 .hero-content .v2-eyebrow{align-self:flex-start;width:max-content}
 .hero-content{min-width:0}
 @media (max-width:1023px){.hero-content{max-width:100%}.hero-ctas{flex-wrap:wrap}}
@@ -152,7 +150,122 @@
 .v2-rise{opacity:0}
 .v2-rise.is-in-view{opacity:1;animation:v2-rise .7s cubic-bezier(.2,.7,.2,1) both}
 @keyframes v2-rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-.v2-show-grid > li.v2-rise:nth-child(4n+2),.v2-app-steps > li.v2-rise:nth-child(2){animation-delay:.1s}
-.v2-show-grid > li.v2-rise:nth-child(4n+3),.v2-app-steps > li.v2-rise:nth-child(3){animation-delay:.2s}
-.v2-show-grid > li.v2-rise:nth-child(4n+4){animation-delay:.3s}
+.v2-show-grid > li.v2-rise:nth-child(3n+2),.v2-app-steps > li.v2-rise:nth-child(2){animation-delay:.1s}
+.v2-show-grid > li.v2-rise:nth-child(3n),.v2-app-steps > li.v2-rise:nth-child(3){animation-delay:.2s}
 @media (prefers-reduced-motion:reduce){.v2-rise{opacity:1!important;animation:none!important}}
+
+/* 2026-11-06: 어두운 섹션 위 1px 밝은 경계선 제거 */
+.wf-section.v2-devices,.wf-section.v2-app{border-top:0}
+/* 2026-11-06: 기능 탭을 캐러셀처럼 — 선택 탭 위 진행 막대가 차오르고, 패널은 옆에서 밀려 들어온다 */
+.feat-tabs[data-auto=on] .feat-tab[aria-selected=true]::before{transform-origin:left;animation:feat-prog 5s linear both}
+@keyframes feat-prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.feat-panel[data-active=true]{animation:feat-slide .5s cubic-bezier(.22,.8,.3,1)}
+@keyframes feat-slide{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.feat-panel[data-active=true]{animation:none}}
+/* 2026-11-06: 기기 쇼케이스 등장 — PC가 먼저 떠오르고, 태블릿은 왼쪽·휴대폰은 오른쪽에서 차례로 들어온다 */
+.v2-dev-stage.v2-rise.is-in-view{animation:none;opacity:1}
+.v2-dev-stage.v2-rise .v2-dev{opacity:0}
+.v2-dev-stage.is-in-view .v2-dev-laptop{animation:v2-dev-up .9s cubic-bezier(.2,.7,.2,1) both}
+.v2-dev-stage.is-in-view .v2-dev-tablet{animation:v2-dev-left .9s .35s cubic-bezier(.2,.7,.2,1) both}
+.v2-dev-stage.is-in-view .v2-dev-phone{animation:v2-dev-right .9s .5s cubic-bezier(.2,.7,.2,1) both}
+@keyframes v2-dev-up{from{opacity:0;transform:translateY(60px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes v2-dev-left{from{opacity:0;transform:translate(-80px,30px) rotate(-4deg)}to{opacity:1;transform:none}}
+@keyframes v2-dev-right{from{opacity:0;transform:translate(80px,30px) rotate(4deg)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.v2-dev-stage .v2-dev{opacity:1!important;animation:none!important}}
+/* 2026-11-06: 모바일 앱 구간 배경을 신기능 구간과 같은 밝은 톤으로 맞춘다. 신기능 카드는 6장이라 3열 */
+.wf-section.v2-app{background:radial-gradient(1200px 500px at 50% -10%,#e2f6e6 0%,#fff 60%);color:var(--ink);border-top:1px solid var(--line)}
+.v2-app .t-h2{color:var(--ink)}
+.v2-app .v2-lead{color:var(--ink-3)}
+.v2-app .v2-step-n{color:var(--brand-text-on-light)}
+.v2-app .v2-app-steps b{color:var(--ink)}
+.v2-app .v2-app-steps span{color:var(--ink-3)}
+.v2-app .v2-phone{box-shadow:0 30px 60px -28px #0f2a2266,0 0 0 1.5px #3b413e}
+.v2-show-grid{grid-template-columns:repeat(3,1fr);max-width:980px;margin:0 auto}
+.v2-show-shot{height:360px}
+@media (max-width:1023px){.v2-show-grid{grid-template-columns:repeat(2,1fr)}.v2-show-shot{height:260px}}
+@media (max-width:520px){.v2-show-shot{height:200px}}
+/* 2026-11-06: 채팅·모바일 앱·신기능 구간의 옅은 초록 그라데이션 배경을 걷어 내고 흰 바탕으로 통일 */
+.wf-section.v2-chat,.wf-section.v2-app,.wf-section.v2-show{background:#fff}
+/* 2026-11-06: 홈에서는 구간 사이 1px 경계선을 모두 없애고, 기능 탭 구간 회색 배경도 흰 바탕으로 맞춘다 */
+main:has(.v2-devices) .wf-section{border-top:0}
+main:has(.v2-devices) .wf-section:has(.feat-tabs){background:#fff}
+/* 2026-11-06: 요금 월간/연간 전환 */
+.price-period{display:inline-flex;gap:4px;margin-top:20px;padding:4px;border-radius:999px;background:#eef2f0}
+.price-period button{border:0;background:none;font:inherit;font-size:15px;font-weight:700;color:var(--ink-3);padding:8px 18px;border-radius:999px;cursor:pointer}
+.price-period button[aria-pressed=true]{background:#fff;color:var(--ink);box-shadow:0 2px 8px -4px #0f2a2244}
+.price-year-note{margin:4px 0 0;font-size:13.5px;font-weight:700;color:var(--brand-text-on-light)}
+/* 2026-11-06: 채팅 캐러셀 등장 — 탭 4개가 왼쪽부터 차례로 떠오르고, 영상 카드가 뒤따라 올라온다 */
+.v2-car.v2-rise.is-in-view{animation:none;opacity:1}
+.v2-car.v2-rise .v2-car-dot,.v2-car.v2-rise .v2-car-track{opacity:0}
+.v2-car.is-in-view .v2-car-dot{animation:v2-rise .6s cubic-bezier(.2,.7,.2,1) both}
+.v2-car.is-in-view .v2-car-dot:nth-child(2){animation-delay:.08s}
+.v2-car.is-in-view .v2-car-dot:nth-child(3){animation-delay:.16s}
+.v2-car.is-in-view .v2-car-dot:nth-child(4){animation-delay:.24s}
+.v2-car.is-in-view .v2-car-track{animation:v2-car-in .9s .3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes v2-car-in{from{opacity:0;translate:0 48px;filter:blur(6px)}to{opacity:1;translate:0 0;filter:none}}
+@media (prefers-reduced-motion:reduce){.v2-car .v2-car-dot,.v2-car .v2-car-track{opacity:1!important;animation:none!important}}
+/* 2026-11-06: 개편 구간 전체 등장 효과를 또렷하게 — 더 아래에서, 살짝 작고 흐린 상태로 떠오른다 */
+@keyframes v2-rise{from{opacity:0;transform:translateY(48px) scale(.97);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.v2-rise.is-in-view{animation-duration:.85s}
+.v2-app-steps > li.v2-rise:nth-child(2){animation-delay:.15s}
+.v2-app-steps > li.v2-rise:nth-child(3){animation-delay:.3s}
+.v2-show-grid > li.v2-rise:nth-child(3n+2){animation-delay:.12s}
+.v2-show-grid > li.v2-rise:nth-child(3n){animation-delay:.24s}
+/* 기능 탭: 탭 6개가 왼쪽부터 차례로, 내용은 뒤따라 */
+.feat-tabs.v2-rise.is-in-view{animation:none;opacity:1}
+.feat-tabs.v2-rise .feat-tab,.feat-tabs.v2-rise .feat-panel[data-active=true]{opacity:0}
+.feat-tabs.is-in-view .feat-tab{animation:v2-rise .6s cubic-bezier(.2,.7,.2,1) both}
+.feat-tabs.is-in-view .feat-tab:nth-child(2){animation-delay:.06s}
+.feat-tabs.is-in-view .feat-tab:nth-child(3){animation-delay:.12s}
+.feat-tabs.is-in-view .feat-tab:nth-child(4){animation-delay:.18s}
+.feat-tabs.is-in-view .feat-tab:nth-child(5){animation-delay:.24s}
+.feat-tabs.is-in-view .feat-tab:nth-child(6){animation-delay:.3s}
+.feat-tabs.is-in-view .feat-panel[data-active=true]{opacity:1}
+/* 요금 카드 차례로 */
+.price-grid > .price-card.v2-rise:nth-child(2){animation-delay:.1s}
+.price-grid > .price-card.v2-rise:nth-child(3){animation-delay:.2s}
+.price-grid > .price-card.v2-rise:nth-child(4){animation-delay:.3s}
+@media (prefers-reduced-motion:reduce){.feat-tabs .feat-tab,.feat-tabs .feat-panel{opacity:1!important;animation:none!important}}
+/* 등장 끝 상태를 고정하지 않아(hover 이동 효과 유지) 카드·탭의 hover가 그대로 동작한다 */
+.v2-rise.is-in-view,.feat-tabs.is-in-view .feat-tab,.v2-car.is-in-view .v2-car-dot{animation-fill-mode:backwards}
+.feat-tabs.is-in-view .feat-tab,.v2-car.is-in-view .v2-car-dot,.v2-car.is-in-view .v2-car-track{opacity:1}
+/* 2026-11-06: 기능 탭을 채팅 캐러셀과 같은 모양으로 — 큰 탭 + 아래 진행 막대, 내용은 테두리 카드, 좌우 화살표 */
+.feat-tabs{position:relative}
+.feat-tabs .feat-tablist{gap:10px;margin-bottom:16px}
+.feat-tabs .feat-tab{padding:14px 14px 18px;border-radius:14px}
+.feat-tabs .feat-tab .feat-tab-label{font-size:15.5px}
+.feat-tabs .feat-tab .feat-tab-sub{font-size:12px}
+.feat-tabs .feat-tab::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:#e7ece9}
+.feat-tabs .feat-tab[aria-selected=true]{background:var(--brand-pale);border-color:var(--brand);outline:none;box-shadow:0 12px 26px -16px #16a34a88}
+.feat-tabs .feat-tab[aria-selected=true]::before{inset:auto 0 0 0;height:5px;border-radius:0;z-index:1}
+.feat-tabs .feat-panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px}
+.feat-nav{position:absolute;top:calc(50% + 40px);z-index:3;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:26px;line-height:1;cursor:pointer;box-shadow:0 10px 24px -14px #0f2a2288;display:flex;align-items:center;justify-content:center;padding-bottom:3px;transition:transform .15s,border-color .15s}
+.feat-nav:hover{transform:scale(1.08);border-color:var(--brand)}
+.feat-nav.prev{left:-22px}.feat-nav.next{right:-22px}
+@media (max-width:880px){.feat-nav{display:none}.feat-tabs .feat-panel{border:0;padding:0}}
+/* 2026-11-06: 홈 전체 바탕을 옅은 회색(--bg-2) 하나로 통일. 히어로·지표(어두운 구간)·마지막 CTA는 그대로 */
+main:has(.v2-devices) :is([data-funnel-section=chat],[data-funnel-section=features],[data-funnel-section=mobile_app],[data-funnel-section=new_features],[data-funnel-section=trust],[data-funnel-section=pain],[data-funnel-section=sample],[data-funnel-section=personas],[data-funnel-section=vs_compare],[data-funnel-section=pricing],[data-funnel-section=faq]).wf-section{background:var(--bg-2)}
+main:has(.v2-devices) .wf-section.v2-devices{background:linear-gradient(180deg,#0f2a22 0,var(--bg-2) 62%)}
+.feat-tabs .feat-panel{height:auto!important;max-height:none!important}
+/* 2026-11-06: 채팅 캐러셀에도 좌우 화살표(기능 탭과 같은 .feat-nav) — 화살표가 잘리지 않게 자르기는 안쪽 view가 맡는다 */
+.v2-car{overflow:visible}
+.v2-car-view{overflow:hidden;border-radius:20px}
+.v2-car .feat-nav{top:calc(50% + 38px)}
+@media (max-width:880px){.v2-car .feat-nav{display:none}}
+/* 2026-11-06: 기능 탭 내용 자체를 가로 캐러셀로 — 6개 패널을 한 줄로 두고 track이 옆으로 밀린다 */
+@media (min-width:881px){
+  .feat-view{overflow:hidden;border-radius:20px}
+  .feat-track{display:flex;align-items:stretch;transform:translateX(calc(var(--feat-i,0) * -100%));transition:transform .7s cubic-bezier(.65,0,.35,1)}
+  .feat-tabs .feat-track > .feat-panel{display:grid;flex:0 0 100%;min-width:0;animation:none}
+  .feat-tabs.v2-rise .feat-track > .feat-panel{opacity:0}
+  .feat-tabs.is-in-view .feat-track > .feat-panel{opacity:1}
+  .feat-track > [data-panel=psy]{order:0}.feat-track > [data-panel=trx]{order:1}.feat-track > [data-panel=note]{order:2}
+  .feat-track > [data-panel=cnc]{order:3}.feat-track > [data-panel=geno]{order:4}.feat-track > [data-panel=rpt]{order:5}
+}
+@media (prefers-reduced-motion:reduce){.feat-track{transition:none}}
+/* 2026-11-06: 카드 옆 빈 여백을 눌러도 이전/다음으로 넘어가게 화살표 클릭 영역을 바깥쪽으로 넓힌다 */
+.feat-nav::after{content:'';position:absolute;top:-180px;bottom:-180px}
+.feat-nav.prev::after{right:50%;left:-120px}
+.feat-nav.next::after{left:50%;right:-120px}
+/* 2026-11-06: 홈 보안 섹션은 전문가 패널 없이 3가지 보호 장치만 — 한 열로 가운데 */
+.trust-body--lean{grid-template-columns:1fr;max-width:860px;margin-inline:auto}

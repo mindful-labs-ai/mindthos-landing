@@ -50,7 +50,6 @@ export function PromoBanner() {
     <div className="promo-top" data-promo-top role="region" aria-label="신규 가입 프로모션">
       <div className="promo-top-inner">
         <p className="promo-top-msg">
-          <span className="promo-tag">NEW</span>
           <span>
             신규 가입 상담사님께 첫 1주일 무료 제공 ·{' '}
             <a
