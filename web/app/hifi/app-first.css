@@ -259,8 +259,8 @@ main:has(.v2-devices) .wf-section.v2-devices{background:linear-gradient(180deg,#
   .feat-tabs .feat-track > .feat-panel{display:grid;flex:0 0 100%;min-width:0;animation:none}
   .feat-tabs.v2-rise .feat-track > .feat-panel{opacity:0}
   .feat-tabs.is-in-view .feat-track > .feat-panel{opacity:1}
-  .feat-track > [data-panel=psy]{order:0}.feat-track > [data-panel=trx]{order:1}.feat-track > [data-panel=note]{order:2}
-  .feat-track > [data-panel=cnc]{order:3}.feat-track > [data-panel=geno]{order:4}.feat-track > [data-panel=rpt]{order:5}
+  .feat-track > [data-panel=rpt]{order:0}.feat-track > [data-panel=psy]{order:1}.feat-track > [data-panel=trx]{order:2}
+  .feat-track > [data-panel=note]{order:3}.feat-track > [data-panel=cnc]{order:4}.feat-track > [data-panel=geno]{order:5}
 }
 @media (prefers-reduced-motion:reduce){.feat-track{transition:none}}
 /* 2026-11-06: 카드 옆 빈 여백을 눌러도 이전/다음으로 넘어가게 화살표 클릭 영역을 바깥쪽으로 넓힌다 */
@@ -269,3 +269,10 @@ main:has(.v2-devices) .wf-section.v2-devices{background:linear-gradient(180deg,#
 .feat-nav.next::after{left:50%;right:-120px}
 /* 2026-11-06: 홈 보안 섹션은 전문가 패널 없이 3가지 보호 장치만 — 한 열로 가운데 */
 .trust-body--lean{grid-template-columns:1fr;max-width:860px;margin-inline:auto}
+/* 2026-11-07: 연간 할인 생색 — 토글 배지, 월간 12개월 정가 취소선, 절약 금액 */
+.price-period button{display:inline-flex;align-items:center;gap:8px}
+.price-period-off{font-size:12px;font-weight:800;color:#fff;background:#e5484d;padding:3px 8px;border-radius:999px;line-height:1.2}
+.price-was{display:flex;align-items:center;gap:8px;margin:0 0 4px;font-size:15px;color:var(--ink-3)}
+.price-was s{text-decoration-thickness:1.5px}
+.price-off{font-size:13px;font-weight:800;color:#fff;background:#e5484d;padding:3px 9px;border-radius:999px}
+.price-year-note b{color:#e5484d;font-weight:800}

@@ -13,7 +13,7 @@ export interface FeatureTabsSectionProps {
   priorityTab?: FeatureTabKey;
 }
 
-export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionProps = {}) {
+export function FeatureTabsSection({ priorityTab = 'rpt' }: FeatureTabsSectionProps = {}) {
   useEffect(() => {
     const cleanups: Array<() => void> = [];
 
@@ -25,7 +25,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
         const featRoot = document.querySelector('.feat-tabs');
         const section = featRoot ? featRoot.closest('section') : null;
         const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const ROTATION_ORDER = ['psy', 'trx', 'note', 'cnc', 'geno', 'rpt'];
+        const ROTATION_ORDER = ['rpt', 'psy', 'trx', 'note', 'cnc', 'geno'];
         const ROTATE_MS = 5000;
         let autoTimer: ReturnType<typeof setInterval> | null = null;
         let hovering = false;
@@ -158,8 +158,24 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
     <div className="feat-tabs">
 
       <div className="feat-tablist" role="tablist" aria-label="핵심 기능 탭">
-        <button type="button" className="feat-tab" role="tab" aria-selected="true" data-tab="psy">
+        <button type="button" className="feat-tab" role="tab" aria-selected="true" data-tab="rpt">
           <span className="feat-tab-num">01</span>
+          <span className="feat-tab-icon" aria-hidden="true">
+            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M7 3.5 H17 L22 8.5 V24.5 H7 z"/>
+              <path d="M17 3.5 V8.5 H22"/>
+              <line x1="10.5" y1="13" x2="18.5" y2="13"/>
+              <line x1="10.5" y1="16.5" x2="18.5" y2="16.5"/>
+              <line x1="10.5" y1="20" x2="15.5" y2="20"/>
+            </svg>
+          </span>
+          <span className="feat-tab-text">
+            <span className="feat-tab-label">보고서</span>
+            <span className="feat-tab-sub">모든 형식 지원</span>
+          </span>
+        </button>
+        <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="psy">
+          <span className="feat-tab-num">02</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <rect x="3.5" y="4" width="21" height="20" rx="2"/>
@@ -176,7 +192,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
           </span>
         </button>
         <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="trx">
-          <span className="feat-tab-num">02</span>
+          <span className="feat-tab-num">03</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <rect x="13" y="3" width="11" height="14" rx="1.5"/>
@@ -194,7 +210,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
           </span>
         </button>
         <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="note">
-          <span className="feat-tab-num">03</span>
+          <span className="feat-tab-num">04</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <rect x="4" y="3.5" width="20" height="21" rx="2"/>
@@ -210,7 +226,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
           </span>
         </button>
         <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="cnc">
-          <span className="feat-tab-num">04</span>
+          <span className="feat-tab-num">05</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <line x1="9" y1="9" x2="19" y2="9"/>
@@ -227,7 +243,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
           </span>
         </button>
         <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="geno">
-          <span className="feat-tab-num">05</span>
+          <span className="feat-tab-num">06</span>
           <span className="feat-tab-icon" aria-hidden="true">
             <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
               <rect x="11" y="3" width="6" height="6" rx="0.5"/>
@@ -244,31 +260,169 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
             <span className="feat-tab-sub">관계 구조</span>
           </span>
         </button>
-        <button type="button" className="feat-tab" role="tab" aria-selected="false" data-tab="rpt">
-          <span className="feat-tab-num">06</span>
-          <span className="feat-tab-icon" aria-hidden="true">
-            <svg viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M7 3.5 H17 L22 8.5 V24.5 H7 z"/>
-              <path d="M17 3.5 V8.5 H22"/>
-              <line x1="10.5" y1="13" x2="18.5" y2="13"/>
-              <line x1="10.5" y1="16.5" x2="18.5" y2="16.5"/>
-              <line x1="10.5" y1="20" x2="15.5" y2="20"/>
-            </svg>
-          </span>
-          <span className="feat-tab-text">
-            <span className="feat-tab-label">보고서</span>
-            <span className="feat-tab-sub">한글 파일</span>
-          </span>
-        </button>
       </div>
 
       
       
-      {/* 2026-11-06: 데스크톱에서는 패널을 가로로 늘어놓고 track을 밀어 캐러셀처럼 넘긴다(순서는 CSS order). */}
+      {/* 2026-11-06: 데스크톱에서는 패널을 가로로 늘어놓고 track을 밀어 캐러셀처럼 넘긴다(순서는 DOM 순서와 같고 CSS order로도 고정). */}
       <div className="feat-view"><div className="feat-track">
+      <div className="feat-panel" role="tabpanel" data-panel="rpt" data-active="true">
+        <button type="button" className="feat-acc-trigger" aria-expanded="false">
+          <span className="feat-acc-num">01</span>
+          <span className="feat-acc-label">보고서 생성</span>
+          <span className="feat-acc-icon">+</span>
+        </button>
+        <div className="feat-acc-body">
+          <div className="feat-copy">
+            <span className="feat-cat">보고서 생성</span>
+            <h3 className="feat-msg">사례개념화·슈퍼비전 보고서를 원하는 형식 그대로</h3>
+            <div className="feat-when">학회·기관에 낼 보고서를 써야 할 때</div>
+            <p className="feat-desc">상담 기록을 바탕으로 보고서를 채워 한글(HWPX)·워드(DOCX)·PDF 등 원하는 형식으로 드려요. 쓰던 기관 양식을 올리면 그 칸에 맞춰 채워요.</p>
+            <div className="feat-pain-row">
+              <span className="feat-pain-lbl">받을 수 있는 형식</span>
+              <div className="feat-pain-tags">
+                <span className="pain-tag">한글 HWPX</span>
+                <span className="pain-tag">워드 DOCX</span>
+                <span className="pain-tag">PDF</span>
+                <span className="pain-tag">내 기관 양식</span>
+              </div>
+            </div>
+          </div>
+          <div className="feat-mock rpt-mock" aria-hidden="true">
+            <div className="rpt-win">
+              <div className="rpt-titlebar">
+                <span className="pf-dots"><span></span><span></span><span></span></span>
+                <span className="rpt-title"><b className="rpt-hwp">한</b><span className="rpt-name" data-a="김철수_슈퍼비전 보고서.hwpx" data-b="홍길동_사례개념화 보고서.hwpx"></span> — 한글</span>
+              </div>
+              <div className="rpt-menu"><span>파일</span><span>편집</span><span>보기</span><span>입력</span><span>서식</span><span>쪽</span><span>표</span><span>검토</span></div>
+              <div className="rpt-ribbon">
+                <span className="rpt-font">맑은 고딕</span><span className="rpt-size">10.0</span>
+                <span className="rpt-btn"><b>가</b></span><span className="rpt-btn"><i>가</i></span><span className="rpt-btn"><u>가</u></span>
+                <span className="rpt-sep"></span>
+                <span className="rpt-btn rpt-al"></span><span className="rpt-btn rpt-al c"></span><span className="rpt-btn rpt-al r"></span>
+                <span className="rpt-sep"></span>
+                <span className="rpt-btn rpt-tbl"></span>
+              </div>
+              <div className="rpt-canvas">
+                <div className="rpt-pages">
+                  <Image className="rpt-page rpt-page-a" src="/images/home-v2/report-supervision-hwp.webp" alt="" width={1100} height={1557} sizes="(max-width: 768px) 90vw, 40vw" />
+                  <Image className="rpt-page rpt-page-b" src="/images/home-v2/report-case-hwp.webp" alt="" width={1100} height={1557} sizes="(max-width: 768px) 90vw, 40vw" />
+                </div>
+              </div>
+              <div className="rpt-status"><span>1/2쪽</span><span>구역: 1/1</span><span className="rpt-zoom">100%</span></div>
+            </div>
+            <div className="rpt-formats">
+              <span className="rpt-chip is-on">HWPX</span><span className="rpt-chip">DOCX</span><span className="rpt-chip">PDF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="feat-panel" role="tabpanel" data-panel="psy" data-active="false">
+        <button type="button" className="feat-acc-trigger" aria-expanded="true">
+          <span className="feat-acc-num">02</span>
+          <span className="feat-acc-label">심리검사 해석</span>
+          <span className="feat-acc-icon">−</span>
+        </button>
+        <div className="feat-acc-body">
+          <div className="feat-copy">
+            <span className="feat-cat">심리검사 해석</span>
+            <h3 className="feat-msg">검사 결과와 면담 기록을 함께 읽어요</h3>
+            <div className="feat-when">검사 자료를 회기 맥락과 함께 해석해야 할 때</div>
+            <p className="feat-desc">검사 결과와 면담 기록을 함께 살펴보고, 상담자가 검토할 단서와 확인 질문을 정리해요.</p>
+          </div>
+          <div className="feat-mock" aria-hidden="true">
+            <div className="pf-titlebar">
+              <span className="pf-dots"><span></span><span></span><span></span></span>
+              <span className="pf-app">마음토스 · 심리검사 해석</span>
+              <span className="pf-status"><span className="pulse"></span>검사 통합 해석</span>
+            </div>
+
+            <div className="pf-body psy-chat-shell">
+              {/* 내담자 헤더 */}
+              <div className="psy-client">
+                <div className="psy-client-id">
+                  <span className="psy-client-avatar">홍</span>
+                  <div className="psy-client-meta">
+                    <span className="psy-client-name">홍길동</span>
+                    <span className="psy-client-sub">남성 · 42세 · 8회기 상담 기록 · 최근 검사일 2026-06-01</span>
+                  </div>
+                </div>
+                <span className="psy-client-badge">
+                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8 1.5 H3.5 A1 1 0 0 0 2.5 2.5 V11.5 A1 1 0 0 0 3.5 12.5 H10.5 A1 1 0 0 0 11.5 11.5 V5 Z"/>
+                    <path d="M8 1.5 V5 H11.5"/>
+                  </svg>
+                  결과지 등록됨
+                </span>
+              </div>
+
+              {/* 상담 키워드 */}
+              <div className="psy-keywords">
+                <span className="psy-keywords-lbl">상담 키워드</span>
+                <span className="psy-kw">#관계단절</span>
+                <span className="psy-kw">#방어적고립</span>
+                <span className="psy-kw">#소진</span>
+              </div>
+
+              {/* 대화 스레드 */}
+              <div className="psy-thread">
+                <div className="psy-msg-user">
+                  <p className="psy-bubble">이번 다면적 인성검사·기질검사 결과를 회기 기록과 함께 해석해주세요.</p>
+                </div>
+
+                <div className="psy-msg-ai">
+                  <p className="psy-ai-text">검사 결과(다면적 인성검사·기질검사)와 회기 기록을 종합하면, 핵심은 ‘완벽주의적 통제’와 ‘방어적 고립’으로 모입니다.</p>
+                  <ul className="psy-scale-list">
+                    <li><strong>위험회피·인내력 ↑</strong> — 잠재적 위험에 예민하고, 시작한 일은 끝까지 밀어붙이는 강박적 끈기. 스스로를 가혹하게 채찍질하며 버티는 양상입니다.</li>
+                    <li><strong>자율성·자기수용 ↓</strong> — 삶의 목적의식과 자기수용이 저하되어, 소진에 가까운 상태로 보입니다.</li>
+                    <li><strong>사회적 내향성·불신 ↑</strong> — 타인을 냉소적으로 바라보고 관계에서 스스로를 고립시키는 패턴이 두드러집니다.</li>
+                  </ul>
+                  <p className="psy-ai-text">이 특성은 회기에서 호소한 ‘가족 내 정서적 교류 부재’·‘단절 패턴’과 일관됩니다. 높은 인내력과 극단적 독립성은 상처받지 않기 위해 선택한 ‘방어적 고립’의 결과로 해석할 여지가 높습니다.</p>
+                  <div className="psy-flag">
+                    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 1.8 L12.8 12 H1.2 Z"/><line x1="7" y1="5.6" x2="7" y2="8.6"/><line x1="7" y1="10.4" x2="7" y2="10.5"/></svg>
+                    <p><strong>위기 신호 검토 필요</strong> — 표면적 우울 지표는 정상 범위이나, 방어적 응답 경향과 위기 관련 문항 반응을 함께 고려할 때 다음 회기에서 추가 위험 평가와 안전 계획 점검이 권장됩니다.</p>
+                  </div>
+
+                  <div className="psy-ai-actions">
+                    <span className="psy-ai-act">
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><rect x="4.2" y="4.2" width="7" height="8" rx="1.3"/><path d="M2.5 9 V2.8 A1.3 1.3 0 0 1 3.8 1.5 H8.5"/></svg>
+                    </span>
+                    <span className="psy-ai-act is-active">
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.2 6.6 V12 H2.6 A0.6 0.6 0 0 1 2 11.4 V7.2 A0.6 0.6 0 0 1 2.6 6.6 Z"/><path d="M4.2 6.6 L6.7 1.7 A0.3 0.3 0 0 1 7.2 1.9 V5 H10.6 A1 1 0 0 1 11.55 6.3 L10.6 11 A1 1 0 0 1 9.6 12 H4.2"/></svg>
+                    </span>
+                    <span className="psy-ai-act">
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.8 7.4 V2 H11.4 A0.6 0.6 0 0 1 12 2.6 V6.8 A0.6 0.6 0 0 1 11.4 7.4 Z"/><path d="M9.8 7.4 L7.3 12.3 A0.3 0.3 0 0 1 6.8 12.1 V9 H3.4 A1 1 0 0 1 2.45 7.7 L3.4 3 A1 1 0 0 1 4.4 2 H9.8"/></svg>
+                    </span>
+                    <span className="psy-ai-act">
+                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M11.6 4.4 A5 5 0 1 0 12.1 7.2"/><path d="M11.9 1.6 V4.4 H9.1"/></svg>
+                    </span>
+                  </div>
+
+                  <span className="psy-ai-logo">
+                    <svg viewBox="0 0 125 125" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.2688 105.46C17.2079 105.46 17.1558 105.46 17.095 105.46C11.8723 105.364 7.71853 101.046 7.81412 95.8128L8.76132 44.1022C8.79608 29.1698 18.3203 19.5312 33.0323 19.5312C42.4609 19.5312 48.2137 23.5451 51.3768 26.906C56.5213 32.3653 58.1289 39.4701 57.929 44.4244V81.159C57.8595 82.3257 58.2332 84.4415 59.2412 85.5124C59.4758 85.7562 60.1884 86.5137 62.6564 86.5137C64.0467 86.5137 68.5655 86.0697 68.9566 80.3928V63.8583C68.9218 61.2027 69.3476 52.6176 75.8738 45.9481C78.9066 42.8397 84.3551 39.1393 93.0712 39.1393C101.787 39.1393 107.236 42.8397 110.269 45.9481C116.795 52.6176 117.221 61.194 117.186 63.8583V80.6714C117.186 85.9043 112.954 90.1445 107.731 90.1445C102.508 90.1445 98.2764 85.9043 98.2764 80.6714V63.5797C98.3025 62.4303 97.8506 60.3146 96.7644 59.2088C96.495 58.9302 95.6782 58.0943 93.0799 58.0943C90.4816 58.0943 89.6647 58.9302 89.3953 59.2088C88.3091 60.3146 87.8572 62.4303 87.8833 63.5797V63.7799L87.8746 81.159C87.2489 93.2355 78.3939 105.46 62.6737 105.46C53.923 105.46 48.5352 101.707 45.5459 98.5641C39.2196 91.8859 38.9241 83.3531 39.0284 80.4711L39.0458 43.6495C39.0718 43.1009 38.7764 41.1158 37.6293 39.9055C37.2991 39.5572 36.2824 38.4863 33.041 38.4863C30.2863 38.4863 27.6793 38.4863 27.6793 44.2067V44.3809L26.7321 96.1697C26.6365 101.342 22.4219 105.469 17.2775 105.469L17.2688 105.46Z" fill="var(--brand)"/></svg>
+                  </span>
+                </div>
+              </div>
+
+              {/* 입력창 */}
+              <div className="psy-input">
+                <span className="psy-input-shield">
+                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 1.6 L11.4 3.1 V7 C11.4 9.6 9.4 11.5 7 12.4 C4.6 11.5 2.6 9.6 2.6 7 V3.1 Z"/></svg>
+                </span>
+                <span className="psy-input-ph">마음토스에게 질문해보세요</span>
+                <span className="psy-input-send">
+                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7 L12 2.2 L8.4 12 L7 8 Z"/></svg>
+                </span>
+              </div>
+
+              <p className="psy-disclaimer">마음토스가 제공하는 해석은 참고용입니다. 최종 해석은 자격을 갖춘 임상가가 수행해야 합니다.</p>
+            </div>
+        </div>
+      </div>
       <div className="feat-panel" role="tabpanel" data-panel="trx" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">02</span>
+          <span className="feat-acc-num">03</span>
           <span className="feat-acc-label">축어록</span>
           <span className="feat-acc-icon">+</span>
         </button>
@@ -400,7 +554,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
       
       <div className="feat-panel" role="tabpanel" data-panel="note" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">03</span>
+          <span className="feat-acc-num">04</span>
           <span className="feat-acc-label">상담노트 · 20+ 템플릿</span>
           <span className="feat-acc-icon">+</span>
         </button>
@@ -541,7 +695,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
       
       <div className="feat-panel" role="tabpanel" data-panel="cnc" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">04</span>
+          <span className="feat-acc-num">05</span>
           <span className="feat-acc-label">사례개념화 + AI 피드백</span>
           <span className="feat-acc-icon">+</span>
         </button>
@@ -622,7 +776,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
       
       <div className="feat-panel" role="tabpanel" data-panel="geno" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">05</span>
+          <span className="feat-acc-num">06</span>
           <span className="feat-acc-label">가계도</span>
           <span className="feat-acc-icon">+</span>
         </button>
@@ -692,160 +846,6 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
       </div>
 
       
-      <div className="feat-panel" role="tabpanel" data-panel="rpt" data-active="false">
-        <button type="button" className="feat-acc-trigger" aria-expanded="false">
-          <span className="feat-acc-num">06</span>
-          <span className="feat-acc-label">보고서 생성</span>
-          <span className="feat-acc-icon">+</span>
-        </button>
-        <div className="feat-acc-body">
-          <div className="feat-copy">
-            <span className="feat-cat">보고서 생성</span>
-            <h3 className="feat-msg">사례개념화·슈퍼비전 보고서를 한글 파일로</h3>
-            <div className="feat-when">학회·기관에 낼 보고서를 써야 할 때</div>
-            <p className="feat-desc">상담 기록을 바탕으로 보고서를 채워 바로 열어 고칠 수 있는 한글(HWPX) 파일로 드려요. 워드(DOCX)·PDF로도 받을 수 있고, 쓰던 기관 양식을 올리면 그 칸에 맞춰 채워요.</p>
-            <div className="feat-pain-row">
-              <span className="feat-pain-lbl">받을 수 있는 형식</span>
-              <div className="feat-pain-tags">
-                <span className="pain-tag">한글 HWPX</span>
-                <span className="pain-tag">워드 DOCX</span>
-                <span className="pain-tag">PDF</span>
-                <span className="pain-tag">내 기관 양식</span>
-              </div>
-            </div>
-          </div>
-          <div className="feat-mock rpt-mock" aria-hidden="true">
-            <div className="rpt-win">
-              <div className="rpt-titlebar">
-                <span className="pf-dots"><span></span><span></span><span></span></span>
-                <span className="rpt-title"><b className="rpt-hwp">한</b><span className="rpt-name" data-a="김철수_슈퍼비전 보고서.hwpx" data-b="홍길동_사례개념화 보고서.hwpx"></span> — 한글</span>
-              </div>
-              <div className="rpt-menu"><span>파일</span><span>편집</span><span>보기</span><span>입력</span><span>서식</span><span>쪽</span><span>표</span><span>검토</span></div>
-              <div className="rpt-ribbon">
-                <span className="rpt-font">맑은 고딕</span><span className="rpt-size">10.0</span>
-                <span className="rpt-btn"><b>가</b></span><span className="rpt-btn"><i>가</i></span><span className="rpt-btn"><u>가</u></span>
-                <span className="rpt-sep"></span>
-                <span className="rpt-btn rpt-al"></span><span className="rpt-btn rpt-al c"></span><span className="rpt-btn rpt-al r"></span>
-                <span className="rpt-sep"></span>
-                <span className="rpt-btn rpt-tbl"></span>
-              </div>
-              <div className="rpt-canvas">
-                <div className="rpt-pages">
-                  <Image className="rpt-page rpt-page-a" src="/images/home-v2/report-supervision-hwp.webp" alt="" width={1100} height={1557} sizes="(max-width: 768px) 90vw, 40vw" />
-                  <Image className="rpt-page rpt-page-b" src="/images/home-v2/report-case-hwp.webp" alt="" width={1100} height={1557} sizes="(max-width: 768px) 90vw, 40vw" />
-                </div>
-              </div>
-              <div className="rpt-status"><span>1/2쪽</span><span>구역: 1/1</span><span className="rpt-zoom">100%</span></div>
-            </div>
-            <div className="rpt-formats">
-              <span className="rpt-chip is-on">HWPX</span><span className="rpt-chip">DOCX</span><span className="rpt-chip">PDF</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="feat-panel" role="tabpanel" data-panel="psy" data-active="true">
-        <button type="button" className="feat-acc-trigger" aria-expanded="true">
-          <span className="feat-acc-num">01</span>
-          <span className="feat-acc-label">심리검사 해석</span>
-          <span className="feat-acc-icon">−</span>
-        </button>
-        <div className="feat-acc-body">
-          <div className="feat-copy">
-            <span className="feat-cat">심리검사 해석</span>
-            <h3 className="feat-msg">검사 결과와 면담 기록을 함께 읽어요</h3>
-            <div className="feat-when">검사 자료를 회기 맥락과 함께 해석해야 할 때</div>
-            <p className="feat-desc">검사 결과와 면담 기록을 함께 살펴보고, 상담자가 검토할 단서와 확인 질문을 정리해요.</p>
-          </div>
-          <div className="feat-mock" aria-hidden="true">
-            <div className="pf-titlebar">
-              <span className="pf-dots"><span></span><span></span><span></span></span>
-              <span className="pf-app">마음토스 · 심리검사 해석</span>
-              <span className="pf-status"><span className="pulse"></span>검사 통합 해석</span>
-            </div>
-
-            <div className="pf-body psy-chat-shell">
-              {/* 내담자 헤더 */}
-              <div className="psy-client">
-                <div className="psy-client-id">
-                  <span className="psy-client-avatar">홍</span>
-                  <div className="psy-client-meta">
-                    <span className="psy-client-name">홍길동</span>
-                    <span className="psy-client-sub">남성 · 42세 · 8회기 상담 기록 · 최근 검사일 2026-06-01</span>
-                  </div>
-                </div>
-                <span className="psy-client-badge">
-                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M8 1.5 H3.5 A1 1 0 0 0 2.5 2.5 V11.5 A1 1 0 0 0 3.5 12.5 H10.5 A1 1 0 0 0 11.5 11.5 V5 Z"/>
-                    <path d="M8 1.5 V5 H11.5"/>
-                  </svg>
-                  결과지 등록됨
-                </span>
-              </div>
-
-              {/* 상담 키워드 */}
-              <div className="psy-keywords">
-                <span className="psy-keywords-lbl">상담 키워드</span>
-                <span className="psy-kw">#관계단절</span>
-                <span className="psy-kw">#방어적고립</span>
-                <span className="psy-kw">#소진</span>
-              </div>
-
-              {/* 대화 스레드 */}
-              <div className="psy-thread">
-                <div className="psy-msg-user">
-                  <p className="psy-bubble">이번 다면적 인성검사·기질검사 결과를 회기 기록과 함께 해석해주세요.</p>
-                </div>
-
-                <div className="psy-msg-ai">
-                  <p className="psy-ai-text">검사 결과(다면적 인성검사·기질검사)와 회기 기록을 종합하면, 핵심은 ‘완벽주의적 통제’와 ‘방어적 고립’으로 모입니다.</p>
-                  <ul className="psy-scale-list">
-                    <li><strong>위험회피·인내력 ↑</strong> — 잠재적 위험에 예민하고, 시작한 일은 끝까지 밀어붙이는 강박적 끈기. 스스로를 가혹하게 채찍질하며 버티는 양상입니다.</li>
-                    <li><strong>자율성·자기수용 ↓</strong> — 삶의 목적의식과 자기수용이 저하되어, 소진에 가까운 상태로 보입니다.</li>
-                    <li><strong>사회적 내향성·불신 ↑</strong> — 타인을 냉소적으로 바라보고 관계에서 스스로를 고립시키는 패턴이 두드러집니다.</li>
-                  </ul>
-                  <p className="psy-ai-text">이 특성은 회기에서 호소한 ‘가족 내 정서적 교류 부재’·‘단절 패턴’과 일관됩니다. 높은 인내력과 극단적 독립성은 상처받지 않기 위해 선택한 ‘방어적 고립’의 결과로 해석할 여지가 높습니다.</p>
-                  <div className="psy-flag">
-                    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 1.8 L12.8 12 H1.2 Z"/><line x1="7" y1="5.6" x2="7" y2="8.6"/><line x1="7" y1="10.4" x2="7" y2="10.5"/></svg>
-                    <p><strong>위기 신호 검토 필요</strong> — 표면적 우울 지표는 정상 범위이나, 방어적 응답 경향과 위기 관련 문항 반응을 함께 고려할 때 다음 회기에서 추가 위험 평가와 안전 계획 점검이 권장됩니다.</p>
-                  </div>
-
-                  <div className="psy-ai-actions">
-                    <span className="psy-ai-act">
-                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><rect x="4.2" y="4.2" width="7" height="8" rx="1.3"/><path d="M2.5 9 V2.8 A1.3 1.3 0 0 1 3.8 1.5 H8.5"/></svg>
-                    </span>
-                    <span className="psy-ai-act is-active">
-                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.2 6.6 V12 H2.6 A0.6 0.6 0 0 1 2 11.4 V7.2 A0.6 0.6 0 0 1 2.6 6.6 Z"/><path d="M4.2 6.6 L6.7 1.7 A0.3 0.3 0 0 1 7.2 1.9 V5 H10.6 A1 1 0 0 1 11.55 6.3 L10.6 11 A1 1 0 0 1 9.6 12 H4.2"/></svg>
-                    </span>
-                    <span className="psy-ai-act">
-                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.8 7.4 V2 H11.4 A0.6 0.6 0 0 1 12 2.6 V6.8 A0.6 0.6 0 0 1 11.4 7.4 Z"/><path d="M9.8 7.4 L7.3 12.3 A0.3 0.3 0 0 1 6.8 12.1 V9 H3.4 A1 1 0 0 1 2.45 7.7 L3.4 3 A1 1 0 0 1 4.4 2 H9.8"/></svg>
-                    </span>
-                    <span className="psy-ai-act">
-                      <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d="M11.6 4.4 A5 5 0 1 0 12.1 7.2"/><path d="M11.9 1.6 V4.4 H9.1"/></svg>
-                    </span>
-                  </div>
-
-                  <span className="psy-ai-logo">
-                    <svg viewBox="0 0 125 125" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17.2688 105.46C17.2079 105.46 17.1558 105.46 17.095 105.46C11.8723 105.364 7.71853 101.046 7.81412 95.8128L8.76132 44.1022C8.79608 29.1698 18.3203 19.5312 33.0323 19.5312C42.4609 19.5312 48.2137 23.5451 51.3768 26.906C56.5213 32.3653 58.1289 39.4701 57.929 44.4244V81.159C57.8595 82.3257 58.2332 84.4415 59.2412 85.5124C59.4758 85.7562 60.1884 86.5137 62.6564 86.5137C64.0467 86.5137 68.5655 86.0697 68.9566 80.3928V63.8583C68.9218 61.2027 69.3476 52.6176 75.8738 45.9481C78.9066 42.8397 84.3551 39.1393 93.0712 39.1393C101.787 39.1393 107.236 42.8397 110.269 45.9481C116.795 52.6176 117.221 61.194 117.186 63.8583V80.6714C117.186 85.9043 112.954 90.1445 107.731 90.1445C102.508 90.1445 98.2764 85.9043 98.2764 80.6714V63.5797C98.3025 62.4303 97.8506 60.3146 96.7644 59.2088C96.495 58.9302 95.6782 58.0943 93.0799 58.0943C90.4816 58.0943 89.6647 58.9302 89.3953 59.2088C88.3091 60.3146 87.8572 62.4303 87.8833 63.5797V63.7799L87.8746 81.159C87.2489 93.2355 78.3939 105.46 62.6737 105.46C53.923 105.46 48.5352 101.707 45.5459 98.5641C39.2196 91.8859 38.9241 83.3531 39.0284 80.4711L39.0458 43.6495C39.0718 43.1009 38.7764 41.1158 37.6293 39.9055C37.2991 39.5572 36.2824 38.4863 33.041 38.4863C30.2863 38.4863 27.6793 38.4863 27.6793 44.2067V44.3809L26.7321 96.1697C26.6365 101.342 22.4219 105.469 17.2775 105.469L17.2688 105.46Z" fill="var(--brand)"/></svg>
-                  </span>
-                </div>
-              </div>
-
-              {/* 입력창 */}
-              <div className="psy-input">
-                <span className="psy-input-shield">
-                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M7 1.6 L11.4 3.1 V7 C11.4 9.6 9.4 11.5 7 12.4 C4.6 11.5 2.6 9.6 2.6 7 V3.1 Z"/></svg>
-                </span>
-                <span className="psy-input-ph">마음토스에게 질문해보세요</span>
-                <span className="psy-input-send">
-                  <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M2 7 L12 2.2 L8.4 12 L7 8 Z"/></svg>
-                </span>
-              </div>
-
-              <p className="psy-disclaimer">마음토스가 제공하는 해석은 참고용입니다. 최종 해석은 자격을 갖춘 임상가가 수행해야 합니다.</p>
-            </div>
-        </div>
-      </div>
       </div></div>
       <button type="button" className="feat-nav prev" data-feat-nav="-1" aria-label="이전 기능">‹</button>
       <button type="button" className="feat-nav next" data-feat-nav="1" aria-label="다음 기능">›</button>
