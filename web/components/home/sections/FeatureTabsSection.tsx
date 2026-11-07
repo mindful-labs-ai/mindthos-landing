@@ -46,13 +46,21 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
           });
           const foundIdx = ROTATION_ORDER.indexOf(key);
           if (foundIdx >= 0) orderIdx = foundIdx;
+          if (featRoot instanceof HTMLElement) featRoot.style.setProperty('--feat-i', String(orderIdx));
         };
         const rotateNext = (): void => {
           orderIdx = (orderIdx + 1) % ROTATION_ORDER.length;
           activate(ROTATION_ORDER[orderIdx]);
         };
+        /* data-auto=on 이면 선택된 탭 위 진행 막대가 ROTATE_MS 동안 차오른다(캐러셀처럼). 탭이 바뀌면 막대도 처음부터. */
+        const setAuto = (on: boolean): void => {
+          if (!(featRoot instanceof HTMLElement)) return;
+          featRoot.dataset.auto = 'off';
+          if (on) { void featRoot.offsetWidth; featRoot.dataset.auto = 'on'; }
+        };
         const clearTimer = (): void => {
           if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+          setAuto(false);
         };
         const startTimer = (): void => {
           if (prefersReduced) return;
@@ -60,8 +68,21 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
           if (hovering) return;
           clearTimer();
           autoTimer = setInterval(rotateNext, ROTATE_MS);
+          setAuto(true);
         };
         const resetTimer = (): void => { clearTimer(); startTimer(); };
+
+        /* 캐러셀 좌우 화살표 — 이전/다음 기능으로 넘기고 자동 넘김 타이머를 처음부터 */
+        featRoot?.querySelectorAll<HTMLElement>('[data-feat-nav]').forEach(btn => {
+          const handler = (): void => {
+            const step = Number(btn.dataset.featNav);
+            orderIdx = (orderIdx + step + ROTATION_ORDER.length) % ROTATION_ORDER.length;
+            activate(ROTATION_ORDER[orderIdx]);
+            resetTimer();
+          };
+          btn.addEventListener('click', handler);
+          cleanups.push(() => btn.removeEventListener('click', handler));
+        });
 
         tabs.forEach(t => {
           const handler = (): void => {
@@ -150,7 +171,7 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
             </svg>
           </span>
           <span className="feat-tab-text">
-            <span className="feat-tab-label">심리검사 해석<span className="feat-tab-new">NEW</span></span>
+            <span className="feat-tab-label">심리검사 해석</span>
             <span className="feat-tab-sub">검사 통합</span>
           </span>
         </button>
@@ -243,6 +264,8 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
 
       
       
+      {/* 2026-11-06: 데스크톱에서는 패널을 가로로 늘어놓고 track을 밀어 캐러셀처럼 넘긴다(순서는 CSS order). */}
+      <div className="feat-view"><div className="feat-track">
       <div className="feat-panel" role="tabpanel" data-panel="trx" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
           <span className="feat-acc-num">02</span>
@@ -255,12 +278,6 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
             <h3 className="feat-msg">녹음을 상담 기록으로 바꿔드려요</h3>
             <div className="feat-when">다시 들으며 받아쓰는 시간이 부담될 때</div>
             <p className="feat-desc">상담사와 내담자의 말을 구분해 정리하고, 이후 상담노트의 기초 자료로 활용할 수 있어요.</p>
-            <div className="feat-pain-row">
-              <span className="feat-pain-lbl">연결되는 어려움</span>
-              <div className="feat-pain-tags">
-                <span className="pain-tag">기록 시간이 오래 걸릴 때</span>
-              </div>
-            </div>
           </div>
           <div className="feat-mock" aria-hidden="true">
             
@@ -393,12 +410,6 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
             <h3 className="feat-msg">필요한 양식에 맞게 바로 정리해요</h3>
             <div className="feat-when">같은 기록을 양식마다 다시 쓰고 있을 때</div>
             <p className="feat-desc">회기 기록과 메모를 바탕으로 SOAP, DAP, 가족센터, 기관 제출용 기록까지 목적에 맞게 바꿔볼 수 있어요.</p>
-            <div className="feat-pain-row">
-              <span className="feat-pain-lbl">연결되는 어려움</span>
-              <div className="feat-pain-tags">
-                <span className="pain-tag">양식마다 다시 쓰기 번거로울 때</span>
-              </div>
-            </div>
           </div>
           <div className="feat-mock" aria-hidden="true">
             <div className="pf-titlebar">
@@ -540,12 +551,6 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
             <h3 className="feat-msg">흩어진 단서를 상담 흐름으로 묶어줘요</h3>
             <div className="feat-when">반복 패턴은 보이는데 정리가 막막할 때</div>
             <p className="feat-desc">반복되는 감정, 관계, 사고 흐름을 정리해 상담자가 검토할 수 있는 가설 초안을 제안해요.</p>
-            <div className="feat-pain-row">
-              <span className="feat-pain-lbl">연결되는 어려움</span>
-              <div className="feat-pain-tags">
-                <span className="pain-tag">사례를 어떻게 개념화할지 막막할 때</span>
-              </div>
-            </div>
           </div>
           <div className="feat-mock" aria-hidden="true">
             <div className="pf-titlebar">
@@ -627,12 +632,6 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
             <h3 className="feat-msg">가족 관계를 한눈에 정리해요</h3>
             <div className="feat-when">가족 구성과 관계 패턴을 빠르게 보고 싶을 때</div>
             <p className="feat-desc">가족 구성원, 관계 단서, 갈등 흐름을 바탕으로 가계도 정리와 해석 초안을 도와줘요.</p>
-            <div className="feat-pain-row">
-              <span className="feat-pain-lbl">연결되는 어려움</span>
-              <div className="feat-pain-tags">
-                <span className="pain-tag">가족 관계가 복잡하게 얽혀 있을 때</span>
-              </div>
-            </div>
           </div>
           <div className="feat-mock pf-geno2" aria-hidden="true">
             
@@ -753,16 +752,10 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
         </button>
         <div className="feat-acc-body">
           <div className="feat-copy">
-            <span className="feat-cat"><span className="feat-cat-new">NEW</span>심리검사 해석</span>
+            <span className="feat-cat">심리검사 해석</span>
             <h3 className="feat-msg">검사 결과와 면담 기록을 함께 읽어요</h3>
             <div className="feat-when">검사 자료를 회기 맥락과 함께 해석해야 할 때</div>
             <p className="feat-desc">검사 결과와 면담 기록을 함께 살펴보고, 상담자가 검토할 단서와 확인 질문을 정리해요.</p>
-            <div className="feat-pain-row">
-              <span className="feat-pain-lbl">연결되는 어려움</span>
-              <div className="feat-pain-tags">
-                <span className="pain-tag">심리검사 해석이 막힐 때</span>
-              </div>
-            </div>
           </div>
           <div className="feat-mock" aria-hidden="true">
             <div className="pf-titlebar">
@@ -853,6 +846,9 @@ export function FeatureTabsSection({ priorityTab = 'psy' }: FeatureTabsSectionPr
             </div>
         </div>
       </div>
+      </div></div>
+      <button type="button" className="feat-nav prev" data-feat-nav="-1" aria-label="이전 기능">‹</button>
+      <button type="button" className="feat-nav next" data-feat-nav="1" aria-label="다음 기능">›</button>
     </div>
   </div>
   </div>

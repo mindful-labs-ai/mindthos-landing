@@ -49,10 +49,9 @@ export function StoreBadges({ onDark = false, location }: { onDark?: boolean; lo
   );
 }
 
+/* 2026-11-06: 모바일 앱 구간(녹음·축어록 화면)과 겹치는 카드는 뺐다 */
 const SHOWCASE = [
   ['AI 채팅', '기록을 찾아 읽고 표로 정리합니다', 'app-08-client-summary.png'],
-  ['모바일 녹음', '화면이 잠겨도 녹음이 이어집니다', 'app-32-audio-record.png'],
-  ['축어록 → 상담노트', '녹음 하나로 둘 다 만듭니다', 'app-63-transcript-result.png'],
   ['내 양식 그대로 보고서', '쓰던 워드 양식 그대로 채웁니다', 'app-74-custom-template-result.png'],
   ['일정 관리', '한 줄로 일정을 보고, 잡습니다', 'chat-calendar-week.png'],
   ['사전 질문지', '첫 회기 전 질문지, 문항까지', 'app-47-questionnaire-create.png'],
@@ -96,9 +95,6 @@ export function DevicesSection() {
             <figcaption>모바일 앱<span>AI 채팅 · iOS · Android</span></figcaption>
           </figure>
         </div>
-        <div className="v2-dev-cta">
-          <StoreBadges location="devices" />
-        </div>
       </div>
     </section>
   );
@@ -129,7 +125,6 @@ export function NewFeaturesSection() {
                 />
               </div>
               <p>
-                <em>NEW</em>
                 <b>{title}</b>
               </p>
               <span>{desc}</span>
@@ -155,7 +150,6 @@ export function MobileAppSection() {
     <section className="wf-section v2-app" id="app-flow" data-funnel-section="mobile_app">
       <div className="container">
         <div className="v2-head">
-          <p className="v2-kicker dark">NEW · 모바일 앱</p>
           <h2 className="t-h2">
             녹음부터 다음 상담 준비까지,
             <br />

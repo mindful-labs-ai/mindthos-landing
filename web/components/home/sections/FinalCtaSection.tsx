@@ -64,7 +64,6 @@ export function FinalCtaSection() {
         >기관 도입 상담</a>
       </div>
       <div id="app" className="v2-final-app">
-        <p>상담 직후 휴대폰으로 녹음을 올려 보세요</p>
         <StoreBadges location="final_cta" />
       </div>
     </div>

@@ -41,8 +41,7 @@ export const PRIMARY_NAV: NavItem[] = [
   { href: '/blog', label: '블로그' },
   /* "교육 프로그램"(/education) 운영 재개 (2026-09-22) — 웨비나 추가와 함께 라우트·GNB 복원 */
   { href: '/education', label: '교육 프로그램' },
-  /* 2026-11 홈 개편: 신기능 쇼케이스·모바일 앱 구간으로 바로 가는 메뉴 */
-  { href: '/#new', label: '새 기능' },
+  /* 2026-11 홈 개편: 모바일 앱 구간으로 바로 가는 메뉴 */
   { href: '/#app-flow', label: '앱 다운로드' },
   { href: KAKAO_INQUIRY_URL, label: '문의', external: true },
 ];

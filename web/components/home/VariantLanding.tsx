@@ -77,7 +77,6 @@ export function VariantLanding({ cfg }: { cfg: LandingVariant }) {
         aria-label="신규 가입 프로모션"
       >
         <div className="promo-bottom-msg">
-          <span className="promo-tag">NEW</span>
           <span className="promo-bottom-text">신규 가입 시 첫 1주일 무료</span>
         </div>
         <a

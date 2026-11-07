@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 /** kicker: 홈 개편처럼 앞 섹션에서 이어받는 한 줄. 변형 랜딩은 미지정. */
-export function TrustEncryptSection({ kicker }: { kicker?: string } = {}) {
+/** lean: 홈처럼 아래 3가지 보호 장치만 보여 줄 때 — 전문가 패널(같은 '암호화·학습 금지' 반복)을 뺀다. */
+export function TrustEncryptSection({ kicker, lean = false }: { kicker?: string; lean?: boolean } = {}) {
   useEffect(() => {
     const cleanups: Array<() => void> = [];
 
@@ -80,8 +81,9 @@ export function TrustEncryptSection({ kicker }: { kicker?: string } = {}) {
     </div>
 
     
-    <div className="trust-body">
+    <div className={lean ? 'trust-body trust-body--lean' : 'trust-body'}>
       
+      {lean ? null : (
       <aside className="trust-team">
         <h3 className="trust-team-title">전문가가 함께 설계한<br/>상담 기록 보호 원칙</h3>
 
@@ -123,6 +125,7 @@ export function TrustEncryptSection({ kicker }: { kicker?: string } = {}) {
           <Link href="/security">기록은 어떻게 보호되나요? <span aria-hidden="true">→</span></Link>
         </div>
       </aside>
+      )}
 
       
       <div className="trust-timeline trust-protect-3 trust-protect-v2">

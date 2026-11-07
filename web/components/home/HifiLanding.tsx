@@ -1,10 +1,6 @@
 import { HeroSection } from './sections/HeroSection';
 import { TrustEncryptSection } from './sections/TrustEncryptSection';
-import { PainSection } from './sections/PainSection';
 import { FeatureTabsSection } from './sections/FeatureTabsSection';
-import { SampleExperienceSection } from './sections/SampleExperienceSection';
-import { PersonasSection } from './sections/PersonasSection';
-import { VsCompareSection } from './sections/VsCompareSection';
 import { MetricsSection } from './sections/MetricsSection';
 import { PricingSection } from './sections/PricingSection';
 import { FaqSection } from './sections/FaqSection';
@@ -24,46 +20,21 @@ import { LandingFunnelTracker } from './LandingFunnelTracker';
 export function HifiLanding() {
   return (
     <>
-      {/* GNB + 상단 promo 배너는 app/(site)/layout.tsx 가 <Header /> + <PromoBanner /> 로 통일 렌더. */}
+      {/* GNB는 app/(site)/layout.tsx 가 <Header /> 로 통일 렌더(상단 promo 배너는 2026-11-06 제거). */}
       <HeroSection appFirst />
+      {/* 2026-11-06 순서: 기기(언제 어디서든) → 채팅 → 기능 탭 → 모바일 앱 → 신기능. 보안은 그 뒤에서 받친다. */}
       <DevicesSection />
-      {/* 2026-11 개편: 기기·앱 다음에 신기능·채팅을 자랑하고, 보안은 그 뒤에서 받친다. */}
-      <NewFeaturesSection />
       <ChatSection />
       <FeatureTabsSection />
       <MobileAppSection />
-      <TrustEncryptSection kicker="그리고, 이 모든 걸 안전하게" />
-      <PainSection />
-      <SampleExperienceSection />
-      <PersonasSection />
-      <VsCompareSection />
+      <NewFeaturesSection />
+      <TrustEncryptSection kicker="그리고, 이 모든 걸 안전하게" lean />
+      {/* 2026-11-06: 샘플 체험·범용 AI 비교·하단 무료 바는 위 새 섹션·보안·FAQ와 겹쳐 홈에서 뺐다(변형 랜딩은 유지). */}
       <MetricsSection />
       <PricingSection />
       <FaqSection />
       <FinalCtaSection />
       {/* Footer는 app/(site)/layout.tsx 가 <Footer /> 로 통일 렌더. */}
-      <div
-        className="promo-bottom"
-        data-promo-bottom
-        role="region"
-        aria-label="신규 가입 프로모션"
-      >
-        <div className="promo-bottom-msg">
-          <span className="promo-tag">NEW</span>
-          <span className="promo-bottom-text">신규 가입 시 첫 1주일 무료</span>
-        </div>
-        <a
-          className="btn primary"
-          href="https://app.mindthos.com/?utm_source=landing&utm_medium=display&utm_campaign=banner"
-          data-promo-cta
-          data-cta-intent="signup"
-          data-cta-location="promo_banner_bottom"
-          data-cta-label="무료로 써 보기"
-        >
-          무료로 써 보기
-        </a>
-      </div>
-
       <HifiLandingEffects />
       <LandingFunnelTracker />
     </>

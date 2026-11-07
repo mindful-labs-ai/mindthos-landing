@@ -24,7 +24,7 @@ const CHAT_GROUPS = [
   {
     key: 'make',
     verb: '만들어줘',
-    q: '“아이의 감정 읽어주기” 부모교육 발표 자료 10장 만들어줘',
+    q: '‘아이의 감정 읽어주기’ 부모교육 발표 자료 10장 만들어줘',
     brag: '정리에서 끝나지 않습니다. 발표 자료·보고서·질문지까지 바로 쓸 수 있는 파일로 만들어 드립니다.',
     video: 'chat-ppt',
   },
@@ -35,12 +35,6 @@ const CHAT_GROUPS = [
     brag: '일정 등록까지 맡길 수 있습니다. 바뀌는 내용은 카드로 먼저 보여 드려 상담사가 확인합니다.',
     video: 'chat-schedule',
   },
-] as const;
-
-const TRUST3 = [
-  ['확인 카드', '일정처럼 바뀌는 내용은 카드로 먼저 보여 드립니다. AI가 몰래 바꾸지 않습니다.'],
-  ['헷갈리면 되묻기', '이름이 같은 내담자가 있으면 추측하지 않고 선택지를 보여 드립니다.'],
-  ['내 스타일 기억', '“인용은 내1, 상1 형식으로” 한 번 알려 주면 다음부터 그 형식으로 씁니다.'],
 ] as const;
 
 export function ChatSection() {
@@ -92,7 +86,6 @@ export function ChatSection() {
     <section className="wf-section v2-chat" id="chat" data-funnel-section="chat">
       <div className="container">
         <div className="v2-head">
-          <p className="v2-kicker">NEW · AI 채팅</p>
           <h2 className="t-h2">
             기록 찾기부터 발표 자료까지,
             <br />
@@ -101,6 +94,22 @@ export function ChatSection() {
           <p className="v2-lead">내담자 기록을 이미 알고 있어, 이름만 적으면 찾아 읽고 정리합니다.</p>
         </div>
         <div className="v2-car" ref={stageRef} aria-roledescription="carousel" aria-label="채팅으로 맡기는 일">
+          <div className="v2-car-dots" role="tablist" aria-label="영상 고르기">
+            {CHAT_GROUPS.map((g, i) => (
+              <button
+                key={g.key}
+                type="button"
+                role="tab"
+                aria-selected={active === i}
+                className="v2-car-dot"
+                onClick={() => go(i)}
+              >
+                <i style={{ transform: `scaleX(${active === i ? progress : i < active ? 1 : 0})` }} />
+                <span>{g.verb}</span>
+              </button>
+            ))}
+          </div>
+          <div className="v2-car-view">
           <div className="v2-car-track" style={{ transform: `translateX(-${active * 100}%)` }}>
             {CHAT_GROUPS.map((g, i) => (
               <div
@@ -135,30 +144,10 @@ export function ChatSection() {
               </div>
             ))}
           </div>
-          <div className="v2-car-dots" role="tablist" aria-label="영상 고르기">
-            {CHAT_GROUPS.map((g, i) => (
-              <button
-                key={g.key}
-                type="button"
-                role="tab"
-                aria-selected={active === i}
-                className="v2-car-dot"
-                onClick={() => go(i)}
-              >
-                <i style={{ transform: `scaleX(${active === i ? progress : i < active ? 1 : 0})` }} />
-                <span>{g.verb}</span>
-              </button>
-            ))}
           </div>
+          <button type="button" className="feat-nav prev" aria-label="이전 영상" onClick={() => go((active - 1 + CHAT_GROUPS.length) % CHAT_GROUPS.length)}>‹</button>
+          <button type="button" className="feat-nav next" aria-label="다음 영상" onClick={next}>›</button>
         </div>
-        <ul className="v2-trust3">
-          {TRUST3.map(([title, desc]) => (
-            <li key={title}>
-              <b>{title}</b>
-              <p>{desc}</p>
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
