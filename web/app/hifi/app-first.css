@@ -276,3 +276,6 @@ main:has(.v2-devices) .wf-section.v2-devices{background:linear-gradient(180deg,#
 .price-was s{text-decoration-thickness:1.5px}
 .price-off{font-size:13px;font-weight:800;color:#fff;background:#e5484d;padding:3px 9px;border-radius:999px}
 .price-year-note b{color:#e5484d;font-weight:800}
+/* 2026-11-09: 절약 문구는 검정 바탕글 + 초록 금액(빨강·초록 섞임 제거) */
+.price-year-note{color:var(--ink)}
+.price-year-note b{color:var(--brand-text-on-light)}
