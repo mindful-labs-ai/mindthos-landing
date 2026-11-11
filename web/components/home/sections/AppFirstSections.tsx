@@ -140,7 +140,7 @@ export function NewFeaturesSection() {
 }
 
 const APP_STEPS = [
-  ['상담실에서 바로 녹음', '앱의 녹음 버튼 하나. 알림을 허용하면 화면이 잠기거나 다른 앱을 써도 녹음이 이어집니다.', 'app-32-audio-record.png'],
+  ['상담실에서 바로 녹음', '앱의 녹음 버튼 하나. 알림을 허용하면 화면이 잠기거나 다른 앱을 써도 녹음이 이어집니다.', 'app-record-v2.png'],
   ['이동하는 사이 정리 끝', '녹음이 올라가면 축어록과 상담노트가 만들어지고, 다 되면 알림이 옵니다.', 'app-63-transcript-result.png'],
   ['퇴근길엔 채팅으로', '“다음 회기 준비해줘” 한 줄이면 이어갈 지점과 질문이 정리됩니다.', 'app-01-summary-result.png'],
 ] as const;
