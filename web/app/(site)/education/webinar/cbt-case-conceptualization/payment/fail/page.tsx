@@ -9,6 +9,9 @@ import {
 } from '@/constants/webinar';
 import '../../../_shared/webinar.css';
 
+/* 시각 기반 신청 마감(registrationClosed)이 빌드 시점에 굳지 않도록 ISR 로 갱신 */
+export const revalidate = 60;
+
 export const metadata: Metadata = generatePageMetadata({
   title: '웨비나 결제 실패 — 마음토스',
   description: 'CBT로 사례개념화하기 웨비나 결제 실패 안내 페이지입니다.',
