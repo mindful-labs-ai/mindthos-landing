@@ -54,6 +54,9 @@ export const CASE_CONCEPTUALIZATION_WEBINAR = {
   ] satisfies WebinarTimelineRow[],
 } as const;
 
+/** 11/16(월) 17:00 KST 신청 마감 — 배포 없이 이 시각부터 자동으로 닫힌다 */
+const CBT_REGISTRATION_CLOSES_AT = Date.parse('2026-11-16T17:00:00+09:00');
+
 export const CBT_CASE_CONCEPTUALIZATION_WEBINAR: WebinarEvent = {
   slug: 'cbt-case-conceptualization',
   path: '/education/webinar/cbt-case-conceptualization',
@@ -61,7 +64,10 @@ export const CBT_CASE_CONCEPTUALIZATION_WEBINAR: WebinarEvent = {
   orderName: 'CBT로 사례개념화하기 웨비나',
   /** KRW 일반 참가비. 회원 참가비는 아래 WEBINAR_OFFERS 참조 */
   price: 20000,
-  registrationClosed: false,
+  // ponytail: 시각 기반 마감 — 페이지는 ISR(revalidate 60)로 갱신, 웨비나 종료 후 true 상수로 되돌려도 됨
+  get registrationClosed() {
+    return Date.now() >= CBT_REGISTRATION_CLOSES_AT;
+  },
   widgetVariantKey: 'mindwebi',
   dateLabel: '2026년 11월 17일 (화) 19:00–20:30',
   startsAt: '2026-11-17T19:00:00+09:00',
