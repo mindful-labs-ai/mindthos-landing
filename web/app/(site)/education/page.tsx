@@ -16,6 +16,9 @@ import {
 } from '@/constants/webinar';
 import './education.css';
 
+/* 시각 기반 신청 마감(registrationClosed)이 빌드 시점에 굳지 않도록 ISR 로 갱신 */
+export const revalidate = 60;
+
 export const metadata: Metadata = generatePageMetadata({
   title: '교육 프로그램',
   description:
