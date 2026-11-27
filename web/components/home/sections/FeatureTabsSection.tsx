@@ -418,8 +418,10 @@ export function FeatureTabsSection({ priorityTab = 'rpt' }: FeatureTabsSectionPr
 
               <p className="psy-disclaimer">마음토스가 제공하는 해석은 참고용입니다. 최종 해석은 자격을 갖춘 임상가가 수행해야 합니다.</p>
             </div>
+          </div>
         </div>
       </div>
+
       <div className="feat-panel" role="tabpanel" data-panel="trx" data-active="false">
         <button type="button" className="feat-acc-trigger" aria-expanded="false">
           <span className="feat-acc-num">03</span>
@@ -850,7 +852,6 @@ export function FeatureTabsSection({ priorityTab = 'rpt' }: FeatureTabsSectionPr
       <button type="button" className="feat-nav prev" data-feat-nav="-1" aria-label="이전 기능">‹</button>
       <button type="button" className="feat-nav next" data-feat-nav="1" aria-label="다음 기능">›</button>
     </div>
-  </div>
   </div>
 </section>
   );
