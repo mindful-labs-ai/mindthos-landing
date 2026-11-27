@@ -157,6 +157,10 @@
 @media (max-width: 880px) {
   .webinar-pain-grid { grid-template-columns: 1fr; }
 }
+.webinar-pain-grid--2col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 880px) {
+  .webinar-pain-grid--2col { grid-template-columns: 1fr; }
+}
 .webinar-pain-card {
   background: var(--white);
   border: 1px solid var(--line);
