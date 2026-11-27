@@ -75,12 +75,35 @@ export const CBT_CASE_CONCEPTUALIZATION_WEBINAR: WebinarEvent = {
   platformLabel: 'Google Meet 온라인 라이브',
 };
 
+/** 12/21(월) 23:59 KST 신청 마감 — 배포 없이 12/22 00:00 부터 자동으로 닫힌다 */
+const DBT_REGISTRATION_CLOSES_AT = Date.parse('2026-12-22T00:00:00+09:00');
+
+export const DBT_CASE_CONCEPTUALIZATION_WEBINAR: WebinarEvent = {
+  slug: 'dbt-case-conceptualization',
+  path: '/education/webinar/dbt-case-conceptualization',
+  title: 'DBT로 사례개념화하기',
+  orderName: 'DBT로 사례개념화하기 웨비나',
+  /** KRW 일반 참가비. 회원 참가비는 아래 WEBINAR_OFFERS 참조 */
+  price: 20000,
+  // 시각 기반 마감 — 페이지는 ISR(revalidate 60)로 갱신, 웨비나 종료 후 true 상수로 되돌려도 됨
+  get registrationClosed() {
+    return Date.now() >= DBT_REGISTRATION_CLOSES_AT;
+  },
+  widgetVariantKey: 'mindwebi',
+  dateLabel: '2026년 12월 22일 (화) 19:00–20:30',
+  startsAt: '2026-12-22T19:00:00+09:00',
+  endsAt: '2026-12-22T20:30:00+09:00',
+  platformLabel: 'Google Meet 온라인 라이브',
+};
+
 export type WebinarVariant =
   | 'default'
   | 'mindthos'
   | 'damdam'
   | 'cbt'
-  | 'cbt-mindthos';
+  | 'cbt-mindthos'
+  | 'dbt'
+  | 'dbt-mindthos';
 
 export interface WebinarOffer {
   variant: WebinarVariant;
@@ -135,6 +158,22 @@ export const WEBINAR_OFFERS: Record<WebinarVariant, WebinarOffer> = {
     webinar: CBT_CASE_CONCEPTUALIZATION_WEBINAR,
     slug: 'cbt-case-conceptualization-mindthos',
     path: `${CBT_CASE_CONCEPTUALIZATION_WEBINAR.path}/mindthos`,
+    price: 10000,
+    memberLabel: '마음토스 회원 전용',
+  },
+  dbt: {
+    variant: 'dbt',
+    webinar: DBT_CASE_CONCEPTUALIZATION_WEBINAR,
+    slug: DBT_CASE_CONCEPTUALIZATION_WEBINAR.slug,
+    path: DBT_CASE_CONCEPTUALIZATION_WEBINAR.path,
+    price: DBT_CASE_CONCEPTUALIZATION_WEBINAR.price,
+    memberLabel: null,
+  },
+  'dbt-mindthos': {
+    variant: 'dbt-mindthos',
+    webinar: DBT_CASE_CONCEPTUALIZATION_WEBINAR,
+    slug: 'dbt-case-conceptualization-mindthos',
+    path: `${DBT_CASE_CONCEPTUALIZATION_WEBINAR.path}/mindthos`,
     price: 10000,
     memberLabel: '마음토스 회원 전용',
   },

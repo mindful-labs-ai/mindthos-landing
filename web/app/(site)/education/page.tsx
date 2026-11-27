@@ -13,6 +13,7 @@ import { KAKAO_INQUIRY_URL } from '@/constants/nav';
 import {
   CASE_CONCEPTUALIZATION_WEBINAR,
   CBT_CASE_CONCEPTUALIZATION_WEBINAR,
+  DBT_CASE_CONCEPTUALIZATION_WEBINAR,
 } from '@/constants/webinar';
 import './education.css';
 
@@ -22,7 +23,7 @@ export const revalidate = 60;
 export const metadata: Metadata = generatePageMetadata({
   title: '교육 프로그램',
   description:
-    '상담사를 위한 마음토스의 교육 프로그램. CBT로 사례개념화하기 웨비나, 초심 상담사를 위한 사례개념화 웨비나, Next Genogram 심화 워크숍, 전문 상담가 2급 자격 취득 인턴십 안내.',
+    '상담사를 위한 마음토스의 교육 프로그램. DBT로 사례개념화하기 웨비나, CBT로 사례개념화하기 웨비나, 초심 상담사를 위한 사례개념화 웨비나, Next Genogram 심화 워크숍, 전문 상담가 2급 자격 취득 인턴십 안내.',
   path: '/education',
 });
 
@@ -40,6 +41,24 @@ interface Program {
 }
 
 const PROGRAMS: Program[] = [
+  {
+    title: '[웨비나] DBT로 사례개념화하기',
+    lead: '김윤수 교수의 DBT 사례개념화 강의와, 마음토스 신규 기능 소개·DBT 사례개념화 실습 시연으로 구성된 90분입니다.',
+    details: [
+      { label: '진행 형식', value: 'Google Meet 온라인 라이브 · 90분' },
+      { label: '대상', value: '심리상담사 · 수련생' },
+    ],
+    status: DBT_CASE_CONCEPTUALIZATION_WEBINAR.registrationClosed
+      ? '신청 마감 — 12월 22일 (화) 19:00'
+      : '모집 중 — 12월 22일 (화) 19:00',
+    href: DBT_CASE_CONCEPTUALIZATION_WEBINAR.path,
+    cta: '웨비나 신청하기',
+    closed: DBT_CASE_CONCEPTUALIZATION_WEBINAR.registrationClosed,
+    image: {
+      src: '/webinar-kim-yoonsoo-card.webp',
+      alt: '김윤수 교수 프로필 사진',
+    },
+  },
   {
     title: '[웨비나] CBT로 사례개념화하기',
     lead: '김윤수 교수의 CBT 사례개념화 강의와, 새로워진 마음토스의 주요 기능·사례개념화 활용 시연으로 구성된 90분입니다.',
